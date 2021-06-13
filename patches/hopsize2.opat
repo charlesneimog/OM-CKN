@@ -1,0 +1,8234 @@
+
+(:patch
+ (:name "hopsize2")
+ (:doc "")
+ (:info
+  (:created "2021/04/09 11:23:33")
+  (:modified "2021/04/14 10:37:20")
+  (:by "om-sharp")
+  (:version 1.02))
+ (:window (:size (1920 1026)) (:position (-9 -9)))
+ (:grid nil)
+ (:lock nil)
+ (:boxes
+  (:box
+   (:type :function)
+   (:reference sound-window)
+   (:group-id nil)
+   (:name "sound-window")
+   (:x 484)
+   (:y 342)
+   (:w 161)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock :locked)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SOUND-BYTES-WINDOW")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "WINDOW")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "HOP-SIZE")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 0))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 527)
+   (:y 284)
+   (:w 61)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 2048)
+   (:id 1))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 628)
+   (:y 282)
+   (:w 60)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 1024)
+   (:id 2))
+  (:box
+   (:type :object)
+   (:reference sound)
+   (:group-id nil)
+   (:name nil)
+   (:x 128)
+   (:y 6)
+   (:w 323)
+   (:h 91)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :mini-view)
+   (:showname nil)
+   (:show-markers t)
+   (:lock :locked)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value :choose-file)
+     (:reactive nil)))
+   (:outputs (:output (:name "SELF") (:reactive nil)))
+   (:window (:size (1524 325)) (:position (128 128)))
+   (:edition-params)
+   (:value
+    (:object
+     (:class sound)
+     (:slots
+      ((:onset 0)
+       (:duration 6401.5874)
+       (:n-samples 282310)
+       (:n-channels 1)
+       (:sample-rate 44100)
+       (:smpl-type :float)
+       (:sample-size 24)))
+     (:add-slots
+      ((:markers nil)
+       (:gain 1.0)
+       (:access-from-file nil)
+       (:file-pathname
+        (:pathname
+         (:directory (:relative :back :back :back "in-files"))
+         (:device nil)
+         (:host "C")
+         (:name "Fl-ord-A4-pp")
+         (:type "aif")))))))
+   (:id 3))
+  (:box
+   (:library "OM-CKN")
+   (:type :function)
+   (:reference sound->bytes)
+   (:group-id nil)
+   (:name "sound->bytes")
+   (:x 476)
+   (:y 156)
+   (:w 163)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 4))
+  (:box
+   (:type :abstraction)
+   (:reference
+    (:textfun
+     (:name "start")
+     (:doc "")
+     (:info
+      (:created nil)
+      (:modified nil)
+      (:by *app-name*)
+      (:version 0))
+     (:window (:size nil) (:position nil))
+     (:text
+      (:list
+       "(lambda (x) (if (equal (markers x) nil) 0 (1+ (sec->samples (ms->sec (first (markers x))) (sample-rate x)))))"))))
+   (:group-id nil)
+   (:name "start")
+   (:x 163)
+   (:y 154)
+   (:w 146)
+   (:h 60)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :hidden)
+   (:lock nil)
+   (:lambda nil)
+   (:pre-delay 0)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "X")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 5))
+  (:box
+   (:type :abstraction)
+   (:reference
+    (:textfun
+     (:name "finish")
+     (:doc "")
+     (:info
+      (:created nil)
+      (:modified nil)
+      (:by *app-name*)
+      (:version 0))
+     (:window (:size nil) (:position nil))
+     (:text
+      (:list
+       "(lambda (x) (if (< (length (markers x)) 2)"
+       "                (1- (n-samples x))"
+       "                (1+ (sec->samples (ms->sec (second (markers x))) (sample-rate x)))"
+       "              ))"))))
+   (:group-id nil)
+   (:name "finish")
+   (:x 324)
+   (:y 157)
+   (:w 146)
+   (:h 60)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :hidden)
+   (:lock nil)
+   (:lambda nil)
+   (:pre-delay 0)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "X")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 6))
+  (:box
+   (:type :abstraction)
+   (:reference
+    (:textfun
+     (:name "my-function")
+     (:doc "")
+     (:info
+      (:created nil)
+      (:modified nil)
+      (:by *app-name*)
+      (:version 0))
+     (:window (:size (923 475)) (:position (32 32)))
+     (:text
+      (:list
+       "(lambda (sound-bytes start finish) "
+       "  (let* ((action1 "
+       "                (first-n sound-bytes finish))"
+       "               (action2 (- finish start)))"
+       "          (last-n action1 action2)))"))))
+   (:group-id nil)
+   (:name "my-function")
+   (:x 223)
+   (:y 285)
+   (:w 146)
+   (:h 60)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :hidden)
+   (:lock :locked)
+   (:lambda nil)
+   (:pre-delay 0)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SOUND-BYTES")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "START")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "FINISH")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 7))
+  (:box
+   (:type :abstraction)
+   (:reference
+    (:patch
+     (:name "my-patch")
+     (:doc "")
+     (:info
+      (:created nil)
+      (:modified nil)
+      (:by *app-name*)
+      (:version 0))
+     (:window (:size (1370 937)) (:position (64 28)))
+     (:grid nil)
+     (:lock nil)
+     (:boxes
+      (:box
+       (:type :io)
+       (:reference
+        (:out (:type omout) (:name "out") (:index 1) (:doc "")))
+       (:group-id nil)
+       (:name "out")
+       (:x 647)
+       (:y 757)
+       (:w 48)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+         (:t-or-nil t)))
+       (:border 0)
+       (:roundness 0)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "out-value")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs)
+       (:id 0))
+      (:box
+       (:type :io)
+       (:reference
+        (:in (:type omin) (:index 1) (:name "input 1") (:doc "")))
+       (:group-id nil)
+       (:name "input 1")
+       (:x 119)
+       (:y 23)
+       (:w 77)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+         (:t-or-nil t)))
+       (:border 0)
+       (:roundness 0)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs)
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 1))
+      (:box
+       (:type :io)
+       (:reference
+        (:in (:type omin) (:index 2) (:name "HOP-SIZE") (:doc "")))
+       (:group-id nil)
+       (:name "HOP-SIZE")
+       (:x 815)
+       (:y 447)
+       (:w 110)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+         (:t-or-nil t)))
+       (:border 0)
+       (:roundness 0)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs)
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 2))
+      (:box
+       (:type :abstraction)
+       (:reference
+        (:patch
+         (:name "v")
+         (:doc "")
+         (:info
+          (:created nil)
+          (:modified nil)
+          (:by *app-name*)
+          (:version 0))
+         (:window (:size (1490 787)) (:position (327 119)))
+         (:grid nil)
+         (:lock nil)
+         (:boxes
+          (:box
+           (:type :io)
+           (:reference
+            (:in (:type omin) (:index 1) (:name "input 2") (:doc "")))
+           (:group-id nil)
+           (:name "input 2")
+           (:x 35)
+           (:y 95)
+           (:w 84)
+           (:h 42)
+           (:color
+            (:color-or-nil
+             (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+             (:t-or-nil t)))
+           (:border 0)
+           (:roundness 0)
+           (:text-font nil)
+           (:align :center)
+           (:icon :top)
+           (:inputs)
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 0))
+          (:box
+           (:type :io)
+           (:reference
+            (:out (:type omout) (:name "out") (:index 1) (:doc "")))
+           (:group-id nil)
+           (:name "out")
+           (:x 838)
+           (:y 475)
+           (:w 51)
+           (:h 42)
+           (:color
+            (:color-or-nil
+             (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+             (:t-or-nil t)))
+           (:border 0)
+           (:roundness 0)
+           (:text-font nil)
+           (:align :center)
+           (:icon :top)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "out-value")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs)
+           (:id 1))
+          (:box
+           (:type :io)
+           (:reference
+            (:in (:type omin) (:index 2) (:name "mail-box") (:doc "")))
+           (:group-id nil)
+           (:name "mail-box")
+           (:x 359)
+           (:y 17)
+           (:w 101)
+           (:h 42)
+           (:color
+            (:color-or-nil
+             (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+             (:t-or-nil t)))
+           (:border 0)
+           (:roundness 0)
+           (:text-font nil)
+           (:align :center)
+           (:icon :top)
+           (:inputs)
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 2))
+          (:box
+           (:type :io)
+           (:reference
+            (:in (:type omin) (:index 3) (:name "NAMES") (:doc "")))
+           (:group-id nil)
+           (:name "NAMES")
+           (:x 102)
+           (:y 313)
+           (:w 89)
+           (:h 42)
+           (:color
+            (:color-or-nil
+             (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+             (:t-or-nil t)))
+           (:border 0)
+           (:roundness 0)
+           (:text-font nil)
+           (:align :center)
+           (:icon :top)
+           (:inputs)
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 3))
+          (:box
+           (:type :io)
+           (:reference
+            (:in (:type omin) (:index 4) (:name "NUMERO") (:doc "")))
+           (:group-id nil)
+           (:name "NUMERO")
+           (:x 194)
+           (:y 312)
+           (:w 105)
+           (:h 42)
+           (:color
+            (:color-or-nil
+             (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+             (:t-or-nil t)))
+           (:border 0)
+           (:roundness 0)
+           (:text-font nil)
+           (:align :center)
+           (:icon :top)
+           (:inputs)
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 4))
+          (:box
+           (:type :io)
+           (:reference
+            (:in (:type omin) (:index 5) (:name "HOP-SIZE") (:doc "")))
+           (:group-id nil)
+           (:name "HOP-SIZE")
+           (:x 270)
+           (:y 437)
+           (:w 110)
+           (:h 42)
+           (:color
+            (:color-or-nil
+             (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+             (:t-or-nil t)))
+           (:border 0)
+           (:roundness 0)
+           (:text-font nil)
+           (:align :center)
+           (:icon :top)
+           (:inputs)
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 5))
+          (:box
+           (:type :abstraction)
+           (:reference
+            (:textfun
+             (:name "my-function")
+             (:doc "")
+             (:info
+              (:created nil)
+              (:modified nil)
+              (:by *app-name*)
+              (:version 0))
+             (:window (:size (1920 976)) (:position (9 90)))
+             (:text
+              (:list
+               "(lambda (fft-chunks mail-box nomes chunks hop-size)"
+               ""
+               "(loop "
+               "      :for ckn-fft-chunks :in fft-chunks "
+               "      :for create-mailbox :in mail-box"
+               "      :for names-process :in nomes"
+               "      :for chunks-number :in chunks"
+               "      :do "
+               "                (mp:process-run-function names-process"
+               "                         () "
+               "                         (lambda (x w z) (mp:mailbox-send w "
+               "                                                          (let* ((amp (fft->amplitude (half-fun (fft-fun x))))"
+               "                                                                 (length-amp (length amp))                                                                 "
+               "                                                                 (bin-to-freq (bin->freq (arithm-ser 1 length-amp 1) 44110 (* 2 length-amp)))"
+               "                                                                 (para-o-filtro (list amp bin-to-freq)))"
+               "                                                                 (make-instance 'ckn-fft "
+               "                                                                         :amplitudes (first para-o-filtro)"
+               "                                                                         :fft-chunks z "
+               "                                                                         :frequencias (second para-o-filtro)"
+               "                                                                         :tempo (sec->ms (samples->sec (om* hop-size z) 44100))))))"
+               "                           ckn-fft-chunks create-mailbox chunks-number)))"
+               ""
+               ""
+               ""
+               ""
+               ""
+               "  "
+               ""
+               ""
+               ""
+               ""))))
+           (:group-id nil)
+           (:name "my-function")
+           (:x 39)
+           (:y 463)
+           (:w 146)
+           (:h 60)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align :center)
+           (:display :hidden)
+           (:lock nil)
+           (:lambda nil)
+           (:pre-delay 0)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "FFT-CHUNKS")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "MAIL-BOX")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "NOMES")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "CHUNKS")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "HOP-SIZE")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 6))
+          (:box
+           (:type :special)
+           (:reference init-do)
+           (:group-id nil)
+           (:name "init-do")
+           (:x 48)
+           (:y 595)
+           (:w 80)
+           (:h 42)
+           (:color
+            (:color-or-nil
+             (:color (:color 0.82 0.85 0.7 1.0))
+             (:t-or-nil t)))
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align :center)
+           (:icon :top)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "action")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs)
+           (:id 7))
+          (:box
+           (:type :function)
+           (:reference mapcar)
+           (:group-id nil)
+           (:name "mapcar")
+           (:x 615)
+           (:y 140)
+           (:w 105)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "FUNCTION")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "LIST")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 8))
+          (:box
+           (:type :function)
+           (:reference (:symbol "MAILBOX-EMPTY-P" "MP"))
+           (:group-id nil)
+           (:name "mailbox-empty-p")
+           (:x 545)
+           (:y 40)
+           (:w 193)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda :lambda)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "MAILBOX")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 9))
+          (:box
+           (:type :function)
+           (:reference mapcar)
+           (:group-id nil)
+           (:name "mapcar")
+           (:x 866)
+           (:y 321)
+           (:w 105)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "FUNCTION")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "LIST")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 10))
+          (:box
+           (:type :function)
+           (:reference (:symbol "MAILBOX-PEEK" "MP"))
+           (:group-id nil)
+           (:name "mailbox-peek")
+           (:x 745)
+           (:y 245)
+           (:w 160)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda :lambda)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "MAILBOX")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 11))
+          (:box
+           (:type :special)
+           (:reference iterate)
+           (:group-id nil)
+           (:name "iterate")
+           (:x 476)
+           (:y 585)
+           (:w 81)
+           (:h 42)
+           (:color
+            (:color-or-nil
+             (:color (:color 0.82 0.85 0.7 1.0))
+             (:t-or-nil t)))
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align :center)
+           (:icon :top)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "action")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :optional)
+             (:name "action")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs)
+           (:id 12))
+          (:box
+           (:type :function)
+           (:reference remove)
+           (:group-id nil)
+           (:name "remove")
+           (:x 450)
+           (:y 230)
+           (:w 106)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "ITEM")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "SEQUENCE")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 13))
+          (:box
+           (:type :function)
+           (:reference length)
+           (:group-id nil)
+           (:name "length")
+           (:x 551)
+           (:y 288)
+           (:w 94)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "SEQUENCE")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 14))
+          (:box
+           (:type :abstraction)
+           (:reference
+            (:textfun
+             (:name "my-function")
+             (:doc "")
+             (:info
+              (:created nil)
+              (:modified nil)
+              (:by *app-name*)
+              (:version 0))
+             (:window (:size nil) (:position nil))
+             (:text
+              (:list
+               "(lambda (choose tempo)"
+               ""
+               "(let ((then (get-universal-time))"
+               "       (now  (progn (sleep tempo) (get-universal-time))))"
+               "   (if (>= (- now then) tempo) (print choose) nil)))"))))
+           (:group-id nil)
+           (:name "my-function")
+           (:x 594)
+           (:y 438)
+           (:w 134)
+           (:h 60)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align :center)
+           (:display :hidden)
+           (:lock nil)
+           (:lambda nil)
+           (:pre-delay 0)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "CHOOSE")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "TEMPO")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 15))
+          (:box
+           (:type :value)
+           (:reference single-float)
+           (:group-id nil)
+           (:name "value box")
+           (:x 705)
+           (:y 363)
+           (:w 60)
+           (:h 39)
+           (:color
+            (:color-or-nil
+             (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+             (:t-or-nil t)))
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:lock nil)
+           (:inputs)
+           (:outputs (:output (:name "value") (:reactive nil)))
+           (:value 0.75)
+           (:id 16))
+          (:box
+           (:type :abstraction)
+           (:reference
+            (:textfun
+             (:name "my-function")
+             (:doc "")
+             (:info
+              (:created nil)
+              (:modified nil)
+              (:by *app-name*)
+              (:version 0))
+             (:window (:size nil) (:position nil))
+             (:text
+              (:list
+               ";;; Edit a valid LAMBDA EXPRESSION"
+               ";;; e.g. (lambda (arg1 arg2 ...) ( ... ))"
+               "(lambda (x) (format nil \"Faltam ~a janelas para processamento. Aguarde!\" x))"))))
+           (:group-id nil)
+           (:name "my-function")
+           (:x 523)
+           (:y 343)
+           (:w 134)
+           (:h 60)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align :center)
+           (:display :hidden)
+           (:lock nil)
+           (:lambda nil)
+           (:pre-delay 0)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "X")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 17))
+          (:box
+           (:type :special)
+           (:reference loop-while)
+           (:group-id nil)
+           (:name "loop-while")
+           (:x 381)
+           (:y 366)
+           (:w 114)
+           (:h 42)
+           (:color
+            (:color-or-nil
+             (:color (:color 0.82 0.85 0.7 1.0))
+             (:t-or-nil t)))
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align :center)
+           (:icon :top)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "condition")
+             (:value t)
+             (:reactive nil)))
+           (:outputs (:output (:name "i") (:reactive nil)))
+           (:id 18)))
+         (:connections
+          (:connection (:from (:box 0 :out 0)) (:to (:box 6 :in 0)))
+          (:connection (:from (:box 2 :out 0)) (:to (:box 8 :in 1)))
+          (:connection (:from (:box 2 :out 0)) (:to (:box 10 :in 1)))
+          (:connection (:from (:box 2 :out 0)) (:to (:box 6 :in 1)))
+          (:connection (:from (:box 3 :out 0)) (:to (:box 6 :in 2)))
+          (:connection (:from (:box 4 :out 0)) (:to (:box 6 :in 3)))
+          (:connection (:from (:box 5 :out 0)) (:to (:box 6 :in 4)))
+          (:connection (:from (:box 6 :out 0)) (:to (:box 7 :in 0)))
+          (:connection (:from (:box 8 :out 0)) (:to (:box 13 :in 1)))
+          (:connection (:from (:box 9 :out 0)) (:to (:box 8 :in 0)))
+          (:connection (:from (:box 10 :out 0)) (:to (:box 1 :in 0)))
+          (:connection (:from (:box 11 :out 0)) (:to (:box 10 :in 0)))
+          (:connection (:from (:box 13 :out 0)) (:to (:box 14 :in 0)))
+          (:connection (:from (:box 13 :out 0)) (:to (:box 18 :in 0)))
+          (:connection (:from (:box 14 :out 0)) (:to (:box 17 :in 0)))
+          (:connection (:from (:box 15 :out 0)) (:to (:box 12 :in 1)))
+          (:connection (:from (:box 16 :out 0)) (:to (:box 15 :in 1)))
+          (:connection (:from (:box 17 :out 0)) (:to (:box 15 :in 0)))
+          (:connection
+           (:from (:box 18 :out 0))
+           (:to (:box 12 :in 0))))))
+       (:group-id nil)
+       (:name "v")
+       (:x 554)
+       (:y 518)
+       (:w 184)
+       (:h 114)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:display :hidden)
+       (:lock nil)
+       (:lambda nil)
+       (:pre-delay 0)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "input 2")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "mail-box")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "NAMES")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "NUMERO")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "HOP-SIZE")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 3))
+      (:box
+       (:type :abstraction)
+       (:reference
+        (:textfun
+         (:name "my-function")
+         (:doc "")
+         (:info
+          (:created nil)
+          (:modified nil)
+          (:by *app-name*)
+          (:version 0))
+         (:window (:size (1240 475)) (:position (64 64)))
+         (:text
+          (:list
+           "(lambda (fft-chunks)"
+           ""
+           ""
+           "(let* ((verbose (print (format nil \"São ~a janelas\" (length fft-chunks)))))"
+           "(loop :for chunks-number :in (arithm-ser 1 (length fft-chunks) 1)"
+           "      :collect (list->string (list 'fft- chunks-number)))))"))))
+       (:group-id nil)
+       (:name "my-function")
+       (:x 720)
+       (:y 330)
+       (:w 146)
+       (:h 60)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:display :hidden)
+       (:lock :eval-once)
+       (:lambda nil)
+       (:pre-delay 0)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "FFT-CHUNKS")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 4))
+      (:box
+       (:type :abstraction)
+       (:reference
+        (:textfun
+         (:name "my-function")
+         (:doc "")
+         (:info
+          (:created nil)
+          (:modified nil)
+          (:by *app-name*)
+          (:version 0))
+         (:window (:size (1048 475)) (:position (256 256)))
+         (:text
+          (:list
+           "(lambda (names-of-all-process)"
+           ""
+           "(loop :for name-process :in names-of-all-process"
+           "      :collect (mp:make-mailbox :lock-name name-process)))"))))
+       (:group-id nil)
+       (:name "my-function")
+       (:x 550)
+       (:y 421)
+       (:w 146)
+       (:h 60)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:display :hidden)
+       (:lock nil)
+       (:lambda nil)
+       (:pre-delay 0)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "NAMES-OF-ALL-PROCESS")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 5))
+      (:box
+       (:type :special)
+       (:reference collect)
+       (:group-id nil)
+       (:name "collect")
+       (:x 630)
+       (:y 641)
+       (:w 75)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 0.82 0.7 0.7 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "data-in")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "push")
+         (:value t)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "init")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs
+        (:output (:name "collect") (:reactive nil))
+        (:output (:name "data-out") (:reactive nil))
+        (:output (:name "init") (:reactive nil)))
+       (:id 6))
+      (:box
+       (:type :special)
+       (:reference iterate)
+       (:group-id nil)
+       (:name "iterate")
+       (:x 562)
+       (:y 718)
+       (:w 74)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 0.82 0.85 0.7 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "action")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs)
+       (:id 7))
+      (:box
+       (:type :function)
+       (:reference loop-in-parts)
+       (:group-id nil)
+       (:name "loop-in-parts")
+       (:x 633)
+       (:y 225)
+       (:w 141)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda nil)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "SOUND-BYTES-WINDOW")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "WINDOW")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "HOP-SIZE")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 8))
+      (:box
+       (:type :value)
+       (:reference fixnum)
+       (:group-id nil)
+       (:name "value box")
+       (:x 675)
+       (:y 164)
+       (:w 49)
+       (:h 39)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:lock nil)
+       (:inputs)
+       (:outputs (:output (:name "value") (:reactive nil)))
+       (:value 128)
+       (:id 9))
+      (:box
+       (:type :function)
+       (:reference flat)
+       (:group-id nil)
+       (:name "flat")
+       (:x 645)
+       (:y 692)
+       (:w 63)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda nil)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "LST")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 10))
+      (:box
+       (:type :function)
+       (:reference length)
+       (:group-id nil)
+       (:name "length")
+       (:x 43)
+       (:y 168)
+       (:w 89)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda nil)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "SEQUENCE")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 11))
+      (:box
+       (:type :function)
+       (:reference loop-in-parts)
+       (:group-id nil)
+       (:name "loop-in-parts")
+       (:x 31)
+       (:y 613)
+       (:w 141)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda nil)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "SOUND-BYTES-WINDOW")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "WINDOW")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "HOP-SIZE")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 12))
+      (:box
+       (:type :value)
+       (:reference fixnum)
+       (:group-id nil)
+       (:name "value box")
+       (:x 132)
+       (:y 542)
+       (:w 49)
+       (:h 39)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:lock nil)
+       (:inputs)
+       (:outputs (:output (:name "value") (:reactive nil)))
+       (:value 128)
+       (:id 13))
+      (:box
+       (:type :function)
+       (:reference arithm-ser)
+       (:group-id nil)
+       (:name "arithm-ser")
+       (:x 29)
+       (:y 424)
+       (:w 122)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda nil)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "BEGIN")
+         (:value 1)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "END")
+         (:value 10)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "STEP")
+         (:value 1)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 14))
+      (:box
+       (:type :value)
+       (:reference fixnum)
+       (:group-id nil)
+       (:name "value box")
+       (:x 20)
+       (:y 339)
+       (:w 32)
+       (:h 39)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:lock nil)
+       (:inputs)
+       (:outputs (:output (:name "value") (:reactive nil)))
+       (:value 1)
+       (:id 15))
+      (:box
+       (:type :special)
+       (:reference if)
+       (:group-id nil)
+       (:name "if")
+       (:x 479)
+       (:y 297)
+       (:w 146)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda nil)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "TEST")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "THEN")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :optional)
+         (:name "else")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 16))
+      (:box
+       (:type :function)
+       (:reference om>)
+       (:group-id nil)
+       (:name "om>")
+       (:x 344)
+       (:y 228)
+       (:w 75)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda nil)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "NUM1")
+         (:value 0)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "NUM2")
+         (:value 1)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 17))
+      (:box
+       (:type :value)
+       (:reference fixnum)
+       (:group-id nil)
+       (:name "value box")
+       (:x 374)
+       (:y 178)
+       (:w 49)
+       (:h 39)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:lock nil)
+       (:inputs)
+       (:outputs (:output (:name "value") (:reactive nil)))
+       (:value 129)
+       (:id 18))
+      (:box
+       (:type :special)
+       (:reference loop-list)
+       (:group-id nil)
+       (:name "loop-list")
+       (:x 262)
+       (:y 747)
+       (:w 86)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 0.82 0.85 0.7 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "list")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "i") (:reactive nil)))
+       (:id 19))
+      (:box
+       (:type :special)
+       (:reference loop-list)
+       (:group-id nil)
+       (:name "loop-list")
+       (:x 504)
+       (:y 363)
+       (:w 86)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 0.82 0.85 0.7 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "list")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "i") (:reactive nil)))
+       (:id 20))
+      (:box
+       (:type :function)
+       (:reference list)
+       (:group-id nil)
+       (:name "list")
+       (:x 559)
+       (:y 224)
+       (:w 61)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda nil)
+       (:inputs
+        (:input
+         (:type :optional)
+         (:name "args")
+         (:value 1)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 21))
+      (:box
+       (:type :special)
+       (:reference if)
+       (:group-id nil)
+       (:name "if")
+       (:x 293)
+       (:y 544)
+       (:w 146)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda nil)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "TEST")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "THEN")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :optional)
+         (:name "else")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 22))
+      (:box
+       (:type :function)
+       (:reference list)
+       (:group-id nil)
+       (:name "list")
+       (:x 217)
+       (:y 463)
+       (:w 61)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda nil)
+       (:inputs
+        (:input
+         (:type :optional)
+         (:name "args")
+         (:value 1)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 23)))
+     (:connections
+      (:connection
+       (:from (:box 1 :out 0))
+       (:to (:box 11 :in 0))
+       (:attributes (:color nil :style nil :modif (0 -69/226))))
+      (:connection
+       (:from (:box 1 :out 0))
+       (:to (:box 21 :in 0))
+       (:attributes (:color nil :style nil :modif (0 21/169))))
+      (:connection (:from (:box 1 :out 0)) (:to (:box 8 :in 0)))
+      (:connection (:from (:box 2 :out 0)) (:to (:box 3 :in 4)))
+      (:connection (:from (:box 3 :out 0)) (:to (:box 6 :in 0)))
+      (:connection (:from (:box 4 :out 0)) (:to (:box 5 :in 0)))
+      (:connection
+       (:from (:box 4 :out 0))
+       (:to (:box 3 :in 2))
+       (:attributes (:color nil :style nil :modif (0 5/23))))
+      (:connection
+       (:from (:box 5 :out 0))
+       (:to (:box 3 :in 1))
+       (:attributes (:color nil :style nil :modif (79/495 0))))
+      (:connection (:from (:box 6 :out 0)) (:to (:box 7 :in 0)))
+      (:connection (:from (:box 6 :out 1)) (:to (:box 10 :in 0)))
+      (:connection (:from (:box 8 :out 0)) (:to (:box 16 :in 1)))
+      (:connection (:from (:box 9 :out 0)) (:to (:box 8 :in 1)))
+      (:connection (:from (:box 9 :out 0)) (:to (:box 8 :in 2)))
+      (:connection (:from (:box 10 :out 0)) (:to (:box 0 :in 0)))
+      (:connection (:from (:box 11 :out 0)) (:to (:box 14 :in 1)))
+      (:connection (:from (:box 11 :out 0)) (:to (:box 17 :in 0)))
+      (:connection (:from (:box 12 :out 0)) (:to (:box 22 :in 1)))
+      (:connection (:from (:box 13 :out 0)) (:to (:box 12 :in 2)))
+      (:connection (:from (:box 13 :out 0)) (:to (:box 12 :in 1)))
+      (:connection (:from (:box 14 :out 0)) (:to (:box 12 :in 0)))
+      (:connection (:from (:box 14 :out 0)) (:to (:box 23 :in 0)))
+      (:connection (:from (:box 15 :out 0)) (:to (:box 14 :in 0)))
+      (:connection (:from (:box 16 :out 0)) (:to (:box 20 :in 0)))
+      (:connection (:from (:box 17 :out 0)) (:to (:box 16 :in 0)))
+      (:connection (:from (:box 17 :out 0)) (:to (:box 22 :in 0)))
+      (:connection (:from (:box 18 :out 0)) (:to (:box 17 :in 1)))
+      (:connection (:from (:box 19 :out 0)) (:to (:box 3 :in 3)))
+      (:connection (:from (:box 20 :out 0)) (:to (:box 4 :in 0)))
+      (:connection
+       (:from (:box 20 :out 0))
+       (:to (:box 3 :in 0))
+       (:attributes (:color nil :style nil :modif (0 43/123))))
+      (:connection (:from (:box 21 :out 0)) (:to (:box 16 :in 2)))
+      (:connection (:from (:box 22 :out 0)) (:to (:box 19 :in 0)))
+      (:connection (:from (:box 23 :out 0)) (:to (:box 22 :in 2))))))
+   (:group-id nil)
+   (:name "my-patch")
+   (:x 541)
+   (:y 395)
+   (:w 114)
+   (:h 60)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :hidden)
+   (:lock nil)
+   (:lambda nil)
+   (:pre-delay 0)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "input 1")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "HOP-SIZE")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 8))
+  (:box
+   (:library "OM-CKN")
+   (:type :object)
+   (:reference ckn-fft)
+   (:group-id nil)
+   (:name nil)
+   (:x 1050)
+   (:y 531)
+   (:w 349)
+   (:h 99)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :text)
+   (:showname nil)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "AMPLITUDES")
+     (:value (:list 0.3 0.3 0.3))
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "FREQUENCIAS")
+     (:value (:list 220 440 880))
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "FFT-CHUNKS")
+     (:value (:list "fft-1" "fft-2" "fft-3"))
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "TEMPO")
+     (:value (:list 1))
+     (:reactive nil)))
+   (:outputs
+    (:output (:name "SELF") (:reactive nil))
+    (:output (:name "AMPLITUDES") (:reactive nil))
+    (:output (:name "FREQUENCIAS") (:reactive nil))
+    (:output (:name "FFT-CHUNKS") (:reactive nil))
+    (:output (:name "TEMPO") (:reactive nil)))
+   (:window (:size nil) (:position nil))
+   (:edition-params)
+   (:value
+    (:object
+     (:class ckn-fft)
+     (:slots
+      ((:amplitudes
+        (:list
+         209.58063430331205D0
+         214.49325046494477D0
+         205.21697470343452D0
+         209.2103271653611D0
+         200.31384642122677D0
+         214.20978811070538D0
+         201.78783436769518D0
+         215.59640186694924D0
+         209.98403371966418D0
+         221.68742072743828D0
+         222.54029354823075D0
+         226.5857956097699D0
+         197.12819368687855D0
+         208.93024093189769D0
+         214.87379914449687D0
+         221.2417757668234D0
+         209.79151172429067D0
+         216.83758432817376D0
+         209.58626117151323D0
+         218.84175537323952D0
+         212.28475664676194D0
+         211.1467259899838D0
+         218.87729625932786D0
+         222.26856926009444D0
+         198.5754794258732D0
+         217.06955264510413D0
+         215.02778753274143D0
+         225.5982364560558D0
+         202.4584023447449D0
+         213.93675891828977D0
+         211.10450633236152D0
+         227.800693446229D0
+         200.2403611432003D0
+         216.44756251702324D0
+         212.90474054956894D0
+         227.68189663107728D0
+         207.72310944419633D0
+         206.72006278786807D0
+         214.25869161424177D0
+         220.43748916718818D0
+         218.36232525671133D0
+         224.3274582883228D0
+         225.7641485182778D0
+         230.18512945939406D0
+         207.88020057007645D0
+         221.27286449069598D0
+         223.4879219354455D0
+         221.00812363746312D0
+         213.4296368451615D0
+         225.47149761060015D0
+         221.90180552673834D0
+         224.47113056577067D0
+         201.05611396018364D0
+         214.50275087609538D0
+         216.15790229974834D0
+         220.9743015411401D0
+         213.76442516125155D0
+         224.84828444094393D0
+         218.6064821276505D0
+         225.70643435798098D0
+         209.8579802636128D0
+         216.99940375557506D0
+         203.82776101299126D0
+         224.47730714388234D0
+         220.5798078271192D0
+         219.27095870286843D0
+         221.54695645571155D0
+         223.7773462177887D0
+         215.91626574255938D0
+         224.87844883298828D0
+         219.30974739677484D0
+         222.70924933240863D0
+         215.34484948147963D0
+         223.50257127894702D0
+         222.61598201022872D0
+         230.28910400707008D0
+         217.05596094202036D0
+         217.52088662334074D0
+         220.9410971830012D0
+         231.09134807936914D0
+         206.48957558306736D0
+         219.56119059854547D0
+         223.80889472939046D0
+         220.24185160108826D0
+         209.62138957667645D0
+         207.43026652420608D0
+         219.1898215335348D0
+         216.6044796298528D0
+         218.81582981941222D0
+         219.43152124260308D0
+         227.17464903480473D0
+         233.6746286286588D0
+         214.33009593262602D0
+         219.82757843626277D0
+         221.21981035741104D0
+         232.2715644127844D0
+         219.47592699106156D0
+         226.90562523561215D0
+         215.79817761306435D0
+         227.82843957167933D0
+         217.84984111712066D0
+         207.52915016474367D0
+         227.85462665929873D0
+         229.79323450611855D0
+         219.4248815463435D0
+         220.99203795017775D0
+         223.32450283752507D0
+         235.1459300020705D0
+         216.00575661386534D0
+         219.31818351298182D0
+         221.31823112466782D0
+         233.68361880355542D0
+         219.64289094161362D0
+         211.34071638014777D0
+         209.23766811841517D0
+         225.96505233313454D0
+         213.59936454164878D0
+         220.03282178514695D0
+         214.38548863606187D0
+         226.09618719965954D0
+         219.72175128196582D0
+         224.31342826623816D0
+         218.34190811765785D0
+         220.20428164165873D0
+         216.8229667141114D0
+         215.59124290661532D0
+         209.6547122882507D0
+         227.97194745345632D0
+         213.89442135487747D0
+         219.63298545649533D0
+         221.23856133016352D0
+         218.6415974057618D0
+         204.98848049570765D0
+         211.6863104239717D0
+         221.71261194941553D0
+         225.37041664505836D0
+         212.50994349093108D0
+         225.01886587283238D0
+         219.00281398636767D0
+         224.05413591685445D0
+         205.15601780958494D0
+         207.87114330211D0
+         216.3130592168275D0
+         223.62917810022097D0
+         213.68976729169677D0
+         221.98292032676537D0
+         210.6630782363472D0
+         222.35107491790305D0
+         209.25205755480693D0
+         215.20449125735434D0
+         210.28407500751445D0
+         219.07224473008694D0
+         213.02601785030487D0
+         219.20566374203358D0
+         223.6432674098471D0
+         227.94578255123926D0
+         214.6755550462767D0
+         209.00033948411687D0
+         215.60534243294058D0
+         225.6101445287693D0
+         189.22634346778148D0
+         206.65654174531187D0
+         209.90039681037078D0
+         217.846670637834D0
+         213.35342133107048D0
+         217.09218070881832D0
+         215.67443014689573D0
+         225.5957544872589D0
+         211.4050005684557D0
+         219.6748718014541D0
+         221.70838519599005D0
+         222.68250089896623D0
+         198.7655530286683D0
+         210.36186874228884D0
+         207.68156895753913D0
+         228.12250263848736D0
+         208.64725918009444D0
+         221.01478902097347D0
+         216.7578851518839D0
+         222.75418223149268D0
+         212.2754911815807D0
+         215.08980183159164D0
+         211.54454483621714D0
+         218.2144061928832D0
+         204.46192025702476D0
+         205.98798136104233D0
+         225.0812494689892D0
+         223.65301242734944D0
+         209.4221266653429D0
+         210.6642314524796D0
+         218.98693794072716D0
+         210.9169315285652D0
+         213.08856915203785D0
+         219.72353007287995D0
+         215.54198794810432D0
+         222.28112619725667D0
+         208.38327612581753D0
+         219.75725960736423D0
+         219.27785056993426D0
+         226.74018459773396D0
+         217.5758864724348D0
+         220.2247812187416D0
+         227.5058104595794D0
+         231.780369835665D0
+         220.93924837854817D0
+         206.56812803809982D0
+         219.84072384270616D0
+         232.27314489369002D0
+         216.5816587560136D0
+         220.599787220559D0
+         218.74346462528814D0
+         222.76485756301227D0
+         210.16706917496737D0
+         207.89573933425945D0
+         224.89145988483446D0
+         228.32760094157007D0
+         218.6045718786373D0
+         221.32495710068426D0
+         234.3510581666736D0
+         242.27577809958032D0
+         215.828201640816D0
+         204.92565981679405D0
+         208.25845807191712D0
+         230.5501904730765D0
+         215.7128255814644D0
+         214.2645759348805D0
+         215.49286707185883D0
+         226.2789108433623D0
+         217.02556465542526D0
+         215.1257567502152D0
+         222.55602891619574D0
+         222.2119345767774D0
+         208.61258428545898D0
+         215.4121010849741D0
+         221.6814058374176D0
+         227.36887917497467D0
+         212.59928198349857D0
+         222.10016888801928D0
+         217.85850816427234D0
+         231.10825440073035D0
+         205.3509597756506D0
+         213.52191840232166D0
+         208.91165599263846D0
+         222.84178702912573D0
+         213.84646122363154D0
+         221.87047187323017D0
+         215.10262402981098D0
+         220.62848534188092D0
+         216.44341919856083D0
+         226.61930994028623D0
+         213.5616913296906D0
+         199.39351306432155D0
+         210.349952579062D0
+         218.91796955621607D0
+         220.48836229032875D0
+         216.00234242377064D0
+         213.60266396747073D0
+         212.9771250955989D0
+         226.58897603945803D0
+         224.55523702476012D0
+         211.48956435716346D0
+         219.33372257189117D0
+         223.84044067117532D0
+         228.52018083931392D0
+         220.96633554645226D0
+         228.60489445676282D0
+         225.57204061326647D0
+         234.6087910593417D0
+         208.5306239993963D0
+         222.3714428237557D0
+         202.16772992446664D0
+         228.2807593857747D0
+         218.1102119756348D0
+         224.4138220084149D0
+         217.83535955323728D0
+         214.87426015039284D0
+         209.04009009452526D0
+         210.07377567667157D0
+         219.08901294873235D0
+         223.5691028160497D0
+         215.91246610167445D0
+         220.77274383145795D0
+         219.87771772046097D0
+         233.88428430398443D0
+         217.92257704332934D0
+         215.68125792399445D0
+         219.25687201043328D0
+         233.57680577078028D0
+         214.65936605636554D0
+         220.06915407248297D0
+         185.11182183923069D0
+         230.65776352871563D0
+         217.4123126310094D0
+         209.15489515552608D0
+         220.23258848769507D0
+         228.1321725174323D0
+         219.13455884620385D0
+         215.7361606847871D0
+         227.27430238871395D0
+         224.47084294776417D0
+         211.3446295235474D0
+         217.7448921264205D0
+         218.38945542849672D0
+         230.8991858193953D0
+         207.58992509907085D0
+         222.23345073039184D0
+         219.29407426987302D0
+         228.53025323472255D0
+         210.40698682073187D0
+         224.639969099038D0
+         219.38462137374285D0
+         227.28930911818947D0
+         213.47506423276428D0
+         219.02320041362077D0
+         226.70574399289134D0
+         230.01455818996178D0
+         204.6575116777529D0
+         210.87750965814647D0
+         220.15974727123557D0
+         219.300188885442D0
+         213.18559455058386D0
+         221.10594479129543D0
+         215.0223337529624D0
+         218.72427674462517D0
+         212.13561937416685D0
+         220.77585470054032D0
+         219.8048612325523D0
+         220.48030829573497D0
+         218.25480698737772D0
+         215.84363034258138D0
+         226.3388676690477D0
+         228.44049949143414D0
+         218.0391856290408D0
+         221.9207607190599D0
+         204.83087716693797D0
+         228.4981983739275D0
+         213.58355703605395D0
+         218.4519513502731D0
+         215.64575027588873D0
+         214.47176852173757D0
+         208.20334713188572D0
+         219.35134199656903D0
+         219.50380850402368D0
+         226.19892734331373D0
+         218.97771070368518D0
+         215.2889625102482D0
+         229.1521816172242D0
+         231.45558019582427D0
+         217.40318370996266D0
+         218.70872223128927D0
+         214.92751816286136D0
+         226.6093307528534D0
+         209.12600859270845D0
+         216.52580920407917D0
+         209.51513188787047D0
+         212.1047742017423D0
+         205.3537164488947D0
+         220.8509007659656D0
+         215.4885691506686D0
+         225.95951695533347D0
+         221.38598370210545D0
+         221.32363582548763D0
+         229.34553472707066D0
+         232.69641402666707D0
+         217.36861884810008D0
+         216.9064010692674D0
+         216.55386239530822D0
+         225.5792417910902D0
+         208.7455016703713D0
+         220.01627113123348D0
+         216.53837571005138D0
+         219.53494790670828D0
+         210.4268786696247D0
+         221.94045834431265D0
+         213.71377089938324D0
+         221.2292203069277D0
+         220.7505855553187D0
+         221.95852580777367D0
+         226.6721963909275D0
+         229.73906633470352D0
+         217.99460134648243D0
+         220.65564592037202D0
+         214.83406076050656D0
+         227.47416818016276D0
+         159.4773610863815D0
+         144.2371911522752D0
+         152.15297049213885D0
+         184.69692009064642D0
+         156.60402401268164D0
+         141.93524221041446D0
+         160.97049634184572D0
+         181.36410683469464D0
+         147.55071139909742D0
+         139.43970222431955D0
+         157.46058236533509D0
+         196.30542074562357D0
+         170.41878530513102D0
+         157.7622772332442D0
+         159.1014003358143D0
+         197.3262881054365D0
+         168.24957444964724D0
+         144.84061397340202D0
+         168.10146672232293D0
+         182.53000897464918D0
+         157.28066236373496D0
+         150.2919926202429D0
+         148.46554912680918D0
+         184.436127267883D0
+         139.28595061315994D0
+         149.38299518316026D0
+         161.7821782825153D0
+         180.38244693348594D0
+         145.10617335143675D0
+         141.87250189060043D0
+         162.75892678669348D0
+         178.65510472310695D0
+         140.037322125748D0
+         139.54174850799137D0
+         168.7323723744876D0
+         194.61535369220695D0
+         141.0016425852391D0
+         154.2043840565198D0
+         151.32186940637047D0
+         171.89031185059034D0
+         158.20489457380418D0
+         154.17103790894518D0
+         158.81589156001206D0
+         196.40174437047082D0
+         151.80006089966622D0
+         147.3253340590065D0
+         158.2622925033303D0
+         188.94505569476397D0
+         159.1115488225653D0
+         145.81127090540903D0
+         175.52804219978663D0
+         201.95353811865294D0
+         155.84560945593077D0
+         155.99491483590512D0
+         174.30557249207243D0
+         203.77852543634927D0
+         149.481780754049D0
+         148.2335399622073D0
+         172.82348020184838D0
+         187.8232721353464D0
+         161.27869954253956D0
+         160.20451489924147D0
+         182.72081123061258D0
+         204.91049010621447D0
+         153.2647480277554D0
+         132.89499245152814D0
+         173.4511910099684D0
+         195.587622253807D0
+         148.2470038646086D0
+         156.8187351793139D0
+         145.85370441524677D0
+         176.28564543570087D0
+         151.78055568098662D0
+         156.76344471391605D0
+         163.02989895108834D0
+         196.0889332774109D0
+         143.70995384362993D0
+         141.2536442497755D0
+         174.45386744468647D0
+         194.4645544888159D0
+         165.10159706465527D0
+         156.14341968447928D0
+         154.93148167535006D0
+         188.06409350360855D0
+         163.4814657441902D0
+         154.09425748493348D0
+         168.0230579470518D0
+         180.73791061554542D0
+         168.801888186178D0
+         156.3966069657741D0
+         178.54462855824593D0
+         190.90011924756396D0
+         159.79196910373219D0
+         149.62063624268402D0
+         168.54219787979048D0
+         181.909895680989D0
+         161.84517154523917D0
+         159.87728534927652D0
+         172.27069427218208D0
+         188.2465382962357D0
+         168.19715342044907D0
+         149.39317669146712D0
+         142.52472311236718D0
+         162.05701511293907D0
+         161.04309397587812D0
+         162.4726962329887D0
+         179.50983116187052D0
+         189.43079377212354D0
+         166.41497135901915D0
+         131.3657998358902D0
+         157.54732131548872D0
+         171.09369171859345D0
+         137.18359447180387D0
+         121.33431586082244D0
+         145.3063888173351D0
+         186.32757828956076D0
+         149.3127534525882D0
+         137.39941725426797D0
+         160.77641854602504D0
+         189.82863105079733D0
+         144.7942832181653D0
+         142.23850764721067D0
+         154.45257807523515D0
+         184.54516911217138D0
+         144.60207339530618D0
+         141.84240611976622D0
+         139.16023012291146D0
+         156.58164204465328D0
+         209.49446643671624D0
+         214.49836197229928D0
+         205.265153705062D0
+         209.7545645228973D0
+         200.23872131730013D0
+         214.20677302897087D0
+         201.8991418946444D0
+         215.96028299106087D0
+         209.9245806638717D0
+         221.6930735774559D0
+         222.5554061206225D0
+         226.60389067376312D0
+         197.1484076335858D0
+         208.9273123803792D0
+         214.7113966027605D0
+         221.77155093731528D0
+         209.76376243532013D0
+         216.83935383478735D0
+         209.51472430786052D0
+         219.19426856882322D0
+         212.2588646109014D0
+         211.14406596959236D0
+         218.8885675631821D0
+         222.7685126249005D0
+         198.66453183506866D0
+         217.06902548644166D0
+         215.0144183076177D0
+         225.6228016890573D0
+         202.45088585470063D0
+         213.93642259333743D0
+         211.08383412520408D0
+         227.83340732666653D0
+         200.25645029785306D0
+         216.4464975188901D0
+         212.90396362574848D0
+         227.69361098021548D0
+         207.71708866226118D0
+         206.71888227855163D0
+         214.28705906139874D0
+         220.94234549886042D0
+         218.350904428028D0
+         224.3272325467014D0
+         225.75465985023644D0
+         230.11036209191138D0
+         207.88023063207729D0
+         221.27248305273923D0
+         223.4912244040931D0
+         220.99112652376113D0
+         213.42976305431114D0
+         225.47134390626854D0
+         221.90217025579864D0
+         224.33046135701022D0
+         201.03618355147307D0
+         214.5039369055006D0
+         216.14940417932502D0
+         221.22600762287613D0
+         213.7652871070606D0
+         224.8481795084083D0
+         218.61574948054658D0
+         225.6209750531323D0
+         209.85013546534924D0
+         216.99746954045114D0
+         203.82016682335535D0
+         224.47849280272232D0
+         220.5753069462634D0
+         219.2717293910817D0
+         221.53463510514217D0
+         224.13487355954632D0
+         215.91623883852276D0
+         224.87942006817494D0
+         219.30093404776957D0
+         222.63287659917208D0
+         215.34782141585856D0
+         223.50229722685668D0
+         222.58679156091824D0
+         230.55593499588693D0
+         217.0657579026309D0
+         217.52220043956342D0
+         220.95114340971352D0
+         231.10992935960258D0
+         206.40946836339384D0
+         219.56638205764563D0
+         223.83029285516184D0
+         220.19297159005137D0
+         209.66522832746603D0
+         207.42840303021723D0
+         219.21811954855403D0
+         216.9778872019995D0
+         218.79131527552104D0
+         219.41997081522777D0
+         227.21248930654437D0
+         233.82771008814893D0
+         214.33446721537246D0
+         219.8261561170574D0
+         221.21969541584088D0
+         232.58491569965008D0
+         219.47494955516868D0
+         226.90525761980928D0
+         215.80754187458092D0
+         227.85000315170126D0
+         217.8502258500725D0
+         207.51683763891532D0
+         227.84576171707667D0
+         229.45852457811975D0
+         219.42139870298428D0
+         220.99177256865133D0
+         223.32422289277537D0
+         235.1096357440153D0
+         216.0033729290758D0
+         219.31857987924846D0
+         221.3295136737229D0
+         233.7719278672216D0
+         219.64698852922706D0
+         211.34050213521348D0
+         209.26727687460445D0
+         225.9348405005784D0
+         213.60052096634374D0
+         220.02839299149915D0
+         214.34122401985533D0
+         226.12625017246106D0
+         219.72249529578605D0
+         224.31636707572352D0
+         218.33926328649602D0
+         218.94144700852866D0
+         216.83040240020944D0
+         215.59194105470706D0
+         209.42269513819838D0
+         228.25615232397252D0
+         213.91841316513367D0
+         219.64264470766494D0
+         221.24475079981562D0
+         218.93009057359655D0
+         205.01501201102718D0
+         211.68797561934014D0
+         221.71933764717622D0
+         225.61319748463137D0
+         212.51382458915938D0
+         225.01873279283223D0
+         218.99932027139767D0
+         224.25527605079523D0
+         205.13829387742578D0
+         207.9259905713393D0
+         216.31357324973726D0
+         223.5068478898187D0
+         213.68882961582864D0
+         221.98316025985307D0
+         210.68184339502662D0
+         222.45906785440195D0
+         209.2730953802172D0
+         215.20056087434006D0
+         210.4717210905595D0
+         218.72606048239618D0
+         213.0147968143837D0
+         219.20666673251992D0
+         223.62010078866558D0
+         227.6160983445013D0
+         214.68824237830404D0
+         209.01012321149125D0
+         215.57365220330257D0
+         223.9494657239304D0
+         189.22063529671726D0
+         206.64944556976064D0
+         209.81641593193223D0
+         218.57341563865526D0
+         213.33383957234133D0
+         217.09718009316717D0
+         215.63987238783423D0
+         225.88190769616108D0
+         211.39631843538953D0
+         219.68443660104396D0
+         221.716262889338D0
+         223.61996962157252D0
+         198.8862910861223D0
+         210.35424830472184D0
+         207.5474509674034D0
+         227.92521844140003D0
+         208.59301406588753D0
+         221.0244345320585D0
+         216.83497961827843D0
+         223.49944676037634D0
+         212.23738402389242D0
+         215.07002894043265D0
+         211.59793338970974D0
+         217.59011349482728D0
+         204.44046305135737D0
+         206.0124277839858D0
+         225.10557058413966D0
+         224.67838487931374D0
+         209.48055366319179D0
+         210.64690994531736D0
+         218.89687610560742D0
+         212.98411162516158D0
+         213.10615300286287D0
+         219.72348093111506D0
+         215.55558850373697D0
+         222.3068663963065D0
+         208.38154113453868D0
+         219.76167476710586D0
+         219.2777252855807D0
+         226.87866044653347D0
+         217.5833389670786D0
+         220.213996402262D0
+         227.50215050651303D0
+         231.79625534939862D0
+         220.94457136145599D0
+         206.54796101521987D0
+         219.97740427383872D0
+         232.0799253911045D0
+         216.54384287430204D0
+         220.59605879993404D0
+         218.7584427913074D0
+         221.91633765713615D0
+         210.18661003431066D0
+         207.91244507356834D0
+         224.91170964419655D0
+         228.46781531310498D0
+         218.61664499825398D0
+         221.33303778115254D0
+         234.34815242234117D0
+         242.44677042397007D0
+         215.76184288735794D0
+         204.9353994154953D0
+         209.18120338703233D0
+         231.16604250879348D0
+         215.7118182825343D0
+         214.26379992520776D0
+         215.52100491918427D0
+         226.44286274869816D0
+         217.007564276741D0
+         215.12719729041504D0
+         222.55610529975158D0
+         222.21711341380643D0
+         208.60096081862903D0
+         215.42201701796697D0
+         221.71606742028573D0
+         227.4526827375052D0
+         212.57898771768544D0
+         222.10279126366632D0
+         217.82984252235977D0
+         231.1773284682124D0
+         205.35112399357178D0
+         213.5208999803818D0
+         208.71520853907515D0
+         222.65274670714638D0
+         213.8308858397085D0
+         221.87043694202583D0
+         215.02038722438033D0
+         221.13803428323934D0
+         216.45746541831017D0
+         226.61816137100578D0
+         213.54991751688795D0
+         199.29129671183378D0
+         210.35448549594352D0
+         218.9166626038301D0
+         220.44879969561578D0
+         217.125808243756D0
+         213.60839771824036D0
+         212.98122865949424D0
+         226.58861471959654D0
+         224.46149321043637D0
+         211.49003899700102D0
+         219.33614970484496D0
+         223.83885802611204D0
+         228.5197388783766D0
+         220.97221103526368D0
+         228.6047449240648D0
+         225.55811882321436D0
+         234.556919469969D0
+         208.54477666531147D0
+         222.3696388058259D0
+         202.42912030902528D0
+         228.44261899755767D0
+         218.11020561903678D0
+         224.41405421720006D0
+         217.88192615668035D0
+         214.95164862908635D0
+         208.9577739498031D0
+         210.07635795021074D0
+         219.0481998753268D0
+         223.23223784968786D0
+         215.90995147335542D0
+         220.7715412970741D0
+         219.77854400990648D0
+         234.06632917629978D0
+         217.94365223017087D0
+         215.67315742479852D0
+         219.3968263751607D0
+         233.68264335143195D0
+         214.66215224131528D0
+         220.07023728577153D0
+         183.12195879984583D0
+         231.01861818098882D0
+         217.40281754724236D0
+         209.15614599195496D0
+         220.24258476181672D0
+         228.28557183471264D0
+         219.14321917612452D0
+         215.73643076299575D0
+         227.2800929770344D0
+         224.2924165257145D0
+         211.31650612965342D0
+         217.74729251424316D0
+         218.38531581094617D0
+         230.8455031605538D0
+         207.56885421337103D0
+         222.23394741443715D0
+         219.2957799942457D0
+         228.6505630992718D0
+         210.4330390905737D0
+         224.6407017421805D0
+         219.3574618568362D0
+         227.19810299584134D0
+         213.46953142489426D0
+         219.02463376335064D0
+         226.69910220241428D0
+         230.0404146183327D0
+         204.61951727133808D0
+         210.8717737969693D0
+         220.16317782335096D0
+         220.2194949673264D0
+         216.87825759276476D0
+         219.46073466229578D0
+         210.73025003678623D0
+         215.32299673752692D0
+         209.75144432154937D0
+         213.53586125668133D0
+         217.0476674019989D0
+         225.50828510904964D0
+         209.15672290785497D0
+         218.0914614664892D0
+         219.74580897483298D0
+         212.15562735763342D0
+         216.95949563062936D0
+         209.26308136064793D0
+         214.38890285940065D0
+         222.10462403807378D0
+         205.90081306117455D0
+         216.5148839583155D0
+         215.36695736838638D0
+         221.79890452465057D0
+         201.61453763724975D0
+         216.27219170014683D0
+         209.48433855735388D0
+         213.54647276669425D0
+         204.90791230850772D0
+         218.80746632794234D0
+         223.55078845370073D0
+         229.19318244435027D0
+         203.3749461415111D0
+         212.1171484899517D0
+         219.99375103903037D0
+         215.97780132007432D0
+         211.04231733877902D0
+         219.0836123589676D0
+         202.4096267304136D0
+         206.5657007384232D0
+         207.71963636328042D0
+         220.73758877920147D0
+         213.4806619899479D0
+         223.53132278337995D0
+         219.90548353846404D0
+         219.01190966858397D0
+         227.9428944101065D0
+         230.61721202660894D0
+         217.66119840335733D0
+         219.73177630468268D0
+         211.67012773910886D0
+         227.54370415633488D0
+         212.18822826576957D0
+         205.6101076401149D0
+         211.05421004762607D0
+         218.02508956440605D0
+         209.51714929489458D0
+         218.62640128234273D0
+         216.46847546960515D0
+         211.7678576399992D0
+         198.07648307727422D0
+         220.61353281406014D0
+         220.267299203192D0
+         224.79692938169365D0
+         216.7319450596379D0
+         216.64833599017806D0
+         218.74596408813505D0
+         218.58911653660616D0
+         215.7362339901397D0
+         223.14972758969765D0
+         222.49571684469484D0
+         215.4356341489324D0
+         213.67684112198089D0
+         223.88907970149899D0
+         219.63555136917265D0
+         228.83005133969272D0
+         218.489427341202D0
+         228.3727536244674D0
+         216.0548507140484D0
+         233.85696999876146D0
+         214.17885906979024D0
+         216.12475856756174D0
+         212.73380815109357D0
+         230.3007227447334D0
+         216.15459814018237D0
+         223.67536422595634D0
+         220.62279664030473D0
+         222.84429104509005D0
+         208.18359004146842D0
+         213.3575888214645D0
+         208.86806538506392D0
+         217.11824243965313D0
+         212.05098177305698D0
+         219.17419211734335D0
+         211.47221154832178D0
+         231.79440489555037D0
+         220.5528671163451D0
+         214.92419205305654D0
+         176.95788529051453D0
+         235.30147538525165D0
+         214.49113006667102D0
+         222.8816708675126D0
+         215.63804207153555D0
+         228.2728354042552D0
+         210.20570775602525D0
+         218.9798119326161D0
+         217.6354301509827D0
+         221.30336851430496D0
+         220.48162456123777D0
+         225.16854057832975D0
+         223.4996360723986D0
+         230.35867045818475D0
+         212.4609913864626D0
+         221.8532723549186D0
+         221.31608908238656D0
+         228.77539287057718D0
+         213.57612617787845D0
+         223.330036097963D0
+         220.0264798288237D0
+         225.576803699083D0
+         191.670322557334D0
+         220.10571856101188D0
+         217.85536119422756D0
+         225.32151035404974D0
+         216.74103640136426D0
+         223.81147800839068D0
+         222.44042511902012D0
+         228.52746702637094D0
+         212.11716730890757D0
+         220.94012413929056D0
+         220.94785148453275D0
+         225.12665948092777D0
+         210.96195434974152D0
+         218.10055479943472D0
+         214.40208119006388D0
+         226.23301182649863D0
+         218.8009587309055D0
+         219.3360572568591D0
+         222.58756067718335D0
+         227.25818942742785D0
+         214.67668651393524D0
+         217.05337715385974D0
+         225.7502939004269D0
+         206.24587824932297D0
+         214.2841100086684D0
+         215.1183924602011D0
+         219.77538948956925D0
+         217.83439367653557D0
+         215.30547036213199D0
+         210.5978882371255D0
+         212.75029268232328D0
+         225.41939966121677D0
+         203.34334263555758D0
+         213.62320517582583D0
+         221.77637613110852D0
+         221.12692202368194D0
+         203.08609125766793D0
+         213.5707966839253D0
+         225.68726133878596D0
+         236.06279062361097D0
+         216.1551635086602D0
+         222.1619616991041D0
+         219.12735949142058D0
+         224.80663195775165D0
+         216.0980482817693D0
+         225.2613896258029D0
+         204.56591251179592D0
+         226.92225951463252D0
+         204.85672481637005D0
+         223.1872291165098D0
+         218.77872063034917D0
+         225.1410600488012D0
+         211.31006455348992D0
+         223.54803660437136D0
+         222.75431956095048D0
+         231.63184578305442D0
+         182.36212499238644D0
+         212.50242549552925D0
+         219.50862747861564D0
+         223.9429593547644D0
+         208.4185573023403D0
+         219.91157000133097D0
+         219.30348139471153D0
+         223.07926734620645D0
+         211.44160232136753D0
+         219.3999061927391D0
+         208.16906971292912D0
+         215.3183310005377D0
+         207.40168031877482D0
+         221.77325483189395D0
+         224.08127234110236D0
+         219.1721383773517D0
+         217.7243979295815D0
+         222.49116165301504D0
+         212.8521724851904D0
+         229.48048884252876D0))
+       (:frequencias
+        (:list
+         21.538086
+         43.07617
+         64.61426
+         86.15234
+         107.69043
+         129.22852
+         150.7666
+         172.30469
+         193.84278
+         215.38086
+         236.91895
+         258.45703
+         279.99512
+         301.5332
+         323.0713
+         344.60938
+         366.14746
+         387.68555
+         409.22363
+         430.76172
+         452.2998
+         473.8379
+         495.37598
+         516.91407
+         538.45215
+         559.99024
+         581.5283
+         603.0664
+         624.6045
+         646.1426
+         667.68067
+         689.21875
+         710.75684
+         732.2949
+         753.833
+         775.3711
+         796.9092
+         818.44727
+         839.98536
+         861.52344
+         883.0615
+         904.5996
+         926.1377
+         947.6758
+         969.21387
+         990.75196
+         1012.29004
+         1033.8281
+         1055.3662
+         1076.9043
+         1098.4424
+         1119.9805
+         1141.5186
+         1163.0567
+         1184.5947
+         1206.1328
+         1227.6709
+         1249.209
+         1270.7471
+         1292.2852
+         1313.8233
+         1335.3613
+         1356.8994
+         1378.4375
+         1399.9756
+         1421.5137
+         1443.0518
+         1464.5899
+         1486.1279
+         1507.666
+         1529.2041
+         1550.7422
+         1572.2803
+         1593.8184
+         1615.3565
+         1636.8945
+         1658.4326
+         1679.9707
+         1701.5088
+         1723.0469
+         1744.585
+         1766.123
+         1787.6611
+         1809.1992
+         1830.7373
+         1852.2754
+         1873.8135
+         1895.3516
+         1916.8897
+         1938.4277
+         1959.9658
+         1981.5039
+         2003.042
+         2024.5801
+         2046.1182
+         2067.6563
+         2089.1944
+         2110.7324
+         2132.2705
+         2153.8086
+         2175.3467
+         2196.8848
+         2218.4229
+         2239.961
+         2261.499
+         2283.037
+         2304.5752
+         2326.1133
+         2347.6514
+         2369.1895
+         2390.7276
+         2412.2657
+         2433.8037
+         2455.3418
+         2476.88
+         2498.418
+         2519.956
+         2541.4942
+         2563.0323
+         2584.5703
+         2606.1084
+         2627.6465
+         2649.1846
+         2670.7227
+         2692.2608
+         2713.7989
+         2735.337
+         2756.875
+         2778.413
+         2799.9512
+         2821.4893
+         2843.0274
+         2864.5655
+         2886.1035
+         2907.6416
+         2929.1797
+         2950.7178
+         2972.2559
+         2993.794
+         3015.332
+         3036.87
+         3058.4082
+         3079.9463
+         3101.4844
+         3123.0225
+         3144.5606
+         3166.0987
+         3187.6367
+         3209.1748
+         3230.713
+         3252.251
+         3273.789
+         3295.3272
+         3316.8653
+         3338.4033
+         3359.9414
+         3381.4795
+         3403.0176
+         3424.5557
+         3446.0938
+         3467.6319
+         3489.17
+         3510.708
+         3532.246
+         3553.7842
+         3575.3223
+         3596.8604
+         3618.3985
+         3639.9366
+         3661.4746
+         3683.0127
+         3704.5508
+         3726.0889
+         3747.627
+         3769.165
+         3790.7032
+         3812.2412
+         3833.7793
+         3855.3174
+         3876.8555
+         3898.3936
+         3919.9317
+         3941.4698
+         3963.0078
+         3984.546
+         4006.084
+         4027.622
+         4049.1602
+         4070.6983
+         4092.2364
+         4113.7744
+         4135.3125
+         4156.8506
+         4178.3887
+         4199.927
+         4221.465
+         4243.003
+         4264.541
+         4286.079
+         4307.617
+         4329.1553
+         4350.6934
+         4372.2315
+         4393.7695
+         4415.3076
+         4436.8457
+         4458.384
+         4479.922
+         4501.46
+         4522.998
+         4544.536
+         4566.074
+         4587.6123
+         4609.1504
+         4630.6885
+         4652.2266
+         4673.7647
+         4695.3027
+         4716.841
+         4738.379
+         4759.917
+         4781.455
+         4802.993
+         4824.5313
+         4846.0693
+         4867.6074
+         4889.1455
+         4910.6836
+         4932.2217
+         4953.76
+         4975.298
+         4996.836
+         5018.374
+         5039.912
+         5061.45
+         5082.9883
+         5104.5264
+         5126.0645
+         5147.6025
+         5169.1406
+         5190.6787
+         5212.217
+         5233.755
+         5255.293
+         5276.831
+         5298.369
+         5319.907
+         5341.4453
+         5362.9834
+         5384.5215
+         5406.0596
+         5427.5977
+         5449.1357
+         5470.674
+         5492.212
+         5513.75
+         5535.288
+         5556.826
+         5578.3643
+         5599.9023
+         5621.4404
+         5642.9785
+         5664.5166
+         5686.0547
+         5707.593
+         5729.131
+         5750.669
+         5772.207
+         5793.745
+         5815.283
+         5836.8213
+         5858.3594
+         5879.8975
+         5901.4356
+         5922.9736
+         5944.5117
+         5966.05
+         5987.588
+         6009.126
+         6030.664
+         6052.202
+         6073.74
+         6095.2783
+         6116.8164
+         6138.3545
+         6159.8926
+         6181.4307
+         6202.9688
+         6224.507
+         6246.045
+         6267.583
+         6289.121
+         6310.659
+         6332.1973
+         6353.7354
+         6375.2734
+         6396.8115
+         6418.3496
+         6439.8877
+         6461.426
+         6482.964
+         6504.502
+         6526.04
+         6547.578
+         6569.116
+         6590.6543
+         6612.1924
+         6633.7305
+         6655.2686
+         6676.8066
+         6698.3447
+         6719.883
+         6741.421
+         6762.959
+         6784.497
+         6806.035
+         6827.573
+         6849.1113
+         6870.6494
+         6892.1875
+         6913.7256
+         6935.2637
+         6956.802
+         6978.34
+         6999.878
+         7021.416
+         7042.954
+         7064.492
+         7086.0303
+         7107.5684
+         7129.1065
+         7150.6445
+         7172.1826
+         7193.7207
+         7215.259
+         7236.797
+         7258.335
+         7279.873
+         7301.411
+         7322.949
+         7344.4873
+         7366.0254
+         7387.5635
+         7409.1016
+         7430.6397
+         7452.1777
+         7473.716
+         7495.254
+         7516.792
+         7538.33
+         7559.868
+         7581.4063
+         7602.9443
+         7624.4824
+         7646.0205
+         7667.5586
+         7689.0967
+         7710.635
+         7732.173
+         7753.711
+         7775.249
+         7796.787
+         7818.325
+         7839.8633
+         7861.4014
+         7882.9395
+         7904.4775
+         7926.0156
+         7947.5537
+         7969.092
+         7990.63
+         8012.168
+         8033.706
+         8055.244
+         8076.782
+         8098.3203
+         8119.8584
+         8141.3965
+         8162.9346
+         8184.4727
+         8206.011
+         8227.549
+         8249.087
+         8270.625
+         8292.163
+         8313.701
+         8335.239
+         8356.777
+         8378.315
+         8399.854
+         8421.392
+         8442.93
+         8464.468
+         8486.006
+         8507.544
+         8529.082
+         8550.62
+         8572.158
+         8593.696
+         8615.234
+         8636.772
+         8658.311
+         8679.849
+         8701.387
+         8722.925
+         8744.463
+         8766.001
+         8787.539
+         8809.077
+         8830.615
+         8852.153
+         8873.691
+         8895.2295
+         8916.768
+         8938.306
+         8959.844
+         8981.382
+         9002.92
+         9024.458
+         9045.996
+         9067.534
+         9089.072
+         9110.61
+         9132.148
+         9153.687
+         9175.225
+         9196.763
+         9218.301
+         9239.839
+         9261.377
+         9282.915
+         9304.453
+         9325.991
+         9347.529
+         9369.067
+         9390.605
+         9412.144
+         9433.682
+         9455.22
+         9476.758
+         9498.296
+         9519.834
+         9541.372
+         9562.91
+         9584.448
+         9605.986
+         9627.524
+         9649.0625
+         9670.601
+         9692.139
+         9713.677
+         9735.215
+         9756.753
+         9778.291
+         9799.829
+         9821.367
+         9842.905
+         9864.443
+         9885.981
+         9907.52
+         9929.058
+         9950.596
+         9972.134
+         9993.672
+         10015.21
+         10036.748
+         10058.286
+         10079.824
+         10101.362
+         10122.9
+         10144.438
+         10165.977
+         10187.515
+         10209.053
+         10230.591
+         10252.129
+         10273.667
+         10295.205
+         10316.743
+         10338.281
+         10359.819
+         10381.357
+         10402.8955
+         10424.434
+         10445.972
+         10467.51
+         10489.048
+         10510.586
+         10532.124
+         10553.662
+         10575.2
+         10596.738
+         10618.276
+         10639.814
+         10661.353
+         10682.891
+         10704.429
+         10725.967
+         10747.505
+         10769.043
+         10790.581
+         10812.119
+         10833.657
+         10855.195
+         10876.733
+         10898.271
+         10919.81
+         10941.348
+         10962.886
+         10984.424
+         11005.962
+         11027.5
+         11049.038
+         11070.576
+         11092.114
+         11113.652
+         11135.19
+         11156.729
+         11178.267
+         11199.805
+         11221.343
+         11242.881
+         11264.419
+         11285.957
+         11307.495
+         11329.033
+         11350.571
+         11372.109
+         11393.647
+         11415.186
+         11436.724
+         11458.262
+         11479.8
+         11501.338
+         11522.876
+         11544.414
+         11565.952
+         11587.49
+         11609.028
+         11630.566
+         11652.1045
+         11673.643
+         11695.181
+         11716.719
+         11738.257
+         11759.795
+         11781.333
+         11802.871
+         11824.409
+         11845.947
+         11867.485
+         11889.023
+         11910.562
+         11932.1
+         11953.638
+         11975.176
+         11996.714
+         12018.252
+         12039.79
+         12061.328
+         12082.866
+         12104.404
+         12125.942
+         12147.48
+         12169.019
+         12190.557
+         12212.095
+         12233.633
+         12255.171
+         12276.709
+         12298.247
+         12319.785
+         12341.323
+         12362.861
+         12384.399
+         12405.9375
+         12427.476
+         12449.014
+         12470.552
+         12492.09
+         12513.628
+         12535.166
+         12556.704
+         12578.242
+         12599.78
+         12621.318
+         12642.856
+         12664.395
+         12685.933
+         12707.471
+         12729.009
+         12750.547
+         12772.085
+         12793.623
+         12815.161
+         12836.699
+         12858.237
+         12879.775
+         12901.313
+         12922.852
+         12944.39
+         12965.928
+         12987.466
+         13009.004
+         13030.542
+         13052.08
+         13073.618
+         13095.156
+         13116.694
+         13138.232
+         13159.7705
+         13181.309
+         13202.847
+         13224.385
+         13245.923
+         13267.461
+         13288.999
+         13310.537
+         13332.075
+         13353.613
+         13375.151
+         13396.689
+         13418.228
+         13439.766
+         13461.304
+         13482.842
+         13504.38
+         13525.918
+         13547.456
+         13568.994
+         13590.532
+         13612.07
+         13633.608
+         13655.146
+         13676.685
+         13698.223
+         13719.761
+         13741.299
+         13762.837
+         13784.375
+         13805.913
+         13827.451
+         13848.989
+         13870.527
+         13892.065
+         13913.604
+         13935.142
+         13956.68
+         13978.218
+         13999.756
+         14021.294
+         14042.832
+         14064.37
+         14085.908
+         14107.446
+         14128.984
+         14150.522
+         14172.061
+         14193.599
+         14215.137
+         14236.675
+         14258.213
+         14279.751
+         14301.289
+         14322.827
+         14344.365
+         14365.903
+         14387.441
+         14408.9795
+         14430.518
+         14452.056
+         14473.594
+         14495.132
+         14516.67
+         14538.208
+         14559.746
+         14581.284
+         14602.822
+         14624.36
+         14645.898
+         14667.437
+         14688.975
+         14710.513
+         14732.051
+         14753.589
+         14775.127
+         14796.665
+         14818.203
+         14839.741
+         14861.279
+         14882.817
+         14904.355
+         14925.894
+         14947.432
+         14968.97
+         14990.508
+         15012.046
+         15033.584
+         15055.122
+         15076.66
+         15098.198
+         15119.736
+         15141.274
+         15162.8125
+         15184.351
+         15205.889
+         15227.427
+         15248.965
+         15270.503
+         15292.041
+         15313.579
+         15335.117
+         15356.655
+         15378.193
+         15399.731
+         15421.27
+         15442.808
+         15464.346
+         15485.884
+         15507.422
+         15528.96
+         15550.498
+         15572.036
+         15593.574
+         15615.112
+         15636.65
+         15658.188
+         15679.727
+         15701.265
+         15722.803
+         15744.341
+         15765.879
+         15787.417
+         15808.955
+         15830.493
+         15852.031
+         15873.569
+         15895.107
+         15916.6455
+         15938.184
+         15959.722
+         15981.26
+         16002.798
+         16024.336
+         16045.874
+         16067.412
+         16088.95
+         16110.488
+         16132.026
+         16153.564
+         16175.103
+         16196.641
+         16218.179
+         16239.717
+         16261.255
+         16282.793
+         16304.331
+         16325.869
+         16347.407
+         16368.945
+         16390.485
+         16412.022
+         16433.559
+         16455.098
+         16476.637
+         16498.174
+         16519.71
+         16541.25
+         16562.79
+         16584.327
+         16605.864
+         16627.403
+         16648.942
+         16670.479
+         16692.016
+         16713.555
+         16735.094
+         16756.63
+         16778.168
+         16799.708
+         16821.247
+         16842.784
+         16864.32
+         16885.86
+         16907.399
+         16928.936
+         16950.473
+         16972.012
+         16993.55
+         17015.088
+         17036.625
+         17058.165
+         17079.704
+         17101.24
+         17122.778
+         17144.317
+         17165.856
+         17187.393
+         17208.93
+         17230.469
+         17252.008
+         17273.545
+         17295.083
+         17316.622
+         17338.16
+         17359.698
+         17381.235
+         17402.774
+         17424.313
+         17445.85
+         17467.387
+         17488.926
+         17510.465
+         17532.002
+         17553.54
+         17575.079
+         17596.618
+         17618.155
+         17639.692
+         17661.23
+         17682.77
+         17704.307
+         17725.844
+         17747.383
+         17768.922
+         17790.459
+         17811.997
+         17833.536
+         17855.075
+         17876.612
+         17898.149
+         17919.688
+         17941.227
+         17962.764
+         17984.3
+         18005.84
+         18027.379
+         18048.916
+         18070.454
+         18091.993
+         18113.532
+         18135.069
+         18156.606
+         18178.145
+         18199.684
+         18221.22
+         18242.758
+         18264.297
+         18285.836
+         18307.374
+         18328.91
+         18350.45
+         18371.989
+         18393.526
+         18415.063
+         18436.602
+         18458.14
+         18479.678
+         18501.215
+         18522.754
+         18544.293
+         18565.83
+         18587.368
+         18608.907
+         18630.446
+         18651.983
+         18673.52
+         18695.059
+         18716.598
+         18738.135
+         18759.672
+         18781.21
+         18802.75
+         18824.288
+         18845.825
+         18867.364
+         18888.903
+         18910.44
+         18931.977
+         18953.516
+         18975.055
+         18996.592
+         19018.129
+         19039.668
+         19061.208
+         19082.745
+         19104.282
+         19125.82
+         19147.36
+         19168.897
+         19190.434
+         19211.973
+         19233.512
+         19255.049
+         19276.586
+         19298.125
+         19319.665
+         19341.202
+         19362.739
+         19384.278
+         19405.817
+         19427.354
+         19448.89
+         19470.43
+         19491.969
+         19513.506
+         19535.043
+         19556.583
+         19578.122
+         19599.659
+         19621.196
+         19642.735
+         19664.274
+         19685.81
+         19707.348
+         19728.887
+         19750.426
+         19771.963
+         19793.5
+         19815.04
+         19836.579
+         19858.116
+         19879.653
+         19901.192
+         19922.73
+         19944.268
+         19965.805
+         19987.344
+         20008.883
+         20030.42
+         20051.958
+         20073.497
+         20095.036
+         20116.573
+         20138.11
+         20159.649
+         20181.188
+         20202.725
+         20224.262
+         20245.8
+         20267.34
+         20288.877
+         20310.415
+         20331.954
+         20353.493
+         20375.03
+         20396.567
+         20418.106
+         20439.645
+         20461.182
+         20482.719
+         20504.258
+         20525.797
+         20547.334
+         20568.872
+         20590.41
+         20611.95
+         20633.487
+         20655.024
+         20676.563
+         20698.102
+         20719.639
+         20741.176
+         20762.715
+         20784.254
+         20805.791
+         20827.329
+         20848.868
+         20870.407
+         20891.944
+         20913.48
+         20935.02
+         20956.559
+         20978.096
+         20999.633
+         21021.172
+         21042.71
+         21064.249
+         21085.786
+         21107.325
+         21128.864
+         21150.4
+         21171.938
+         21193.477
+         21215.016
+         21236.553
+         21258.09
+         21279.629
+         21301.168
+         21322.706
+         21344.243
+         21365.782
+         21387.32
+         21408.858
+         21430.395
+         21451.934
+         21473.473
+         21495.01
+         21516.547
+         21538.086
+         21559.625
+         21581.163
+         21602.7
+         21624.239
+         21645.778
+         21667.315
+         21688.852
+         21710.39
+         21731.93
+         21753.467
+         21775.004
+         21796.543
+         21818.083
+         21839.62
+         21861.157
+         21882.696
+         21904.235
+         21925.772
+         21947.309
+         21968.848
+         21990.387
+         22011.924
+         22033.46
+         22055.0))
+       (:fft-chunks 1)
+       (:tempo 23)))))
+   (:id 9))
+  (:box
+   (:library "OM-JI")
+   (:type :function)
+   (:reference (:symbol "CHOOSE" "OM-JI"))
+   (:group-id nil)
+   (:name "choose")
+   (:x 587)
+   (:y 495)
+   (:w 98)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "NOTELIST")
+     (:value (:list 1 2 3 4 5 6 7 8 9 10))
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "CHORD-N")
+     (:value (:list 1 7 9))
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 10))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 622)
+   (:y 460)
+   (:w 71)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 1)
+   (:id 11))
+  (:box
+   (:type :object)
+   (:reference bpf)
+   (:group-id nil)
+   (:name nil)
+   (:x 963)
+   (:y 207)
+   (:w 561)
+   (:h 219)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :mini-view)
+   (:showname nil)
+   (:show-markers t)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "X-POINTS")
+     (:value (:list 0 2000))
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "Y-POINTS")
+     (:value (:list 0 100))
+     (:reactive nil)))
+   (:outputs
+    (:output (:name "SELF") (:reactive nil))
+    (:output (:name "X-POINTS") (:reactive nil))
+    (:output (:name "Y-POINTS") (:reactive nil)))
+   (:window (:size nil) (:position nil))
+   (:edition-params)
+   (:value
+    (:object
+     (:class bpf)
+     (:slots
+      ((:onset 0)
+       (:duration 2000.0)
+       (:interpol (:number-or-nil (:number 50) (:t-or-nil nil)))
+       (:action nil)
+       (:color (:color 0.0S0 0.0S0 0.0S0 1.0))
+       (:decimals 2)
+       (:x-points (:list 0.0 2000.0))
+       (:y-points (:list 0.0 10.0))))
+     (:add-slots ((:name "BPF")))))
+   (:id 12))
+  (:box
+   (:type :value)
+   (:reference cons)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1381)
+   (:y 145)
+   (:w 76)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value (:list 0 10))
+   (:id 13))
+  (:box
+   (:type :abstraction)
+   (:reference
+    (:textfun
+     (:name "my-function")
+     (:doc "")
+     (:info
+      (:created nil)
+      (:modified nil)
+      (:by *app-name*)
+      (:version 0))
+     (:window (:size (1139 475)) (:position (64 64)))
+     (:text
+      (:list
+       "(lambda (self)"
+       "(let* ((verbose (print (format nil \"Read bytes of the sound.\"))))"
+       "(with-audio-buffer (b self)"
+       "          (let ((channel-ptr (om-read-ptr (om-sound-buffer-ptr b) (1- (n-channels self)) :pointer)))"
+       "          (loop :for i :from 0 :to (n-samples self) :by 1 :collect (om-read-ptr channel-ptr i :unsigned-byte))))))"))))
+   (:group-id nil)
+   (:name "my-function")
+   (:x 785)
+   (:y 135)
+   (:w 134)
+   (:h 60)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :hidden)
+   (:lock nil)
+   (:lambda nil)
+   (:pre-delay 0)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 14))
+  (:box
+   (:type :function)
+   (:reference first-n)
+   (:group-id nil)
+   (:name "first-n")
+   (:x 243)
+   (:y 524)
+   (:w 84)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "LIST")
+     (:value 0)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "N")
+     (:value 2048)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 15))
+  (:box
+   (:type :object)
+   (:reference bpf)
+   (:group-id nil)
+   (:name nil)
+   (:x 122)
+   (:y 660)
+   (:w 528)
+   (:h 255)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :mini-view)
+   (:showname nil)
+   (:show-markers t)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "X-POINTS")
+     (:value (:list 0 2000))
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "Y-POINTS")
+     (:value (:list 0 100))
+     (:reactive nil)))
+   (:outputs
+    (:output (:name "SELF") (:reactive nil))
+    (:output (:name "X-POINTS") (:reactive nil))
+    (:output (:name "Y-POINTS") (:reactive nil)))
+   (:window (:size (1745 546)) (:position (128 128)))
+   (:edition-params)
+   (:value
+    (:object
+     (:class bpf)
+     (:slots
+      ((:onset 0)
+       (:duration 4094000.0)
+       (:interpol (:number-or-nil (:number 50) (:t-or-nil nil)))
+       (:action nil)
+       (:color (:color 0.0S0 0.0S0 0.0S0 1.0))
+       (:decimals 2)
+       (:x-points
+        (:list
+         0.0
+         2000.0
+         4000.0
+         6000.0
+         8000.0
+         10000.0
+         12000.0
+         14000.0
+         16000.0
+         18000.0
+         20000.0
+         22000.0
+         24000.0
+         26000.0
+         28000.0
+         30000.0
+         32000.0
+         34000.0
+         36000.0
+         38000.0
+         40000.0
+         42000.0
+         44000.0
+         46000.0
+         48000.0
+         50000.0
+         52000.0
+         54000.0
+         56000.0
+         58000.0
+         60000.0
+         62000.0
+         64000.0
+         66000.0
+         68000.0
+         70000.0
+         72000.0
+         74000.0
+         76000.0
+         78000.0
+         80000.0
+         82000.0
+         84000.0
+         86000.0
+         88000.0
+         90000.0
+         92000.0
+         94000.0
+         96000.0
+         98000.0
+         100000.0
+         102000.0
+         104000.0
+         106000.0
+         108000.0
+         110000.0
+         112000.0
+         114000.0
+         116000.0
+         118000.0
+         120000.0
+         122000.0
+         124000.0
+         126000.0
+         128000.0
+         130000.0
+         132000.0
+         134000.0
+         136000.0
+         138000.0
+         140000.0
+         142000.0
+         144000.0
+         146000.0
+         148000.0
+         150000.0
+         152000.0
+         154000.0
+         156000.0
+         158000.0
+         160000.0
+         162000.0
+         164000.0
+         166000.0
+         168000.0
+         170000.0
+         172000.0
+         174000.0
+         176000.0
+         178000.0
+         180000.0
+         182000.0
+         184000.0
+         186000.0
+         188000.0
+         190000.0
+         192000.0
+         194000.0
+         196000.0
+         198000.0
+         200000.0
+         202000.0
+         204000.0
+         206000.0
+         208000.0
+         210000.0
+         212000.0
+         214000.0
+         216000.0
+         218000.0
+         220000.0
+         222000.0
+         224000.0
+         226000.0
+         228000.0
+         230000.0
+         232000.0
+         234000.0
+         236000.0
+         238000.0
+         240000.0
+         242000.0
+         244000.0
+         246000.0
+         248000.0
+         250000.0
+         252000.0
+         254000.0
+         256000.0
+         258000.0
+         260000.0
+         262000.0
+         264000.0
+         266000.0
+         268000.0
+         270000.0
+         272000.0
+         274000.0
+         276000.0
+         278000.0
+         280000.0
+         282000.0
+         284000.0
+         286000.0
+         288000.0
+         290000.0
+         292000.0
+         294000.0
+         296000.0
+         298000.0
+         300000.0
+         302000.0
+         304000.0
+         306000.0
+         308000.0
+         310000.0
+         312000.0
+         314000.0
+         316000.0
+         318000.0
+         320000.0
+         322000.0
+         324000.0
+         326000.0
+         328000.0
+         330000.0
+         332000.0
+         334000.0
+         336000.0
+         338000.0
+         340000.0
+         342000.0
+         344000.0
+         346000.0
+         348000.0
+         350000.0
+         352000.0
+         354000.0
+         356000.0
+         358000.0
+         360000.0
+         362000.0
+         364000.0
+         366000.0
+         368000.0
+         370000.0
+         372000.0
+         374000.0
+         376000.0
+         378000.0
+         380000.0
+         382000.0
+         384000.0
+         386000.0
+         388000.0
+         390000.0
+         392000.0
+         394000.0
+         396000.0
+         398000.0
+         400000.0
+         402000.0
+         404000.0
+         406000.0
+         408000.0
+         410000.0
+         412000.0
+         414000.0
+         416000.0
+         418000.0
+         420000.0
+         422000.0
+         424000.0
+         426000.0
+         428000.0
+         430000.0
+         432000.0
+         434000.0
+         436000.0
+         438000.0
+         440000.0
+         442000.0
+         444000.0
+         446000.0
+         448000.0
+         450000.0
+         452000.0
+         454000.0
+         456000.0
+         458000.0
+         460000.0
+         462000.0
+         464000.0
+         466000.0
+         468000.0
+         470000.0
+         472000.0
+         474000.0
+         476000.0
+         478000.0
+         480000.0
+         482000.0
+         484000.0
+         486000.0
+         488000.0
+         490000.0
+         492000.0
+         494000.0
+         496000.0
+         498000.0
+         500000.0
+         502000.0
+         504000.0
+         506000.0
+         508000.0
+         510000.0
+         512000.0
+         514000.0
+         516000.0
+         518000.0
+         520000.0
+         522000.0
+         524000.0
+         526000.0
+         528000.0
+         530000.0
+         532000.0
+         534000.0
+         536000.0
+         538000.0
+         540000.0
+         542000.0
+         544000.0
+         546000.0
+         548000.0
+         550000.0
+         552000.0
+         554000.0
+         556000.0
+         558000.0
+         560000.0
+         562000.0
+         564000.0
+         566000.0
+         568000.0
+         570000.0
+         572000.0
+         574000.0
+         576000.0
+         578000.0
+         580000.0
+         582000.0
+         584000.0
+         586000.0
+         588000.0
+         590000.0
+         592000.0
+         594000.0
+         596000.0
+         598000.0
+         600000.0
+         602000.0
+         604000.0
+         606000.0
+         608000.0
+         610000.0
+         612000.0
+         614000.0
+         616000.0
+         618000.0
+         620000.0
+         622000.0
+         624000.0
+         626000.0
+         628000.0
+         630000.0
+         632000.0
+         634000.0
+         636000.0
+         638000.0
+         640000.0
+         642000.0
+         644000.0
+         646000.0
+         648000.0
+         650000.0
+         652000.0
+         654000.0
+         656000.0
+         658000.0
+         660000.0
+         662000.0
+         664000.0
+         666000.0
+         668000.0
+         670000.0
+         672000.0
+         674000.0
+         676000.0
+         678000.0
+         680000.0
+         682000.0
+         684000.0
+         686000.0
+         688000.0
+         690000.0
+         692000.0
+         694000.0
+         696000.0
+         698000.0
+         700000.0
+         702000.0
+         704000.0
+         706000.0
+         708000.0
+         710000.0
+         712000.0
+         714000.0
+         716000.0
+         718000.0
+         720000.0
+         722000.0
+         724000.0
+         726000.0
+         728000.0
+         730000.0
+         732000.0
+         734000.0
+         736000.0
+         738000.0
+         740000.0
+         742000.0
+         744000.0
+         746000.0
+         748000.0
+         750000.0
+         752000.0
+         754000.0
+         756000.0
+         758000.0
+         760000.0
+         762000.0
+         764000.0
+         766000.0
+         768000.0
+         770000.0
+         772000.0
+         774000.0
+         776000.0
+         778000.0
+         780000.0
+         782000.0
+         784000.0
+         786000.0
+         788000.0
+         790000.0
+         792000.0
+         794000.0
+         796000.0
+         798000.0
+         800000.0
+         802000.0
+         804000.0
+         806000.0
+         808000.0
+         810000.0
+         812000.0
+         814000.0
+         816000.0
+         818000.0
+         820000.0
+         822000.0
+         824000.0
+         826000.0
+         828000.0
+         830000.0
+         832000.0
+         834000.0
+         836000.0
+         838000.0
+         840000.0
+         842000.0
+         844000.0
+         846000.0
+         848000.0
+         850000.0
+         852000.0
+         854000.0
+         856000.0
+         858000.0
+         860000.0
+         862000.0
+         864000.0
+         866000.0
+         868000.0
+         870000.0
+         872000.0
+         874000.0
+         876000.0
+         878000.0
+         880000.0
+         882000.0
+         884000.0
+         886000.0
+         888000.0
+         890000.0
+         892000.0
+         894000.0
+         896000.0
+         898000.0
+         900000.0
+         902000.0
+         904000.0
+         906000.0
+         908000.0
+         910000.0
+         912000.0
+         914000.0
+         916000.0
+         918000.0
+         920000.0
+         922000.0
+         924000.0
+         926000.0
+         928000.0
+         930000.0
+         932000.0
+         934000.0
+         936000.0
+         938000.0
+         940000.0
+         942000.0
+         944000.0
+         946000.0
+         948000.0
+         950000.0
+         952000.0
+         954000.0
+         956000.0
+         958000.0
+         960000.0
+         962000.0
+         964000.0
+         966000.0
+         968000.0
+         970000.0
+         972000.0
+         974000.0
+         976000.0
+         978000.0
+         980000.0
+         982000.0
+         984000.0
+         986000.0
+         988000.0
+         990000.0
+         992000.0
+         994000.0
+         996000.0
+         998000.0
+         1000000.0
+         1002000.0
+         1004000.0
+         1006000.0
+         1008000.0
+         1010000.0
+         1012000.0
+         1014000.0
+         1016000.0
+         1018000.0
+         1020000.0
+         1022000.0
+         1024000.0
+         1026000.0
+         1028000.0
+         1030000.0
+         1032000.0
+         1034000.0
+         1036000.0
+         1038000.0
+         1040000.0
+         1042000.0
+         1044000.0
+         1046000.0
+         1048000.0
+         1050000.0
+         1052000.0
+         1054000.0
+         1056000.0
+         1058000.0
+         1060000.0
+         1062000.0
+         1064000.0
+         1066000.0
+         1068000.0
+         1070000.0
+         1072000.0
+         1074000.0
+         1076000.0
+         1078000.0
+         1080000.0
+         1082000.0
+         1084000.0
+         1086000.0
+         1088000.0
+         1090000.0
+         1092000.0
+         1094000.0
+         1096000.0
+         1098000.0
+         1100000.0
+         1102000.0
+         1104000.0
+         1106000.0
+         1108000.0
+         1110000.0
+         1112000.0
+         1114000.0
+         1116000.0
+         1118000.0
+         1120000.0
+         1122000.0
+         1124000.0
+         1126000.0
+         1128000.0
+         1130000.0
+         1132000.0
+         1134000.0
+         1136000.0
+         1138000.0
+         1140000.0
+         1142000.0
+         1144000.0
+         1146000.0
+         1148000.0
+         1150000.0
+         1152000.0
+         1154000.0
+         1156000.0
+         1158000.0
+         1160000.0
+         1162000.0
+         1164000.0
+         1166000.0
+         1168000.0
+         1170000.0
+         1172000.0
+         1174000.0
+         1176000.0
+         1178000.0
+         1180000.0
+         1182000.0
+         1184000.0
+         1186000.0
+         1188000.0
+         1190000.0
+         1192000.0
+         1194000.0
+         1196000.0
+         1198000.0
+         1200000.0
+         1202000.0
+         1204000.0
+         1206000.0
+         1208000.0
+         1210000.0
+         1212000.0
+         1214000.0
+         1216000.0
+         1218000.0
+         1220000.0
+         1222000.0
+         1224000.0
+         1226000.0
+         1228000.0
+         1230000.0
+         1232000.0
+         1234000.0
+         1236000.0
+         1238000.0
+         1240000.0
+         1242000.0
+         1244000.0
+         1246000.0
+         1248000.0
+         1250000.0
+         1252000.0
+         1254000.0
+         1256000.0
+         1258000.0
+         1260000.0
+         1262000.0
+         1264000.0
+         1266000.0
+         1268000.0
+         1270000.0
+         1272000.0
+         1274000.0
+         1276000.0
+         1278000.0
+         1280000.0
+         1282000.0
+         1284000.0
+         1286000.0
+         1288000.0
+         1290000.0
+         1292000.0
+         1294000.0
+         1296000.0
+         1298000.0
+         1300000.0
+         1302000.0
+         1304000.0
+         1306000.0
+         1308000.0
+         1310000.0
+         1312000.0
+         1314000.0
+         1316000.0
+         1318000.0
+         1320000.0
+         1322000.0
+         1324000.0
+         1326000.0
+         1328000.0
+         1330000.0
+         1332000.0
+         1334000.0
+         1336000.0
+         1338000.0
+         1340000.0
+         1342000.0
+         1344000.0
+         1346000.0
+         1348000.0
+         1350000.0
+         1352000.0
+         1354000.0
+         1356000.0
+         1358000.0
+         1360000.0
+         1362000.0
+         1364000.0
+         1366000.0
+         1368000.0
+         1370000.0
+         1372000.0
+         1374000.0
+         1376000.0
+         1378000.0
+         1380000.0
+         1382000.0
+         1384000.0
+         1386000.0
+         1388000.0
+         1390000.0
+         1392000.0
+         1394000.0
+         1396000.0
+         1398000.0
+         1400000.0
+         1402000.0
+         1404000.0
+         1406000.0
+         1408000.0
+         1410000.0
+         1412000.0
+         1414000.0
+         1416000.0
+         1418000.0
+         1420000.0
+         1422000.0
+         1424000.0
+         1426000.0
+         1428000.0
+         1430000.0
+         1432000.0
+         1434000.0
+         1436000.0
+         1438000.0
+         1440000.0
+         1442000.0
+         1444000.0
+         1446000.0
+         1448000.0
+         1450000.0
+         1452000.0
+         1454000.0
+         1456000.0
+         1458000.0
+         1460000.0
+         1462000.0
+         1464000.0
+         1466000.0
+         1468000.0
+         1470000.0
+         1472000.0
+         1474000.0
+         1476000.0
+         1478000.0
+         1480000.0
+         1482000.0
+         1484000.0
+         1486000.0
+         1488000.0
+         1490000.0
+         1492000.0
+         1494000.0
+         1496000.0
+         1498000.0
+         1500000.0
+         1502000.0
+         1504000.0
+         1506000.0
+         1508000.0
+         1510000.0
+         1512000.0
+         1514000.0
+         1516000.0
+         1518000.0
+         1520000.0
+         1522000.0
+         1524000.0
+         1526000.0
+         1528000.0
+         1530000.0
+         1532000.0
+         1534000.0
+         1536000.0
+         1538000.0
+         1540000.0
+         1542000.0
+         1544000.0
+         1546000.0
+         1548000.0
+         1550000.0
+         1552000.0
+         1554000.0
+         1556000.0
+         1558000.0
+         1560000.0
+         1562000.0
+         1564000.0
+         1566000.0
+         1568000.0
+         1570000.0
+         1572000.0
+         1574000.0
+         1576000.0
+         1578000.0
+         1580000.0
+         1582000.0
+         1584000.0
+         1586000.0
+         1588000.0
+         1590000.0
+         1592000.0
+         1594000.0
+         1596000.0
+         1598000.0
+         1600000.0
+         1602000.0
+         1604000.0
+         1606000.0
+         1608000.0
+         1610000.0
+         1612000.0
+         1614000.0
+         1616000.0
+         1618000.0
+         1620000.0
+         1622000.0
+         1624000.0
+         1626000.0
+         1628000.0
+         1630000.0
+         1632000.0
+         1634000.0
+         1636000.0
+         1638000.0
+         1640000.0
+         1642000.0
+         1644000.0
+         1646000.0
+         1648000.0
+         1650000.0
+         1652000.0
+         1654000.0
+         1656000.0
+         1658000.0
+         1660000.0
+         1662000.0
+         1664000.0
+         1666000.0
+         1668000.0
+         1670000.0
+         1672000.0
+         1674000.0
+         1676000.0
+         1678000.0
+         1680000.0
+         1682000.0
+         1684000.0
+         1686000.0
+         1688000.0
+         1690000.0
+         1692000.0
+         1694000.0
+         1696000.0
+         1698000.0
+         1700000.0
+         1702000.0
+         1704000.0
+         1706000.0
+         1708000.0
+         1710000.0
+         1712000.0
+         1714000.0
+         1716000.0
+         1718000.0
+         1720000.0
+         1722000.0
+         1724000.0
+         1726000.0
+         1728000.0
+         1730000.0
+         1732000.0
+         1734000.0
+         1736000.0
+         1738000.0
+         1740000.0
+         1742000.0
+         1744000.0
+         1746000.0
+         1748000.0
+         1750000.0
+         1752000.0
+         1754000.0
+         1756000.0
+         1758000.0
+         1760000.0
+         1762000.0
+         1764000.0
+         1766000.0
+         1768000.0
+         1770000.0
+         1772000.0
+         1774000.0
+         1776000.0
+         1778000.0
+         1780000.0
+         1782000.0
+         1784000.0
+         1786000.0
+         1788000.0
+         1790000.0
+         1792000.0
+         1794000.0
+         1796000.0
+         1798000.0
+         1800000.0
+         1802000.0
+         1804000.0
+         1806000.0
+         1808000.0
+         1810000.0
+         1812000.0
+         1814000.0
+         1816000.0
+         1818000.0
+         1820000.0
+         1822000.0
+         1824000.0
+         1826000.0
+         1828000.0
+         1830000.0
+         1832000.0
+         1834000.0
+         1836000.0
+         1838000.0
+         1840000.0
+         1842000.0
+         1844000.0
+         1846000.0
+         1848000.0
+         1850000.0
+         1852000.0
+         1854000.0
+         1856000.0
+         1858000.0
+         1860000.0
+         1862000.0
+         1864000.0
+         1866000.0
+         1868000.0
+         1870000.0
+         1872000.0
+         1874000.0
+         1876000.0
+         1878000.0
+         1880000.0
+         1882000.0
+         1884000.0
+         1886000.0
+         1888000.0
+         1890000.0
+         1892000.0
+         1894000.0
+         1896000.0
+         1898000.0
+         1900000.0
+         1902000.0
+         1904000.0
+         1906000.0
+         1908000.0
+         1910000.0
+         1912000.0
+         1914000.0
+         1916000.0
+         1918000.0
+         1920000.0
+         1922000.0
+         1924000.0
+         1926000.0
+         1928000.0
+         1930000.0
+         1932000.0
+         1934000.0
+         1936000.0
+         1938000.0
+         1940000.0
+         1942000.0
+         1944000.0
+         1946000.0
+         1948000.0
+         1950000.0
+         1952000.0
+         1954000.0
+         1956000.0
+         1958000.0
+         1960000.0
+         1962000.0
+         1964000.0
+         1966000.0
+         1968000.0
+         1970000.0
+         1972000.0
+         1974000.0
+         1976000.0
+         1978000.0
+         1980000.0
+         1982000.0
+         1984000.0
+         1986000.0
+         1988000.0
+         1990000.0
+         1992000.0
+         1994000.0
+         1996000.0
+         1998000.0
+         2000000.0
+         2002000.0
+         2004000.0
+         2006000.0
+         2008000.0
+         2010000.0
+         2012000.0
+         2014000.0
+         2016000.0
+         2018000.0
+         2020000.0
+         2022000.0
+         2024000.0
+         2026000.0
+         2028000.0
+         2030000.0
+         2032000.0
+         2034000.0
+         2036000.0
+         2038000.0
+         2040000.0
+         2042000.0
+         2044000.0
+         2046000.0
+         2048000.0
+         2050000.0
+         2052000.0
+         2054000.0
+         2056000.0
+         2058000.0
+         2060000.0
+         2062000.0
+         2064000.0
+         2066000.0
+         2068000.0
+         2070000.0
+         2072000.0
+         2074000.0
+         2076000.0
+         2078000.0
+         2080000.0
+         2082000.0
+         2084000.0
+         2086000.0
+         2088000.0
+         2090000.0
+         2092000.0
+         2094000.0
+         2096000.0
+         2098000.0
+         2100000.0
+         2102000.0
+         2104000.0
+         2106000.0
+         2108000.0
+         2110000.0
+         2112000.0
+         2114000.0
+         2116000.0
+         2118000.0
+         2120000.0
+         2122000.0
+         2124000.0
+         2126000.0
+         2128000.0
+         2130000.0
+         2132000.0
+         2134000.0
+         2136000.0
+         2138000.0
+         2140000.0
+         2142000.0
+         2144000.0
+         2146000.0
+         2148000.0
+         2150000.0
+         2152000.0
+         2154000.0
+         2156000.0
+         2158000.0
+         2160000.0
+         2162000.0
+         2164000.0
+         2166000.0
+         2168000.0
+         2170000.0
+         2172000.0
+         2174000.0
+         2176000.0
+         2178000.0
+         2180000.0
+         2182000.0
+         2184000.0
+         2186000.0
+         2188000.0
+         2190000.0
+         2192000.0
+         2194000.0
+         2196000.0
+         2198000.0
+         2200000.0
+         2202000.0
+         2204000.0
+         2206000.0
+         2208000.0
+         2210000.0
+         2212000.0
+         2214000.0
+         2216000.0
+         2218000.0
+         2220000.0
+         2222000.0
+         2224000.0
+         2226000.0
+         2228000.0
+         2230000.0
+         2232000.0
+         2234000.0
+         2236000.0
+         2238000.0
+         2240000.0
+         2242000.0
+         2244000.0
+         2246000.0
+         2248000.0
+         2250000.0
+         2252000.0
+         2254000.0
+         2256000.0
+         2258000.0
+         2260000.0
+         2262000.0
+         2264000.0
+         2266000.0
+         2268000.0
+         2270000.0
+         2272000.0
+         2274000.0
+         2276000.0
+         2278000.0
+         2280000.0
+         2282000.0
+         2284000.0
+         2286000.0
+         2288000.0
+         2290000.0
+         2292000.0
+         2294000.0
+         2296000.0
+         2298000.0
+         2300000.0
+         2302000.0
+         2304000.0
+         2306000.0
+         2308000.0
+         2310000.0
+         2312000.0
+         2314000.0
+         2316000.0
+         2318000.0
+         2320000.0
+         2322000.0
+         2324000.0
+         2326000.0
+         2328000.0
+         2330000.0
+         2332000.0
+         2334000.0
+         2336000.0
+         2338000.0
+         2340000.0
+         2342000.0
+         2344000.0
+         2346000.0
+         2348000.0
+         2350000.0
+         2352000.0
+         2354000.0
+         2356000.0
+         2358000.0
+         2360000.0
+         2362000.0
+         2364000.0
+         2366000.0
+         2368000.0
+         2370000.0
+         2372000.0
+         2374000.0
+         2376000.0
+         2378000.0
+         2380000.0
+         2382000.0
+         2384000.0
+         2386000.0
+         2388000.0
+         2390000.0
+         2392000.0
+         2394000.0
+         2396000.0
+         2398000.0
+         2400000.0
+         2402000.0
+         2404000.0
+         2406000.0
+         2408000.0
+         2410000.0
+         2412000.0
+         2414000.0
+         2416000.0
+         2418000.0
+         2420000.0
+         2422000.0
+         2424000.0
+         2426000.0
+         2428000.0
+         2430000.0
+         2432000.0
+         2434000.0
+         2436000.0
+         2438000.0
+         2440000.0
+         2442000.0
+         2444000.0
+         2446000.0
+         2448000.0
+         2450000.0
+         2452000.0
+         2454000.0
+         2456000.0
+         2458000.0
+         2460000.0
+         2462000.0
+         2464000.0
+         2466000.0
+         2468000.0
+         2470000.0
+         2472000.0
+         2474000.0
+         2476000.0
+         2478000.0
+         2480000.0
+         2482000.0
+         2484000.0
+         2486000.0
+         2488000.0
+         2490000.0
+         2492000.0
+         2494000.0
+         2496000.0
+         2498000.0
+         2500000.0
+         2502000.0
+         2504000.0
+         2506000.0
+         2508000.0
+         2510000.0
+         2512000.0
+         2514000.0
+         2516000.0
+         2518000.0
+         2520000.0
+         2522000.0
+         2524000.0
+         2526000.0
+         2528000.0
+         2530000.0
+         2532000.0
+         2534000.0
+         2536000.0
+         2538000.0
+         2540000.0
+         2542000.0
+         2544000.0
+         2546000.0
+         2548000.0
+         2550000.0
+         2552000.0
+         2554000.0
+         2556000.0
+         2558000.0
+         2560000.0
+         2562000.0
+         2564000.0
+         2566000.0
+         2568000.0
+         2570000.0
+         2572000.0
+         2574000.0
+         2576000.0
+         2578000.0
+         2580000.0
+         2582000.0
+         2584000.0
+         2586000.0
+         2588000.0
+         2590000.0
+         2592000.0
+         2594000.0
+         2596000.0
+         2598000.0
+         2600000.0
+         2602000.0
+         2604000.0
+         2606000.0
+         2608000.0
+         2610000.0
+         2612000.0
+         2614000.0
+         2616000.0
+         2618000.0
+         2620000.0
+         2622000.0
+         2624000.0
+         2626000.0
+         2628000.0
+         2630000.0
+         2632000.0
+         2634000.0
+         2636000.0
+         2638000.0
+         2640000.0
+         2642000.0
+         2644000.0
+         2646000.0
+         2648000.0
+         2650000.0
+         2652000.0
+         2654000.0
+         2656000.0
+         2658000.0
+         2660000.0
+         2662000.0
+         2664000.0
+         2666000.0
+         2668000.0
+         2670000.0
+         2672000.0
+         2674000.0
+         2676000.0
+         2678000.0
+         2680000.0
+         2682000.0
+         2684000.0
+         2686000.0
+         2688000.0
+         2690000.0
+         2692000.0
+         2694000.0
+         2696000.0
+         2698000.0
+         2700000.0
+         2702000.0
+         2704000.0
+         2706000.0
+         2708000.0
+         2710000.0
+         2712000.0
+         2714000.0
+         2716000.0
+         2718000.0
+         2720000.0
+         2722000.0
+         2724000.0
+         2726000.0
+         2728000.0
+         2730000.0
+         2732000.0
+         2734000.0
+         2736000.0
+         2738000.0
+         2740000.0
+         2742000.0
+         2744000.0
+         2746000.0
+         2748000.0
+         2750000.0
+         2752000.0
+         2754000.0
+         2756000.0
+         2758000.0
+         2760000.0
+         2762000.0
+         2764000.0
+         2766000.0
+         2768000.0
+         2770000.0
+         2772000.0
+         2774000.0
+         2776000.0
+         2778000.0
+         2780000.0
+         2782000.0
+         2784000.0
+         2786000.0
+         2788000.0
+         2790000.0
+         2792000.0
+         2794000.0
+         2796000.0
+         2798000.0
+         2800000.0
+         2802000.0
+         2804000.0
+         2806000.0
+         2808000.0
+         2810000.0
+         2812000.0
+         2814000.0
+         2816000.0
+         2818000.0
+         2820000.0
+         2822000.0
+         2824000.0
+         2826000.0
+         2828000.0
+         2830000.0
+         2832000.0
+         2834000.0
+         2836000.0
+         2838000.0
+         2840000.0
+         2842000.0
+         2844000.0
+         2846000.0
+         2848000.0
+         2850000.0
+         2852000.0
+         2854000.0
+         2856000.0
+         2858000.0
+         2860000.0
+         2862000.0
+         2864000.0
+         2866000.0
+         2868000.0
+         2870000.0
+         2872000.0
+         2874000.0
+         2876000.0
+         2878000.0
+         2880000.0
+         2882000.0
+         2884000.0
+         2886000.0
+         2888000.0
+         2890000.0
+         2892000.0
+         2894000.0
+         2896000.0
+         2898000.0
+         2900000.0
+         2902000.0
+         2904000.0
+         2906000.0
+         2908000.0
+         2910000.0
+         2912000.0
+         2914000.0
+         2916000.0
+         2918000.0
+         2920000.0
+         2922000.0
+         2924000.0
+         2926000.0
+         2928000.0
+         2930000.0
+         2932000.0
+         2934000.0
+         2936000.0
+         2938000.0
+         2940000.0
+         2942000.0
+         2944000.0
+         2946000.0
+         2948000.0
+         2950000.0
+         2952000.0
+         2954000.0
+         2956000.0
+         2958000.0
+         2960000.0
+         2962000.0
+         2964000.0
+         2966000.0
+         2968000.0
+         2970000.0
+         2972000.0
+         2974000.0
+         2976000.0
+         2978000.0
+         2980000.0
+         2982000.0
+         2984000.0
+         2986000.0
+         2988000.0
+         2990000.0
+         2992000.0
+         2994000.0
+         2996000.0
+         2998000.0
+         3000000.0
+         3002000.0
+         3004000.0
+         3006000.0
+         3008000.0
+         3010000.0
+         3012000.0
+         3014000.0
+         3016000.0
+         3018000.0
+         3020000.0
+         3022000.0
+         3024000.0
+         3026000.0
+         3028000.0
+         3030000.0
+         3032000.0
+         3034000.0
+         3036000.0
+         3038000.0
+         3040000.0
+         3042000.0
+         3044000.0
+         3046000.0
+         3048000.0
+         3050000.0
+         3052000.0
+         3054000.0
+         3056000.0
+         3058000.0
+         3060000.0
+         3062000.0
+         3064000.0
+         3066000.0
+         3068000.0
+         3070000.0
+         3072000.0
+         3074000.0
+         3076000.0
+         3078000.0
+         3080000.0
+         3082000.0
+         3084000.0
+         3086000.0
+         3088000.0
+         3090000.0
+         3092000.0
+         3094000.0
+         3096000.0
+         3098000.0
+         3100000.0
+         3102000.0
+         3104000.0
+         3106000.0
+         3108000.0
+         3110000.0
+         3112000.0
+         3114000.0
+         3116000.0
+         3118000.0
+         3120000.0
+         3122000.0
+         3124000.0
+         3126000.0
+         3128000.0
+         3130000.0
+         3132000.0
+         3134000.0
+         3136000.0
+         3138000.0
+         3140000.0
+         3142000.0
+         3144000.0
+         3146000.0
+         3148000.0
+         3150000.0
+         3152000.0
+         3154000.0
+         3156000.0
+         3158000.0
+         3160000.0
+         3162000.0
+         3164000.0
+         3166000.0
+         3168000.0
+         3170000.0
+         3172000.0
+         3174000.0
+         3176000.0
+         3178000.0
+         3180000.0
+         3182000.0
+         3184000.0
+         3186000.0
+         3188000.0
+         3190000.0
+         3192000.0
+         3194000.0
+         3196000.0
+         3198000.0
+         3200000.0
+         3202000.0
+         3204000.0
+         3206000.0
+         3208000.0
+         3210000.0
+         3212000.0
+         3214000.0
+         3216000.0
+         3218000.0
+         3220000.0
+         3222000.0
+         3224000.0
+         3226000.0
+         3228000.0
+         3230000.0
+         3232000.0
+         3234000.0
+         3236000.0
+         3238000.0
+         3240000.0
+         3242000.0
+         3244000.0
+         3246000.0
+         3248000.0
+         3250000.0
+         3252000.0
+         3254000.0
+         3256000.0
+         3258000.0
+         3260000.0
+         3262000.0
+         3264000.0
+         3266000.0
+         3268000.0
+         3270000.0
+         3272000.0
+         3274000.0
+         3276000.0
+         3278000.0
+         3280000.0
+         3282000.0
+         3284000.0
+         3286000.0
+         3288000.0
+         3290000.0
+         3292000.0
+         3294000.0
+         3296000.0
+         3298000.0
+         3300000.0
+         3302000.0
+         3304000.0
+         3306000.0
+         3308000.0
+         3310000.0
+         3312000.0
+         3314000.0
+         3316000.0
+         3318000.0
+         3320000.0
+         3322000.0
+         3324000.0
+         3326000.0
+         3328000.0
+         3330000.0
+         3332000.0
+         3334000.0
+         3336000.0
+         3338000.0
+         3340000.0
+         3342000.0
+         3344000.0
+         3346000.0
+         3348000.0
+         3350000.0
+         3352000.0
+         3354000.0
+         3356000.0
+         3358000.0
+         3360000.0
+         3362000.0
+         3364000.0
+         3366000.0
+         3368000.0
+         3370000.0
+         3372000.0
+         3374000.0
+         3376000.0
+         3378000.0
+         3380000.0
+         3382000.0
+         3384000.0
+         3386000.0
+         3388000.0
+         3390000.0
+         3392000.0
+         3394000.0
+         3396000.0
+         3398000.0
+         3400000.0
+         3402000.0
+         3404000.0
+         3406000.0
+         3408000.0
+         3410000.0
+         3412000.0
+         3414000.0
+         3416000.0
+         3418000.0
+         3420000.0
+         3422000.0
+         3424000.0
+         3426000.0
+         3428000.0
+         3430000.0
+         3432000.0
+         3434000.0
+         3436000.0
+         3438000.0
+         3440000.0
+         3442000.0
+         3444000.0
+         3446000.0
+         3448000.0
+         3450000.0
+         3452000.0
+         3454000.0
+         3456000.0
+         3458000.0
+         3460000.0
+         3462000.0
+         3464000.0
+         3466000.0
+         3468000.0
+         3470000.0
+         3472000.0
+         3474000.0
+         3476000.0
+         3478000.0
+         3480000.0
+         3482000.0
+         3484000.0
+         3486000.0
+         3488000.0
+         3490000.0
+         3492000.0
+         3494000.0
+         3496000.0
+         3498000.0
+         3500000.0
+         3502000.0
+         3504000.0
+         3506000.0
+         3508000.0
+         3510000.0
+         3512000.0
+         3514000.0
+         3516000.0
+         3518000.0
+         3520000.0
+         3522000.0
+         3524000.0
+         3526000.0
+         3528000.0
+         3530000.0
+         3532000.0
+         3534000.0
+         3536000.0
+         3538000.0
+         3540000.0
+         3542000.0
+         3544000.0
+         3546000.0
+         3548000.0
+         3550000.0
+         3552000.0
+         3554000.0
+         3556000.0
+         3558000.0
+         3560000.0
+         3562000.0
+         3564000.0
+         3566000.0
+         3568000.0
+         3570000.0
+         3572000.0
+         3574000.0
+         3576000.0
+         3578000.0
+         3580000.0
+         3582000.0
+         3584000.0
+         3586000.0
+         3588000.0
+         3590000.0
+         3592000.0
+         3594000.0
+         3596000.0
+         3598000.0
+         3600000.0
+         3602000.0
+         3604000.0
+         3606000.0
+         3608000.0
+         3610000.0
+         3612000.0
+         3614000.0
+         3616000.0
+         3618000.0
+         3620000.0
+         3622000.0
+         3624000.0
+         3626000.0
+         3628000.0
+         3630000.0
+         3632000.0
+         3634000.0
+         3636000.0
+         3638000.0
+         3640000.0
+         3642000.0
+         3644000.0
+         3646000.0
+         3648000.0
+         3650000.0
+         3652000.0
+         3654000.0
+         3656000.0
+         3658000.0
+         3660000.0
+         3662000.0
+         3664000.0
+         3666000.0
+         3668000.0
+         3670000.0
+         3672000.0
+         3674000.0
+         3676000.0
+         3678000.0
+         3680000.0
+         3682000.0
+         3684000.0
+         3686000.0
+         3688000.0
+         3690000.0
+         3692000.0
+         3694000.0
+         3696000.0
+         3698000.0
+         3700000.0
+         3702000.0
+         3704000.0
+         3706000.0
+         3708000.0
+         3710000.0
+         3712000.0
+         3714000.0
+         3716000.0
+         3718000.0
+         3720000.0
+         3722000.0
+         3724000.0
+         3726000.0
+         3728000.0
+         3730000.0
+         3732000.0
+         3734000.0
+         3736000.0
+         3738000.0
+         3740000.0
+         3742000.0
+         3744000.0
+         3746000.0
+         3748000.0
+         3750000.0
+         3752000.0
+         3754000.0
+         3756000.0
+         3758000.0
+         3760000.0
+         3762000.0
+         3764000.0
+         3766000.0
+         3768000.0
+         3770000.0
+         3772000.0
+         3774000.0
+         3776000.0
+         3778000.0
+         3780000.0
+         3782000.0
+         3784000.0
+         3786000.0
+         3788000.0
+         3790000.0
+         3792000.0
+         3794000.0
+         3796000.0
+         3798000.0
+         3800000.0
+         3802000.0
+         3804000.0
+         3806000.0
+         3808000.0
+         3810000.0
+         3812000.0
+         3814000.0
+         3816000.0
+         3818000.0
+         3820000.0
+         3822000.0
+         3824000.0
+         3826000.0
+         3828000.0
+         3830000.0
+         3832000.0
+         3834000.0
+         3836000.0
+         3838000.0
+         3840000.0
+         3842000.0
+         3844000.0
+         3846000.0
+         3848000.0
+         3850000.0
+         3852000.0
+         3854000.0
+         3856000.0
+         3858000.0
+         3860000.0
+         3862000.0
+         3864000.0
+         3866000.0
+         3868000.0
+         3870000.0
+         3872000.0
+         3874000.0
+         3876000.0
+         3878000.0
+         3880000.0
+         3882000.0
+         3884000.0
+         3886000.0
+         3888000.0
+         3890000.0
+         3892000.0
+         3894000.0
+         3896000.0
+         3898000.0
+         3900000.0
+         3902000.0
+         3904000.0
+         3906000.0
+         3908000.0
+         3910000.0
+         3912000.0
+         3914000.0
+         3916000.0
+         3918000.0
+         3920000.0
+         3922000.0
+         3924000.0
+         3926000.0
+         3928000.0
+         3930000.0
+         3932000.0
+         3934000.0
+         3936000.0
+         3938000.0
+         3940000.0
+         3942000.0
+         3944000.0
+         3946000.0
+         3948000.0
+         3950000.0
+         3952000.0
+         3954000.0
+         3956000.0
+         3958000.0
+         3960000.0
+         3962000.0
+         3964000.0
+         3966000.0
+         3968000.0
+         3970000.0
+         3972000.0
+         3974000.0
+         3976000.0
+         3978000.0
+         3980000.0
+         3982000.0
+         3984000.0
+         3986000.0
+         3988000.0
+         3990000.0
+         3992000.0
+         3994000.0
+         3996000.0
+         3998000.0
+         4000000.0
+         4002000.0
+         4004000.0
+         4006000.0
+         4008000.0
+         4010000.0
+         4012000.0
+         4014000.0
+         4016000.0
+         4018000.0
+         4020000.0
+         4022000.0
+         4024000.0
+         4026000.0
+         4028000.0
+         4030000.0
+         4032000.0
+         4034000.0
+         4036000.0
+         4038000.0
+         4040000.0
+         4042000.0
+         4044000.0
+         4046000.0
+         4048000.0
+         4050000.0
+         4052000.0
+         4054000.0
+         4056000.0
+         4058000.0
+         4060000.0
+         4062000.0
+         4064000.0
+         4066000.0
+         4068000.0
+         4070000.0
+         4072000.0
+         4074000.0
+         4076000.0
+         4078000.0
+         4080000.0
+         4082000.0
+         4084000.0
+         4086000.0
+         4088000.0
+         4090000.0
+         4092000.0
+         4094000.0))
+       (:y-points
+        (:list
+         0.0
+         0.0
+         16.0
+         54.0
+         0.0
+         0.0
+         236.0
+         55.0
+         0.0
+         128.0
+         208.0
+         56.0
+         0.0
+         160.0
+         89.0
+         57.0
+         0.0
+         96.0
+         171.0
+         57.0
+         0.0
+         16.0
+         7.0
+         58.0
+         0.0
+         32.0
+         60.0
+         58.0
+         0.0
+         8.0
+         118.0
+         58.0
+         0.0
+         200.0
+         147.0
+         58.0
+         0.0
+         200.0
+         183.0
+         58.0
+         0.0
+         192.0
+         218.0
+         58.0
+         0.0
+         32.0
+         255.0
+         58.0
+         0.0
+         242.0
+         14.0
+         59.0
+         0.0
+         100.0
+         32.0
+         59.0
+         0.0
+         70.0
+         58.0
+         59.0
+         0.0
+         0.0
+         79.0
+         59.0
+         0.0
+         212.0
+         102.0
+         59.0
+         0.0
+         42.0
+         125.0
+         59.0
+         0.0
+         243.0
+         136.0
+         59.0
+         0.0
+         187.0
+         146.0
+         59.0
+         0.0
+         9.0
+         155.0
+         59.0
+         0.0
+         101.0
+         164.0
+         59.0
+         0.0
+         76.0
+         175.0
+         59.0
+         0.0
+         240.0
+         181.0
+         59.0
+         0.0
+         99.0
+         187.0
+         59.0
+         0.0
+         151.0
+         191.0
+         59.0
+         0.0
+         172.0
+         197.0
+         59.0
+         0.0
+         55.0
+         202.0
+         59.0
+         0.0
+         75.0
+         205.0
+         59.0
+         0.0
+         19.0
+         206.0
+         59.0
+         0.0
+         58.0
+         204.0
+         59.0
+         0.0
+         26.0
+         204.0
+         59.0
+         0.0
+         212.0
+         202.0
+         59.0
+         0.0
+         1.0
+         206.0
+         59.0
+         0.0
+         207.0
+         198.0
+         59.0
+         0.0
+         68.0
+         194.0
+         59.0
+         0.0
+         56.0
+         185.0
+         59.0
+         0.0
+         147.0
+         175.0
+         59.0
+         0.0
+         213.0
+         167.0
+         59.0
+         0.0
+         122.0
+         153.0
+         59.0
+         0.0
+         8.0
+         149.0
+         59.0
+         0.0
+         44.0
+         136.0
+         59.0
+         0.0
+         244.0
+         117.0
+         59.0
+         0.0
+         244.0
+         95.0
+         59.0
+         0.0
+         38.0
+         63.0
+         59.0
+         0.0
+         50.0
+         35.0
+         59.0
+         0.0
+         0.0
+         3.0
+         59.0
+         0.0
+         72.0
+         210.0
+         58.0
+         0.0
+         160.0
+         152.0
+         58.0
+         0.0
+         40.0
+         44.0
+         58.0
+         0.0
+         32.0
+         99.0
+         57.0
+         0.0
+         96.0
+         191.0
+         185.0
+         0.0
+         48.0
+         91.0
+         186.0
+         0.0
+         196.0
+         183.0
+         186.0
+         0.0
+         176.0
+         250.0
+         186.0
+         0.0
+         198.0
+         27.0
+         187.0
+         0.0
+         10.0
+         60.0
+         187.0
+         0.0
+         170.0
+         88.0
+         187.0
+         0.0
+         78.0
+         115.0
+         187.0
+         0.0
+         80.0
+         132.0
+         187.0
+         0.0
+         103.0
+         145.0
+         187.0
+         0.0
+         132.0
+         155.0
+         187.0
+         0.0
+         207.0
+         164.0
+         187.0
+         0.0
+         3.0
+         178.0
+         187.0
+         0.0
+         189.0
+         184.0
+         187.0
+         0.0
+         41.0
+         192.0
+         187.0
+         0.0
+         193.0
+         207.0
+         187.0
+         0.0
+         177.0
+         216.0
+         187.0
+         0.0
+         82.0
+         227.0
+         187.0
+         0.0
+         177.0
+         238.0
+         187.0
+         0.0
+         209.0
+         243.0
+         187.0
+         0.0
+         124.0
+         247.0
+         187.0
+         0.0
+         231.0
+         254.0
+         187.0
+         128.0
+         29.0
+         2.0
+         188.0
+         128.0
+         71.0
+         1.0
+         188.0
+         0.0
+         184.0
+         0.0
+         188.0
+         128.0
+         87.0
+         0.0
+         188.0
+         0.0
+         230.0
+         251.0
+         187.0
+         0.0
+         104.0
+         244.0
+         187.0
+         0.0
+         58.0
+         238.0
+         187.0
+         0.0
+         7.0
+         229.0
+         187.0
+         0.0
+         141.0
+         219.0
+         187.0
+         0.0
+         27.0
+         213.0
+         187.0
+         0.0
+         20.0
+         204.0
+         187.0
+         0.0
+         170.0
+         199.0
+         187.0
+         0.0
+         154.0
+         193.0
+         187.0
+         0.0
+         52.0
+         183.0
+         187.0
+         0.0
+         27.0
+         179.0
+         187.0
+         0.0
+         172.0
+         169.0
+         187.0
+         0.0
+         160.0
+         157.0
+         187.0
+         0.0
+         1.0
+         146.0
+         187.0
+         0.0
+         65.0
+         135.0
+         187.0
+         0.0
+         122.0
+         112.0
+         187.0
+         0.0
+         176.0
+         76.0
+         187.0
+         0.0
+         16.0
+         56.0
+         187.0
+         0.0
+         118.0
+         29.0
+         187.0
+         0.0
+         180.0
+         244.0
+         186.0
+         0.0
+         112.0
+         174.0
+         186.0
+         0.0
+         16.0
+         103.0
+         186.0
+         0.0
+         0.0
+         202.0
+         185.0
+         0.0
+         0.0
+         98.0
+         183.0
+         0.0
+         112.0
+         227.0
+         57.0
+         0.0
+         208.0
+         117.0
+         58.0
+         0.0
+         200.0
+         178.0
+         58.0
+         0.0
+         236.0
+         243.0
+         58.0
+         0.0
+         178.0
+         12.0
+         59.0
+         0.0
+         196.0
+         47.0
+         59.0
+         0.0
+         182.0
+         79.0
+         59.0
+         0.0
+         152.0
+         104.0
+         59.0
+         0.0
+         36.0
+         130.0
+         59.0
+         0.0
+         210.0
+         142.0
+         59.0
+         0.0
+         196.0
+         157.0
+         59.0
+         0.0
+         84.0
+         169.0
+         59.0
+         0.0
+         59.0
+         182.0
+         59.0
+         0.0
+         166.0
+         191.0
+         59.0
+         0.0
+         33.0
+         203.0
+         59.0
+         0.0
+         98.0
+         214.0
+         59.0
+         0.0
+         2.0
+         221.0
+         59.0
+         0.0
+         168.0
+         229.0
+         59.0
+         0.0
+         150.0
+         237.0
+         59.0
+         0.0
+         91.0
+         241.0
+         59.0
+         0.0
+         43.0
+         247.0
+         59.0
+         0.0
+         230.0
+         252.0
+         59.0
+         128.0
+         172.0
+         0.0
+         60.0
+         128.0
+         140.0
+         1.0
+         60.0
+         0.0
+         146.0
+         1.0
+         60.0
+         128.0
+         254.0
+         2.0
+         60.0
+         0.0
+         159.0
+         3.0
+         60.0
+         128.0
+         80.0
+         4.0
+         60.0
+         128.0
+         255.0
+         1.0
+         60.0
+         0.0
+         61.0
+         1.0
+         60.0
+         0.0
+         121.0
+         254.0
+         59.0
+         0.0
+         14.0
+         249.0
+         59.0
+         0.0
+         249.0
+         244.0
+         59.0
+         0.0
+         43.0
+         235.0
+         59.0
+         0.0
+         254.0
+         227.0
+         59.0
+         0.0
+         81.0
+         219.0
+         59.0
+         0.0
+         140.0
+         208.0
+         59.0
+         0.0
+         67.0
+         200.0
+         59.0
+         0.0
+         33.0
+         188.0
+         59.0
+         0.0
+         173.0
+         177.0
+         59.0
+         0.0
+         216.0
+         167.0
+         59.0
+         0.0
+         64.0
+         151.0
+         59.0
+         0.0
+         174.0
+         136.0
+         59.0
+         0.0
+         12.0
+         108.0
+         59.0
+         0.0
+         140.0
+         73.0
+         59.0
+         0.0
+         80.0
+         39.0
+         59.0
+         0.0
+         176.0
+         3.0
+         59.0
+         0.0
+         156.0
+         183.0
+         58.0
+         0.0
+         48.0
+         85.0
+         58.0
+         0.0
+         160.0
+         147.0
+         57.0
+         0.0
+         64.0
+         129.0
+         185.0
+         0.0
+         40.0
+         69.0
+         186.0
+         0.0
+         200.0
+         187.0
+         186.0
+         0.0
+         144.0
+         246.0
+         186.0
+         0.0
+         194.0
+         23.0
+         187.0
+         0.0
+         216.0
+         62.0
+         187.0
+         0.0
+         94.0
+         91.0
+         187.0
+         0.0
+         68.0
+         126.0
+         187.0
+         0.0
+         239.0
+         144.0
+         187.0
+         0.0
+         240.0
+         162.0
+         187.0
+         0.0
+         139.0
+         178.0
+         187.0
+         0.0
+         212.0
+         190.0
+         187.0
+         0.0
+         83.0
+         207.0
+         187.0
+         0.0
+         81.0
+         218.0
+         187.0
+         0.0
+         18.0
+         229.0
+         187.0
+         0.0
+         183.0
+         242.0
+         187.0
+         0.0
+         152.0
+         253.0
+         187.0
+         128.0
+         31.0
+         4.0
+         188.0
+         0.0
+         68.0
+         10.0
+         188.0
+         0.0
+         152.0
+         13.0
+         188.0
+         128.0
+         29.0
+         16.0
+         188.0
+         0.0
+         40.0
+         17.0
+         188.0
+         128.0
+         38.0
+         19.0
+         188.0
+         128.0
+         105.0
+         18.0
+         188.0
+         0.0
+         96.0
+         18.0
+         188.0
+         128.0
+         150.0
+         19.0
+         188.0
+         0.0
+         87.0
+         17.0
+         188.0
+         128.0
+         124.0
+         15.0
+         188.0
+         128.0
+         91.0
+         13.0
+         188.0
+         0.0
+         237.0
+         11.0
+         188.0
+         0.0
+         173.0
+         7.0
+         188.0
+         128.0
+         3.0
+         4.0
+         188.0
+         0.0
+         156.0
+         1.0
+         188.0
+         0.0
+         33.0
+         254.0
+         187.0
+         0.0
+         30.0
+         245.0
+         187.0
+         0.0
+         28.0
+         233.0
+         187.0
+         0.0
+         144.0
+         223.0
+         187.0
+         0.0
+         75.0
+         214.0
+         187.0
+         0.0
+         16.0
+         198.0
+         187.0
+         0.0
+         100.0
+         186.0
+         187.0
+         0.0
+         20.0
+         172.0
+         187.0
+         0.0
+         176.0
+         151.0
+         187.0
+         0.0
+         127.0
+         133.0
+         187.0
+         0.0
+         64.0
+         108.0
+         187.0
+         0.0
+         190.0
+         71.0
+         187.0
+         0.0
+         248.0
+         30.0
+         187.0
+         0.0
+         52.0
+         242.0
+         186.0
+         0.0
+         32.0
+         166.0
+         186.0
+         0.0
+         0.0
+         89.0
+         186.0
+         0.0
+         64.0
+         74.0
+         185.0
+         0.0
+         32.0
+         104.0
+         57.0
+         0.0
+         80.0
+         72.0
+         58.0
+         0.0
+         96.0
+         188.0
+         58.0
+         0.0
+         32.0
+         245.0
+         58.0
+         0.0
+         216.0
+         30.0
+         59.0
+         0.0
+         156.0
+         58.0
+         59.0
+         0.0
+         128.0
+         89.0
+         59.0
+         0.0
+         40.0
+         123.0
+         59.0
+         0.0
+         1.0
+         137.0
+         59.0
+         0.0
+         212.0
+         151.0
+         59.0
+         0.0
+         109.0
+         165.0
+         59.0
+         0.0
+         3.0
+         179.0
+         59.0
+         0.0
+         100.0
+         191.0
+         59.0
+         0.0
+         61.0
+         201.0
+         59.0
+         0.0
+         127.0
+         216.0
+         59.0
+         0.0
+         37.0
+         231.0
+         59.0
+         0.0
+         225.0
+         243.0
+         59.0
+         0.0
+         255.0
+         254.0
+         59.0
+         0.0
+         24.0
+         5.0
+         60.0
+         0.0
+         241.0
+         8.0
+         60.0
+         0.0
+         70.0
+         13.0
+         60.0
+         0.0
+         26.0
+         15.0
+         60.0
+         128.0
+         104.0
+         15.0
+         60.0
+         0.0
+         78.0
+         19.0
+         60.0
+         0.0
+         89.0
+         18.0
+         60.0
+         128.0
+         102.0
+         21.0
+         60.0
+         128.0
+         80.0
+         23.0
+         60.0
+         128.0
+         90.0
+         21.0
+         60.0
+         0.0
+         239.0
+         20.0
+         60.0
+         0.0
+         8.0
+         18.0
+         60.0
+         128.0
+         48.0
+         17.0
+         60.0
+         128.0
+         108.0
+         15.0
+         60.0
+         128.0
+         50.0
+         14.0
+         60.0
+         0.0
+         169.0
+         11.0
+         60.0
+         0.0
+         29.0
+         7.0
+         60.0
+         0.0
+         22.0
+         1.0
+         60.0
+         0.0
+         210.0
+         246.0
+         59.0
+         0.0
+         15.0
+         236.0
+         59.0
+         0.0
+         147.0
+         219.0
+         59.0
+         0.0
+         126.0
+         207.0
+         59.0
+         0.0
+         86.0
+         187.0
+         59.0
+         0.0
+         152.0
+         170.0
+         59.0
+         0.0
+         63.0
+         158.0
+         59.0
+         0.0
+         143.0
+         132.0
+         59.0
+         0.0
+         30.0
+         112.0
+         59.0
+         0.0
+         34.0
+         75.0
+         59.0
+         0.0
+         184.0
+         29.0
+         59.0
+         0.0
+         220.0
+         252.0
+         58.0
+         0.0
+         16.0
+         175.0
+         58.0
+         0.0
+         136.0
+         76.0
+         58.0
+         0.0
+         224.0
+         22.0
+         57.0
+         0.0
+         80.0
+         253.0
+         185.0
+         0.0
+         164.0
+         145.0
+         186.0
+         0.0
+         212.0
+         216.0
+         186.0
+         0.0
+         6.0
+         21.0
+         187.0
+         0.0
+         230.0
+         58.0
+         187.0
+         0.0
+         16.0
+         103.0
+         187.0
+         0.0
+         155.0
+         134.0
+         187.0
+         0.0
+         97.0
+         153.0
+         187.0
+         0.0
+         41.0
+         173.0
+         187.0
+         0.0
+         107.0
+         188.0
+         187.0
+         0.0
+         225.0
+         203.0
+         187.0
+         0.0
+         13.0
+         222.0
+         187.0
+         0.0
+         154.0
+         237.0
+         187.0
+         0.0
+         136.0
+         251.0
+         187.0
+         128.0
+         205.0
+         5.0
+         188.0
+         0.0
+         132.0
+         11.0
+         188.0
+         0.0
+         13.0
+         17.0
+         188.0
+         0.0
+         111.0
+         22.0
+         188.0
+         0.0
+         150.0
+         25.0
+         188.0
+         128.0
+         145.0
+         27.0
+         188.0
+         128.0
+         125.0
+         31.0
+         188.0
+         128.0
+         185.0
+         32.0
+         188.0
+         0.0
+         220.0
+         34.0
+         188.0
+         128.0
+         178.0
+         35.0
+         188.0
+         128.0
+         117.0
+         36.0
+         188.0
+         0.0
+         189.0
+         35.0
+         188.0
+         0.0
+         2.0
+         35.0
+         188.0
+         128.0
+         203.0
+         33.0
+         188.0
+         128.0
+         12.0
+         31.0
+         188.0
+         128.0
+         101.0
+         28.0
+         188.0
+         0.0
+         229.0
+         23.0
+         188.0
+         128.0
+         188.0
+         21.0
+         188.0
+         0.0
+         24.0
+         17.0
+         188.0
+         128.0
+         81.0
+         9.0
+         188.0
+         128.0
+         1.0
+         2.0
+         188.0
+         0.0
+         165.0
+         246.0
+         187.0
+         0.0
+         83.0
+         230.0
+         187.0
+         0.0
+         16.0
+         214.0
+         187.0
+         0.0
+         149.0
+         199.0
+         187.0
+         0.0
+         225.0
+         186.0
+         187.0
+         0.0
+         176.0
+         168.0
+         187.0
+         0.0
+         245.0
+         151.0
+         187.0
+         0.0
+         35.0
+         133.0
+         187.0
+         0.0
+         30.0
+         97.0
+         187.0
+         0.0
+         38.0
+         58.0
+         187.0
+         0.0
+         132.0
+         15.0
+         187.0
+         0.0
+         88.0
+         214.0
+         186.0
+         0.0
+         72.0
+         141.0
+         186.0
+         0.0
+         8.0
+         22.0
+         186.0
+         0.0
+         0.0
+         169.0
+         56.0
+         0.0
+         128.0
+         50.0
+         58.0
+         0.0
+         36.0
+         172.0
+         58.0
+         0.0
+         204.0
+         6.0
+         59.0
+         0.0
+         74.0
+         46.0
+         59.0
+         0.0
+         164.0
+         89.0
+         59.0
+         0.0
+         60.0
+         122.0
+         59.0
+         0.0
+         158.0
+         142.0
+         59.0
+         0.0
+         213.0
+         159.0
+         59.0
+         0.0
+         94.0
+         180.0
+         59.0
+         0.0
+         101.0
+         200.0
+         59.0
+         0.0
+         65.0
+         211.0
+         59.0
+         0.0
+         196.0
+         225.0
+         59.0
+         0.0
+         91.0
+         241.0
+         59.0
+         0.0
+         134.0
+         0.0
+         60.0
+         0.0
+         245.0
+         7.0
+         60.0
+         0.0
+         105.0
+         12.0
+         60.0
+         0.0
+         209.0
+         18.0
+         60.0
+         128.0
+         69.0
+         25.0
+         60.0
+         0.0
+         11.0
+         28.0
+         60.0
+         0.0
+         240.0
+         31.0
+         60.0
+         128.0
+         181.0
+         34.0
+         60.0
+         128.0
+         141.0
+         38.0
+         60.0
+         128.0
+         63.0
+         41.0
+         60.0
+         0.0
+         63.0
+         44.0
+         60.0
+         128.0
+         168.0
+         45.0
+         60.0
+         128.0
+         201.0
+         44.0
+         60.0
+         128.0
+         59.0
+         45.0
+         60.0
+         0.0
+         53.0
+         46.0
+         60.0
+         128.0
+         183.0
+         42.0
+         60.0
+         0.0
+         221.0
+         41.0
+         60.0
+         0.0
+         204.0
+         41.0
+         60.0
+         0.0
+         25.0
+         38.0
+         60.0
+         0.0
+         131.0
+         33.0
+         60.0
+         0.0
+         79.0
+         27.0
+         60.0
+         0.0
+         54.0
+         23.0
+         60.0
+         128.0
+         101.0
+         16.0
+         60.0
+         128.0
+         191.0
+         9.0
+         60.0
+         128.0
+         36.0
+         2.0
+         60.0
+         0.0
+         21.0
+         243.0
+         59.0
+         0.0
+         249.0
+         223.0
+         59.0
+         0.0
+         248.0
+         206.0
+         59.0
+         0.0
+         99.0
+         186.0
+         59.0
+         0.0
+         194.0
+         168.0
+         59.0
+         0.0
+         153.0
+         150.0
+         59.0
+         0.0
+         142.0
+         129.0
+         59.0
+         0.0
+         102.0
+         87.0
+         59.0
+         0.0
+         244.0
+         32.0
+         59.0
+         0.0
+         232.0
+         245.0
+         58.0
+         0.0
+         52.0
+         147.0
+         58.0
+         0.0
+         112.0
+         141.0
+         57.0
+         0.0
+         208.0
+         183.0
+         185.0
+         0.0
+         88.0
+         137.0
+         186.0
+         0.0
+         32.0
+         226.0
+         186.0
+         0.0
+         136.0
+         25.0
+         187.0
+         0.0
+         40.0
+         71.0
+         187.0
+         0.0
+         198.0
+         106.0
+         187.0
+         0.0
+         250.0
+         141.0
+         187.0
+         0.0
+         77.0
+         167.0
+         187.0
+         0.0
+         246.0
+         189.0
+         187.0
+         0.0
+         252.0
+         212.0
+         187.0
+         0.0
+         239.0
+         230.0
+         187.0
+         0.0
+         241.0
+         248.0
+         187.0
+         0.0
+         248.0
+         5.0
+         188.0
+         0.0
+         65.0
+         16.0
+         188.0
+         0.0
+         61.0
+         24.0
+         188.0
+         128.0
+         194.0
+         32.0
+         188.0
+         128.0
+         4.0
+         38.0
+         188.0
+         128.0
+         251.0
+         42.0
+         188.0
+         0.0
+         27.0
+         48.0
+         188.0
+         128.0
+         122.0
+         51.0
+         188.0
+         128.0
+         192.0
+         54.0
+         188.0
+         0.0
+         170.0
+         57.0
+         188.0
+         128.0
+         8.0
+         61.0
+         188.0
+         128.0
+         17.0
+         62.0
+         188.0
+         128.0
+         22.0
+         65.0
+         188.0
+         128.0
+         137.0
+         64.0
+         188.0
+         0.0
+         231.0
+         63.0
+         188.0
+         128.0
+         186.0
+         62.0
+         188.0
+         0.0
+         68.0
+         58.0
+         188.0
+         128.0
+         116.0
+         56.0
+         188.0
+         0.0
+         136.0
+         53.0
+         188.0
+         128.0
+         15.0
+         48.0
+         188.0
+         128.0
+         137.0
+         40.0
+         188.0
+         128.0
+         32.0
+         32.0
+         188.0
+         0.0
+         140.0
+         25.0
+         188.0
+         128.0
+         4.0
+         16.0
+         188.0
+         128.0
+         167.0
+         6.0
+         188.0
+         0.0
+         70.0
+         252.0
+         187.0
+         0.0
+         204.0
+         230.0
+         187.0
+         0.0
+         30.0
+         213.0
+         187.0
+         0.0
+         160.0
+         192.0
+         187.0
+         0.0
+         62.0
+         174.0
+         187.0
+         0.0
+         43.0
+         154.0
+         187.0
+         0.0
+         119.0
+         133.0
+         187.0
+         0.0
+         144.0
+         99.0
+         187.0
+         0.0
+         132.0
+         61.0
+         187.0
+         0.0
+         200.0
+         28.0
+         187.0
+         0.0
+         16.0
+         232.0
+         186.0
+         0.0
+         184.0
+         143.0
+         186.0
+         0.0
+         112.0
+         251.0
+         185.0
+         0.0
+         160.0
+         108.0
+         57.0
+         0.0
+         176.0
+         116.0
+         58.0
+         0.0
+         68.0
+         229.0
+         58.0
+         0.0
+         174.0
+         43.0
+         59.0
+         0.0
+         78.0
+         92.0
+         59.0
+         0.0
+         109.0
+         134.0
+         59.0
+         0.0
+         20.0
+         156.0
+         59.0
+         0.0
+         203.0
+         177.0
+         59.0
+         0.0
+         136.0
+         197.0
+         59.0
+         0.0
+         74.0
+         218.0
+         59.0
+         0.0
+         115.0
+         236.0
+         59.0
+         0.0
+         114.0
+         251.0
+         59.0
+         0.0
+         9.0
+         5.0
+         60.0
+         0.0
+         22.0
+         13.0
+         60.0
+         128.0
+         81.0
+         19.0
+         60.0
+         128.0
+         191.0
+         23.0
+         60.0
+         0.0
+         139.0
+         29.0
+         60.0
+         0.0
+         193.0
+         35.0
+         60.0
+         0.0
+         204.0
+         40.0
+         60.0
+         128.0
+         145.0
+         45.0
+         60.0
+         128.0
+         163.0
+         49.0
+         60.0
+         128.0
+         194.0
+         54.0
+         60.0
+         0.0
+         226.0
+         57.0
+         60.0
+         0.0
+         169.0
+         60.0
+         60.0
+         0.0
+         192.0
+         63.0
+         60.0
+         128.0
+         161.0
+         64.0
+         60.0
+         128.0
+         140.0
+         66.0
+         60.0
+         0.0
+         68.0
+         66.0
+         60.0
+         0.0
+         217.0
+         66.0
+         60.0
+         0.0
+         244.0
+         63.0
+         60.0
+         0.0
+         65.0
+         61.0
+         60.0
+         128.0
+         2.0
+         57.0
+         60.0
+         128.0
+         102.0
+         52.0
+         60.0
+         0.0
+         222.0
+         46.0
+         60.0
+         0.0
+         235.0
+         38.0
+         60.0
+         0.0
+         115.0
+         31.0
+         60.0
+         0.0
+         189.0
+         22.0
+         60.0
+         128.0
+         42.0
+         13.0
+         60.0
+         0.0
+         13.0
+         4.0
+         60.0
+         0.0
+         112.0
+         247.0
+         59.0
+         0.0
+         93.0
+         224.0
+         59.0
+         0.0
+         171.0
+         202.0
+         59.0
+         0.0
+         193.0
+         182.0
+         59.0
+         0.0
+         198.0
+         161.0
+         59.0
+         0.0
+         53.0
+         133.0
+         59.0
+         0.0
+         246.0
+         99.0
+         59.0
+         0.0
+         228.0
+         55.0
+         59.0
+         0.0
+         46.0
+         5.0
+         59.0
+         0.0
+         136.0
+         174.0
+         58.0
+         0.0
+         176.0
+         15.0
+         58.0
+         0.0
+         32.0
+         42.0
+         185.0
+         0.0
+         100.0
+         131.0
+         186.0
+         0.0
+         60.0
+         239.0
+         186.0
+         0.0
+         12.0
+         42.0
+         187.0
+         0.0
+         126.0
+         92.0
+         187.0
+         0.0
+         214.0
+         138.0
+         187.0
+         0.0
+         221.0
+         163.0
+         187.0
+         0.0
+         149.0
+         189.0
+         187.0
+         0.0
+         189.0
+         213.0
+         187.0
+         0.0
+         154.0
+         239.0
+         187.0
+         0.0
+         97.0
+         255.0
+         187.0
+         128.0
+         224.0
+         10.0
+         188.0
+         128.0
+         148.0
+         22.0
+         188.0
+         128.0
+         9.0
+         32.0
+         188.0
+         0.0
+         179.0
+         43.0
+         188.0
+         128.0
+         152.0
+         50.0
+         188.0
+         0.0
+         26.0
+         59.0
+         188.0
+         128.0
+         199.0
+         65.0
+         188.0
+         128.0
+         95.0
+         73.0
+         188.0
+         0.0
+         153.0
+         77.0
+         188.0
+         0.0
+         181.0
+         82.0
+         188.0
+         128.0
+         253.0
+         85.0
+         188.0
+         128.0
+         31.0
+         89.0
+         188.0
+         0.0
+         236.0
+         91.0
+         188.0
+         128.0
+         200.0
+         91.0
+         188.0
+         128.0
+         102.0
+         92.0
+         188.0
+         128.0
+         84.0
+         92.0
+         188.0
+         0.0
+         160.0
+         91.0
+         188.0
+         0.0
+         14.0
+         88.0
+         188.0
+         128.0
+         64.0
+         86.0
+         188.0
+         0.0
+         21.0
+         79.0
+         188.0
+         128.0
+         179.0
+         73.0
+         188.0
+         128.0
+         76.0
+         67.0
+         188.0
+         0.0
+         198.0
+         58.0
+         188.0
+         0.0
+         170.0
+         50.0
+         188.0
+         128.0
+         137.0
+         41.0
+         188.0
+         0.0
+         56.0
+         32.0
+         188.0
+         0.0
+         200.0
+         20.0
+         188.0
+         128.0
+         39.0
+         12.0
+         188.0
+         0.0
+         230.0
+         1.0
+         188.0
+         0.0
+         96.0
+         237.0
+         187.0
+         0.0
+         57.0
+         211.0
+         187.0
+         0.0
+         38.0
+         184.0
+         187.0
+         0.0
+         229.0
+         160.0
+         187.0
+         0.0
+         25.0
+         133.0
+         187.0
+         0.0
+         66.0
+         80.0
+         187.0
+         0.0
+         116.0
+         23.0
+         187.0
+         0.0
+         32.0
+         193.0
+         186.0
+         0.0
+         104.0
+         43.0
+         186.0
+         0.0
+         64.0
+         240.0
+         56.0
+         0.0
+         168.0
+         96.0
+         58.0
+         0.0
+         128.0
+         217.0
+         58.0
+         0.0
+         168.0
+         28.0
+         59.0
+         0.0
+         14.0
+         79.0
+         59.0
+         0.0
+         118.0
+         123.0
+         59.0
+         0.0
+         0.0
+         148.0
+         59.0
+         0.0
+         113.0
+         171.0
+         59.0
+         0.0
+         195.0
+         191.0
+         59.0
+         0.0
+         194.0
+         215.0
+         59.0
+         0.0
+         65.0
+         236.0
+         59.0))))
+     (:add-slots ((:name "BPF")))))
+   (:id 16))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 273)
+   (:y 489)
+   (:w 60)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 2048)
+   (:id 17)))
+ (:connections
+  (:connection
+   (:from (:box 0 :out 0))
+   (:to (:box 8 :in 0))
+   (:attributes
+    (:color (:color 0.2 0.4 0.5 1.0) :style nil :modif nil)))
+  (:connection (:from (:box 1 :out 0)) (:to (:box 0 :in 1)))
+  (:connection (:from (:box 2 :out 0)) (:to (:box 0 :in 2)))
+  (:connection
+   (:from (:box 2 :out 0))
+   (:to (:box 8 :in 1))
+   (:attributes (:color nil :style nil :modif (0 33/86))))
+  (:connection (:from (:box 3 :out 0)) (:to (:box 5 :in 0)))
+  (:connection (:from (:box 3 :out 0)) (:to (:box 6 :in 0)))
+  (:connection (:from (:box 3 :out 0)) (:to (:box 4 :in 0)))
+  (:connection (:from (:box 3 :out 0)) (:to (:box 14 :in 0)))
+  (:connection (:from (:box 5 :out 0)) (:to (:box 7 :in 1)))
+  (:connection (:from (:box 6 :out 0)) (:to (:box 7 :in 2)))
+  (:connection (:from (:box 7 :out 0)) (:to (:box 0 :in 0)))
+  (:connection (:from (:box 7 :out 0)) (:to (:box 15 :in 0)))
+  (:connection (:from (:box 8 :out 0)) (:to (:box 10 :in 0)))
+  (:connection (:from (:box 10 :out 0)) (:to (:box 9 :in 0)))
+  (:connection (:from (:box 11 :out 0)) (:to (:box 10 :in 1)))
+  (:connection (:from (:box 13 :out 0)) (:to (:box 12 :in 2)))
+  (:connection (:from (:box 14 :out 0)) (:to (:box 7 :in 0)))
+  (:connection (:from (:box 15 :out 0)) (:to (:box 16 :in 2)))
+  (:connection (:from (:box 17 :out 0)) (:to (:box 15 :in 1)))))

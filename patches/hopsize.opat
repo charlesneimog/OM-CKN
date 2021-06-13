@@ -1,0 +1,2209 @@
+
+(:patch
+ (:name "hopsize")
+ (:doc "")
+ (:info
+  (:created "2021/04/09 11:23:33")
+  (:modified "2021/04/11 22:34:10")
+  (:by "om-sharp")
+  (:version 1.02))
+ (:window (:size (1920 1026)) (:position (-9 -9)))
+ (:grid nil)
+ (:lock nil)
+ (:boxes
+  (:box
+   (:type :function)
+   (:reference sound-window)
+   (:group-id nil)
+   (:name "sound-window")
+   (:x 359)
+   (:y 341)
+   (:w 168)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock :eval-once)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SOUND-BYTES-WINDOW")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "WINDOW")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "HOP-SIZE")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 0))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 386)
+   (:y 273)
+   (:w 62)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 2048)
+   (:id 1))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 457)
+   (:y 276)
+   (:w 60)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 512)
+   (:id 2))
+  (:box
+   (:type :abstraction)
+   (:reference
+    (:patch
+     (:name "v")
+     (:doc "")
+     (:info
+      (:created nil)
+      (:modified nil)
+      (:by *app-name*)
+      (:version 0))
+     (:window (:size (1920 1026)) (:position (-9 -9)))
+     (:grid nil)
+     (:lock nil)
+     (:boxes
+      (:box
+       (:type :io)
+       (:reference
+        (:in (:type omin) (:index 1) (:name "input 2") (:doc "")))
+       (:group-id nil)
+       (:name "input 2")
+       (:x 37)
+       (:y 26)
+       (:w 84)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+         (:t-or-nil t)))
+       (:border 0)
+       (:roundness 0)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs)
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 0))
+      (:box
+       (:type :io)
+       (:reference
+        (:out (:type omout) (:name "out") (:index 1) (:doc "")))
+       (:group-id nil)
+       (:name "out")
+       (:x 871)
+       (:y 563)
+       (:w 51)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+         (:t-or-nil t)))
+       (:border 0)
+       (:roundness 0)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "out-value")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs)
+       (:id 1))
+      (:box
+       (:type :io)
+       (:reference
+        (:in (:type omin) (:index 2) (:name "mail-box") (:doc "")))
+       (:group-id nil)
+       (:name "mail-box")
+       (:x 359)
+       (:y 17)
+       (:w 101)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+         (:t-or-nil t)))
+       (:border 0)
+       (:roundness 0)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs)
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 2))
+      (:box
+       (:type :io)
+       (:reference
+        (:in (:type omin) (:index 3) (:name "NAMES") (:doc "")))
+       (:group-id nil)
+       (:name "NAMES")
+       (:x 314)
+       (:y 233)
+       (:w 89)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+         (:t-or-nil t)))
+       (:border 0)
+       (:roundness 0)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs)
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 3))
+      (:box
+       (:type :abstraction)
+       (:reference
+        (:textfun
+         (:name "my-function")
+         (:doc "")
+         (:info
+          (:created nil)
+          (:modified nil)
+          (:by *app-name*)
+          (:version 0))
+         (:window (:size (1811 457)) (:position (64 64)))
+         (:text
+          (:list
+           "(lambda (fft-chunks mail-box nomes)"
+           ""
+           "(loop "
+           "      :for ckn-fft-chunks :in fft-chunks "
+           "      :for create-mailbox :in mail-box"
+           "      :for names-process :in nomes"
+           "      :do "
+           "                (mp:process-run-function names-process"
+           "                         () "
+           "                         (lambda (x w z) (mp:mailbox-send w "
+           "                                                          (make-instance 'ckn-fft :amplitudes "
+           "                                                                         (fft->amplitude (half-fun (sapa-fft! x))) :fft-chunks z)))"
+           "                           ckn-fft-chunks create-mailbox names-process)))"
+           ""
+           ""
+           ""
+           "  "
+           ""
+           ""
+           ""
+           ""))))
+       (:group-id nil)
+       (:name "my-function")
+       (:x 105)
+       (:y 357)
+       (:w 146)
+       (:h 60)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:display :hidden)
+       (:lock nil)
+       (:lambda nil)
+       (:pre-delay 0)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "FFT-CHUNKS")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "MAIL-BOX")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "NOMES")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 4))
+      (:box
+       (:type :special)
+       (:reference init-do)
+       (:group-id nil)
+       (:name "init-do")
+       (:x 87)
+       (:y 472)
+       (:w 80)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 0.82 0.85 0.7 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "action")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs)
+       (:id 5))
+      (:box
+       (:type :function)
+       (:reference mapcar)
+       (:group-id nil)
+       (:name "mapcar")
+       (:x 472)
+       (:y 167)
+       (:w 105)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda nil)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "FUNCTION")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "LIST")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 6))
+      (:box
+       (:type :special)
+       (:reference iterate)
+       (:group-id nil)
+       (:name "iterate")
+       (:x 409)
+       (:y 748)
+       (:w 81)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 0.82 0.85 0.7 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "action")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :optional)
+         (:name "action")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs)
+       (:id 7))
+      (:box
+       (:type :function)
+       (:reference (:symbol "MAILBOX-EMPTY-P" "MP"))
+       (:group-id nil)
+       (:name "mailbox-empty-p")
+       (:x 530)
+       (:y 60)
+       (:w 193)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda :lambda)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "MAILBOX")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 8))
+      (:box
+       (:type :function)
+       (:reference mapcar)
+       (:group-id nil)
+       (:name "mapcar")
+       (:x 899)
+       (:y 409)
+       (:w 105)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda nil)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "FUNCTION")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "LIST")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 9))
+      (:box
+       (:type :function)
+       (:reference (:symbol "MAILBOX-PEEK" "MP"))
+       (:group-id nil)
+       (:name "mailbox-peek")
+       (:x 778)
+       (:y 333)
+       (:w 160)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda :lambda)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "MAILBOX")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 10))
+      (:box
+       (:type :function)
+       (:reference remove)
+       (:group-id nil)
+       (:name "remove")
+       (:x 450)
+       (:y 254)
+       (:w 106)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda nil)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "ITEM")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "SEQUENCE")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 11))
+      (:box
+       (:type :function)
+       (:reference length)
+       (:group-id nil)
+       (:name "length")
+       (:x 551)
+       (:y 312)
+       (:w 94)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda nil)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "SEQUENCE")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 12))
+      (:box
+       (:type :abstraction)
+       (:reference
+        (:textfun
+         (:name "my-function")
+         (:doc "")
+         (:info
+          (:created nil)
+          (:modified nil)
+          (:by *app-name*)
+          (:version 0))
+         (:window (:size (1019 475)) (:position (192 192)))
+         (:text
+          (:list
+           "(lambda (choose tempo)"
+           ""
+           "(let ((then (get-universal-time))"
+           "       (now  (progn (sleep tempo) (get-universal-time))))"
+           "   (if (>= (- now then) tempo) (print choose) nil)))"))))
+       (:group-id nil)
+       (:name "my-function")
+       (:x 566)
+       (:y 525)
+       (:w 134)
+       (:h 60)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:display :hidden)
+       (:lock nil)
+       (:lambda nil)
+       (:pre-delay 0)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "CHOOSE")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "TEMPO")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 13))
+      (:box
+       (:type :value)
+       (:reference fixnum)
+       (:group-id nil)
+       (:name "value box")
+       (:x 677)
+       (:y 450)
+       (:w 60)
+       (:h 39)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:lock nil)
+       (:inputs)
+       (:outputs (:output (:name "value") (:reactive nil)))
+       (:value 1)
+       (:id 14))
+      (:box
+       (:type :abstraction)
+       (:reference
+        (:textfun
+         (:name "my-function")
+         (:doc "")
+         (:info
+          (:created nil)
+          (:modified nil)
+          (:by *app-name*)
+          (:version 0))
+         (:window (:size (1097 475)) (:position (192 192)))
+         (:text
+          (:list
+           ";;; Edit a valid LAMBDA EXPRESSION"
+           ";;; e.g. (lambda (arg1 arg2 ...) ( ... ))"
+           "(lambda (x) (format nil \"Faltam ~a janelas para processamento. Aguarde!\" x))"))))
+       (:group-id nil)
+       (:name "my-function")
+       (:x 523)
+       (:y 367)
+       (:w 134)
+       (:h 60)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:display :hidden)
+       (:lock nil)
+       (:lambda nil)
+       (:pre-delay 0)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "X")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 15))
+      (:box
+       (:type :special)
+       (:reference loop-while)
+       (:group-id nil)
+       (:name "loop-while")
+       (:x 297)
+       (:y 622)
+       (:w 114)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 0.82 0.85 0.7 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "condition")
+         (:value t)
+         (:reactive nil)))
+       (:outputs (:output (:name "i") (:reactive nil)))
+       (:id 16)))
+     (:connections
+      (:connection (:from (:box 0 :out 0)) (:to (:box 4 :in 0)))
+      (:connection
+       (:from (:box 2 :out 0))
+       (:to (:box 4 :in 1))
+       (:attributes (:color nil :style nil :modif (0 -2025/22484))))
+      (:connection (:from (:box 2 :out 0)) (:to (:box 6 :in 1)))
+      (:connection (:from (:box 2 :out 0)) (:to (:box 9 :in 1)))
+      (:connection (:from (:box 3 :out 0)) (:to (:box 4 :in 2)))
+      (:connection (:from (:box 4 :out 0)) (:to (:box 5 :in 0)))
+      (:connection (:from (:box 6 :out 0)) (:to (:box 11 :in 1)))
+      (:connection (:from (:box 8 :out 0)) (:to (:box 6 :in 0)))
+      (:connection (:from (:box 9 :out 0)) (:to (:box 1 :in 0)))
+      (:connection (:from (:box 10 :out 0)) (:to (:box 9 :in 0)))
+      (:connection (:from (:box 11 :out 0)) (:to (:box 12 :in 0)))
+      (:connection (:from (:box 11 :out 0)) (:to (:box 16 :in 0)))
+      (:connection (:from (:box 12 :out 0)) (:to (:box 15 :in 0)))
+      (:connection (:from (:box 13 :out 0)) (:to (:box 7 :in 1)))
+      (:connection (:from (:box 14 :out 0)) (:to (:box 13 :in 1)))
+      (:connection (:from (:box 15 :out 0)) (:to (:box 13 :in 0)))
+      (:connection (:from (:box 16 :out 0)) (:to (:box 7 :in 0))))))
+   (:group-id nil)
+   (:name "v")
+   (:x 263)
+   (:y 665)
+   (:w 200)
+   (:h 151)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :hidden)
+   (:lock nil)
+   (:lambda nil)
+   (:pre-delay 0)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "input 2")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "mail-box")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "NAMES")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 3))
+  (:box
+   (:type :abstraction)
+   (:reference
+    (:textfun
+     (:name "names")
+     (:doc "")
+     (:info
+      (:created nil)
+      (:modified nil)
+      (:by *app-name*)
+      (:version 0))
+     (:window (:size (1099 475)) (:position (32 32)))
+     (:text
+      (:list
+       "(lambda (fft-chunks)"
+       ""
+       ""
+       "(let* ((verbose (print (format nil \"São ~a janelas\" (length fft-chunks)))))"
+       "(loop :for chunks-number :in (arithm-ser 1 (length fft-chunks) 1)"
+       "      :collect (list->string (list 'fft- chunks-number)))))"))))
+   (:group-id nil)
+   (:name "names")
+   (:x 321)
+   (:y 477)
+   (:w 146)
+   (:h 60)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :hidden)
+   (:lock :eval-once)
+   (:lambda nil)
+   (:pre-delay 0)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "FFT-CHUNKS")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 4))
+  (:box
+   (:type :abstraction)
+   (:reference
+    (:textfun
+     (:name "mail-box")
+     (:doc "")
+     (:info
+      (:created nil)
+      (:modified nil)
+      (:by *app-name*)
+      (:version 0))
+     (:window (:size nil) (:position nil))
+     (:text
+      (:list
+       "(lambda (names-of-all-process)"
+       ""
+       "(loop :for name-process :in names-of-all-process"
+       "      :collect (mp:make-mailbox :lock-name name-process)))"))))
+   (:group-id nil)
+   (:name "mail-box")
+   (:x 429)
+   (:y 568)
+   (:w 146)
+   (:h 60)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :hidden)
+   (:lock nil)
+   (:lambda nil)
+   (:pre-delay 0)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "NAMES-OF-ALL-PROCESS")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 5))
+  (:box
+   (:type :object)
+   (:reference sound)
+   (:group-id nil)
+   (:name nil)
+   (:x 235)
+   (:y 37)
+   (:w 323)
+   (:h 91)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :mini-view)
+   (:showname nil)
+   (:show-markers t)
+   (:lock :locked)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value :choose-file)
+     (:reactive nil)))
+   (:outputs (:output (:name "SELF") (:reactive nil)))
+   (:window (:size (650 200)) (:position (64 64)))
+   (:edition-params)
+   (:value
+    (:object
+     (:class sound)
+     (:slots
+      ((:onset 0)
+       (:duration 6401.5874)
+       (:n-samples 282310)
+       (:n-channels 1)
+       (:sample-rate 44100)
+       (:smpl-type :float)
+       (:sample-size 24)))
+     (:add-slots
+      ((:markers nil)
+       (:gain 1.0)
+       (:access-from-file nil)
+       (:file-pathname
+        (:pathname
+         (:directory (:relative :back :back :back "in-files"))
+         (:device nil)
+         (:host "C")
+         (:name "Fl-ord-A4-pp")
+         (:type "aif")))))))
+   (:id 6))
+  (:box
+   (:library "OM-CKN")
+   (:type :function)
+   (:reference sound->bytes)
+   (:group-id nil)
+   (:name "sound->bytes")
+   (:x 476)
+   (:y 156)
+   (:w 163)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 7))
+  (:box
+   (:type :abstraction)
+   (:reference
+    (:textfun
+     (:name "start")
+     (:doc "")
+     (:info
+      (:created nil)
+      (:modified nil)
+      (:by *app-name*)
+      (:version 0))
+     (:window (:size nil) (:position nil))
+     (:text
+      (:list
+       "(lambda (x) (if (equal (markers x) nil) 0 (1+ (sec->samples (ms->sec (first (markers x))) (sample-rate x)))))"))))
+   (:group-id nil)
+   (:name "start")
+   (:x 163)
+   (:y 154)
+   (:w 146)
+   (:h 60)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :hidden)
+   (:lock nil)
+   (:lambda nil)
+   (:pre-delay 0)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "X")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 8))
+  (:box
+   (:type :abstraction)
+   (:reference
+    (:textfun
+     (:name "finish")
+     (:doc "")
+     (:info
+      (:created nil)
+      (:modified nil)
+      (:by *app-name*)
+      (:version 0))
+     (:window (:size nil) (:position nil))
+     (:text
+      (:list
+       "(lambda (x) (if (< (length (markers x)) 2)"
+       "                (1- (n-samples x))"
+       "                (1+ (sec->samples (ms->sec (second (markers x))) (sample-rate x)))"
+       "              ))"))))
+   (:group-id nil)
+   (:name "finish")
+   (:x 324)
+   (:y 157)
+   (:w 146)
+   (:h 60)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :hidden)
+   (:lock nil)
+   (:lambda nil)
+   (:pre-delay 0)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "X")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 9))
+  (:box
+   (:type :abstraction)
+   (:reference
+    (:textfun
+     (:name "my-function")
+     (:doc "")
+     (:info
+      (:created nil)
+      (:modified nil)
+      (:by *app-name*)
+      (:version 0))
+     (:window (:size nil) (:position nil))
+     (:text
+      (:list
+       "(lambda (sound-bytes start finish) "
+       "  (let* ((action1 "
+       "                (first-n sound-bytes finish))"
+       "               (action2 (- finish start)))"
+       "          (last-n action1 action2)))"))))
+   (:group-id nil)
+   (:name "my-function")
+   (:x 213)
+   (:y 262)
+   (:w 146)
+   (:h 60)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :hidden)
+   (:lock :eval-once)
+   (:lambda nil)
+   (:pre-delay 0)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SOUND-BYTES")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "START")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "FINISH")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 10))
+  (:box
+   (:type :function)
+   (:reference sound-window)
+   (:group-id nil)
+   (:name "sound-window")
+   (:x 495)
+   (:y 444)
+   (:w 168)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock :eval-once)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SOUND-BYTES-WINDOW")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "WINDOW")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "HOP-SIZE")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 11))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 522)
+   (:y 376)
+   (:w 62)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 128)
+   (:id 12))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 593)
+   (:y 379)
+   (:w 60)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 128)
+   (:id 13))
+  (:box
+   (:type :function)
+   (:reference length)
+   (:group-id nil)
+   (:name "length")
+   (:x 141)
+   (:y 384)
+   (:w 89)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SEQUENCE")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 14))
+  (:box
+   (:type :function)
+   (:reference first)
+   (:group-id nil)
+   (:name "first")
+   (:x 600)
+   (:y 668)
+   (:w 69)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "LIST")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 15))
+  (:box
+   (:library "OM-CKN")
+   (:type :object)
+   (:reference ckn-fft)
+   (:group-id nil)
+   (:name nil)
+   (:x 635)
+   (:y 745)
+   (:w 323)
+   (:h 92)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :text)
+   (:showname nil)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "AMPLITUDES")
+     (:value (:list 0.3 0.3 0.3))
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "FFT-CHUNKS")
+     (:value (:list "fft-1" "fft-2" "fft-3"))
+     (:reactive nil)))
+   (:outputs
+    (:output (:name "SELF") (:reactive nil))
+    (:output (:name "AMPLITUDES") (:reactive nil))
+    (:output (:name "FFT-CHUNKS") (:reactive nil)))
+   (:window (:size nil) (:position nil))
+   (:edition-params)
+   (:value
+    (:object
+     (:class ckn-fft)
+     (:slots
+      ((:amplitudes
+        (:list
+         0.8042222
+         0.7932200482783925D0
+         0.757965979874394D0
+         1.2106454880622397D0
+         1.0836270814717397D0
+         1.1404344370319035D0
+         1.2382766617972607D0
+         1.4252980589467357D0
+         1.612266622909301D0
+         1.7775288365118798D0
+         2.1204781194402864D0
+         2.3567920227836257D0
+         2.749086321779649D0
+         3.1962905664772223D0
+         3.829712687654086D0
+         4.594719011123762D0
+         5.83226981009986D0
+         7.729984098848183D0
+         11.061100210119163D0
+         19.261542722476286D0
+         66.38695330293685D0
+         51.338488332537416D0
+         18.871103980009967D0
+         11.597040091177151D0
+         8.548591014494626D0
+         6.778121928710222D0
+         5.6321932860803665D0
+         4.846202069058923D0
+         4.294046075727626D0
+         3.822955499053987D0
+         3.457795193648535D0
+         3.193670963542813D0
+         2.9383622884402985D0
+         2.72045722319024D0
+         2.5550268758991535D0
+         2.4204087580409115D0
+         2.298571776192931D0
+         2.181832601154832D0
+         2.137816135031199D0
+         2.0125831607327873D0
+         2.4079467670730113D0
+         9.761257161149422D0
+         2.988915805484071D0
+         1.653449098407268D0
+         1.4751600468755844D0
+         1.5939069395518189D0
+         1.401283035260378D0
+         1.409985485318213D0
+         1.4166587711236485D0
+         1.3567657462345997D0
+         1.3156672505340106D0
+         1.290903778344751D0
+         1.230718238314175D0
+         1.2287299408990949D0
+         1.2248090121900639D0
+         1.2228620480974668D0
+         1.187435620177561D0
+         1.2411727981930707D0
+         1.2455441556390035D0
+         1.454240172253628D0
+         2.039924814843593D0
+         7.453637081856904D0
+         2.968383658621568D0
+         1.6053585166446159D0
+         1.378921137030784D0
+         1.0971963733977686D0
+         0.9647946631259669D0
+         0.9589316916187429D0
+         0.9115444770254602D0
+         0.9216412749253699D0
+         0.854098988610732D0
+         0.8168325933412355D0
+         0.7773203282160116D0
+         0.7581196604710283D0
+         0.7276753860037012D0
+         0.7327894823876856D0
+         0.7004644091819197D0
+         0.7459905407037298D0
+         0.6980838661479479D0
+         0.7985179808696838D0
+         0.8488174539023126D0
+         2.263374218599179D0
+         6.448664528361784D0
+         1.3836831758215345D0
+         1.1386005674054552D0
+         1.0208400855436913D0
+         0.9456444127498654D0
+         0.8301201362772083D0
+         0.8926628917578176D0
+         0.7442373904906456D0
+         0.7262629636323873D0
+         0.7468024141228281D0
+         0.7126751627977925D0
+         0.7651269674377902D0
+         0.6522369577275973D0
+         0.7661287273122059D0
+         0.7708170127490132D0
+         0.8352276958838946D0
+         0.51140161965155D0
+         0.6735498904333027D0
+         0.7319858678064832D0
+         0.7892061777154397D0
+         4.760905808827305D0
+         0.9791058311133445D0
+         0.7821383110857358D0
+         0.6087875722311643D0
+         0.5835602169461709D0
+         0.5221874019191397D0
+         0.49121509091224597D0
+         0.5786308717959384D0
+         0.5383718006663263D0
+         0.5214829140008137D0
+         0.5330993867958682D0
+         0.5138393569518738D0
+         0.5272171084397153D0
+         0.4936651798849131D0
+         0.5531567472158823D0
+         0.50003056844097D0
+         0.49378020818676044D0
+         0.5088073965118165D0
+         0.5299705972212867D0
+         0.4730798386498331D0
+         0.7795325468564075D0
+         0.30980367757507777D0
+         0.44793020556118973D0
+         0.42570996353095564D0
+         0.31247796981444604D0
+         0.5091738789226626D0
+         0.4278986460897714D0
+         0.43687874173865116D0
+         0.41043220798207847D0
+         0.4397809090069025D0
+         0.3953727238727477D0
+         0.4206951332500594D0
+         0.39762038755285267D0
+         0.48547574514700037D0
+         0.3866470315511328D0
+         0.41286570811343954D0
+         0.40944937434530576D0
+         0.38540104309705464D0
+         0.4069933734098279D0
+         0.3950868112820056D0
+         0.38824056813581437D0
+         0.5552008104130681D0
+         0.41471572519863626D0
+         0.4118160282710291D0
+         0.3258795996507408D0
+         0.3984195673505707D0
+         0.3510463172463998D0
+         0.3865302738480521D0
+         0.36508888327956873D0
+         0.39034846896095055D0
+         0.32587483894101716D0
+         0.34387062266252D0
+         0.3139789621915982D0
+         0.3641441170426934D0
+         0.3536068166770168D0
+         0.32071156395322176D0
+         0.3465766024708065D0
+         0.3179641073460257D0
+         0.3528254141221804D0
+         0.3125373243610288D0
+         0.28023625824045967D0
+         0.2581295248281029D0
+         0.5475685525982519D0
+         0.38396990290669997D0
+         0.4034682423544967D0
+         0.359889408391899D0
+         0.35334868857107904D0
+         0.36159969555029254D0
+         0.3530752402673738D0
+         0.34925091181277307D0
+         0.33248057095916295D0
+         0.34497572406910487D0
+         0.3374824042512654D0
+         0.32738829816714516D0
+         0.32715472781097444D0
+         0.3225827870634299D0
+         0.3293225723789122D0
+         0.3235689993896005D0
+         0.31535907558303306D0
+         0.31760692544417285D0
+         0.31757670249987025D0
+         0.2684161207401346D0
+         0.3491474513677143D0
+         0.31960852838204235D0
+         0.30240774467028464D0
+         0.29124353983173585D0
+         0.32270005566289284D0
+         0.28045647287605485D0
+         0.29535531620217637D0
+         0.28240084739145405D0
+         0.2953863908514421D0
+         0.28247226871728576D0
+         0.29168926601384127D0
+         0.26942806542391917D0
+         0.3007220803982675D0
+         0.2770026852000762D0
+         0.26845282174348606D0
+         0.2891250156383289D0
+         0.2734509782540195D0
+         0.29960897080351645D0
+         0.27755558297139765D0
+         0.2611807303636566D0
+         0.21497549049957132D0
+         0.32044970168496073D0
+         0.2839056405468635D0
+         0.2773222044954056D0
+         0.27697518304055347D0
+         0.269686974740112D0
+         0.27063556829885155D0
+         0.2743628480615765D0
+         0.27111244046843114D0
+         0.2597182884847176D0
+         0.27091225179813694D0
+         0.2648591938871682D0
+         0.2656247336013519D0
+         0.25761584585173264D0
+         0.2586540396650044D0
+         0.2634746588660719D0
+         0.2651920047744435D0
+         0.2555914957076338D0
+         0.26706044216981834D0
+         0.2541719472856283D0
+         0.2507845938395513D0
+         0.24515267059760285D0
+         0.24443399402160548D0
+         0.24048568503562634D0
+         0.24789955783191498D0
+         0.24534108289244372D0
+         0.24608781266157834D0
+         0.24155160489495628D0
+         0.2380622610776858D0
+         0.23907840216474716D0
+         0.23927426613353836D0
+         0.24889988635273813D0
+         0.23620970582953543D0
+         0.2454337026565477D0
+         0.24063241617163073D0
+         0.2366389265553183D0
+         0.239482781417028D0
+         0.2339486605933782D0
+         0.23162034266739834D0
+         0.2393896256601522D0
+         0.23956022398389326D0
+         0.22435888560171882D0
+         0.23823786029081112D0
+         0.22468935749110486D0
+         0.23674550486763704D0
+         0.21987254514867477D0
+         0.22585474472149092D0
+         0.21545352554273267D0
+         0.23203628841027343D0
+         0.23987776462299834D0
+         0.22322707506991502D0
+         0.22490505277568018D0
+         0.22581791064457318D0
+         0.2171115609695935D0
+         0.21999457824129148D0
+         0.210622434346342D0
+         0.21446249384973654D0
+         0.22278548761092545D0
+         0.2213235838448815D0
+         0.22340797512918737D0
+         0.22856969415762812D0
+         0.20994187566576528D0
+         0.22062070314088858D0
+         0.20838120883954395D0
+         0.20847798449280972D0
+         0.20352299949421643D0
+         0.21023000759623628D0
+         0.2082454006298077D0
+         0.2190817889494841D0
+         0.20874716245872754D0
+         0.19829527551591392D0
+         0.19881199067380218D0
+         0.19847453638620905D0
+         0.19417507324878305D0
+         0.20156484659378368D0
+         0.2086195442865193D0
+         0.20056532193566223D0
+         0.21084699517925076D0
+         0.19743625455969757D0
+         0.20946600963851186D0
+         0.20767180518351564D0
+         0.20591123218018287D0
+         0.1815932120844392D0
+         0.20778184584022125D0
+         0.20108371759840535D0
+         0.1991761895741849D0
+         0.19105901794129812D0
+         0.19135279102047337D0
+         0.1898629870044633D0
+         0.1976726468009121D0
+         0.19899094618517094D0
+         0.18958193433912377D0
+         0.19190289996649107D0
+         0.19139215426257425D0
+         0.19291564713399329D0
+         0.19978000780999836D0
+         0.18987483219205922D0
+         0.19537828527602003D0
+         0.1922282392444316D0
+         0.19959732822286935D0
+         0.1944093787248719D0
+         0.18642042772228168D0
+         0.1580890245252055D0
+         0.22082203133612152D0
+         0.1872817010116917D0
+         0.18927358909175718D0
+         0.18418851227132585D0
+         0.19062973681201928D0
+         0.19170610504612834D0
+         0.1867985254224631D0
+         0.18333103918651853D0
+         0.1861800729554105D0
+         0.17906627572828549D0
+         0.18037960935942316D0
+         0.17771854803314965D0
+         0.1860052575687352D0
+         0.18475773243698324D0
+         0.1791864288535631D0
+         0.17711874437226335D0
+         0.17884001009208192D0
+         0.1757180279247915D0
+         0.18033437590676726D0
+         0.18016135676070566D0
+         0.1730173930554811D0
+         0.18449324832952263D0
+         0.17370610834901293D0
+         0.18045386376082376D0
+         0.17700151708873327D0
+         0.1768685182232125D0
+         0.16563288143287144D0
+         0.16974638101103967D0
+         0.1738780369245703D0
+         0.1752604899420157D0
+         0.17772976828665518D0
+         0.1821028805189238D0
+         0.16052484177416207D0
+         0.1734939816775394D0
+         0.16989303607330586D0
+         0.15817858703140625D0
+         0.17754366742980468D0
+         0.18346193048942974D0
+         0.1574998115141634D0
+         0.19725446955248954D0
+         0.181047040963034D0
+         0.15467701577999782D0
+         0.16117790350713596D0
+         0.1671967030626357D0
+         0.15990960080749325D0
+         0.1672947878173153D0
+         0.15379539985076934D0
+         0.16826197401435808D0
+         0.1689003244350711D0
+         0.16229019938267186D0
+         0.15473091997176025D0
+         0.17019315579614383D0
+         0.14937572037624888D0
+         0.16560103849391192D0
+         0.16427114843915514D0
+         0.15104242080093086D0
+         0.15733282669463822D0
+         0.16473127660878298D0
+         0.15533487114805172D0
+         0.15821771831072742D0
+         0.16797982338573997D0
+         0.15962074745202307D0
+         0.18242915685547606D0
+         0.15426313862392477D0
+         0.1538421880985301D0
+         0.15816043729992888D0
+         0.15199013270115566D0
+         0.15310702032364587D0
+         0.15634417950919458D0
+         0.1565463496800608D0
+         0.15721955280419306D0
+         0.15762212548629873D0
+         0.1533063017167586D0
+         0.1530851363969519D0
+         0.1533820891941704D0
+         0.1548926171156402D0
+         0.1444766901380182D0
+         0.1616726698979273D0
+         0.1552151377763868D0
+         0.14475561020900302D0
+         0.15206965979852522D0
+         0.16793189578305132D0
+         0.13370036929596338D0
+         0.1525477183763369D0
+         0.1450823667278283D0
+         0.14002920263762458D0
+         0.15098293893307213D0
+         0.13719957708104547D0
+         0.1511233126221246D0
+         0.14380389893411713D0
+         0.15284258776506216D0
+         0.13774674816868296D0
+         0.14473772304912816D0
+         0.14202190936147643D0
+         0.14932529192233712D0
+         0.14969613706129736D0
+         0.13896197249925518D0
+         0.14679940130475847D0
+         0.14301912370555858D0
+         0.1413435600154644D0
+         0.14062263470784334D0
+         0.15724626596852304D0
+         0.13004174398859594D0
+         0.15067058247670967D0
+         0.14285691955734803D0
+         0.143693110874051D0
+         0.14679674772779639D0
+         0.14286484070550135D0
+         0.1495346770117177D0
+         0.14573754345922246D0
+         0.14846662853566178D0
+         0.14231237310902287D0
+         0.1391633313893603D0
+         0.1373968379937027D0
+         0.14465666604897143D0
+         0.1386335469384724D0
+         0.13767918984521868D0
+         0.14179602206133893D0
+         0.1316558065219907D0
+         0.14050500907298355D0
+         0.13470670139455623D0
+         0.1283308076769599D0
+         0.1372318294301444D0
+         0.129640910808972D0
+         0.14214746985449453D0
+         0.13959094386597296D0
+         0.1372309495811306D0
+         0.14086986440813534D0
+         0.13598366040960347D0
+         0.13698391786339526D0
+         0.13497558642867028D0
+         0.13556717023938833D0
+         0.13600029299378572D0
+         0.13161214160792964D0
+         0.13383615799342305D0
+         0.1348427381405901D0
+         0.1300057938689434D0
+         0.13627696391337654D0
+         0.12861894497025506D0
+         0.13414202213531548D0
+         0.13670139214237634D0
+         0.13399666826297244D0
+         0.12853819685591012D0
+         0.14059209561564978D0
+         0.13743199861612776D0
+         0.13345250723616875D0
+         0.135820474486307D0
+         0.13531131177004782D0
+         0.13163873569312928D0
+         0.13536406005430823D0
+         0.12959285500290727D0
+         0.13153612626057495D0
+         0.13058990416501223D0
+         0.1315080342498821D0
+         0.12829430946850448D0
+         0.1264181883962296D0
+         0.12600988170541228D0
+         0.12995030258935486D0
+         0.12630192002936158D0
+         0.1315815946950091D0
+         0.13205676164831542D0
+         0.1265909609261667D0
+         0.12955107074475872D0
+         0.13019714719423672D0
+         0.12778982011355347D0
+         0.13256686979727198D0
+         0.12408561545455856D0
+         0.12157484851350728D0
+         0.12629868294767172D0
+         0.12720016510889798D0
+         0.12320229739834952D0
+         0.124779006309025D0
+         0.12408459270307509D0
+         0.12547452219744276D0
+         0.12489360071800519D0
+         0.12336917990046544D0
+         0.12491658794856943D0
+         0.12377637839833294D0
+         0.12760130487704358D0
+         0.12363845701184255D0
+         0.12701792019970612D0
+         0.1213908407067724D0
+         0.12926501699495538D0
+         0.12431104065071715D0
+         0.12169301172847247D0
+         0.12273512077213773D0
+         0.1198510918196581D0
+         0.12513703832098339D0
+         0.12286284818228185D0
+         0.1218877283198512D0
+         0.11807536626637436D0
+         0.1226979860968789D0
+         0.1218565245022388D0
+         0.12345374830777969D0
+         0.11881137360125006D0
+         0.1267645455234728D0
+         0.12393366883747593D0
+         0.12220628596955942D0
+         0.12235732147028458D0
+         0.12001487801002883D0
+         0.12279590674142478D0
+         0.11616623225206281D0
+         0.12027244422084969D0
+         0.1129850174504681D0
+         0.12516488766613568D0
+         0.12763816336364994D0
+         0.12111254847611747D0
+         0.12208605311239253D0
+         0.1218659204502153D0
+         0.11781081635336044D0
+         0.1154516190104897D0
+         0.11608087598700623D0
+         0.11993682961598892D0
+         0.11076692171651032D0
+         0.11985840124545554D0
+         0.11951396584141033D0
+         0.11560690773538425D0
+         0.12972179414156562D0
+         0.11949608404787408D0
+         0.12523989415827327D0
+         0.11934232380630325D0
+         0.11911735397068212D0
+         0.1236674466986627D0
+         0.12126733911723192D0
+         0.11596351456082078D0
+         0.12620904670133582D0
+         0.11826833658534664D0
+         0.11198065993871719D0
+         0.11788680175270408D0
+         0.115322984036407D0
+         0.11216448503063571D0
+         0.11647576663698438D0
+         0.11107362080636539D0
+         0.1187083056123642D0
+         0.11599178463320505D0
+         0.1182959775355084D0
+         0.10741157313726017D0
+         0.13448637193153618D0
+         0.10854278335059438D0
+         0.11362278521188314D0
+         0.12119209300258126D0
+         0.10834848779805834D0
+         0.1148920256756844D0
+         0.10905327897070466D0
+         0.11506452760008074D0
+         0.10602516014905628D0
+         0.09888952252474978D0
+         0.10734111379126216D0
+         0.11476293488755513D0
+         0.11007376119136352D0
+         0.11387013516235813D0
+         0.10979331881598548D0
+         0.10883982094792214D0
+         0.11112194806946524D0
+         0.11101055808303134D0
+         0.10847006649061578D0
+         0.11055359041910674D0
+         0.11140996018140045D0
+         0.11158950148022513D0
+         0.1069557917238613D0
+         0.11811040632530694D0
+         0.11156449869268298D0
+         0.11844722546302176D0
+         0.11165629214661868D0
+         0.11216999451157142D0
+         0.11161232369836279D0
+         0.10920706444294023D0
+         0.10739829952530333D0
+         0.11305249735561168D0
+         0.10968027531384885D0
+         0.10736282682881872D0
+         0.11101489915751613D0
+         0.11109505757911567D0
+         0.10787244681928295D0
+         0.10969331939094612D0
+         0.1108748546848151D0
+         0.10808725041648827D0
+         0.10710347409973228D0
+         0.11150086779437968D0
+         0.10494097453788143D0
+         0.10933743986977496D0
+         0.10870982565769909D0
+         0.10653431616140387D0
+         0.10992297559310339D0
+         0.10419007680822155D0
+         0.10686457309115008D0
+         0.10423771205687303D0
+         0.10473209380825102D0
+         0.10321380384459278D0
+         0.11170734131383031D0
+         0.10443351001401744D0
+         0.10703273800854256D0
+         0.10553862365862664D0
+         0.10733749778429258D0
+         0.10721056768068711D0
+         0.10527479474528999D0
+         0.10785216146788114D0
+         0.10584066596314433D0
+         0.10642114871066579D0
+         0.10751639311782033D0
+         0.10658293984025195D0
+         0.10337271896843325D0
+         0.10579948452621198D0
+         0.10210246181554558D0
+         0.10533514265003316D0
+         0.10594877582731623D0
+         0.10477613917899692D0
+         0.10669449108756692D0
+         0.10357103825430973D0
+         0.10212373956296261D0
+         0.10736924689195611D0
+         0.10550361038921967D0
+         0.10300595045594835D0
+         0.09830002783287069D0
+         0.09916659192119448D0
+         0.10489601685219882D0
+         0.10354882774194579D0
+         0.10442905236260045D0
+         0.10048784134152868D0
+         0.10283867775833307D0
+         0.10192690986655447D0
+         0.10688593098683078D0
+         0.09923347690200048D0
+         0.10134701967604165D0
+         0.10514409918798934D0
+         0.10338594225937184D0
+         0.10368620185717859D0
+         0.10222266350694778D0
+         0.10213936079013407D0
+         0.10051018970180054D0
+         0.10342390512538362D0
+         0.10329358549715284D0
+         0.10300906414417784D0
+         0.09577060765670985D0
+         0.09928390421496014D0
+         0.1019505789858294D0
+         0.10009233797316689D0
+         0.09789466701257746D0
+         0.10045855488881889D0
+         0.10085939692770461D0
+         0.09944997282441863D0
+         0.10108574548368184D0
+         0.10044852015645604D0
+         0.09935851218451739D0
+         0.09957364423219693D0
+         0.10245008391427613D0
+         0.09873700166114956D0
+         0.10241136612645704D0
+         0.09717944833109024D0
+         0.1040617399107674D0
+         0.09808661283886104D0
+         0.10066910495405183D0
+         0.10039903947098587D0
+         0.10002807717043319D0
+         0.09707286285458676D0
+         0.1011009329793628D0
+         0.09955904596452575D0
+         0.102382210124545D0
+         0.10008588010901465D0
+         0.0953056928688076D0
+         0.1009840059579812D0
+         0.09618428961806754D0
+         0.09587751764953712D0
+         0.09535976066245779D0
+         0.09632905379236377D0
+         0.09812569149495766D0
+         0.09757495749529544D0
+         0.09564625126234713D0
+         0.09828657163343434D0
+         0.09941411178029029D0
+         0.09590685228397619D0
+         0.09709330034307995D0
+         0.09787416353740883D0
+         0.09757489296008526D0
+         0.0953214693288711D0
+         0.10018384066951268D0
+         0.0979808181144639D0
+         0.0970312961297585D0
+         0.09300228589776855D0
+         0.0950190996591958D0
+         0.09609334620878665D0
+         0.09523035069768984D0
+         0.09779495105317839D0
+         0.09570205238465211D0
+         0.09569956450342245D0
+         0.09629010143927626D0
+         0.0955415269323251D0
+         0.09793722732213214D0
+         0.09886134578397026D0
+         0.09135249421421363D0
+         0.09724185469251824D0
+         0.09743400794414223D0
+         0.09627968281019318D0
+         0.09668727731182163D0
+         0.10028102813773203D0
+         0.09447264779648804D0
+         0.09798644203470838D0
+         0.09444956547847923D0
+         0.09779651974167225D0
+         0.09501825516741629D0
+         0.09867427510890951D0
+         0.09465490841146619D0
+         0.09669623218830882D0
+         0.09408876337814062D0
+         0.09246452393686539D0
+         0.09653303152842D0
+         0.09452394778468187D0
+         0.0930495048070884D0
+         0.09540126114557893D0
+         0.09303442642370166D0
+         0.09143697223217655D0
+         0.09673974023755529D0
+         0.09812606621401733D0
+         0.093037910365657D0
+         0.09559569572192738D0
+         0.09306561295475305D0
+         0.09216772484828416D0
+         0.09404744544049176D0
+         0.09362795964925838D0
+         0.0939492756555565D0
+         0.09552968212795103D0
+         0.09054834101287179D0
+         0.09148538589392624D0
+         0.09579377705637274D0
+         0.09375482684707001D0
+         0.09384565838353915D0
+         0.09425898199858444D0
+         0.0960945916297775D0
+         0.09460387046519547D0
+         0.09206673615922252D0
+         0.09248146442157725D0
+         0.09508594420367003D0
+         0.0920294418541999D0
+         0.09217256657674843D0
+         0.09328615534475347D0
+         0.09537806685198834D0
+         0.09302923395987016D0
+         0.09271934134326943D0
+         0.09385482886877941D0
+         0.09142515325809905D0
+         0.09263139923729155D0
+         0.09075922608276337D0
+         0.09129681879522994D0
+         0.09492690432152738D0
+         0.09336400044371203D0
+         0.09346410824967681D0
+         0.09034298376813686D0
+         0.08845364792776789D0
+         0.09070852299798114D0
+         0.09230018298754285D0
+         0.09350397808420977D0
+         0.08680779104019491D0
+         0.09264057147453768D0
+         0.0929177403975262D0
+         0.09211100252883044D0
+         0.09211086863141098D0
+         0.09021539218510696D0
+         0.09273977504238865D0
+         0.08898845909773057D0
+         0.09008096248711053D0
+         0.09140804416255802D0
+         0.08908342042752414D0
+         0.0934162977457588D0
+         0.09218181917001627D0
+         0.09165715418975749D0
+         0.09294543144903343D0
+         0.08812813763649141D0
+         0.09394506273873538D0
+         0.09099927853596984D0
+         0.09118680689243949D0
+         0.08894660130539516D0
+         0.09275744628496562D0
+         0.09070949296692907D0
+         0.09028182978102344D0
+         0.09175935505026935D0
+         0.0887194108300198D0
+         0.0885499137834818D0
+         0.09330818704602603D0
+         0.08992862866456825D0
+         0.09142147113982044D0
+         0.08832486025456761D0
+         0.08770268752636498D0
+         0.09051775835704869D0
+         0.08841594372275406D0
+         0.08994278474275466D0
+         0.09115820315246089D0
+         0.09244015577881069D0
+         0.09079901829497457D0
+         0.09268460923144353D0
+         0.08950413266413837D0
+         0.08861945186588836D0
+         0.08798528823217349D0
+         0.08949989301187579D0
+         0.08734455000752367D0
+         0.08895387209974408D0
+         0.0920948397816745D0
+         0.0889095786099998D0
+         0.09157310079742857D0
+         0.09091040169835139D0
+         0.09117441840779064D0
+         0.09123171949062768D0
+         0.09047470816345557D0
+         0.09099887330154911D0
+         0.08985188498222854D0
+         0.08921505678768245D0
+         0.0880193792615693D0
+         0.09052437573179609D0
+         0.08799508596674571D0
+         0.08872470723073964D0
+         0.0856637146429503D0
+         0.08903726992827293D0
+         0.08917794729549641D0
+         0.08928501123235178D0
+         0.08463966794165576D0
+         0.08912746915499467D0
+         0.08947226780426045D0
+         0.0907809131850995D0
+         0.08729371809462898D0
+         0.0892530946723749D0
+         0.08579548763370415D0
+         0.08889638097099169D0
+         0.08996335986735932D0
+         0.08761512537100855D0
+         0.09235239769899625D0
+         0.08741297210656393D0
+         0.08796473070515558D0
+         0.08960855892741632D0
+         0.08771731904382861D0
+         0.08727693989551955D0
+         0.0895181946524696D0
+         0.08886138348862882D0
+         0.0840609156693019D0
+         0.08861559881710436D0
+         0.09131695331726314D0
+         0.08628042440187688D0
+         0.08916617756921026D0
+         0.08854224417813636D0
+         0.08621380936674907D0
+         0.08998747563047847D0
+         0.08768262770355676D0
+         0.08521727071665666D0
+         0.08520248121936487D0
+         0.08813376188180502D0
+         0.08802594015043494D0
+         0.08970246397956804D0
+         0.08795991083276968D0
+         0.08633610986062733D0
+         0.08724175269439234D0
+         0.08712501314466989D0
+         0.08639033317749626D0
+         0.08691577268130836D0
+         0.089387588428876D0
+         0.088608761595267D0
+         0.08788337839837368D0
+         0.08620186004210182D0
+         0.08749915871393413D0
+         0.08541886945502876D0
+         0.08557288684924019D0
+         0.08363249641920115D0
+         0.0855587220830939D0
+         0.08646034545056737D0
+         0.09055323245397888D0
+         0.09090286337179271D0
+         0.08698081108229196D0
+         0.08940199394428035D0
+         0.08363349936563927D0
+         0.08474433043968524D0
+         0.08898552430412023D0
+         0.08410418105305742D0
+         0.08451081214833972D0
+         0.08492959161237307D0
+         0.08642875279168502D0
+         0.08432873073055089D0
+         0.08559207199622147D0
+         0.08594638510354938D0
+         0.0852766209073336D0
+         0.0859986528413262D0
+         0.08529589464900031D0
+         0.08695509560186385D0
+         0.08592627417986201D0
+         0.08212802948182253D0
+         0.0877016471434658D0
+         0.08648854413820809D0
+         0.08696751593577112D0
+         0.08490748957431894D0
+         0.0875878595731489D0
+         0.08567957996009694D0
+         0.08769036638777946D0
+         0.08186909314778687D0
+         0.08500152452858149D0
+         0.0885091296411921D0
+         0.08766772469226028D0
+         0.08448945990313672D0
+         0.08990609604449036D0
+         0.086511376022582D0
+         0.08641280278912358D0
+         0.0852562669927724D0
+         0.088255923631275D0
+         0.08568612974615608D0
+         0.08653666262949332D0
+         0.08503980234355858D0
+         0.08704675851011958D0
+         0.08409492616471899D0
+         0.08588258807280772D0
+         0.08707199869515728D0
+         0.08567106204612228D0
+         0.08569077826478842D0
+         0.08906354332734624D0
+         0.08804709318977384D0
+         0.08672827623891094D0
+         0.08686210600648595D0
+         0.08597266575635455D0
+         0.08694630370792163D0
+         0.08342439498977468D0
+         0.08825695876693814D0
+         0.09091403800828764D0
+         0.0831640478010073D0
+         0.08536946279889934D0
+         0.0867511945516461D0
+         0.08758080336446489D0
+         0.08612283397793709D0
+         0.08681998076043025D0
+         0.08508129353541051D0
+         0.08551007725621868D0
+         0.086361474503994D0
+         0.08555047370126545D0
+         0.08709946439881447D0
+         0.084087274281951D0
+         0.08348857384119038D0
+         0.08502294801957043D0
+         0.08343141189897331D0
+         0.08321853594385483D0
+         0.08512010680269115D0
+         0.08361253694042775D0
+         0.0844217765758148D0
+         0.08413937825217687D0
+         0.08355369219772388D0
+         0.08670132649769504D0
+         0.08593465841305163D0
+         0.08468998062581376D0
+         0.08530027927176938D0
+         0.08452770019160622D0
+         0.08547052562845133D0
+         0.08692547206776986D0
+         0.08458797137912927D0
+         0.08570602689056052D0
+         0.08633729761081664D0
+         0.08649880373234603D0
+         0.0848444038788826D0
+         0.08421616954498017D0
+         0.08489241196767646D0
+         0.08659521004359752D0
+         0.08528814247483062D0
+         0.0858564835477434D0
+         0.08504772678166729D0
+         0.08398642486057778D0
+         0.08433385940975354D0
+         0.08520624048659892D0
+         0.08484594082165323D0
+         0.0832857061319371D0
+         0.08413923117626728D0
+         0.08423946538151228D0
+         0.084747340671844D0
+         0.08654562268580528D0
+         0.08482282998203054D0
+         0.08511752146847784D0
+         0.08422240207120739D0
+         0.08462522717517218D0
+         0.08442586939544014D0
+         0.08437811181962023D0
+         0.08550822686480658D0
+         0.08438746018682707D0
+         0.08544611110453336D0
+         0.08530082632376027D0
+         0.08574835301600228D0
+         0.08471904360854164D0
+         0.08506670207722289D0
+         0.08472453062807804D0
+         0.08504761037793647D0
+         0.08510225294171749D0
+         0.08460720444123386D0
+         0.08491792404904677D0
+         0.08425185251215824D0
+         0.0842951434954246D0
+         0.08425222401685995D0
+         0.0843091632369132D0
+         0.08463803382688098D0
+         0.08434000008688007D0
+         0.08469025118590126D0
+         0.08443382607836514D0
+         0.08443202123558413D0
+         0.08454318750357348D0
+         0.08443255065092191D0
+         0.0845342620932495D0
+         0.08445765418998796D0
+         0.08454479276567892D0
+         0.08445492645313467D0
+         0.08446936461290251D0
+         0.08447909036044917D0
+         0.08447993822035568D0
+         0.08453335821907648D0
+         0.08449154252826773D0
+         0.08446501728690974D0
+         0.08446238186807664D0
+         0.08445544530608092D0
+         0.08446643717948563D0
+         0.08444389655711414D0
+         0.0844453978694501D0
+         0.08444354323142536D0
+         0.08444096641190813D0
+         0.08445912705773769D0
+         0.08445807539110872D0
+         0.08443439794274131D0
+         0.08444488552575477D0
+         0.08445683488059525D0
+         0.08446958141096685D0
+         0.08445352486336157D0))
+       (:fft-chunks "fft-1")))))
+   (:id 16)))
+ (:connections
+  (:connection (:from (:box 0 :out 0)) (:to (:box 4 :in 0)))
+  (:connection
+   (:from (:box 0 :out 0))
+   (:to (:box 3 :in 0))
+   (:attributes (:color nil :style nil :modif (0 -126/331))))
+  (:connection (:from (:box 0 :out 0)) (:to (:box 11 :in 0)))
+  (:connection (:from (:box 0 :out 0)) (:to (:box 14 :in 0)))
+  (:connection (:from (:box 1 :out 0)) (:to (:box 0 :in 1)))
+  (:connection (:from (:box 2 :out 0)) (:to (:box 0 :in 2)))
+  (:connection (:from (:box 3 :out 0)) (:to (:box 15 :in 0)))
+  (:connection
+   (:from (:box 4 :out 0))
+   (:to (:box 5 :in 0))
+   (:attributes (:color nil :style nil :modif (0 13/109))))
+  (:connection
+   (:from (:box 4 :out 0))
+   (:to (:box 3 :in 2))
+   (:attributes (:color nil :style nil :modif (0 0.28928354))))
+  (:connection
+   (:from (:box 5 :out 0))
+   (:to (:box 3 :in 1))
+   (:attributes (:color nil :style nil :modif (79/495 0))))
+  (:connection (:from (:box 6 :out 0)) (:to (:box 8 :in 0)))
+  (:connection (:from (:box 6 :out 0)) (:to (:box 9 :in 0)))
+  (:connection (:from (:box 6 :out 0)) (:to (:box 7 :in 0)))
+  (:connection
+   (:from (:box 7 :out 0))
+   (:to (:box 10 :in 0))
+   (:attributes (:color nil :style nil :modif (0 0.38076922))))
+  (:connection (:from (:box 8 :out 0)) (:to (:box 10 :in 1)))
+  (:connection (:from (:box 9 :out 0)) (:to (:box 10 :in 2)))
+  (:connection (:from (:box 10 :out 0)) (:to (:box 0 :in 0)))
+  (:connection (:from (:box 12 :out 0)) (:to (:box 11 :in 1)))
+  (:connection (:from (:box 13 :out 0)) (:to (:box 11 :in 2)))
+  (:connection (:from (:box 15 :out 0)) (:to (:box 16 :in 0)))))

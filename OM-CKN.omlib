@@ -1,0 +1,46 @@
+(:om-lib
+
+(:version 0.5)
+(:doc "This librarys aims to put Spear inside OpenMusic and OM-Sharp, it is very inspired but Spear itself and use a lot of packages developed by others developers")
+
+(:author "Charles K. Neimog put all the things together.")
+
+ ;;; SOURCE FILES TO LOAD
+
+(:source-files
+      "Sources/Sapa-FFT/fft"
+      "Sources/Sapa-FFT/utilities"  
+      "Sources/quicklisp-packages/package" 
+      "Sources/quicklisp-packages/iterate"
+      "Sources/Cloud/FFT-window"
+      "Sources/Samples/samples-control"
+      "Sources/Samples/ircam-instruments"
+      "Sources/sinusoidal-modeling"
+      "Sources/om-methods"
+      "Sources/utilities"
+      "Sources/stolen-functions"
+      "Sources/Score/score"
+      )
+
+(:symbols 
+      (:packages
+            (:package (:name "My Compositional Tools") (:functions voice->samples-sound))
+            (:package (:name "SDIF") (:functions sdif->list sdif-envelope))
+            (:package (:name "VST2 Plugins") (:functions ckn-VST2 define-VST2-plugin define-fxp-presets))
+            (:package (:name "Sound Functions") (:functions sound-seq-list sound-mix-list ckn-sound-transpose))
+            (:package (:name "FFT") (:classes ckn-fft-instance) (:functions do-fft fft->amplitude fft->phrase sound->bytes))
+            (:package (:name "Ircam Instruments") (:functions ircam-instruments)
+                  (:packages
+                        (:package (:name "Flute")
+                              (:functions Fl-aeol Fl-aeol+ord Fl-aeol-to-ord Fl-cresc Fl-cresc-to-decr Fl-decr Fl-disc-fing Fl-ord Fl-flatt Fl-ord fl-ord-1q Fl-ord_aeol Fl-ord_flatt Fl-pizz Fl-ply+sng Fl-ply+sng-uni Fl-sfz Fl-stacc Fl-tongue-ram Fl-trill-maj2 Fl-trill-min2 Fl-whst-tn Fl-whst-tn-sw-slw))
+                        (:package (:name "Guitar")
+                              (:functions gtr-pizz-bartok))
+                        (:package (:name "Harpa")
+                              (:functions Hp-ord))
+                        (:package (:name "Cello")
+                              (:functions Cello-pizz-secco))
+                        (:package (:name "Contrabaixo")
+                              (:functions Cb-pizz-lv))))
+            (:package (:name "Utilities") (:functions list-to-array array-to-list by-N half fft->dB u-list->string)))))
+
+      

@@ -1,0 +1,6908 @@
+
+(:patch
+ (:name "first-fft-work-function")
+ (:doc "")
+ (:info
+  (:created "2021/04/14 12:36:21")
+  (:modified "2021/04/23 17:42:10")
+  (:by "om-sharp")
+  (:version 1.02))
+ (:window (:size (1920 1026)) (:position (-9 -9)))
+ (:grid nil)
+ (:lock nil)
+ (:boxes
+  (:box
+   (:type :object)
+   (:reference sound)
+   (:group-id nil)
+   (:name nil)
+   (:x 75)
+   (:y 41)
+   (:w 346)
+   (:h 99)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :mini-view)
+   (:showname t)
+   (:show-markers t)
+   (:lock :locked)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value :choose-file)
+     (:reactive nil)))
+   (:outputs (:output (:name "SELF") (:reactive nil)))
+   (:window (:size (668 272)) (:position (64 64)))
+   (:edition-params)
+   (:value
+    (:object
+     (:class sound)
+     (:slots
+      ((:onset 0)
+       (:duration 1648.6168)
+       (:n-samples 72704)
+       (:n-channels 1)
+       (:sample-rate 44100)
+       (:smpl-type :float)
+       (:sample-size 16)))
+     (:add-slots
+      ((:markers (:list 147 359))
+       (:gain 1.0)
+       (:access-from-file nil)
+       (:file-pathname
+        (:pathname
+         (:directory
+          (:relative :back :back :back :back :back "Área de Trabalho"))
+         (:device nil)
+         (:host "C")
+         (:name "441 sem estourar 2")
+         (:type "aif")))))))
+   (:id 0))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 318)
+   (:y 356)
+   (:w 60)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :left)
+   (:lock nil)
+   (:inputs
+    (:input
+     (:type :optional)
+     (:name "in")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 8192)
+   (:id 1))
+  (:box
+   (:type :abstraction)
+   (:reference
+    (:patch
+     (:name "fft->max-coll")
+     (:doc "")
+     (:info
+      (:created nil)
+      (:modified nil)
+      (:by *app-name*)
+      (:version 0))
+     (:window (:size (976 1030)) (:position (943 41)))
+     (:grid nil)
+     (:lock nil)
+     (:boxes
+      (:box
+       (:type :io)
+       (:reference
+        (:out (:type omout) (:name "out") (:index 1) (:doc "")))
+       (:group-id nil)
+       (:name "out")
+       (:x 238)
+       (:y 641)
+       (:w 48)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+         (:t-or-nil t)))
+       (:border 0)
+       (:roundness 0)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "out-value")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs)
+       (:id 0))
+      (:box
+       (:type :io)
+       (:reference
+        (:in (:type omin) (:index 1) (:name "input 1") (:doc "")))
+       (:group-id nil)
+       (:name "input 1")
+       (:x 50)
+       (:y 50)
+       (:w 77)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+         (:t-or-nil t)))
+       (:border 0)
+       (:roundness 0)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs)
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 1))
+      (:box
+       (:type :io)
+       (:reference
+        (:in (:type omin) (:index 2) (:name "fft-size") (:doc "")))
+       (:group-id nil)
+       (:name "fft-size")
+       (:x 689)
+       (:y 129)
+       (:w 77)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+         (:t-or-nil t)))
+       (:border 0)
+       (:roundness 0)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs)
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 2))
+      (:box
+       (:type :io)
+       (:reference
+        (:in (:type omin) (:index 3) (:name "filtro") (:doc "")))
+       (:group-id nil)
+       (:name "filtro")
+       (:x 543)
+       (:y 331)
+       (:w 57)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+         (:t-or-nil t)))
+       (:border 0)
+       (:roundness 0)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs)
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 3))
+      (:box
+       (:type :io)
+       (:reference
+        (:in (:type omin) (:index 4) (:name "in") (:doc "")))
+       (:group-id nil)
+       (:name "in")
+       (:x 555)
+       (:y 79)
+       (:w 40)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+         (:t-or-nil t)))
+       (:border 0)
+       (:roundness 0)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs)
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 4))
+      (:box
+       (:type :function)
+       (:reference get-slot-val)
+       (:group-id nil)
+       (:name "get-slot-val")
+       (:x 326)
+       (:y 119)
+       (:w 128)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda nil)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "SELF")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "SLOT-NAME")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 5))
+      (:box
+       (:type :value)
+       (:reference symbol)
+       (:group-id nil)
+       (:name "value box")
+       (:x 362)
+       (:y 78)
+       (:w 115)
+       (:h 39)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :left)
+       (:lock nil)
+       (:inputs)
+       (:outputs (:output (:name "value") (:reactive nil)))
+       (:value amplitudes)
+       (:id 6))
+      (:box
+       (:type :abstraction)
+       (:reference
+        (:patch
+         (:name "new-patch")
+         (:doc "")
+         (:info
+          (:created nil)
+          (:modified nil)
+          (:by *app-name*)
+          (:version 0))
+         (:window (:size (1920 1026)) (:position (-9 -9)))
+         (:grid nil)
+         (:lock nil)
+         (:boxes
+          (:box
+           (:type :io)
+           (:reference
+            (:in (:type omin) (:index 1) (:name "in") (:doc "")))
+           (:group-id nil)
+           (:name "in")
+           (:x 495)
+           (:y 41)
+           (:w 40)
+           (:h 42)
+           (:color
+            (:color-or-nil
+             (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+             (:t-or-nil t)))
+           (:border 0)
+           (:roundness 0)
+           (:text-font nil)
+           (:align :center)
+           (:icon :top)
+           (:inputs)
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 0))
+          (:box
+           (:type :io)
+           (:reference
+            (:out (:type omout) (:name "out") (:index 1) (:doc "")))
+           (:group-id nil)
+           (:name "out")
+           (:x 320)
+           (:y 966)
+           (:w 48)
+           (:h 42)
+           (:color
+            (:color-or-nil
+             (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+             (:t-or-nil t)))
+           (:border 0)
+           (:roundness 0)
+           (:text-font nil)
+           (:align :center)
+           (:icon :top)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "out-value")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs)
+           (:id 1))
+          (:box
+           (:type :io)
+           (:reference
+            (:in (:type omin) (:index 2) (:name "in") (:doc "")))
+           (:group-id nil)
+           (:name "in")
+           (:x 385)
+           (:y 131)
+           (:w 40)
+           (:h 42)
+           (:color
+            (:color-or-nil
+             (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+             (:t-or-nil t)))
+           (:border 0)
+           (:roundness 0)
+           (:text-font nil)
+           (:align :center)
+           (:icon :top)
+           (:inputs)
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 2))
+          (:box
+           (:type :io)
+           (:reference
+            (:in (:type omin) (:index 3) (:name "in") (:doc "")))
+           (:group-id nil)
+           (:name "in")
+           (:x 1182)
+           (:y 474)
+           (:w 40)
+           (:h 42)
+           (:color
+            (:color-or-nil
+             (:color (:color 1.0S0 1.0S0 1.0S0 0.0S0))
+             (:t-or-nil t)))
+           (:border 0)
+           (:roundness 0)
+           (:text-font nil)
+           (:align :center)
+           (:icon :top)
+           (:inputs)
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 3))
+          (:box
+           (:type :special)
+           (:reference if)
+           (:group-id nil)
+           (:name "if")
+           (:x 217)
+           (:y 760)
+           (:w 187)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "TEST")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "THEN")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :optional)
+             (:name "else")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 4))
+          (:box
+           (:type :function)
+           (:reference first)
+           (:group-id nil)
+           (:name "first")
+           (:x 123)
+           (:y 234)
+           (:w 69)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "LIST")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 5))
+          (:box
+           (:type :function)
+           (:reference second)
+           (:group-id nil)
+           (:name "second")
+           (:x 198)
+           (:y 235)
+           (:w 98)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "LIST")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 6))
+          (:box
+           (:type :function)
+           (:reference third)
+           (:group-id nil)
+           (:name "third")
+           (:x 295)
+           (:y 185)
+           (:w 74)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "LIST")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 7))
+          (:box
+           (:type :special)
+           (:reference and)
+           (:group-id nil)
+           (:name "and")
+           (:x 137)
+           (:y 420)
+           (:w 126)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :optional)
+             (:name "test-forms")
+             (:value 1)
+             (:reactive nil))
+            (:input
+             (:type :optional)
+             (:name "test-forms")
+             (:value 1)
+             (:reactive nil))
+            (:input
+             (:type :optional)
+             (:name "test-forms")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 8))
+          (:box
+           (:type :function)
+           (:reference om<)
+           (:group-id nil)
+           (:name "om<")
+           (:x 87)
+           (:y 308)
+           (:w 75)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "NUM1")
+             (:value 0)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "NUM2")
+             (:value 1)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 9))
+          (:box
+           (:type :function)
+           (:reference om>)
+           (:group-id nil)
+           (:name "om>")
+           (:x 168)
+           (:y 353)
+           (:w 75)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "NUM1")
+             (:value 0)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "NUM2")
+             (:value 1)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 10))
+          (:box
+           (:type :function)
+           (:reference position)
+           (:group-id nil)
+           (:name "position")
+           (:x 439)
+           (:y 242)
+           (:w 103)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "ITEM")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "SEQUENCE")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 11))
+          (:box
+           (:type :function)
+           (:reference nth)
+           (:group-id nil)
+           (:name "nth")
+           (:x 1079)
+           (:y 163)
+           (:w 64)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda :lambda)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "ORIG-N")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "ORIG-LIST")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 12))
+          (:box
+           (:type :function)
+           (:reference 1-)
+           (:group-id nil)
+           (:name "1-")
+           (:x 416)
+           (:y 317)
+           (:w 54)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "X")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 13))
+          (:box
+           (:type :function)
+           (:reference 1+)
+           (:group-id nil)
+           (:name "1+")
+           (:x 495)
+           (:y 317)
+           (:w 60)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "X")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 14))
+          (:box
+           (:type :function)
+           (:reference list)
+           (:group-id nil)
+           (:name "list")
+           (:x 420)
+           (:y 377)
+           (:w 140)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :optional)
+             (:name "args")
+             (:value 1)
+             (:reactive nil))
+            (:input
+             (:type :optional)
+             (:name "args")
+             (:value 2)
+             (:reactive nil))
+            (:input
+             (:type :optional)
+             (:name "args")
+             (:value 3)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 15))
+          (:box
+           (:type :function)
+           (:reference mapcar)
+           (:group-id nil)
+           (:name "mapcar")
+           (:x 1044)
+           (:y 251)
+           (:w 100)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "FUNCTION")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "LIST")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 16))
+          (:box
+           (:type :abstraction)
+           (:reference
+            (:textfun
+             (:name "p")
+             (:doc "")
+             (:info
+              (:created nil)
+              (:modified nil)
+              (:by *app-name*)
+              (:version 0))
+             (:window (:size (1126 449)) (:position (32 32)))
+             (:text
+              (:list
+               ""
+               "(lambda (x) "
+               "      (if (equal 3 (length x))"
+               "          (let* ("
+               "                 (a (first x))"
+               "                 (b (second x))"
+               "                 (c (third x)))"
+               "            (* 1/2 (/ (- a c) (+ (- a (* 2 b)) c)))) nil))"
+               ""))))
+           (:group-id nil)
+           (:name "p")
+           (:x 1106)
+           (:y 327)
+           (:w 134)
+           (:h 60)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align :center)
+           (:display :hidden)
+           (:lock nil)
+           (:lambda nil)
+           (:pre-delay 0)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "X")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 17))
+          (:box
+           (:type :function)
+           (:reference om+)
+           (:group-id nil)
+           (:name "om+")
+           (:x 1106)
+           (:y 476)
+           (:w 75)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "ARG1")
+             (:value 0)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "ARG2")
+             (:value 0)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 18))
+          (:box
+           (:library "OM-CKN")
+           (:type :function)
+           (:reference bin->freq)
+           (:group-id nil)
+           (:name "bin->freq")
+           (:x 1111)
+           (:y 615)
+           (:w 226)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "FFT-BIN")
+             (:value (:list 41 82 122 163 204))
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "SAMPLE-RATE")
+             (:value 44100)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "FFT-SIZE")
+             (:value 4096)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 19))
+          (:box
+           (:type :function)
+           (:reference list)
+           (:group-id nil)
+           (:name "list")
+           (:x 1100)
+           (:y 547)
+           (:w 61)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :optional)
+             (:name "args")
+             (:value 1)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 20))
+          (:box
+           (:type :value)
+           (:reference fixnum)
+           (:group-id nil)
+           (:name "value box")
+           (:x 1189)
+           (:y 580)
+           (:w 70)
+           (:h 39)
+           (:color
+            (:color-or-nil
+             (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+             (:t-or-nil t)))
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align :left)
+           (:lock nil)
+           (:inputs)
+           (:outputs (:output (:name "value") (:reactive nil)))
+           (:value 44100)
+           (:id 21))
+          (:box
+           (:type :special)
+           (:reference collect)
+           (:group-id nil)
+           (:name "collect")
+           (:x 289)
+           (:y 805)
+           (:w 75)
+           (:h 42)
+           (:color
+            (:color-or-nil
+             (:color (:color 0.82 0.7 0.7 1.0))
+             (:t-or-nil t)))
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align :center)
+           (:icon :top)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "data-in")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "push")
+             (:value t)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "init")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs
+            (:output (:name "collect") (:reactive nil))
+            (:output (:name "data-out") (:reactive nil))
+            (:output (:name "init") (:reactive nil)))
+           (:id 22))
+          (:box
+           (:type :special)
+           (:reference iterate)
+           (:group-id nil)
+           (:name "iterate")
+           (:x 159)
+           (:y 895)
+           (:w 74)
+           (:h 42)
+           (:color
+            (:color-or-nil
+             (:color (:color 0.82 0.85 0.7 1.0))
+             (:t-or-nil t)))
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align :center)
+           (:icon :top)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "action")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :optional)
+             (:name "action")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs)
+           (:id 23))
+          (:box
+           (:type :function)
+           (:reference om<)
+           (:group-id nil)
+           (:name "om<")
+           (:x 27)
+           (:y 376)
+           (:w 75)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "NUM1")
+             (:value 0)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "NUM2")
+             (:value 1)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 24))
+          (:box
+           (:type :function)
+           (:reference length)
+           (:group-id nil)
+           (:name "length")
+           (:x 26)
+           (:y 226)
+           (:w 89)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "SEQUENCE")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 25))
+          (:box
+           (:type :value)
+           (:reference fixnum)
+           (:group-id nil)
+           (:name "value box")
+           (:x 32)
+           (:y 341)
+           (:w 32)
+           (:h 39)
+           (:color
+            (:color-or-nil
+             (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+             (:t-or-nil t)))
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:lock nil)
+           (:inputs)
+           (:outputs (:output (:name "value") (:reactive nil)))
+           (:value 3)
+           (:id 26))
+          (:box
+           (:type :function)
+           (:reference first)
+           (:group-id nil)
+           (:name "first")
+           (:x 1150)
+           (:y 655)
+           (:w 69)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "LIST")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 27))
+          (:box
+           (:type :function)
+           (:reference list)
+           (:group-id nil)
+           (:name "list")
+           (:x 417)
+           (:y 709)
+           (:w 61)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :optional)
+             (:name "args")
+             (:value 1)
+             (:reactive nil))
+            (:input
+             (:type :optional)
+             (:name "args")
+             (:value 1)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 28))
+          (:box
+           (:type :function)
+           (:reference om<)
+           (:group-id nil)
+           (:name "om<")
+           (:x 275)
+           (:y 348)
+           (:w 75)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "NUM1")
+             (:value 0)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "NUM2")
+             (:value 1)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 29))
+          (:box
+           (:type :function)
+           (:reference remove)
+           (:group-id nil)
+           (:name "remove")
+           (:x 491)
+           (:y 903)
+           (:w 100)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "ITEM")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "SEQUENCE")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 30))
+          (:box
+           (:type :special)
+           (:reference loop-tail)
+           (:group-id nil)
+           (:name "loop-tail")
+           (:x 51)
+           (:y 123)
+           (:w 142)
+           (:h 42)
+           (:color
+            (:color-or-nil
+             (:color (:color 0.82 0.85 0.7 1.0))
+             (:t-or-nil t)))
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align :center)
+           (:icon :top)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "list")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "i") (:reactive nil)))
+           (:id 31))
+          (:box
+           (:type :special)
+           (:reference loop-while)
+           (:group-id nil)
+           (:name "loop-while")
+           (:x 12)
+           (:y 441)
+           (:w 106)
+           (:h 42)
+           (:color
+            (:color-or-nil
+             (:color (:color 0.82 0.85 0.7 1.0))
+             (:t-or-nil t)))
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align :center)
+           (:icon :top)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "condition")
+             (:value t)
+             (:reactive nil)))
+           (:outputs (:output (:name "i") (:reactive nil)))
+           (:id 32))
+          (:box
+           (:type :abstraction)
+           (:reference
+            (:textfun
+             (:name "my-function")
+             (:doc "")
+             (:info
+              (:created nil)
+              (:modified nil)
+              (:by *app-name*)
+              (:version 0))
+             (:window (:size (683 475)) (:position (160 160)))
+             (:text
+              (:list
+               ""
+               "(lambda (x p) "
+               "      (if (equal 3 (length x))"
+               "          (let* ("
+               "                 (a (first x))"
+               "                 (b (second x))"
+               "                 (c (third x)))"
+               "            (- b (* 1/4 (- a c) p)))))"
+               ""))))
+           (:group-id nil)
+           (:name "my-function")
+           (:x 865)
+           (:y 500)
+           (:w 134)
+           (:h 60)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align :center)
+           (:display :hidden)
+           (:lock nil)
+           (:lambda nil)
+           (:pre-delay 0)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "X")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "P")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 33))
+          (:box
+           (:type :function)
+           (:reference om-abs)
+           (:group-id nil)
+           (:name "om-abs")
+           (:x 375)
+           (:y 432)
+           (:w 100)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "SELF")
+             (:value 1)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 34))
+          (:box
+           (:type :function)
+           (:reference equal)
+           (:group-id nil)
+           (:name "equal")
+           (:x 446)
+           (:y 483)
+           (:w 84)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "X")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "Y")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 35))
+          (:box
+           (:type :special)
+           (:reference if)
+           (:group-id nil)
+           (:name "if")
+           (:x 692)
+           (:y 437)
+           (:w 118)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "TEST")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :standard)
+             (:name "THEN")
+             (:value nil)
+             (:reactive nil))
+            (:input
+             (:type :optional)
+             (:name "else")
+             (:value nil)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 36))
+          (:box
+           (:type :value)
+           (:reference cons)
+           (:group-id nil)
+           (:name "value box")
+           (:x 751)
+           (:y 365)
+           (:w 71)
+           (:h 39)
+           (:color
+            (:color-or-nil
+             (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+             (:t-or-nil t)))
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:lock nil)
+           (:inputs)
+           (:outputs (:output (:name "value") (:reactive nil)))
+           (:value (:list 1 2 3))
+           (:id 37))
+          (:box
+           (:type :function)
+           (:reference om-round)
+           (:group-id nil)
+           (:name "om-round")
+           (:x 567)
+           (:y 617)
+           (:w 117)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "N")
+             (:value 2)
+             (:reactive nil))
+            (:input
+             (:type :optional)
+             (:name "decimals")
+             (:value 2)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 38))
+          (:box
+           (:type :function)
+           (:reference om-round)
+           (:group-id nil)
+           (:name "om-round")
+           (:x 1126)
+           (:y 726)
+           (:w 117)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "N")
+             (:value 1)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 39))
+          (:box
+           (:type :value)
+           (:reference fixnum)
+           (:group-id nil)
+           (:name "value box")
+           (:x 629)
+           (:y 582)
+           (:w 32)
+           (:h 39)
+           (:color
+            (:color-or-nil
+             (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+             (:t-or-nil t)))
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:lock nil)
+           (:inputs)
+           (:outputs (:output (:name "value") (:reactive nil)))
+           (:value 8)
+           (:id 40))
+          (:box
+           (:type :function)
+           (:reference db->lin)
+           (:group-id nil)
+           (:name "db->lin")
+           (:x 853)
+           (:y 632)
+           (:w 93)
+           (:h 39)
+           (:color nil)
+           (:border nil)
+           (:roundness nil)
+           (:text-font nil)
+           (:align nil)
+           (:icon :left)
+           (:lock nil)
+           (:lambda nil)
+           (:inputs
+            (:input
+             (:type :standard)
+             (:name "X")
+             (:value -20)
+             (:reactive nil)))
+           (:outputs (:output (:name "out") (:reactive nil)))
+           (:id 41)))
+         (:connections
+          (:connection (:from (:box 0 :out 0)) (:to (:box 31 :in 0)))
+          (:connection (:from (:box 0 :out 0)) (:to (:box 11 :in 1)))
+          (:connection (:from (:box 0 :out 0)) (:to (:box 12 :in 1)))
+          (:connection (:from (:box 2 :out 0)) (:to (:box 29 :in 0)))
+          (:connection (:from (:box 3 :out 0)) (:to (:box 19 :in 2)))
+          (:connection (:from (:box 4 :out 0)) (:to (:box 22 :in 0)))
+          (:connection (:from (:box 5 :out 0)) (:to (:box 9 :in 0)))
+          (:connection
+           (:from (:box 6 :out 0))
+           (:to (:box 9 :in 1))
+           (:attributes (:color nil :style nil :modif (0 0.45))))
+          (:connection (:from (:box 6 :out 0)) (:to (:box 10 :in 0)))
+          (:connection (:from (:box 6 :out 0)) (:to (:box 11 :in 0)))
+          (:connection (:from (:box 6 :out 0)) (:to (:box 29 :in 1)))
+          (:connection (:from (:box 7 :out 0)) (:to (:box 10 :in 1)))
+          (:connection (:from (:box 8 :out 0)) (:to (:box 4 :in 0)))
+          (:connection (:from (:box 9 :out 0)) (:to (:box 8 :in 0)))
+          (:connection (:from (:box 10 :out 0)) (:to (:box 8 :in 1)))
+          (:connection (:from (:box 11 :out 0)) (:to (:box 13 :in 0)))
+          (:connection (:from (:box 11 :out 0)) (:to (:box 14 :in 0)))
+          (:connection (:from (:box 11 :out 0)) (:to (:box 15 :in 1)))
+          (:connection
+           (:from (:box 11 :out 0))
+           (:to (:box 18 :in 0))
+           (:attributes (:color nil :style nil :modif (0 -33/97))))
+          (:connection (:from (:box 12 :out 0)) (:to (:box 16 :in 0)))
+          (:connection (:from (:box 13 :out 0)) (:to (:box 15 :in 0)))
+          (:connection (:from (:box 14 :out 0)) (:to (:box 15 :in 2)))
+          (:connection (:from (:box 15 :out 0)) (:to (:box 34 :in 0)))
+          (:connection (:from (:box 15 :out 0)) (:to (:box 35 :in 1)))
+          (:connection (:from (:box 15 :out 0)) (:to (:box 36 :in 1)))
+          (:connection (:from (:box 16 :out 0)) (:to (:box 17 :in 0)))
+          (:connection (:from (:box 16 :out 0)) (:to (:box 33 :in 0)))
+          (:connection (:from (:box 17 :out 0)) (:to (:box 18 :in 1)))
+          (:connection
+           (:from (:box 17 :out 0))
+           (:to (:box 33 :in 1))
+           (:attributes (:color nil :style nil :modif (0 -35/173))))
+          (:connection (:from (:box 18 :out 0)) (:to (:box 20 :in 0)))
+          (:connection (:from (:box 19 :out 0)) (:to (:box 27 :in 0)))
+          (:connection (:from (:box 20 :out 0)) (:to (:box 19 :in 0)))
+          (:connection (:from (:box 21 :out 0)) (:to (:box 19 :in 1)))
+          (:connection (:from (:box 22 :out 0)) (:to (:box 23 :in 0)))
+          (:connection (:from (:box 22 :out 1)) (:to (:box 30 :in 1)))
+          (:connection (:from (:box 24 :out 0)) (:to (:box 32 :in 0)))
+          (:connection (:from (:box 25 :out 0)) (:to (:box 24 :in 1)))
+          (:connection (:from (:box 26 :out 0)) (:to (:box 24 :in 0)))
+          (:connection (:from (:box 27 :out 0)) (:to (:box 39 :in 0)))
+          (:connection (:from (:box 28 :out 0)) (:to (:box 4 :in 1)))
+          (:connection (:from (:box 29 :out 0)) (:to (:box 8 :in 2)))
+          (:connection (:from (:box 30 :out 0)) (:to (:box 1 :in 0)))
+          (:connection (:from (:box 31 :out 0)) (:to (:box 5 :in 0)))
+          (:connection (:from (:box 31 :out 0)) (:to (:box 6 :in 0)))
+          (:connection (:from (:box 31 :out 0)) (:to (:box 7 :in 0)))
+          (:connection (:from (:box 31 :out 0)) (:to (:box 25 :in 0)))
+          (:connection (:from (:box 32 :out 0)) (:to (:box 23 :in 1)))
+          (:connection (:from (:box 33 :out 0)) (:to (:box 41 :in 0)))
+          (:connection (:from (:box 34 :out 0)) (:to (:box 35 :in 0)))
+          (:connection (:from (:box 35 :out 0)) (:to (:box 36 :in 0)))
+          (:connection (:from (:box 36 :out 0)) (:to (:box 16 :in 1)))
+          (:connection (:from (:box 37 :out 0)) (:to (:box 36 :in 2)))
+          (:connection (:from (:box 38 :out 0)) (:to (:box 28 :in 1)))
+          (:connection (:from (:box 39 :out 0)) (:to (:box 28 :in 0)))
+          (:connection (:from (:box 40 :out 0)) (:to (:box 38 :in 1)))
+          (:connection
+           (:from (:box 41 :out 0))
+           (:to (:box 38 :in 0))))))
+       (:group-id nil)
+       (:name "new-patch")
+       (:x 476)
+       (:y 463)
+       (:w 124)
+       (:h 60)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:display :hidden)
+       (:lock nil)
+       (:lambda nil)
+       (:pre-delay 0)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "in")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "in")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "in")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 7))
+      (:box
+       (:type :special)
+       (:reference loop-list)
+       (:group-id nil)
+       (:name "loop-list")
+       (:x 50)
+       (:y 100)
+       (:w 86)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 0.82 0.85 0.7 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "list")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "i") (:reactive nil)))
+       (:id 8))
+      (:box
+       (:type :function)
+       (:reference get-slot-val)
+       (:group-id nil)
+       (:name "get-slot-val")
+       (:x 130)
+       (:y 232)
+       (:w 128)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda nil)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "SELF")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "SLOT-NAME")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 9))
+      (:box
+       (:type :value)
+       (:reference symbol)
+       (:group-id nil)
+       (:name "value box")
+       (:x 184)
+       (:y 184)
+       (:w 80)
+       (:h 39)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :left)
+       (:lock nil)
+       (:inputs)
+       (:outputs (:output (:name "value") (:reactive nil)))
+       (:value tempo)
+       (:id 10))
+      (:box
+       (:type :abstraction)
+       (:reference
+        (:textfun
+         (:name "my-function")
+         (:doc "")
+         (:info
+          (:created nil)
+          (:modified nil)
+          (:by *app-name*)
+          (:version 0))
+         (:window (:size (500 475)) (:position (1020 373)))
+         (:text
+          (:list "(lambda (x y)" "" "(x-append x \",\" y \";\"))"))))
+       (:group-id nil)
+       (:name "my-function")
+       (:x 131)
+       (:y 472)
+       (:w 134)
+       (:h 60)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:display :hidden)
+       (:lock nil)
+       (:lambda nil)
+       (:pre-delay 0)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "X")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "Y")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 11))
+      (:box
+       (:type :special)
+       (:reference collect)
+       (:group-id nil)
+       (:name "collect")
+       (:x 182)
+       (:y 553)
+       (:w 75)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 0.82 0.7 0.7 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "data-in")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "push")
+         (:value t)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "init")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs
+        (:output (:name "collect") (:reactive nil))
+        (:output (:name "data-out") (:reactive nil))
+        (:output (:name "init") (:reactive nil)))
+       (:id 12))
+      (:box
+       (:type :special)
+       (:reference iterate)
+       (:group-id nil)
+       (:name "iterate")
+       (:x 79)
+       (:y 664)
+       (:w 74)
+       (:h 42)
+       (:color
+        (:color-or-nil
+         (:color (:color 0.82 0.85 0.7 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:icon :top)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "action")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs)
+       (:id 13))
+      (:box
+       (:type :function)
+       (:reference sort-list)
+       (:group-id nil)
+       (:name "sort-list")
+       (:x 427)
+       (:y 622)
+       (:w 98)
+       (:h 39)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:icon :left)
+       (:lock nil)
+       (:lambda nil)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "LST")
+         (:value nil)
+         (:reactive nil))
+        (:input (:type :key) (:name "test") (:value <) (:reactive nil))
+        (:input
+         (:type :key)
+         (:name "key")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 14))
+      (:box
+       (:type :value)
+       (:reference symbol)
+       (:group-id nil)
+       (:name "value box")
+       (:x 544)
+       (:y 541)
+       (:w 78)
+       (:h 39)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :left)
+       (:lock nil)
+       (:inputs)
+       (:outputs (:output (:name "value") (:reactive nil)))
+       (:value second)
+       (:id 15))
+      (:box
+       (:type :value)
+       (:reference symbol)
+       (:group-id nil)
+       (:name "value box")
+       (:x 455)
+       (:y 587)
+       (:w 32)
+       (:h 39)
+       (:color
+        (:color-or-nil
+         (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+         (:t-or-nil t)))
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align nil)
+       (:lock nil)
+       (:inputs)
+       (:outputs (:output (:name "value") (:reactive nil)))
+       (:value >)
+       (:id 16))
+      (:box
+       (:type :abstraction)
+       (:reference
+        (:textfun
+         (:name "mag->db")
+         (:doc "")
+         (:info
+          (:created nil)
+          (:modified nil)
+          (:by *app-name*)
+          (:version 0))
+         (:window (:size (1000 475)) (:position (224 224)))
+         (:text
+          (:list
+           "(lambda (amplitudes variavel)"
+           "	(let* ("
+           "				(action1 (om/ amplitudes variavel))"
+           "				(action2 (mapcar (lambda (x) (log x 10)) action1)))"
+           "	(om* 20 action2)))"))))
+       (:group-id nil)
+       (:name "mag->db")
+       (:x 364)
+       (:y 225)
+       (:w 134)
+       (:h 60)
+       (:color nil)
+       (:border nil)
+       (:roundness nil)
+       (:text-font nil)
+       (:align :center)
+       (:display :hidden)
+       (:lock nil)
+       (:lambda nil)
+       (:pre-delay 0)
+       (:inputs
+        (:input
+         (:type :standard)
+         (:name "AMPLITUDES")
+         (:value nil)
+         (:reactive nil))
+        (:input
+         (:type :standard)
+         (:name "VARIAVEL")
+         (:value nil)
+         (:reactive nil)))
+       (:outputs (:output (:name "out") (:reactive nil)))
+       (:id 17)))
+     (:connections
+      (:connection
+       (:from (:box 1 :out 0))
+       (:to (:box 8 :in 0))
+       (:attributes
+        (:color (:color 0.2 0.4 0.5 1.0) :style :curved :modif nil)))
+      (:connection
+       (:from (:box 2 :out 0))
+       (:to (:box 7 :in 2))
+       (:attributes (:color nil :style nil :modif (0 107/269))))
+      (:connection (:from (:box 3 :out 0)) (:to (:box 7 :in 1)))
+      (:connection (:from (:box 4 :out 0)) (:to (:box 17 :in 1)))
+      (:connection (:from (:box 5 :out 0)) (:to (:box 17 :in 0)))
+      (:connection (:from (:box 6 :out 0)) (:to (:box 5 :in 1)))
+      (:connection (:from (:box 7 :out 0)) (:to (:box 14 :in 0)))
+      (:connection (:from (:box 8 :out 0)) (:to (:box 9 :in 0)))
+      (:connection (:from (:box 8 :out 0)) (:to (:box 5 :in 0)))
+      (:connection (:from (:box 9 :out 0)) (:to (:box 11 :in 0)))
+      (:connection (:from (:box 10 :out 0)) (:to (:box 9 :in 1)))
+      (:connection (:from (:box 11 :out 0)) (:to (:box 12 :in 0)))
+      (:connection (:from (:box 12 :out 0)) (:to (:box 13 :in 0)))
+      (:connection (:from (:box 12 :out 1)) (:to (:box 0 :in 0)))
+      (:connection (:from (:box 14 :out 0)) (:to (:box 11 :in 1)))
+      (:connection (:from (:box 15 :out 0)) (:to (:box 14 :in 2)))
+      (:connection (:from (:box 16 :out 0)) (:to (:box 14 :in 1)))
+      (:connection (:from (:box 17 :out 0)) (:to (:box 7 :in 0))))))
+   (:group-id nil)
+   (:name "fft->max-coll")
+   (:x 257)
+   (:y 429)
+   (:w 200)
+   (:h 60)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :hidden)
+   (:lock :locked)
+   (:lambda nil)
+   (:pre-delay 0)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "input 1")
+     (:value nil)
+     (:reactive t))
+    (:input
+     (:type :standard)
+     (:name "fft-size")
+     (:value nil)
+     (:reactive t))
+    (:input
+     (:type :standard)
+     (:name "filtro")
+     (:value nil)
+     (:reactive t))
+    (:input (:type :standard) (:name "in") (:value nil) (:reactive t)))
+   (:outputs (:output (:name "out") (:reactive t)))
+   (:id 2))
+  (:box
+   (:type :value)
+   (:reference symbol)
+   (:group-id nil)
+   (:name "value box")
+   (:x 641)
+   (:y 218)
+   (:w 103)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :left)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value :blackman)
+   (:id 3))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 387)
+   (:y 355)
+   (:w 75)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value -60)
+   (:id 4))
+  (:box
+   (:library "OM-CKN")
+   (:type :function)
+   (:reference do-fft)
+   (:group-id nil)
+   (:name "do-fft")
+   (:x 78)
+   (:y 247)
+   (:w 281)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock :locked)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SOUND")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "FFT-SIZE")
+     (:value 2048)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "HOP-SIZE")
+     (:value 512)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "WINDOW-TYPE")
+     (:value 4)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 5))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 274)
+   (:y 165)
+   (:w 60)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 8192)
+   (:id 6))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 411)
+   (:y 163)
+   (:w 60)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 1024)
+   (:id 7))
+  (:box
+   (:type :function)
+   (:reference first)
+   (:group-id nil)
+   (:name "first")
+   (:x 58)
+   (:y 344)
+   (:w 69)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "LIST")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 8))
+  (:box
+   (:type :function)
+   (:reference first)
+   (:group-id nil)
+   (:name "first")
+   (:x 323)
+   (:y 499)
+   (:w 69)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "LIST")
+     (:value nil)
+     (:reactive t)))
+   (:outputs (:output (:name "out") (:reactive t)))
+   (:id 9))
+  (:box
+   (:library "OM-CKN")
+   (:type :function)
+   (:reference sound->bytes)
+   (:group-id nil)
+   (:name "sound->bytes")
+   (:x 632)
+   (:y 63)
+   (:w 150)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 10))
+  (:box
+   (:type :function)
+   (:reference sort-list)
+   (:group-id nil)
+   (:name "sort-list")
+   (:x 656)
+   (:y 106)
+   (:w 98)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "LST")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 11))
+  (:box
+   (:type :function)
+   (:reference last)
+   (:group-id nil)
+   (:name "last")
+   (:x 671)
+   (:y 146)
+   (:w 67)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "LIST")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 12))
+  (:box
+   (:type :function)
+   (:reference length)
+   (:group-id nil)
+   (:name "length")
+   (:x 95)
+   (:y 434)
+   (:w 89)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SEQUENCE")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 13))
+  (:box
+   (:type :function)
+   (:reference sound-window)
+   (:group-id nil)
+   (:name "sound-window")
+   (:x 896)
+   (:y 152)
+   (:w 157)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SOUND-BYTES-WINDOW")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "WINDOW")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "HOP-SIZE")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "WINDOWS-TYPE")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 14))
+  (:box
+   (:type :function)
+   (:reference cddr)
+   (:group-id nil)
+   (:name "cddr")
+   (:x 363)
+   (:y 607)
+   (:w 74)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "X")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 15))
+  (:box
+   (:type :function)
+   (:reference flat)
+   (:group-id nil)
+   (:name "flat")
+   (:x 346)
+   (:y 700)
+   (:w 63)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "LST")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 16))
+  (:box
+   (:library "OM-CKN")
+   (:type :function)
+   (:reference fft->amplitude)
+   (:group-id nil)
+   (:name "fft->amplitude")
+   (:x 845)
+   (:y 444)
+   (:w 151)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "FFT")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 17))
+  (:box
+   (:type :function)
+   (:reference first)
+   (:group-id nil)
+   (:name "first")
+   (:x 676)
+   (:y 329)
+   (:w 69)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "LIST")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 18))
+  (:box
+   (:type :object)
+   (:reference bpf)
+   (:group-id nil)
+   (:name nil)
+   (:x 643)
+   (:y 509)
+   (:w 605)
+   (:h 168)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :mini-view)
+   (:showname nil)
+   (:show-markers t)
+   (:lock :locked)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "X-POINTS")
+     (:value (:list 0 2000))
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "Y-POINTS")
+     (:value (:list 0 100))
+     (:reactive nil))
+    (:input
+     (:type :key)
+     (:name "decimals")
+     (:value 2)
+     (:reactive nil)))
+   (:outputs
+    (:output (:name "SELF") (:reactive nil))
+    (:output (:name "X-POINTS") (:reactive nil))
+    (:output (:name "Y-POINTS") (:reactive nil))
+    (:output (:name "decimals") (:reactive nil)))
+   (:window (:size (553 400)) (:position (256 256)))
+   (:edition-params)
+   (:value
+    (:object
+     (:class bpf)
+     (:slots
+      ((:onset 0)
+       (:duration 4094000.0)
+       (:interpol (:number-or-nil (:number 50) (:t-or-nil nil)))
+       (:action nil)
+       (:color (:color 0.0S0 0.0S0 0.0S0 1.0))
+       (:decimals 10)
+       (:x-points
+        (:list
+         0.0
+         2000.0
+         4000.0
+         6000.0
+         8000.0
+         10000.0
+         12000.0
+         14000.0
+         16000.0
+         18000.0
+         20000.0
+         22000.0
+         24000.0
+         26000.0
+         28000.0
+         30000.0
+         32000.0
+         34000.0
+         36000.0
+         38000.0
+         40000.0
+         42000.0
+         44000.0
+         46000.0
+         48000.0
+         50000.0
+         52000.0
+         54000.0
+         56000.0
+         58000.0
+         60000.0
+         62000.0
+         64000.0
+         66000.0
+         68000.0
+         70000.0
+         72000.0
+         74000.0
+         76000.0
+         78000.0
+         80000.0
+         82000.0
+         84000.0
+         86000.0
+         88000.0
+         90000.0
+         92000.0
+         94000.0
+         96000.0
+         98000.0
+         100000.0
+         102000.0
+         104000.0
+         106000.0
+         108000.0
+         110000.0
+         112000.0
+         114000.0
+         116000.0
+         118000.0
+         120000.0
+         122000.0
+         124000.0
+         126000.0
+         128000.0
+         130000.0
+         132000.0
+         134000.0
+         136000.0
+         138000.0
+         140000.0
+         142000.0
+         144000.0
+         146000.0
+         148000.0
+         150000.0
+         152000.0
+         154000.0
+         156000.0
+         158000.0
+         160000.0
+         162000.0
+         164000.0
+         166000.0
+         168000.0
+         170000.0
+         172000.0
+         174000.0
+         176000.0
+         178000.0
+         180000.0
+         182000.0
+         184000.0
+         186000.0
+         188000.0
+         190000.0
+         192000.0
+         194000.0
+         196000.0
+         198000.0
+         200000.0
+         202000.0
+         204000.0
+         206000.0
+         208000.0
+         210000.0
+         212000.0
+         214000.0
+         216000.0
+         218000.0
+         220000.0
+         222000.0
+         224000.0
+         226000.0
+         228000.0
+         230000.0
+         232000.0
+         234000.0
+         236000.0
+         238000.0
+         240000.0
+         242000.0
+         244000.0
+         246000.0
+         248000.0
+         250000.0
+         252000.0
+         254000.0
+         256000.0
+         258000.0
+         260000.0
+         262000.0
+         264000.0
+         266000.0
+         268000.0
+         270000.0
+         272000.0
+         274000.0
+         276000.0
+         278000.0
+         280000.0
+         282000.0
+         284000.0
+         286000.0
+         288000.0
+         290000.0
+         292000.0
+         294000.0
+         296000.0
+         298000.0
+         300000.0
+         302000.0
+         304000.0
+         306000.0
+         308000.0
+         310000.0
+         312000.0
+         314000.0
+         316000.0
+         318000.0
+         320000.0
+         322000.0
+         324000.0
+         326000.0
+         328000.0
+         330000.0
+         332000.0
+         334000.0
+         336000.0
+         338000.0
+         340000.0
+         342000.0
+         344000.0
+         346000.0
+         348000.0
+         350000.0
+         352000.0
+         354000.0
+         356000.0
+         358000.0
+         360000.0
+         362000.0
+         364000.0
+         366000.0
+         368000.0
+         370000.0
+         372000.0
+         374000.0
+         376000.0
+         378000.0
+         380000.0
+         382000.0
+         384000.0
+         386000.0
+         388000.0
+         390000.0
+         392000.0
+         394000.0
+         396000.0
+         398000.0
+         400000.0
+         402000.0
+         404000.0
+         406000.0
+         408000.0
+         410000.0
+         412000.0
+         414000.0
+         416000.0
+         418000.0
+         420000.0
+         422000.0
+         424000.0
+         426000.0
+         428000.0
+         430000.0
+         432000.0
+         434000.0
+         436000.0
+         438000.0
+         440000.0
+         442000.0
+         444000.0
+         446000.0
+         448000.0
+         450000.0
+         452000.0
+         454000.0
+         456000.0
+         458000.0
+         460000.0
+         462000.0
+         464000.0
+         466000.0
+         468000.0
+         470000.0
+         472000.0
+         474000.0
+         476000.0
+         478000.0
+         480000.0
+         482000.0
+         484000.0
+         486000.0
+         488000.0
+         490000.0
+         492000.0
+         494000.0
+         496000.0
+         498000.0
+         500000.0
+         502000.0
+         504000.0
+         506000.0
+         508000.0
+         510000.0
+         512000.0
+         514000.0
+         516000.0
+         518000.0
+         520000.0
+         522000.0
+         524000.0
+         526000.0
+         528000.0
+         530000.0
+         532000.0
+         534000.0
+         536000.0
+         538000.0
+         540000.0
+         542000.0
+         544000.0
+         546000.0
+         548000.0
+         550000.0
+         552000.0
+         554000.0
+         556000.0
+         558000.0
+         560000.0
+         562000.0
+         564000.0
+         566000.0
+         568000.0
+         570000.0
+         572000.0
+         574000.0
+         576000.0
+         578000.0
+         580000.0
+         582000.0
+         584000.0
+         586000.0
+         588000.0
+         590000.0
+         592000.0
+         594000.0
+         596000.0
+         598000.0
+         600000.0
+         602000.0
+         604000.0
+         606000.0
+         608000.0
+         610000.0
+         612000.0
+         614000.0
+         616000.0
+         618000.0
+         620000.0
+         622000.0
+         624000.0
+         626000.0
+         628000.0
+         630000.0
+         632000.0
+         634000.0
+         636000.0
+         638000.0
+         640000.0
+         642000.0
+         644000.0
+         646000.0
+         648000.0
+         650000.0
+         652000.0
+         654000.0
+         656000.0
+         658000.0
+         660000.0
+         662000.0
+         664000.0
+         666000.0
+         668000.0
+         670000.0
+         672000.0
+         674000.0
+         676000.0
+         678000.0
+         680000.0
+         682000.0
+         684000.0
+         686000.0
+         688000.0
+         690000.0
+         692000.0
+         694000.0
+         696000.0
+         698000.0
+         700000.0
+         702000.0
+         704000.0
+         706000.0
+         708000.0
+         710000.0
+         712000.0
+         714000.0
+         716000.0
+         718000.0
+         720000.0
+         722000.0
+         724000.0
+         726000.0
+         728000.0
+         730000.0
+         732000.0
+         734000.0
+         736000.0
+         738000.0
+         740000.0
+         742000.0
+         744000.0
+         746000.0
+         748000.0
+         750000.0
+         752000.0
+         754000.0
+         756000.0
+         758000.0
+         760000.0
+         762000.0
+         764000.0
+         766000.0
+         768000.0
+         770000.0
+         772000.0
+         774000.0
+         776000.0
+         778000.0
+         780000.0
+         782000.0
+         784000.0
+         786000.0
+         788000.0
+         790000.0
+         792000.0
+         794000.0
+         796000.0
+         798000.0
+         800000.0
+         802000.0
+         804000.0
+         806000.0
+         808000.0
+         810000.0
+         812000.0
+         814000.0
+         816000.0
+         818000.0
+         820000.0
+         822000.0
+         824000.0
+         826000.0
+         828000.0
+         830000.0
+         832000.0
+         834000.0
+         836000.0
+         838000.0
+         840000.0
+         842000.0
+         844000.0
+         846000.0
+         848000.0
+         850000.0
+         852000.0
+         854000.0
+         856000.0
+         858000.0
+         860000.0
+         862000.0
+         864000.0
+         866000.0
+         868000.0
+         870000.0
+         872000.0
+         874000.0
+         876000.0
+         878000.0
+         880000.0
+         882000.0
+         884000.0
+         886000.0
+         888000.0
+         890000.0
+         892000.0
+         894000.0
+         896000.0
+         898000.0
+         900000.0
+         902000.0
+         904000.0
+         906000.0
+         908000.0
+         910000.0
+         912000.0
+         914000.0
+         916000.0
+         918000.0
+         920000.0
+         922000.0
+         924000.0
+         926000.0
+         928000.0
+         930000.0
+         932000.0
+         934000.0
+         936000.0
+         938000.0
+         940000.0
+         942000.0
+         944000.0
+         946000.0
+         948000.0
+         950000.0
+         952000.0
+         954000.0
+         956000.0
+         958000.0
+         960000.0
+         962000.0
+         964000.0
+         966000.0
+         968000.0
+         970000.0
+         972000.0
+         974000.0
+         976000.0
+         978000.0
+         980000.0
+         982000.0
+         984000.0
+         986000.0
+         988000.0
+         990000.0
+         992000.0
+         994000.0
+         996000.0
+         998000.0
+         1000000.0
+         1002000.0
+         1004000.0
+         1006000.0
+         1008000.0
+         1010000.0
+         1012000.0
+         1014000.0
+         1016000.0
+         1018000.0
+         1020000.0
+         1022000.0
+         1024000.0
+         1026000.0
+         1028000.0
+         1030000.0
+         1032000.0
+         1034000.0
+         1036000.0
+         1038000.0
+         1040000.0
+         1042000.0
+         1044000.0
+         1046000.0
+         1048000.0
+         1050000.0
+         1052000.0
+         1054000.0
+         1056000.0
+         1058000.0
+         1060000.0
+         1062000.0
+         1064000.0
+         1066000.0
+         1068000.0
+         1070000.0
+         1072000.0
+         1074000.0
+         1076000.0
+         1078000.0
+         1080000.0
+         1082000.0
+         1084000.0
+         1086000.0
+         1088000.0
+         1090000.0
+         1092000.0
+         1094000.0
+         1096000.0
+         1098000.0
+         1100000.0
+         1102000.0
+         1104000.0
+         1106000.0
+         1108000.0
+         1110000.0
+         1112000.0
+         1114000.0
+         1116000.0
+         1118000.0
+         1120000.0
+         1122000.0
+         1124000.0
+         1126000.0
+         1128000.0
+         1130000.0
+         1132000.0
+         1134000.0
+         1136000.0
+         1138000.0
+         1140000.0
+         1142000.0
+         1144000.0
+         1146000.0
+         1148000.0
+         1150000.0
+         1152000.0
+         1154000.0
+         1156000.0
+         1158000.0
+         1160000.0
+         1162000.0
+         1164000.0
+         1166000.0
+         1168000.0
+         1170000.0
+         1172000.0
+         1174000.0
+         1176000.0
+         1178000.0
+         1180000.0
+         1182000.0
+         1184000.0
+         1186000.0
+         1188000.0
+         1190000.0
+         1192000.0
+         1194000.0
+         1196000.0
+         1198000.0
+         1200000.0
+         1202000.0
+         1204000.0
+         1206000.0
+         1208000.0
+         1210000.0
+         1212000.0
+         1214000.0
+         1216000.0
+         1218000.0
+         1220000.0
+         1222000.0
+         1224000.0
+         1226000.0
+         1228000.0
+         1230000.0
+         1232000.0
+         1234000.0
+         1236000.0
+         1238000.0
+         1240000.0
+         1242000.0
+         1244000.0
+         1246000.0
+         1248000.0
+         1250000.0
+         1252000.0
+         1254000.0
+         1256000.0
+         1258000.0
+         1260000.0
+         1262000.0
+         1264000.0
+         1266000.0
+         1268000.0
+         1270000.0
+         1272000.0
+         1274000.0
+         1276000.0
+         1278000.0
+         1280000.0
+         1282000.0
+         1284000.0
+         1286000.0
+         1288000.0
+         1290000.0
+         1292000.0
+         1294000.0
+         1296000.0
+         1298000.0
+         1300000.0
+         1302000.0
+         1304000.0
+         1306000.0
+         1308000.0
+         1310000.0
+         1312000.0
+         1314000.0
+         1316000.0
+         1318000.0
+         1320000.0
+         1322000.0
+         1324000.0
+         1326000.0
+         1328000.0
+         1330000.0
+         1332000.0
+         1334000.0
+         1336000.0
+         1338000.0
+         1340000.0
+         1342000.0
+         1344000.0
+         1346000.0
+         1348000.0
+         1350000.0
+         1352000.0
+         1354000.0
+         1356000.0
+         1358000.0
+         1360000.0
+         1362000.0
+         1364000.0
+         1366000.0
+         1368000.0
+         1370000.0
+         1372000.0
+         1374000.0
+         1376000.0
+         1378000.0
+         1380000.0
+         1382000.0
+         1384000.0
+         1386000.0
+         1388000.0
+         1390000.0
+         1392000.0
+         1394000.0
+         1396000.0
+         1398000.0
+         1400000.0
+         1402000.0
+         1404000.0
+         1406000.0
+         1408000.0
+         1410000.0
+         1412000.0
+         1414000.0
+         1416000.0
+         1418000.0
+         1420000.0
+         1422000.0
+         1424000.0
+         1426000.0
+         1428000.0
+         1430000.0
+         1432000.0
+         1434000.0
+         1436000.0
+         1438000.0
+         1440000.0
+         1442000.0
+         1444000.0
+         1446000.0
+         1448000.0
+         1450000.0
+         1452000.0
+         1454000.0
+         1456000.0
+         1458000.0
+         1460000.0
+         1462000.0
+         1464000.0
+         1466000.0
+         1468000.0
+         1470000.0
+         1472000.0
+         1474000.0
+         1476000.0
+         1478000.0
+         1480000.0
+         1482000.0
+         1484000.0
+         1486000.0
+         1488000.0
+         1490000.0
+         1492000.0
+         1494000.0
+         1496000.0
+         1498000.0
+         1500000.0
+         1502000.0
+         1504000.0
+         1506000.0
+         1508000.0
+         1510000.0
+         1512000.0
+         1514000.0
+         1516000.0
+         1518000.0
+         1520000.0
+         1522000.0
+         1524000.0
+         1526000.0
+         1528000.0
+         1530000.0
+         1532000.0
+         1534000.0
+         1536000.0
+         1538000.0
+         1540000.0
+         1542000.0
+         1544000.0
+         1546000.0
+         1548000.0
+         1550000.0
+         1552000.0
+         1554000.0
+         1556000.0
+         1558000.0
+         1560000.0
+         1562000.0
+         1564000.0
+         1566000.0
+         1568000.0
+         1570000.0
+         1572000.0
+         1574000.0
+         1576000.0
+         1578000.0
+         1580000.0
+         1582000.0
+         1584000.0
+         1586000.0
+         1588000.0
+         1590000.0
+         1592000.0
+         1594000.0
+         1596000.0
+         1598000.0
+         1600000.0
+         1602000.0
+         1604000.0
+         1606000.0
+         1608000.0
+         1610000.0
+         1612000.0
+         1614000.0
+         1616000.0
+         1618000.0
+         1620000.0
+         1622000.0
+         1624000.0
+         1626000.0
+         1628000.0
+         1630000.0
+         1632000.0
+         1634000.0
+         1636000.0
+         1638000.0
+         1640000.0
+         1642000.0
+         1644000.0
+         1646000.0
+         1648000.0
+         1650000.0
+         1652000.0
+         1654000.0
+         1656000.0
+         1658000.0
+         1660000.0
+         1662000.0
+         1664000.0
+         1666000.0
+         1668000.0
+         1670000.0
+         1672000.0
+         1674000.0
+         1676000.0
+         1678000.0
+         1680000.0
+         1682000.0
+         1684000.0
+         1686000.0
+         1688000.0
+         1690000.0
+         1692000.0
+         1694000.0
+         1696000.0
+         1698000.0
+         1700000.0
+         1702000.0
+         1704000.0
+         1706000.0
+         1708000.0
+         1710000.0
+         1712000.0
+         1714000.0
+         1716000.0
+         1718000.0
+         1720000.0
+         1722000.0
+         1724000.0
+         1726000.0
+         1728000.0
+         1730000.0
+         1732000.0
+         1734000.0
+         1736000.0
+         1738000.0
+         1740000.0
+         1742000.0
+         1744000.0
+         1746000.0
+         1748000.0
+         1750000.0
+         1752000.0
+         1754000.0
+         1756000.0
+         1758000.0
+         1760000.0
+         1762000.0
+         1764000.0
+         1766000.0
+         1768000.0
+         1770000.0
+         1772000.0
+         1774000.0
+         1776000.0
+         1778000.0
+         1780000.0
+         1782000.0
+         1784000.0
+         1786000.0
+         1788000.0
+         1790000.0
+         1792000.0
+         1794000.0
+         1796000.0
+         1798000.0
+         1800000.0
+         1802000.0
+         1804000.0
+         1806000.0
+         1808000.0
+         1810000.0
+         1812000.0
+         1814000.0
+         1816000.0
+         1818000.0
+         1820000.0
+         1822000.0
+         1824000.0
+         1826000.0
+         1828000.0
+         1830000.0
+         1832000.0
+         1834000.0
+         1836000.0
+         1838000.0
+         1840000.0
+         1842000.0
+         1844000.0
+         1846000.0
+         1848000.0
+         1850000.0
+         1852000.0
+         1854000.0
+         1856000.0
+         1858000.0
+         1860000.0
+         1862000.0
+         1864000.0
+         1866000.0
+         1868000.0
+         1870000.0
+         1872000.0
+         1874000.0
+         1876000.0
+         1878000.0
+         1880000.0
+         1882000.0
+         1884000.0
+         1886000.0
+         1888000.0
+         1890000.0
+         1892000.0
+         1894000.0
+         1896000.0
+         1898000.0
+         1900000.0
+         1902000.0
+         1904000.0
+         1906000.0
+         1908000.0
+         1910000.0
+         1912000.0
+         1914000.0
+         1916000.0
+         1918000.0
+         1920000.0
+         1922000.0
+         1924000.0
+         1926000.0
+         1928000.0
+         1930000.0
+         1932000.0
+         1934000.0
+         1936000.0
+         1938000.0
+         1940000.0
+         1942000.0
+         1944000.0
+         1946000.0
+         1948000.0
+         1950000.0
+         1952000.0
+         1954000.0
+         1956000.0
+         1958000.0
+         1960000.0
+         1962000.0
+         1964000.0
+         1966000.0
+         1968000.0
+         1970000.0
+         1972000.0
+         1974000.0
+         1976000.0
+         1978000.0
+         1980000.0
+         1982000.0
+         1984000.0
+         1986000.0
+         1988000.0
+         1990000.0
+         1992000.0
+         1994000.0
+         1996000.0
+         1998000.0
+         2000000.0
+         2002000.0
+         2004000.0
+         2006000.0
+         2008000.0
+         2010000.0
+         2012000.0
+         2014000.0
+         2016000.0
+         2018000.0
+         2020000.0
+         2022000.0
+         2024000.0
+         2026000.0
+         2028000.0
+         2030000.0
+         2032000.0
+         2034000.0
+         2036000.0
+         2038000.0
+         2040000.0
+         2042000.0
+         2044000.0
+         2046000.0
+         2048000.0
+         2050000.0
+         2052000.0
+         2054000.0
+         2056000.0
+         2058000.0
+         2060000.0
+         2062000.0
+         2064000.0
+         2066000.0
+         2068000.0
+         2070000.0
+         2072000.0
+         2074000.0
+         2076000.0
+         2078000.0
+         2080000.0
+         2082000.0
+         2084000.0
+         2086000.0
+         2088000.0
+         2090000.0
+         2092000.0
+         2094000.0
+         2096000.0
+         2098000.0
+         2100000.0
+         2102000.0
+         2104000.0
+         2106000.0
+         2108000.0
+         2110000.0
+         2112000.0
+         2114000.0
+         2116000.0
+         2118000.0
+         2120000.0
+         2122000.0
+         2124000.0
+         2126000.0
+         2128000.0
+         2130000.0
+         2132000.0
+         2134000.0
+         2136000.0
+         2138000.0
+         2140000.0
+         2142000.0
+         2144000.0
+         2146000.0
+         2148000.0
+         2150000.0
+         2152000.0
+         2154000.0
+         2156000.0
+         2158000.0
+         2160000.0
+         2162000.0
+         2164000.0
+         2166000.0
+         2168000.0
+         2170000.0
+         2172000.0
+         2174000.0
+         2176000.0
+         2178000.0
+         2180000.0
+         2182000.0
+         2184000.0
+         2186000.0
+         2188000.0
+         2190000.0
+         2192000.0
+         2194000.0
+         2196000.0
+         2198000.0
+         2200000.0
+         2202000.0
+         2204000.0
+         2206000.0
+         2208000.0
+         2210000.0
+         2212000.0
+         2214000.0
+         2216000.0
+         2218000.0
+         2220000.0
+         2222000.0
+         2224000.0
+         2226000.0
+         2228000.0
+         2230000.0
+         2232000.0
+         2234000.0
+         2236000.0
+         2238000.0
+         2240000.0
+         2242000.0
+         2244000.0
+         2246000.0
+         2248000.0
+         2250000.0
+         2252000.0
+         2254000.0
+         2256000.0
+         2258000.0
+         2260000.0
+         2262000.0
+         2264000.0
+         2266000.0
+         2268000.0
+         2270000.0
+         2272000.0
+         2274000.0
+         2276000.0
+         2278000.0
+         2280000.0
+         2282000.0
+         2284000.0
+         2286000.0
+         2288000.0
+         2290000.0
+         2292000.0
+         2294000.0
+         2296000.0
+         2298000.0
+         2300000.0
+         2302000.0
+         2304000.0
+         2306000.0
+         2308000.0
+         2310000.0
+         2312000.0
+         2314000.0
+         2316000.0
+         2318000.0
+         2320000.0
+         2322000.0
+         2324000.0
+         2326000.0
+         2328000.0
+         2330000.0
+         2332000.0
+         2334000.0
+         2336000.0
+         2338000.0
+         2340000.0
+         2342000.0
+         2344000.0
+         2346000.0
+         2348000.0
+         2350000.0
+         2352000.0
+         2354000.0
+         2356000.0
+         2358000.0
+         2360000.0
+         2362000.0
+         2364000.0
+         2366000.0
+         2368000.0
+         2370000.0
+         2372000.0
+         2374000.0
+         2376000.0
+         2378000.0
+         2380000.0
+         2382000.0
+         2384000.0
+         2386000.0
+         2388000.0
+         2390000.0
+         2392000.0
+         2394000.0
+         2396000.0
+         2398000.0
+         2400000.0
+         2402000.0
+         2404000.0
+         2406000.0
+         2408000.0
+         2410000.0
+         2412000.0
+         2414000.0
+         2416000.0
+         2418000.0
+         2420000.0
+         2422000.0
+         2424000.0
+         2426000.0
+         2428000.0
+         2430000.0
+         2432000.0
+         2434000.0
+         2436000.0
+         2438000.0
+         2440000.0
+         2442000.0
+         2444000.0
+         2446000.0
+         2448000.0
+         2450000.0
+         2452000.0
+         2454000.0
+         2456000.0
+         2458000.0
+         2460000.0
+         2462000.0
+         2464000.0
+         2466000.0
+         2468000.0
+         2470000.0
+         2472000.0
+         2474000.0
+         2476000.0
+         2478000.0
+         2480000.0
+         2482000.0
+         2484000.0
+         2486000.0
+         2488000.0
+         2490000.0
+         2492000.0
+         2494000.0
+         2496000.0
+         2498000.0
+         2500000.0
+         2502000.0
+         2504000.0
+         2506000.0
+         2508000.0
+         2510000.0
+         2512000.0
+         2514000.0
+         2516000.0
+         2518000.0
+         2520000.0
+         2522000.0
+         2524000.0
+         2526000.0
+         2528000.0
+         2530000.0
+         2532000.0
+         2534000.0
+         2536000.0
+         2538000.0
+         2540000.0
+         2542000.0
+         2544000.0
+         2546000.0
+         2548000.0
+         2550000.0
+         2552000.0
+         2554000.0
+         2556000.0
+         2558000.0
+         2560000.0
+         2562000.0
+         2564000.0
+         2566000.0
+         2568000.0
+         2570000.0
+         2572000.0
+         2574000.0
+         2576000.0
+         2578000.0
+         2580000.0
+         2582000.0
+         2584000.0
+         2586000.0
+         2588000.0
+         2590000.0
+         2592000.0
+         2594000.0
+         2596000.0
+         2598000.0
+         2600000.0
+         2602000.0
+         2604000.0
+         2606000.0
+         2608000.0
+         2610000.0
+         2612000.0
+         2614000.0
+         2616000.0
+         2618000.0
+         2620000.0
+         2622000.0
+         2624000.0
+         2626000.0
+         2628000.0
+         2630000.0
+         2632000.0
+         2634000.0
+         2636000.0
+         2638000.0
+         2640000.0
+         2642000.0
+         2644000.0
+         2646000.0
+         2648000.0
+         2650000.0
+         2652000.0
+         2654000.0
+         2656000.0
+         2658000.0
+         2660000.0
+         2662000.0
+         2664000.0
+         2666000.0
+         2668000.0
+         2670000.0
+         2672000.0
+         2674000.0
+         2676000.0
+         2678000.0
+         2680000.0
+         2682000.0
+         2684000.0
+         2686000.0
+         2688000.0
+         2690000.0
+         2692000.0
+         2694000.0
+         2696000.0
+         2698000.0
+         2700000.0
+         2702000.0
+         2704000.0
+         2706000.0
+         2708000.0
+         2710000.0
+         2712000.0
+         2714000.0
+         2716000.0
+         2718000.0
+         2720000.0
+         2722000.0
+         2724000.0
+         2726000.0
+         2728000.0
+         2730000.0
+         2732000.0
+         2734000.0
+         2736000.0
+         2738000.0
+         2740000.0
+         2742000.0
+         2744000.0
+         2746000.0
+         2748000.0
+         2750000.0
+         2752000.0
+         2754000.0
+         2756000.0
+         2758000.0
+         2760000.0
+         2762000.0
+         2764000.0
+         2766000.0
+         2768000.0
+         2770000.0
+         2772000.0
+         2774000.0
+         2776000.0
+         2778000.0
+         2780000.0
+         2782000.0
+         2784000.0
+         2786000.0
+         2788000.0
+         2790000.0
+         2792000.0
+         2794000.0
+         2796000.0
+         2798000.0
+         2800000.0
+         2802000.0
+         2804000.0
+         2806000.0
+         2808000.0
+         2810000.0
+         2812000.0
+         2814000.0
+         2816000.0
+         2818000.0
+         2820000.0
+         2822000.0
+         2824000.0
+         2826000.0
+         2828000.0
+         2830000.0
+         2832000.0
+         2834000.0
+         2836000.0
+         2838000.0
+         2840000.0
+         2842000.0
+         2844000.0
+         2846000.0
+         2848000.0
+         2850000.0
+         2852000.0
+         2854000.0
+         2856000.0
+         2858000.0
+         2860000.0
+         2862000.0
+         2864000.0
+         2866000.0
+         2868000.0
+         2870000.0
+         2872000.0
+         2874000.0
+         2876000.0
+         2878000.0
+         2880000.0
+         2882000.0
+         2884000.0
+         2886000.0
+         2888000.0
+         2890000.0
+         2892000.0
+         2894000.0
+         2896000.0
+         2898000.0
+         2900000.0
+         2902000.0
+         2904000.0
+         2906000.0
+         2908000.0
+         2910000.0
+         2912000.0
+         2914000.0
+         2916000.0
+         2918000.0
+         2920000.0
+         2922000.0
+         2924000.0
+         2926000.0
+         2928000.0
+         2930000.0
+         2932000.0
+         2934000.0
+         2936000.0
+         2938000.0
+         2940000.0
+         2942000.0
+         2944000.0
+         2946000.0
+         2948000.0
+         2950000.0
+         2952000.0
+         2954000.0
+         2956000.0
+         2958000.0
+         2960000.0
+         2962000.0
+         2964000.0
+         2966000.0
+         2968000.0
+         2970000.0
+         2972000.0
+         2974000.0
+         2976000.0
+         2978000.0
+         2980000.0
+         2982000.0
+         2984000.0
+         2986000.0
+         2988000.0
+         2990000.0
+         2992000.0
+         2994000.0
+         2996000.0
+         2998000.0
+         3000000.0
+         3002000.0
+         3004000.0
+         3006000.0
+         3008000.0
+         3010000.0
+         3012000.0
+         3014000.0
+         3016000.0
+         3018000.0
+         3020000.0
+         3022000.0
+         3024000.0
+         3026000.0
+         3028000.0
+         3030000.0
+         3032000.0
+         3034000.0
+         3036000.0
+         3038000.0
+         3040000.0
+         3042000.0
+         3044000.0
+         3046000.0
+         3048000.0
+         3050000.0
+         3052000.0
+         3054000.0
+         3056000.0
+         3058000.0
+         3060000.0
+         3062000.0
+         3064000.0
+         3066000.0
+         3068000.0
+         3070000.0
+         3072000.0
+         3074000.0
+         3076000.0
+         3078000.0
+         3080000.0
+         3082000.0
+         3084000.0
+         3086000.0
+         3088000.0
+         3090000.0
+         3092000.0
+         3094000.0
+         3096000.0
+         3098000.0
+         3100000.0
+         3102000.0
+         3104000.0
+         3106000.0
+         3108000.0
+         3110000.0
+         3112000.0
+         3114000.0
+         3116000.0
+         3118000.0
+         3120000.0
+         3122000.0
+         3124000.0
+         3126000.0
+         3128000.0
+         3130000.0
+         3132000.0
+         3134000.0
+         3136000.0
+         3138000.0
+         3140000.0
+         3142000.0
+         3144000.0
+         3146000.0
+         3148000.0
+         3150000.0
+         3152000.0
+         3154000.0
+         3156000.0
+         3158000.0
+         3160000.0
+         3162000.0
+         3164000.0
+         3166000.0
+         3168000.0
+         3170000.0
+         3172000.0
+         3174000.0
+         3176000.0
+         3178000.0
+         3180000.0
+         3182000.0
+         3184000.0
+         3186000.0
+         3188000.0
+         3190000.0
+         3192000.0
+         3194000.0
+         3196000.0
+         3198000.0
+         3200000.0
+         3202000.0
+         3204000.0
+         3206000.0
+         3208000.0
+         3210000.0
+         3212000.0
+         3214000.0
+         3216000.0
+         3218000.0
+         3220000.0
+         3222000.0
+         3224000.0
+         3226000.0
+         3228000.0
+         3230000.0
+         3232000.0
+         3234000.0
+         3236000.0
+         3238000.0
+         3240000.0
+         3242000.0
+         3244000.0
+         3246000.0
+         3248000.0
+         3250000.0
+         3252000.0
+         3254000.0
+         3256000.0
+         3258000.0
+         3260000.0
+         3262000.0
+         3264000.0
+         3266000.0
+         3268000.0
+         3270000.0
+         3272000.0
+         3274000.0
+         3276000.0
+         3278000.0
+         3280000.0
+         3282000.0
+         3284000.0
+         3286000.0
+         3288000.0
+         3290000.0
+         3292000.0
+         3294000.0
+         3296000.0
+         3298000.0
+         3300000.0
+         3302000.0
+         3304000.0
+         3306000.0
+         3308000.0
+         3310000.0
+         3312000.0
+         3314000.0
+         3316000.0
+         3318000.0
+         3320000.0
+         3322000.0
+         3324000.0
+         3326000.0
+         3328000.0
+         3330000.0
+         3332000.0
+         3334000.0
+         3336000.0
+         3338000.0
+         3340000.0
+         3342000.0
+         3344000.0
+         3346000.0
+         3348000.0
+         3350000.0
+         3352000.0
+         3354000.0
+         3356000.0
+         3358000.0
+         3360000.0
+         3362000.0
+         3364000.0
+         3366000.0
+         3368000.0
+         3370000.0
+         3372000.0
+         3374000.0
+         3376000.0
+         3378000.0
+         3380000.0
+         3382000.0
+         3384000.0
+         3386000.0
+         3388000.0
+         3390000.0
+         3392000.0
+         3394000.0
+         3396000.0
+         3398000.0
+         3400000.0
+         3402000.0
+         3404000.0
+         3406000.0
+         3408000.0
+         3410000.0
+         3412000.0
+         3414000.0
+         3416000.0
+         3418000.0
+         3420000.0
+         3422000.0
+         3424000.0
+         3426000.0
+         3428000.0
+         3430000.0
+         3432000.0
+         3434000.0
+         3436000.0
+         3438000.0
+         3440000.0
+         3442000.0
+         3444000.0
+         3446000.0
+         3448000.0
+         3450000.0
+         3452000.0
+         3454000.0
+         3456000.0
+         3458000.0
+         3460000.0
+         3462000.0
+         3464000.0
+         3466000.0
+         3468000.0
+         3470000.0
+         3472000.0
+         3474000.0
+         3476000.0
+         3478000.0
+         3480000.0
+         3482000.0
+         3484000.0
+         3486000.0
+         3488000.0
+         3490000.0
+         3492000.0
+         3494000.0
+         3496000.0
+         3498000.0
+         3500000.0
+         3502000.0
+         3504000.0
+         3506000.0
+         3508000.0
+         3510000.0
+         3512000.0
+         3514000.0
+         3516000.0
+         3518000.0
+         3520000.0
+         3522000.0
+         3524000.0
+         3526000.0
+         3528000.0
+         3530000.0
+         3532000.0
+         3534000.0
+         3536000.0
+         3538000.0
+         3540000.0
+         3542000.0
+         3544000.0
+         3546000.0
+         3548000.0
+         3550000.0
+         3552000.0
+         3554000.0
+         3556000.0
+         3558000.0
+         3560000.0
+         3562000.0
+         3564000.0
+         3566000.0
+         3568000.0
+         3570000.0
+         3572000.0
+         3574000.0
+         3576000.0
+         3578000.0
+         3580000.0
+         3582000.0
+         3584000.0
+         3586000.0
+         3588000.0
+         3590000.0
+         3592000.0
+         3594000.0
+         3596000.0
+         3598000.0
+         3600000.0
+         3602000.0
+         3604000.0
+         3606000.0
+         3608000.0
+         3610000.0
+         3612000.0
+         3614000.0
+         3616000.0
+         3618000.0
+         3620000.0
+         3622000.0
+         3624000.0
+         3626000.0
+         3628000.0
+         3630000.0
+         3632000.0
+         3634000.0
+         3636000.0
+         3638000.0
+         3640000.0
+         3642000.0
+         3644000.0
+         3646000.0
+         3648000.0
+         3650000.0
+         3652000.0
+         3654000.0
+         3656000.0
+         3658000.0
+         3660000.0
+         3662000.0
+         3664000.0
+         3666000.0
+         3668000.0
+         3670000.0
+         3672000.0
+         3674000.0
+         3676000.0
+         3678000.0
+         3680000.0
+         3682000.0
+         3684000.0
+         3686000.0
+         3688000.0
+         3690000.0
+         3692000.0
+         3694000.0
+         3696000.0
+         3698000.0
+         3700000.0
+         3702000.0
+         3704000.0
+         3706000.0
+         3708000.0
+         3710000.0
+         3712000.0
+         3714000.0
+         3716000.0
+         3718000.0
+         3720000.0
+         3722000.0
+         3724000.0
+         3726000.0
+         3728000.0
+         3730000.0
+         3732000.0
+         3734000.0
+         3736000.0
+         3738000.0
+         3740000.0
+         3742000.0
+         3744000.0
+         3746000.0
+         3748000.0
+         3750000.0
+         3752000.0
+         3754000.0
+         3756000.0
+         3758000.0
+         3760000.0
+         3762000.0
+         3764000.0
+         3766000.0
+         3768000.0
+         3770000.0
+         3772000.0
+         3774000.0
+         3776000.0
+         3778000.0
+         3780000.0
+         3782000.0
+         3784000.0
+         3786000.0
+         3788000.0
+         3790000.0
+         3792000.0
+         3794000.0
+         3796000.0
+         3798000.0
+         3800000.0
+         3802000.0
+         3804000.0
+         3806000.0
+         3808000.0
+         3810000.0
+         3812000.0
+         3814000.0
+         3816000.0
+         3818000.0
+         3820000.0
+         3822000.0
+         3824000.0
+         3826000.0
+         3828000.0
+         3830000.0
+         3832000.0
+         3834000.0
+         3836000.0
+         3838000.0
+         3840000.0
+         3842000.0
+         3844000.0
+         3846000.0
+         3848000.0
+         3850000.0
+         3852000.0
+         3854000.0
+         3856000.0
+         3858000.0
+         3860000.0
+         3862000.0
+         3864000.0
+         3866000.0
+         3868000.0
+         3870000.0
+         3872000.0
+         3874000.0
+         3876000.0
+         3878000.0
+         3880000.0
+         3882000.0
+         3884000.0
+         3886000.0
+         3888000.0
+         3890000.0
+         3892000.0
+         3894000.0
+         3896000.0
+         3898000.0
+         3900000.0
+         3902000.0
+         3904000.0
+         3906000.0
+         3908000.0
+         3910000.0
+         3912000.0
+         3914000.0
+         3916000.0
+         3918000.0
+         3920000.0
+         3922000.0
+         3924000.0
+         3926000.0
+         3928000.0
+         3930000.0
+         3932000.0
+         3934000.0
+         3936000.0
+         3938000.0
+         3940000.0
+         3942000.0
+         3944000.0
+         3946000.0
+         3948000.0
+         3950000.0
+         3952000.0
+         3954000.0
+         3956000.0
+         3958000.0
+         3960000.0
+         3962000.0
+         3964000.0
+         3966000.0
+         3968000.0
+         3970000.0
+         3972000.0
+         3974000.0
+         3976000.0
+         3978000.0
+         3980000.0
+         3982000.0
+         3984000.0
+         3986000.0
+         3988000.0
+         3990000.0
+         3992000.0
+         3994000.0
+         3996000.0
+         3998000.0
+         4000000.0
+         4002000.0
+         4004000.0
+         4006000.0
+         4008000.0
+         4010000.0
+         4012000.0
+         4014000.0
+         4016000.0
+         4018000.0
+         4020000.0
+         4022000.0
+         4024000.0
+         4026000.0
+         4028000.0
+         4030000.0
+         4032000.0
+         4034000.0
+         4036000.0
+         4038000.0
+         4040000.0
+         4042000.0
+         4044000.0
+         4046000.0
+         4048000.0
+         4050000.0
+         4052000.0
+         4054000.0
+         4056000.0
+         4058000.0
+         4060000.0
+         4062000.0
+         4064000.0
+         4066000.0
+         4068000.0
+         4070000.0
+         4072000.0
+         4074000.0
+         4076000.0
+         4078000.0
+         4080000.0
+         4082000.0
+         4084000.0
+         4086000.0
+         4088000.0
+         4090000.0
+         4092000.0
+         4094000.0))
+       (:y-points
+        (:list
+         3.384256
+         3.3874314
+         3.3956526
+         3.410278
+         3.4308575
+         3.4572468
+         3.4892505
+         3.5293737
+         3.5753107
+         3.628814
+         3.6885734
+         3.7589648
+         3.8362599
+         3.9239843
+         4.0218415
+         4.1312604
+         4.2531614
+         4.389617
+         4.540878
+         4.7118564
+         4.9018216
+         5.116348
+         5.357407
+         5.6341896
+         5.942748
+         6.303569
+         6.719442
+         7.203698
+         7.7785316
+         8.46674
+         9.3092785
+         10.359878
+         11.712496
+         13.518544
+         16.06444
+         19.945082
+         26.642792
+         41.221978
+         103.86215
+         207.30272
+         722.48816
+         660.6947
+         91.40335
+         78.15063
+         36.810006
+         24.6214
+         18.673695
+         15.123389
+         12.748206
+         11.041416
+         9.750197
+         8.738031
+         7.92157
+         7.24809
+         6.6830416
+         6.201408
+         5.7860623
+         5.427051
+         5.10476
+         4.8251743
+         4.572663
+         4.34741
+         4.142778
+         3.9571743
+         3.7881766
+         3.633587
+         3.491349
+         3.3602989
+         3.2389543
+         3.1261666
+         3.0218432
+         2.9237082
+         2.8331254
+         2.7474563
+         2.6658008
+         2.592263
+         2.5204387
+         2.4526387
+         2.389251
+         2.329533
+         2.2720604
+         2.2181654
+         2.1665056
+         2.1175027
+         2.0705674
+         2.0259686
+         1.9835683
+         1.9422245
+         1.9041395
+         1.8657218
+         1.8299099
+         1.7966085
+         1.7621287
+         1.7309942
+         1.7001976
+         1.6711215
+         1.6421081
+         1.6151862
+         1.5882455
+         1.5635144
+         1.5380054
+         1.514822
+         1.4912955
+         1.4691618
+         1.4473381
+         1.4266199
+         1.4064437
+         1.3865248
+         1.3670236
+         1.3492823
+         1.3305751
+         1.3134191
+         1.2961731
+         1.2796754
+         1.2635894
+         1.2476654
+         1.2326858
+         1.2178109
+         1.2031697
+         1.1893538
+         1.1768576
+         1.1579082
+         1.1516849
+         1.1356846
+         1.1228068
+         1.1113058
+         1.0990157
+         1.0870175
+         1.0761374
+         1.0653187
+         1.0534662
+         1.04317
+         1.033358
+         1.0224196
+         1.0123329
+         1.0033962
+         0.99309326
+         0.9839144
+         0.9747447
+         0.9654981
+         0.9567047
+         0.9485774
+         0.93937237
+         0.9311145
+         0.92347616
+         0.9148767
+         0.90687824
+         0.8996182
+         0.8921911
+         0.8838784
+         0.8770262
+         0.8699064
+         0.8627622
+         0.8556672
+         0.84903634
+         0.8419349
+         0.8358711
+         0.8285657
+         0.8229266
+         0.8162324
+         0.8104906
+         0.80348737
+         0.7983469
+         0.7921743
+         0.78641707
+         0.77978564
+         0.7756769
+         0.7693195
+         0.76385576
+         0.75825125
+         0.7530291
+         0.74883724
+         0.74230785
+         0.7377318
+         0.7329367
+         0.7279097
+         0.7232792
+         0.71765507
+         0.71404946
+         0.7086218
+         0.70341927
+         0.6988021
+         0.70043165
+         0.68633116
+         0.6873236
+         0.68312496
+         0.6782647
+         0.6742315
+         0.66971344
+         0.6658696
+         0.66204805
+         0.65744246
+         0.65399224
+         0.6503618
+         0.6458389
+         0.6420043
+         0.63894934
+         0.63472695
+         0.63057417
+         0.62993676
+         0.6219124
+         0.61989427
+         0.61926747
+         0.612788
+         0.61006487
+         0.60728324
+         0.60369617
+         0.6007296
+         0.59696955
+         0.59402127
+         0.59117574
+         0.58743024
+         0.5853379
+         0.5813655
+         0.5787405
+         0.5761834
+         0.57154137
+         0.570822
+         0.5664402
+         0.5644881
+         0.5610042
+         0.5577183
+         0.55603266
+         0.5524869
+         0.5504756
+         0.54693604
+         0.544859
+         0.54210377
+         0.53980947
+         0.5360794
+         0.5348106
+         0.5317066
+         0.52928377
+         0.52715827
+         0.52382136
+         0.522188
+         0.5194546
+         0.51751125
+         0.51408935
+         0.5129989
+         0.5099272
+         0.5080538
+         0.5054011
+         0.5028532
+         0.5013647
+         0.4981112
+         0.49848372
+         0.49314997
+         0.49283665
+         0.48999506
+         0.48831704
+         0.48671094
+         0.48348406
+         0.48230395
+         0.4798207
+         0.47806013
+         0.4757625
+         0.47393453
+         0.47209647
+         0.46998435
+         0.4685293
+         0.46663183
+         0.46676284
+         0.45638692
+         0.46516296
+         0.45846212
+         0.45608288
+         0.4552401
+         0.45226014
+         0.45179868
+         0.4491494
+         0.4480274
+         0.44553185
+         0.44457322
+         0.4425728
+         0.44093844
+         0.43937373
+         0.43721655
+         0.43657422
+         0.43530813
+         0.43017125
+         0.4327254
+         0.42774916
+         0.43007457
+         0.42462942
+         0.42451555
+         0.42287666
+         0.42138553
+         0.41991806
+         0.4184756
+         0.41681
+         0.4150772
+         0.41411808
+         0.41239333
+         0.41101444
+         0.40919042
+         0.4077874
+         0.40734503
+         0.40474182
+         0.40297097
+         0.40287238
+         0.401009
+         0.39943707
+         0.3978817
+         0.3967833
+         0.39562756
+         0.39380854
+         0.3928942
+         0.3913837
+         0.39007765
+         0.38950887
+         0.38661975
+         0.38681704
+         0.38496864
+         0.3835425
+         0.3825288
+         0.38161644
+         0.3797454
+         0.3784423
+         0.37774697
+         0.37637052
+         0.37509957
+         0.37359244
+         0.3729896
+         0.37164462
+         0.3701371
+         0.3693479
+         0.36746892
+         0.3675509
+         0.36552137
+         0.36414737
+         0.3637307
+         0.3620265
+         0.3611863
+         0.35989743
+         0.35900658
+         0.3577885
+         0.35645592
+         0.35568067
+         0.35472268
+         0.35321453
+         0.35250348
+         0.3513158
+         0.35025522
+         0.34946522
+         0.34789512
+         0.34749424
+         0.34603423
+         0.3452088
+         0.3440104
+         0.3434988
+         0.34196562
+         0.34118593
+         0.34004882
+         0.33963734
+         0.3379985
+         0.3371986
+         0.33645496
+         0.33550745
+         0.3343308
+         0.3331621
+         0.33279318
+         0.3316365
+         0.33078453
+         0.3294951
+         0.32893515
+         0.3279955
+         0.3267801
+         0.32603017
+         0.32591152
+         0.32402828
+         0.32312688
+         0.3225879
+         0.32202944
+         0.32043275
+         0.32020292
+         0.31887397
+         0.31838903
+         0.31728423
+         0.31634295
+         0.31591323
+         0.3146884
+         0.31413418
+         0.31299287
+         0.3126916
+         0.31102753
+         0.3110876
+         0.30943733
+         0.30994165
+         0.3078802
+         0.3074923
+         0.30658993
+         0.30638155
+         0.30534998
+         0.30403757
+         0.3038532
+         0.30322602
+         0.30168217
+         0.3017075
+         0.30042535
+         0.30024537
+         0.29874015
+         0.2987709
+         0.29812932
+         0.29820502
+         0.29208922
+         0.29869637
+         0.2946121
+         0.29324025
+         0.29333174
+         0.29255077
+         0.29130057
+         0.2913395
+         0.2901624
+         0.28989473
+         0.28879258
+         0.28823206
+         0.28764236
+         0.2875374
+         0.28540635
+         0.2866974
+         0.28682897
+         0.27920824
+         0.2873349
+         0.28267053
+         0.2819201
+         0.28127593
+         0.2805581
+         0.28029802
+         0.27923474
+         0.2789967
+         0.27786776
+         0.27763754
+         0.2770787
+         0.2763245
+         0.27509952
+         0.2753242
+         0.27421364
+         0.27313888
+         0.27457702
+         0.2713858
+         0.27181008
+         0.27123278
+         0.2703966
+         0.27154306
+         0.26823297
+         0.26922554
+         0.26843303
+         0.26794282
+         0.26692584
+         0.26695699
+         0.26556334
+         0.26632208
+         0.26421285
+         0.26452687
+         0.2643789
+         0.26216358
+         0.26341435
+         0.26192287
+         0.26166695
+         0.2608596
+         0.26047128
+         0.25970995
+         0.25917047
+         0.25890705
+         0.2580018
+         0.25769243
+         0.25705487
+         0.25700673
+         0.25515467
+         0.25590926
+         0.2548134
+         0.25416818
+         0.25437513
+         0.25271964
+         0.25302434
+         0.25211075
+         0.25178957
+         0.25108975
+         0.25084558
+         0.25031942
+         0.24961122
+         0.24939418
+         0.2480657
+         0.24853026
+         0.24630577
+         0.24964462
+         0.24511448
+         0.24637176
+         0.24572961
+         0.24493928
+         0.24509815
+         0.24445983
+         0.2437833
+         0.24320233
+         0.24314507
+         0.2422918
+         0.24155607
+         0.24170128
+         0.24081218
+         0.24074397
+         0.2394381
+         0.23828696
+         0.24152892
+         0.23716425
+         0.23779069
+         0.23768632
+         0.23769838
+         0.23606523
+         0.23662503
+         0.23575081
+         0.23561469
+         0.23456814
+         0.23458649
+         0.23420298
+         0.23356101
+         0.23329698
+         0.23248013
+         0.23265665
+         0.23198387
+         0.23109842
+         0.23116568
+         0.23109252
+         0.22997028
+         0.22940675
+         0.22982937
+         0.22890219
+         0.22831524
+         0.22827277
+         0.22780675
+         0.22704177
+         0.22708184
+         0.22637256
+         0.22570491
+         0.22606454
+         0.22476846
+         0.22529042
+         0.22408341
+         0.22403656
+         0.2234736
+         0.2231497
+         0.22286628
+         0.22263356
+         0.22157574
+         0.22176571
+         0.22115056
+         0.22050619
+         0.22128794
+         0.21929
+         0.21989686
+         0.21951013
+         0.21871872
+         0.21896276
+         0.21775227
+         0.21808028
+         0.21754004
+         0.21694984
+         0.21677146
+         0.21627489
+         0.21577221
+         0.2159538
+         0.2151873
+         0.21453364
+         0.21453144
+         0.21460848
+         0.21343062
+         0.21331981
+         0.21313544
+         0.21288398
+         0.21201715
+         0.21225642
+         0.21142128
+         0.21182829
+         0.21028659
+         0.21080812
+         0.21036579
+         0.21005383
+         0.20902394
+         0.20954633
+         0.20887748
+         0.20810431
+         0.20843566
+         0.20755355
+         0.2077906
+         0.20685372
+         0.2067168
+         0.20677878
+         0.20591232
+         0.20608893
+         0.20488768
+         0.20571035
+         0.20464668
+         0.20430231
+         0.20391183
+         0.20459937
+         0.20289158
+         0.20312959
+         0.20343721
+         0.20216045
+         0.20256858
+         0.20159975
+         0.20184462
+         0.20144598
+         0.2007916
+         0.20099536
+         0.2008406
+         0.19906062
+         0.20019038
+         0.1996499
+         0.19930722
+         0.19920203
+         0.19754845
+         0.19873204
+         0.19817457
+         0.1969688
+         0.19765222
+         0.19664552
+         0.19686455
+         0.19624777
+         0.19606689
+         0.19552812
+         0.19540736
+         0.19542174
+         0.19445974
+         0.19484858
+         0.19420962
+         0.19343335
+         0.19249296
+         0.19611274
+         0.19135472
+         0.1926605
+         0.19267895
+         0.19229561
+         0.19221805
+         0.1915327
+         0.19139911
+         0.19139476
+         0.19057219
+         0.19086515
+         0.18994242
+         0.1903363
+         0.18913955
+         0.18966884
+         0.18734198
+         0.1813368
+         0.20323278
+         0.17881193
+         0.18742232
+         0.18784672
+         0.18787492
+         0.18766123
+         0.18684402
+         0.18697517
+         0.18688925
+         0.18618472
+         0.18589306
+         0.18601065
+         0.18530859
+         0.18598542
+         0.18438223
+         0.18519466
+         0.18548864
+         0.18242681
+         0.18520449
+         0.18385504
+         0.1834363
+         0.18312678
+         0.18313636
+         0.18252574
+         0.18225438
+         0.18258222
+         0.18160044
+         0.18181408
+         0.18137457
+         0.18149716
+         0.18054739
+         0.18088724
+         0.1804345
+         0.17938914
+         0.18128585
+         0.17910014
+         0.17898038
+         0.17947223
+         0.17905885
+         0.178362
+         0.17866487
+         0.17868494
+         0.17737545
+         0.17815027
+         0.17728889
+         0.17759411
+         0.1765798
+         0.17739678
+         0.17629934
+         0.17651619
+         0.17630823
+         0.17535836
+         0.17632745
+         0.1751716
+         0.17542036
+         0.17501739
+         0.17488688
+         0.17445088
+         0.17426394
+         0.17411645
+         0.17372413
+         0.17405173
+         0.1731248
+         0.17408486
+         0.17167622
+         0.17354623
+         0.17254538
+         0.17201482
+         0.17264329
+         0.17128735
+         0.17177139
+         0.17130938
+         0.17119843
+         0.17071353
+         0.17079908
+         0.17058438
+         0.17020959
+         0.17009239
+         0.16961272
+         0.17006389
+         0.17176128
+         0.16692643
+         0.17073822
+         0.16916615
+         0.16898847
+         0.16781986
+         0.16907454
+         0.16759905
+         0.16781244
+         0.16768314
+         0.16764443
+         0.16729848
+         0.16679253
+         0.16693792
+         0.16678518
+         0.16635575
+         0.16606471
+         0.16631195
+         0.16570497
+         0.16573693
+         0.16510272
+         0.16518441
+         0.16520289
+         0.16494036
+         0.1641499
+         0.1643428
+         0.1645101
+         0.16364213
+         0.1640388
+         0.16332339
+         0.16356014
+         0.16330306
+         0.1627904
+         0.16304484
+         0.16248386
+         0.16256279
+         0.16214487
+         0.16218552
+         0.16196595
+         0.16150771
+         0.16140165
+         0.16170196
+         0.16100635
+         0.16080059
+         0.1609396
+         0.16064784
+         0.16033522
+         0.16010235
+         0.16015308
+         0.15995422
+         0.15941167
+         0.15977928
+         0.159068
+         0.15940599
+         0.15860226
+         0.15878356
+         0.15913643
+         0.15813959
+         0.15790814
+         0.15830179
+         0.1580381
+         0.15758515
+         0.15738559
+         0.15733817
+         0.15719885
+         0.15713702
+         0.15654977
+         0.15651772
+         0.15650718
+         0.15633898
+         0.15593548
+         0.15605073
+         0.15584868
+         0.15505637
+         0.15551783
+         0.15581209
+         0.15462417
+         0.15483631
+         0.15493058
+         0.15452345
+         0.15455812
+         0.15379168
+         0.15435303
+         0.15393444
+         0.15351635
+         0.15376775
+         0.15306244
+         0.153654
+         0.15270154
+         0.1530975
+         0.152678
+         0.15306434
+         0.15214455
+         0.15206477
+         0.15252075
+         0.15170099
+         0.15195607
+         0.15132481
+         0.1517989
+         0.15109484
+         0.15100202
+         0.15114199
+         0.15054685
+         0.15087943
+         0.15030302
+         0.15054985
+         0.14979795
+         0.15018347
+         0.14916408
+         0.15061137
+         0.1490671
+         0.14909698
+         0.14948745
+         0.1489107
+         0.14919937
+         0.14859879
+         0.14866115
+         0.14840465
+         0.14857632
+         0.14834926
+         0.14724313
+         0.14884374
+         0.14739892
+         0.14690088
+         0.14827037
+         0.14835869
+         0.14510359
+         0.14794344
+         0.14700966
+         0.14680857
+         0.14648456
+         0.14590684
+         0.14681027
+         0.146029
+         0.14548421
+         0.14631695
+         0.14527656
+         0.14582409
+         0.14512323
+         0.14572218
+         0.1451483
+         0.14322505
+         0.12977794
+         0.16802015
+         0.13179156
+         0.14133699
+         0.14431276
+         0.14364016
+         0.14393237
+         0.14356922
+         0.14360106
+         0.14313525
+         0.14338817
+         0.14320487
+         0.14315026
+         0.14292689
+         0.14256372
+         0.142669
+         0.14244393
+         0.14038033
+         0.14511661
+         0.14056139
+         0.14154972
+         0.14172369
+         0.14164312
+         0.14138216
+         0.14139164
+         0.14133597
+         0.14094773
+         0.14119226
+         0.14075387
+         0.14076385
+         0.14038249
+         0.1405135
+         0.14043373
+         0.14017071
+         0.14087743
+         0.13864358
+         0.14038144
+         0.14000495
+         0.13948313
+         0.13930208
+         0.13970983
+         0.13903049
+         0.13876307
+         0.13934168
+         0.13861455
+         0.13848517
+         0.1386632
+         0.13854745
+         0.13820236
+         0.13810554
+         0.13805571
+         0.13730513
+         0.13866019
+         0.13716075
+         0.13751483
+         0.13730249
+         0.13738866
+         0.13687335
+         0.13716612
+         0.13669344
+         0.13692785
+         0.13659296
+         0.13648895
+         0.13644803
+         0.13604293
+         0.13636038
+         0.13594327
+         0.13607285
+         0.13602795
+         0.13516873
+         0.13574241
+         0.13573432
+         0.13528314
+         0.13502743
+         0.13541438
+         0.13499023
+         0.13466668
+         0.1348394
+         0.13447115
+         0.13478317
+         0.13411045
+         0.1365576
+         0.13491604
+         0.13493586
+         0.13400416
+         0.1336331
+         0.13413796
+         0.13354217
+         0.13321084
+         0.13349283
+         0.13324292
+         0.13297712
+         0.13311371
+         0.13271678
+         0.13287503
+         0.13310869
+         0.13190313
+         0.13281429
+         0.13203874
+         0.13264852
+         0.13192363
+         0.13201027
+         0.13212987
+         0.13159867
+         0.13136462
+         0.13202298
+         0.13112287
+         0.13149567
+         0.13124417
+         0.13105104
+         0.13093698
+         0.13066976
+         0.13138959
+         0.13029272
+         0.13041523
+         0.13103447
+         0.13000171
+         0.13056548
+         0.13007836
+         0.13001605
+         0.12978104
+         0.13048016
+         0.12912202
+         0.12972085
+         0.12957917
+         0.1291691
+         0.12958594
+         0.12885736
+         0.12914697
+         0.1292009
+         0.12860017
+         0.12873692
+         0.1287048
+         0.1287079
+         0.12806368
+         0.12863
+         0.12823893
+         0.12782632
+         0.12788898
+         0.12820752
+         0.12800847
+         0.12718265
+         0.12734916
+         0.12837877
+         0.12706137
+         0.12733081
+         0.12695582
+         0.1274067
+         0.12716447
+         0.12705875
+         0.12664418
+         0.12700515
+         0.12649834
+         0.12641193
+         0.12707439
+         0.12635309
+         0.12570727
+         0.12646882
+         0.12623678
+         0.12615589
+         0.12554249
+         0.12576398
+         0.12614818
+         0.12539122
+         0.12545392
+         0.12568468
+         0.12496846
+         0.12562862
+         0.124762595
+         0.12533489
+         0.124998845
+         0.1245782
+         0.12439192
+         0.12527836
+         0.12444034
+         0.124283545
+         0.12406371
+         0.12458294
+         0.124346815
+         0.12375645
+         0.124050096
+         0.123991564
+         0.12355242
+         0.12407542
+         0.12338638
+         0.12365654
+         0.12327516
+         0.12344228
+         0.12334363
+         0.123907455
+         0.121967755
+         0.12351489
+         0.123067945
+         0.12284568
+         0.12270912
+         0.12235442
+         0.12277047
+         0.12245905
+         0.12274751
+         0.121871844
+         0.122140944
+         0.12232076
+         0.122041866
+         0.12225927
+         0.12138616
+         0.1219446
+         0.1201286
+         0.12359355
+         0.12042281
+         0.12079528
+         0.12172671
+         0.12085888
+         0.12090184
+         0.12130111
+         0.12072545
+         0.12055896
+         0.120759055
+         0.12084625
+         0.120277
+         0.1205653
+         0.12011962
+         0.1198404
+         0.120462515
+         0.12550831
+         0.11307867
+         0.122964815
+         0.12126909
+         0.119664476
+         0.120079294
+         0.11996728
+         0.119524405
+         0.11974515
+         0.11936429
+         0.1197106
+         0.11916129
+         0.11918256
+         0.11901069
+         0.11927533
+         0.11853752
+         0.11885696
+         0.12221285
+         0.114582896
+         0.12035248
+         0.11922815
+         0.11874664
+         0.1185423
+         0.11861266
+         0.1183729
+         0.11828937
+         0.11821407
+         0.118001245
+         0.1181034
+         0.118070685
+         0.118070565
+         0.11720119
+         0.11830808
+         0.1176524
+         0.11602078
+         0.1190916
+         0.11664813
+         0.11726973
+         0.11691236
+         0.11679043
+         0.117337756
+         0.11675387
+         0.11645115
+         0.11715075
+         0.11668644
+         0.116110526
+         0.11686053
+         0.11616142
+         0.11667698
+         0.115961716
+         0.11606658
+         0.1170942
+         0.115073174
+         0.116306074
+         0.11613417
+         0.11589185
+         0.11576394
+         0.11593139
+         0.115664974
+         0.11553056
+         0.115566515
+         0.11522747
+         0.11590641
+         0.11488718
+         0.1151793
+         0.11537664
+         0.115089804
+         0.11499439
+         0.11437706
+         0.11541457
+         0.11506674
+         0.1141653
+         0.114926346
+         0.11429439
+         0.11465289
+         0.11440618
+         0.11427009
+         0.1142827
+         0.11433984
+         0.11364439
+         0.11420421
+         0.11491424
+         0.11323136
+         0.11402624
+         0.11390614
+         0.11415885
+         0.113249704
+         0.11360797
+         0.11385818
+         0.11369538
+         0.112715736
+         0.11384516
+         0.11329686
+         0.11322652
+         0.11306139
+         0.11280977
+         0.11325458
+         0.112536796
+         0.11396557
+         0.111777105
+         0.113101274
+         0.112753906
+         0.11240325
+         0.11273183
+         0.11273479
+         0.11196686
+         0.11253553
+         0.112245225
+         0.11209667
+         0.11233433
+         0.111815974
+         0.11216087
+         0.11187909
+         0.11180173
+         0.11186336
+         0.11146311
+         0.11198316
+         0.111236416
+         0.111617565
+         0.11150071
+         0.1112753
+         0.110931956
+         0.11158796
+         0.111604534
+         0.11057128
+         0.11147886
+         0.11059193
+         0.11144214
+         0.11055255
+         0.11116459
+         0.11061061
+         0.11028636
+         0.11142542
+         0.11003318
+         0.110547535
+         0.11054486
+         0.110267006
+         0.11055471
+         0.11047338
+         0.109793894
+         0.11029289
+         0.11025039
+         0.10983556
+         0.11015756
+         0.10965335
+         0.10994715
+         0.10982852
+         0.10959757
+         0.10998953
+         0.10899768
+         0.1099803
+         0.10929841
+         0.10954893
+         0.10945265
+         0.108970724
+         0.1089863
+         0.10976484
+         0.10880325
+         0.108905576
+         0.10940982
+         0.10848765
+         0.10924883
+         0.10865545
+         0.1088946
+         0.108909175
+         0.10802218
+         0.109308034
+         0.10797802
+         0.10897504
+         0.108051405
+         0.10828521
+         0.10847481
+         0.108751796
+         0.107292176
+         0.108570956
+         0.108140365
+         0.10825198
+         0.107888676
+         0.1080662
+         0.107220836
+         0.10844618
+         0.1077653
+         0.1077527
+         0.10724246
+         0.107806556
+         0.107405745
+         0.1075674
+         0.10755663
+         0.10712447
+         0.10656065
+         0.10803144
+         0.10690862
+         0.10670712
+         0.10743974
+         0.10660217
+         0.10714775
+         0.10665711
+         0.106802106
+         0.10733847
+         0.10592984
+         0.107311465
+         0.1063149
+         0.10682621
+         0.10624235
+         0.10655873
+         0.106223345
+         0.10745815
+         0.10532656
+         0.106472
+         0.10637103
+         0.10636308
+         0.10622405
+         0.10602716
+         0.10600063
+         0.10606829
+         0.10608126
+         0.10600647
+         0.105474204
+         0.10634172
+         0.105477944
+         0.105788186
+         0.10635978
+         0.105699755
+         0.10171873
+         0.109771036
+         0.1040589
+         0.10447433
+         0.105334796
+         0.104883015
+         0.105537325
+         0.104830764
+         0.10510784
+         0.104975164
+         0.10489975
+         0.105334334
+         0.104731225
+         0.10517197
+         0.10524276
+         0.10515199
+         0.10571297
+         0.09835273
+         0.111608446
+         0.102978684
+         0.10235492
+         0.10492193
+         0.10438637
+         0.10335324
+         0.10437516
+         0.103844926
+         0.10429959
+         0.103977755
+         0.10329687
+         0.10439631
+         0.103625916
+         0.10360475
+         0.10362645
+         0.10336712
+         0.10535364
+         0.10185572
+         0.10410944
+         0.10360434
+         0.10373989
+         0.104072765
+         0.10281364
+         0.10375314
+         0.10371669
+         0.103262834
+         0.10337893
+         0.10309729
+         0.10346407
+         0.10320287
+         0.103033476
+         0.10323945
+         0.10289471
+         0.10248056
+         0.10360667
+         0.10248156
+         0.10283767
+         0.10270029
+         0.10261986
+         0.10261372
+         0.10257916
+         0.102485016
+         0.10258868
+         0.102829404
+         0.10166467
+         0.10280499
+         0.10239508
+         0.10231241
+         0.10204929
+         0.10209653
+         0.10280849
+         0.10155305
+         0.10206051
+         0.10232902
+         0.10198758
+         0.10181303
+         0.10211174
+         0.10173491
+         0.10222427
+         0.10161768
+         0.1015949
+         0.10223257
+         0.10173493
+         0.10086888
+         0.10247036
+         0.10173088
+         0.10092968
+         0.101526626
+         0.101812206
+         0.10116562
+         0.1011699
+         0.101332315
+         0.10138377
+         0.1010642
+         0.10117115
+         0.10102802
+         0.10116938
+         0.101247236
+         0.10111232
+         0.10188323
+         0.098297015
+         0.10358104
+         0.10029549
+         0.10049467
+         0.10078138
+         0.100210436
+         0.100598864
+         0.10076912
+         0.10014107
+         0.1005733
+         0.10042748
+         0.10031759
+         0.100508295
+         0.10031076
+         0.09988688
+         0.10049687
+         0.09983082
+         0.10109949
+         0.099332005
+         0.10049731
+         0.09990769
+         0.10006865
+         0.099709764
+         0.10076875
+         0.09946697
+         0.099652454
+         0.100140266
+         0.09958136
+         0.09991206
+         0.09938327
+         0.09957582
+         0.09997256
+         0.09935659
+         0.09998756
+         0.09855994
+         0.10013427
+         0.0992896
+         0.09937953
+         0.09931873
+         0.099434935
+         0.09870638
+         0.09960543
+         0.09920395
+         0.09892626
+         0.09920251
+         0.098934576
+         0.099249706
+         0.09902697
+         0.09876601
+         0.09902681
+         0.09860178
+         0.09950459
+         0.09838271
+         0.09883706
+         0.09871223
+         0.098581575
+         0.09889373
+         0.098949485
+         0.09801828
+         0.098725274
+         0.09862062
+         0.09893762
+         0.09802386
+         0.098356016
+         0.09865752
+         0.098381825
+         0.09836887
+         0.098519005
+         0.09777979
+         0.09858963
+         0.098088704
+         0.09826825
+         0.09832743
+         0.0978966
+         0.09761035
+         0.09819275
+         0.09824519
+         0.097599484
+         0.097997435
+         0.097595
+         0.0981095
+         0.097459056
+         0.097818464
+         0.0976008
+         0.097611
+         0.098021716
+         0.09693001
+         0.09799452
+         0.09721285
+         0.09734864
+         0.09739706
+         0.09822772
+         0.096502654
+         0.09753095
+         0.09736141
+         0.09742609
+         0.09727848
+         0.09712945
+         0.09703286
+         0.09722288
+         0.097489834
+         0.0969404
+         0.09675838
+         0.09726484
+         0.09693555
+         0.09702829
+         0.0971731
+         0.09687163
+         0.09537473
+         0.09824243
+         0.09630358
+         0.096900694
+         0.096072
+         0.09669158
+         0.09655461
+         0.096664295
+         0.09626422
+         0.0968011
+         0.09579896
+         0.096827105
+         0.095901564
+         0.09648521
+         0.09621762
+         0.09563274
+         0.095749125
+         0.09861196
+         0.093763545
+         0.09646024
+         0.09631362
+         0.09598958
+         0.09605466
+         0.09570239
+         0.09575602
+         0.09563532
+         0.09556371
+         0.095597916
+         0.09490663
+         0.0950996
+         0.0944908
+         0.09379994
+         0.0901191
+         0.08516306
+         0.13782907
+         0.059327085
+         0.101997406
+         0.10061026
+         0.09808473
+         0.09726133
+         0.09682558
+         0.09674428
+         0.096491635
+         0.09640414
+         0.09604056
+         0.09654295
+         0.09587104
+         0.09612747
+         0.095818594
+         0.09630911
+         0.09608368
+         0.094283976
+         0.09718992
+         0.09553969
+         0.09518422
+         0.09559293
+         0.095540695
+         0.095414385
+         0.09540427
+         0.09522351
+         0.095489964
+         0.09559211
+         0.094557606
+         0.095616326
+         0.0950438
+         0.095443614
+         0.09466799
+         0.09492681
+         0.095944524
+         0.094259605
+         0.0951706
+         0.09517501
+         0.09513746
+         0.09435682
+         0.09549228
+         0.09470528
+         0.095198795
+         0.09455324
+         0.09452708
+         0.09536758
+         0.094595544
+         0.09399626
+         0.09547335
+         0.09461055
+         0.094471835
+         0.09420575
+         0.09507918
+         0.09422478
+         0.0945437
+         0.09455224
+         0.09421109
+         0.094460026
+         0.09464534
+         0.093655206
+         0.09453255
+         0.09471881
+         0.09348094
+         0.0941146
+         0.09498801
+         0.09362388
+         0.093902856
+         0.09405459
+         0.09439374
+         0.0936685
+         0.09391811
+         0.09412191
+         0.09375596
+         0.09375217
+         0.0938018
+         0.09351669
+         0.0938343
+         0.09327695
+         0.09294247
+         0.09105879
+         0.08619285
+         0.12313853
+         0.08265187
+         0.094267525
+         0.09505202
+         0.09434544
+         0.094494045
+         0.094269835
+         0.09378102
+         0.093805805
+         0.09427294
+         0.09375499
+         0.09359938
+         0.09371812
+         0.09366791
+         0.09398559
+         0.093495675
+         0.09412214
+         0.092295
+         0.09455541
+         0.093255535
+         0.09348147
+         0.09342324
+         0.09366271
+         0.09270187
+         0.093836725
+         0.09309424
+         0.09335546
+         0.09338785
+         0.0929978
+         0.09349047
+         0.09316973
+         0.09298493
+         0.09317136
+         0.09282952
+         0.09385959
+         0.0924464
+         0.093228504
+         0.092972696
+         0.09298917
+         0.093018115
+         0.09334446
+         0.092354045
+         0.09338756
+         0.09284221
+         0.0928744
+         0.09291792
+         0.09266676
+         0.09305321
+         0.09279502
+         0.09295063
+         0.092793055
+         0.09231779
+         0.09304744
+         0.092859976
+         0.09257076
+         0.09286129
+         0.09233394
+         0.09230795
+         0.093562484
+         0.09195759
+         0.09270655
+         0.092257194
+         0.092775166
+         0.09260176
+         0.09237947
+         0.09235939
+         0.09242957
+         0.092016146
+         0.09300929
+         0.09175663
+         0.09268128
+         0.092017435
+         0.092363924
+         0.09206202
+         0.092959456
+         0.09160192
+         0.09243064
+         0.092323184
+         0.09214256
+         0.092348106
+         0.09192582
+         0.09232214
+         0.0920867
+         0.091895804
+         0.09272617
+         0.091439486
+         0.09210025
+         0.09227798
+         0.092199184
+         0.09157875
+         0.092468955
+         0.09102903
+         0.092664026
+         0.091709994
+         0.09174676
+         0.09184087
+         0.09164854
+         0.091714695
+         0.09200421
+         0.091569506
+         0.09202032
+         0.09103563
+         0.09218939
+         0.09162502
+         0.09156777
+         0.09126194
+         0.09208748
+         0.09095639
+         0.09263538
+         0.090881154
+         0.091651544
+         0.09129547
+         0.09200874
+         0.09154402
+         0.091428466
+         0.09143148
+         0.09152312
+         0.091483824
+         0.09185662
+         0.09143875
+         0.090970844
+         0.09181892
+         0.09159015
+         0.09162569
+         0.09202387
+         0.08921417
+         0.092994765
+         0.09104497
+         0.09130068
+         0.091013044
+         0.09110709
+         0.09107447
+         0.09128294
+         0.091292635
+         0.0908133
+         0.09091734
+         0.09151101
+         0.09053575
+         0.09085716
+         0.09104709
+         0.08938708
+         0.08741856
+         0.1010741
+         0.08343658
+         0.091630444
+         0.091225974
+         0.09165903
+         0.09131225
+         0.091184184
+         0.09102103
+         0.09101742
+         0.09090413
+         0.0911354
+         0.09118738
+         0.090539955
+         0.0910046
+         0.09113057
+         0.09034161
+         0.089930445
+         0.0936175
+         0.08886214
+         0.090644576
+         0.09138679
+         0.09079261
+         0.090874285
+         0.09080596
+         0.09087878
+         0.091009185
+         0.09076453
+         0.090665385
+         0.09098982
+         0.09085225
+         0.09072184
+         0.0905888
+         0.09109448
+         0.09115407
+         0.089554034
+         0.09145458
+         0.09097303
+         0.09032004
+         0.09079453
+         0.090297126
+         0.09087007
+         0.09053776
+         0.09039904
+         0.0905157
+         0.09065645
+         0.090188906
+         0.090360336
+         0.09098056
+         0.09010203
+         0.09024405
+         0.09041194
+         0.09087959
+         0.09007128
+         0.090259336
+         0.090602696
+         0.09024759
+         0.09046837
+         0.090282276
+         0.09018484
+         0.090696335
+         0.09024014
+         0.09012985
+         0.090631955
+         0.09068798
+         0.089474865
+         0.090743736
+         0.09054388
+         0.090263754
+         0.089920014
+         0.090294935
+         0.0905968
+         0.08985464
+         0.0905232
+         0.08995329
+         0.090335146
+         0.08981866
+         0.090430916
+         0.090084225
+         0.089824215
+         0.08933059
+         0.08642883
+         0.09765241
+         0.085677825
+         0.08953802
+         0.089981094
+         0.09038837
+         0.090316184
+         0.089408726
+         0.09043554
+         0.09017314
+         0.0898096
+         0.09008307
+         0.08993609
+         0.090154685
+         0.08982571
+         0.09010411
+         0.08966105
+         0.08810991
+         0.09307212
+         0.088064976
+         0.08980863
+         0.08983293
+         0.0898221
+         0.0899054
+         0.09023575
+         0.0895911
+         0.08982303
+         0.09006568
+         0.09001521
+         0.08960143
+         0.08982789
+         0.09011411
+         0.08957436
+         0.08995552
+         0.090694994
+         0.088442646
+         0.09056021
+         0.0898241
+         0.08979537
+         0.08972303
+         0.09002206
+         0.089227244
+         0.090289086
+         0.0893864
+         0.08977965
+         0.08972404
+         0.089625076
+         0.08986847
+         0.08966825
+         0.08958707
+         0.08962101
+         0.08918455
+         0.09044531
+         0.08899331
+         0.08995591
+         0.089299284
+         0.08933392
+         0.08987486
+         0.08995009
+         0.08890548
+         0.08985777
+         0.08954507
+         0.08962938
+         0.089607716
+         0.089406736
+         0.089565225
+         0.0895845
+         0.089495875
+         0.09006642
+         0.08878643
+         0.090008356
+         0.08937911
+         0.089750774
+         0.08942705
+         0.0898168
+         0.08886415
+         0.08989029
+         0.08946489
+         0.08927193
+         0.08972221
+         0.08907472
+         0.08947595
+         0.08960345
+         0.08933601
+         0.089550704
+         0.08881424
+         0.0900475
+         0.08919502
+         0.08936084
+         0.08918969
+         0.08953908
+         0.08892612
+         0.09002681
+         0.08905485
+         0.089269
+         0.08963124
+         0.089047015
+         0.0896956
+         0.08936352
+         0.08925642
+         0.089375384
+         0.08943535
+         0.08967345
+         0.088819236
+         0.08970566
+         0.08921371
+         0.08937426
+         0.0896597
+         0.08965074
+         0.08804595
+         0.090393216
+         0.08915935
+         0.08923818
+         0.08937643
+         0.08921989
+         0.08900602
+         0.08962175
+         0.08930695
+         0.08917444
+         0.0889402
+         0.0895191
+         0.08929228
+         0.08908938
+         0.08902509
+         0.08919755
+         0.08844525
+         0.09075881
+         0.08808521
+         0.08905017
+         0.08968828
+         0.08884181
+         0.08939793
+         0.08928978
+         0.089197815
+         0.08920161
+         0.08917829
+         0.089566566
+         0.08888972
+         0.089382164
+         0.08933143
+         0.08934727
+         0.0896478
+         0.091445334
+         0.08492413
+         0.0921884
+         0.089303024
+         0.08923356
+         0.08910051
+         0.08882945
+         0.089484856
+         0.089086786
+         0.089036845
+         0.08940211
+         0.08887882
+         0.08932668
+         0.08925879
+         0.089051195
+         0.08912434
+         0.08976386
+         0.09127652
+         0.08520118
+         0.09176533
+         0.089121826
+         0.08940608
+         0.08883933
+         0.08924715
+         0.08882304
+         0.088942416
+         0.08955703
+         0.088664554
+         0.089517504
+         0.088527724
+         0.08927473
+         0.08957007
+         0.088803984
+         0.08897005
+         0.08843887
+         0.09035032
+         0.08837191
+         0.089000896
+         0.089096196
+         0.08909249
+         0.08909228
+         0.089022346
+         0.08878563
+         0.08981056
+         0.08879234
+         0.088791535
+         0.08945287
+         0.08928468
+         0.08900374
+         0.08898967))))
+     (:add-slots ((:name nil)))))
+   (:id 19))
+  (:box
+   (:type :function)
+   (:reference get-slot-val)
+   (:group-id nil)
+   (:name "get-slot-val")
+   (:x 899)
+   (:y 322)
+   (:w 128)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "SLOT-NAME")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 20))
+  (:box
+   (:type :value)
+   (:reference symbol)
+   (:group-id nil)
+   (:name "value box")
+   (:x 927)
+   (:y 265)
+   (:w 115)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :left)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value amplitudes)
+   (:id 21))
+  (:box
+   (:library "OM-CKN")
+   (:type :function)
+   (:reference list-to-array)
+   (:group-id nil)
+   (:name "list-to-array")
+   (:x 1085)
+   (:y 351)
+   (:w 130)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "ARRAY-MY")
+     (:value 1)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "DIMENSIONS")
+     (:value 1)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 22))
+  (:box
+   (:library "OM-JI")
+   (:type :function)
+   (:reference (:symbol "CHOOSE" "OM-JI"))
+   (:group-id nil)
+   (:name "choose")
+   (:x 1067)
+   (:y 756)
+   (:w 98)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "NOTELIST")
+     (:value (:list 1 2 3 4 5 6 7 8 9 10))
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "CHORD-N")
+     (:value (:list 1 7 9))
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 23))
+  (:box
+   (:type :value)
+   (:reference cons)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1097)
+   (:y 701)
+   (:w 152)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value (:list 39 40 41 42 43))
+   (:id 24))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1144)
+   (:y 474)
+   (:w 39)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 10)
+   (:id 25))
+  (:box
+   (:type :object)
+   (:reference bpf)
+   (:group-id nil)
+   (:name nil)
+   (:x 599)
+   (:y 840)
+   (:w 605)
+   (:h 168)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :mini-view)
+   (:showname nil)
+   (:show-markers t)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "X-POINTS")
+     (:value (:list 0 2000))
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "Y-POINTS")
+     (:value (:list 0 100))
+     (:reactive nil))
+    (:input
+     (:type :key)
+     (:name "decimals")
+     (:value 2)
+     (:reactive nil)))
+   (:outputs
+    (:output (:name "SELF") (:reactive nil))
+    (:output (:name "X-POINTS") (:reactive nil))
+    (:output (:name "Y-POINTS") (:reactive nil))
+    (:output (:name "decimals") (:reactive nil)))
+   (:window (:size (1920 1026)) (:position (-9 -9)))
+   (:edition-params)
+   (:value
+    (:object
+     (:class bpf)
+     (:slots
+      ((:onset 0)
+       (:duration 6000.0)
+       (:interpol (:number-or-nil (:number 50) (:t-or-nil nil)))
+       (:action nil)
+       (:color (:color 0.0S0 0.0S0 0.0S0 1.0))
+       (:decimals 2)
+       (:x-points (:list 0.0 2000.0 4000.0 6000.0))
+       (:y-points (:list 207.3 722.49 660.69 91.4))))
+     (:add-slots ((:name nil)))))
+   (:id 26))
+  (:box
+   (:type :function)
+   (:reference arithm-ser)
+   (:group-id nil)
+   (:name "arithm-ser")
+   (:x 788)
+   (:y 758)
+   (:w 122)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "BEGIN")
+     (:value 15)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "END")
+     (:value 25)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "STEP")
+     (:value 1)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 27))
+  (:box
+   (:type :value)
+   (:reference single-float)
+   (:group-id nil)
+   (:name "value box")
+   (:x 504)
+   (:y 335)
+   (:w 135)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive t)))
+   (:value 430.864)
+   (:id 28))
+  (:box
+   (:type :function)
+   (:reference om*)
+   (:group-id nil)
+   (:name "om*")
+   (:x 513)
+   (:y 470)
+   (:w 71)
+   (:h 39)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "ARG1")
+     (:value 2)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "ARG2")
+     (:value 0)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 29))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 548)
+   (:y 435)
+   (:w 32)
+   (:h 39)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 2)
+   (:id 30)))
+ (:connections
+  (:connection (:from (:box 0 :out 0)) (:to (:box 5 :in 0)))
+  (:connection (:from (:box 0 :out 0)) (:to (:box 10 :in 0)))
+  (:connection (:from (:box 1 :out 0)) (:to (:box 2 :in 1)))
+  (:connection (:from (:box 2 :out 0)) (:to (:box 9 :in 0)))
+  (:connection (:from (:box 4 :out 0)) (:to (:box 2 :in 2)))
+  (:connection (:from (:box 5 :out 0)) (:to (:box 8 :in 0)))
+  (:connection (:from (:box 5 :out 0)) (:to (:box 2 :in 0)))
+  (:connection (:from (:box 5 :out 0)) (:to (:box 13 :in 0)))
+  (:connection (:from (:box 5 :out 0)) (:to (:box 18 :in 0)))
+  (:connection
+   (:from (:box 6 :out 0))
+   (:to (:box 5 :in 1))
+   (:attributes (:color nil :style nil :modif (0 -14/53))))
+  (:connection (:from (:box 6 :out 0)) (:to (:box 1 :in 0)))
+  (:connection (:from (:box 7 :out 0)) (:to (:box 5 :in 2)))
+  (:connection (:from (:box 9 :out 0)) (:to (:box 15 :in 0)))
+  (:connection (:from (:box 10 :out 0)) (:to (:box 11 :in 0)))
+  (:connection (:from (:box 11 :out 0)) (:to (:box 12 :in 0)))
+  (:connection (:from (:box 15 :out 0)) (:to (:box 16 :in 0)))
+  (:connection (:from (:box 17 :out 0)) (:to (:box 19 :in 2)))
+  (:connection (:from (:box 18 :out 0)) (:to (:box 20 :in 0)))
+  (:connection (:from (:box 19 :out 2)) (:to (:box 23 :in 0)))
+  (:connection (:from (:box 20 :out 0)) (:to (:box 22 :in 0)))
+  (:connection (:from (:box 21 :out 0)) (:to (:box 20 :in 1)))
+  (:connection (:from (:box 22 :out 0)) (:to (:box 17 :in 0)))
+  (:connection (:from (:box 23 :out 0)) (:to (:box 26 :in 2)))
+  (:connection (:from (:box 24 :out 0)) (:to (:box 23 :in 1)))
+  (:connection (:from (:box 25 :out 0)) (:to (:box 19 :in 3)))
+  (:connection (:from (:box 28 :out 0)) (:to (:box 29 :in 0)))
+  (:connection (:from (:box 29 :out 0)) (:to (:box 2 :in 3)))
+  (:connection (:from (:box 30 :out 0)) (:to (:box 29 :in 1)))))
