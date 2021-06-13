@@ -1,7 +1,7 @@
 
 (in-package :om)
 
-"TESTE"
+
 ;================================================== FFT-Class =====================
 
 (defclass! ckn-fft-instance ()
@@ -347,6 +347,7 @@ Result: (7 9 458)."
 
 (let* (
 (ckn-action1  (loop :for ckn-plus :in (true-durations voice) :collect (if (plusp ckn-plus) 0 1)))
+
 (ckn-action2 (loop :for cknloop :in ckn-action1 :collect (if (= 0 cknloop) (setq number-2 (+ number-2 1)) nil))))
 
 
@@ -421,7 +422,7 @@ action1))
 
 (om-print "Aguarde!" "Verbose")
 
-(ckn-clear-temp-files) ;; test
+(ckn-clear-temp-files)
 
 (if (equal (check-samples-in-voice voice)  "Todas as alturas possuem samples correspondentes")
 

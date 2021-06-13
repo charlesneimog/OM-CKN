@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ConverterType libsamplerate2 quality parameters
+
+FV3_SRC_SINC_BEST_QUALITY        =   0
+FV3_SRC_SINC_MEDIUM_QUALITY      =   1
+FV3_SRC_SINC_FASTEST             =   2
+FV3_SRC_ZERO_ORDER_HOLD          =   3
+FV3_SRC_LINEAR                   =   4
+FV3_SRC_SINC_SLOW_BEST_QUALITY   =  10
+FV3_SRC_SINC_SLOW_MEDIUM_QUALITY =  11
+FV3_SRC_LPF_IIR_1                = 100
+FV3_SRC_LPF_IIR_2                = 101
+
+The initialDelay for optimization
+
+This is for multiprocessing optimization.
+This can be zero, but CPU spikes will appear
+if the audio buffer (ASIO latency) is too small.
+-->
+<fv3:config>
+  <fv3:section fv3:name="Freeverb3VST_Impulser2">
+    <fv3:key fv3:name="UniqueID" fv3:value="WnI1" />
+    <fv3:key fv3:name="Version" fv3:value="103" />
+    <!--
+	fragmentSize and factor must be 2^n.
+	fragmentSize=512 for Fs < 48k or large block size
+	fragmentSize=256 for small block size
+    -->
+    <fv3:key fv3:name="FragmentSize" fv3:value="512" />
+    <fv3:key fv3:name="Factor" fv3:value="16" />
+    <!-- for backward compatibility -->
+    <fv3:key fv3:name="ZeroLatency" fv3:value="1" />
+    <!-- The log will be written to freeverb3log.txt. -->
+    <fv3:key fv3:name="OutputLog" fv3:value="0" />
+    <!-- libsamplerate quality parameter -->
+    <fv3:key fv3:name="ConverterType" fv3:value="0" />
+    <!-- lFragmentMultiThread for SMP systems -->
+    <fv3:key fv3:name="MultiThread" fv3:value="1" />
+    <!-- Shift+drag fader zoom factor -->
+    <fv3:key fv3:name="GuiZoomFactor" fv3:value="20.0" />
+  </fv3:section>
+
+  <fv3:section fv3:name="Freeverb3VST_NReverb">
+    <fv3:key fv3:name="UniqueID" fv3:value="WnN1" />
+    <fv3:key fv3:name="Version" fv3:value="101" />
+    <!-- libsamplerate quality parameter -->
+    <fv3:key fv3:name="ConverterType" fv3:value="101" />
+    <!-- initialDelay for optimization -->
+    <fv3:key fv3:name="Latency" fv3:value="0" />
+  </fv3:section>
+
+  <fv3:section fv3:name="Freeverb3VST_Freeverb">
+    <fv3:key fv3:name="UniqueID" fv3:value="WnF1" />
+    <fv3:key fv3:name="Version" fv3:value="101" />
+    <!-- libsamplerate quality parameter -->
+    <fv3:key fv3:name="ConverterType" fv3:value="101" />
+    <!-- initialDelay for optimization -->
+    <fv3:key fv3:name="Latency" fv3:value="0" />
+  </fv3:section>
+
+  <fv3:section fv3:name="Freeverb3VST_STRev">
+    <fv3:key fv3:name="UniqueID" fv3:value="WnT1" />
+    <fv3:key fv3:name="Version" fv3:value="101" />
+    <!-- libsamplerate quality parameter -->
+    <fv3:key fv3:name="ConverterType" fv3:value="101" />
+    <!-- initialDelay for optimization -->
+    <fv3:key fv3:name="Latency" fv3:value="0" />
+  </fv3:section>
+
+  <fv3:section fv3:name="Freeverb3VST_ProG_Reverb">
+    <fv3:key fv3:name="UniqueID" fv3:value="WnP1" />
+    <fv3:key fv3:name="Version" fv3:value="101" />
+    <!-- libsamplerate quality parameter -->
+    <fv3:key fv3:name="ConverterType" fv3:value="101" />
+    <!-- initialDelay for optimization -->
+    <fv3:key fv3:name="Latency" fv3:value="0" />
+  </fv3:section>
+
+  <fv3:section fv3:name="Freeverb3VST_Hibiki_Reverb">
+    <fv3:key fv3:name="UniqueID" fv3:value="WnH1" />
+    <fv3:key fv3:name="Version" fv3:value="101" />
+    <!-- libsamplerate quality parameter -->
+    <fv3:key fv3:name="ConverterType" fv3:value="101" />
+    <!-- initialDelay for optimization -->
+    <fv3:key fv3:name="Latency" fv3:value="0" />
+  </fv3:section>
+
+  <fv3:section fv3:name="Freeverb3VST_X1_Limiter">
+    <fv3:key fv3:name="UniqueID" fv3:value="WnL1" />
+    <fv3:key fv3:name="Version" fv3:value="101" />
+    <!-- libsamplerate quality parameter -->
+    <fv3:key fv3:name="ConverterType" fv3:value="101" />
+    <!-- initialDelay for optimization -->
+    <fv3:key fv3:name="Latency" fv3:value="0" />
+  </fv3:section>
+
+  <fv3:section fv3:name="Freeverb3VST_StereoEnhancer">
+    <fv3:key fv3:name="UniqueID" fv3:value="WnS1" />
+    <fv3:key fv3:name="Version" fv3:value="101" />
+    <!-- initialDelay for optimization -->
+    <fv3:key fv3:name="Latency" fv3:value="0" />
+  </fv3:section>
+  
+  <fv3:section fv3:name="Freeverb3VST_WindCompressor">
+    <fv3:key fv3:name="UniqueID" fv3:value="WnC1" />
+    <fv3:key fv3:name="Version" fv3:value="100" />
+    <!--
+	filterType LPF/BPF/HPF Window Function
+	[Stopband Attenuation]
+	FV3_W_BLACKMAN = 1 [-74dB]
+	FV3_W_HANNING  = 2 [-44dB]
+	FV3_W_HAMMING  = 3 [-53db]
+	FV3_W_KAISER   = 4 [-<parameter>dB]
+	FV3_W_COSRO    = 5 (alpha=<parameter>)
+	(alpha >0 && <=1) 0->default, use Square window when alpha=0.
+	FV3_W_SQUARE   = 6 [-21dB]
+    -->
+    <fv3:key fv3:name="FilterType" fv3:value="1" />
+    <fv3:key fv3:name="FilterParameter" fv3:value="0.0" />
+    <!--
+	transition bandwidth [Hz]
+	The small bandwidth will be slow (long FIR filter) and the plugin delay will be long.
+    -->
+    <fv3:key fv3:name="TransitionBandwidth" fv3:value="2500" />
+    <!-- IR fragmentSize 1024~16384. This must be the power of 2. -->
+    <fv3:key fv3:name="FragmentSize" fv3:value="2048" />
+    <!-- initialDelay for optimization -->
+    <fv3:key fv3:name="Latency" fv3:value="0" />
+  </fv3:section>
+</fv3:config>

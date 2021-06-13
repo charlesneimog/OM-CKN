@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fv3:programs>
+  <fv3:ir fv3:msb="0" fv3:lsb="0" fv3:prg="0" fv3:file="C:\IR\Test1.wav"/>
+  <fv3:ir fv3:msb="0" fv3:lsb="0" fv3:prg="1" fv3:file="C:\IR\Test2.wav"/>
+  <fv3:ir fv3:msb="0" fv3:lsb="0" fv3:prg="2" fv3:file="C:\IR\Test3.wav"/>
+  <fv3:ir fv3:msb="2" fv3:lsb="2" fv3:prg="2" fv3:file="C:\IR\Test4.wav"/>
+</fv3:programs>
+
