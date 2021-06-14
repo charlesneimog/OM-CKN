@@ -10,9 +10,9 @@
 ;====================================
 
 (defun list-dimensions (list depth)
-  (loop repeat depth
-        collect (length list)
-        do (setf list (car list))))
+  (loop :repeat depth
+        :collect (length list)
+        :do (setf list (car list))))
 
 ;=====================================
 
@@ -27,11 +27,11 @@
          (depth      (1- (length dimensions)))
          (indices    (make-list (1+ depth) :initial-element 0)))
     (labels ((recurse (n)
-               (loop for j below (nth n dimensions)
-                     do (setf (nth n indices) j)
-                     collect (if (= n depth)
-                                 (apply #'aref array indices)
-                               (recurse (1+ n))))))
+               (loop :for j :below (nth n dimensions)
+                     :do (setf (nth n indices) j)
+                     :collect (if (= n depth)
+                                (apply #'aref array indices)
+                                (recurse (1+ n))))))
       (recurse 0))))
 
 ;=====================================
@@ -54,13 +54,13 @@
 (defun fft->amplitude-fun (fft)
  (let* (   
        (fft-list (array-to-list-fun fft))
-       (i-n (mapcar (lambda (x) (imagpart x)) fft-list))
-       
-       (r-n (mapcar (lambda (y) (realpart y)) fft-list)))
+       (i-n (mapcar (lambda (x) (imagpart x)) fft-list)) ;; FILTRA A PARTE IMAGINÁRIA DO FFT
+       (r-n (mapcar (lambda (y) (realpart y)) fft-list))) ;; FILTRA A PARTE REAL DO FFT
        
    (mapcar (lambda (x y) (sqrt (om::om+ (om::om^ x 2) (om::om^ y 2)))) i-n r-n)))
 
 ;======================================
+
 (deftype complex-sample-array (&optional size)
   `(simple-array complex-sample (,size)))
 
@@ -80,7 +80,7 @@
 
 ;======================================
 
-(defvar *optimization-policy* '(optimize speed (safety 0)))
+(defvar *optimization-policy* '(optimize speed (safety 0))) ;; Otimização de processamento
 
 ;=====================================
 
@@ -145,13 +145,20 @@ be used for urlmapping."
 
 (let* (
       (action1 (if (equal nil windows-type)
-      (list-to-array (first-n sound-bytes-window window) 1)
-      (om-ckn::apply-window (list-to-array (first-n sound-bytes-window window) 1) windows-type))) ;; Colocar opçao para sem janela;
+
+                (list-to-array (first-n sound-bytes-window window) 1) 
+                #|
+                ;; First-n seleciona os primeiros n bytes de todos os bytes do sample em análise. 
+                ;; Sendo que n é o hop size.
+                ;; O trecho acima transforma os bytes de um sample em arrays em list (list-to-array).
+                |#
+                (om-ckn::apply-window (list-to-array (first-n sound-bytes-window window) 1) windows-type))) 
+
       (action2 (last-n sound-bytes-window (let* ((number (- (length sound-bytes-window) hop-size)))
                                             (if (positive? number) number 1)))))
 (if (< (length (remove nil action2)) window) 
     (reverse (x-append (list action1) result))
-  (setf sound-bytes-window (sound-window action2 window hop-size windows-type (push action1 result))))))
+    (setf sound-bytes-window (sound-window action2 window hop-size windows-type (push action1 result))))))
 
 
 ; ============================

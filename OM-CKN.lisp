@@ -20,7 +20,8 @@
       "Sources/Samples/ircam-instruments-om6"
       "Sources/sinusoidal-modeling"
       "Sources/om-methods"
-      "Sources/OM6-Pref/Preferences"
+      "Sources/utilities"
+      "Sources/stolen-functions"
             ))
 
 

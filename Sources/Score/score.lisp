@@ -149,7 +149,7 @@
     
 ;; =======================================================
 
-(defun ckn-add-extras (voice)
+(defun ckn-headnote-extras (voice)
 
 (let* (
 (action1 (om::sort-list (om::remove-dup (om::flat (om::lchan voice)) 'eq 1)))
