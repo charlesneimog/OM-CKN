@@ -297,8 +297,7 @@ be used for urlmapping."
 (loop :with mailbox-empty = nil 
       :while (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mail-box)))
       :do 
-            (let* ()
-              (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mail-box))
+            (let* () (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mail-box))
                mailbox-empty))
 
 (mapcar (lambda (x) (mp:mailbox-peek x)) mail-box)))
@@ -452,7 +451,7 @@ be used for urlmapping."
 
 (defun loop-until-probe-file (my-file)
   (loop :with file = nil 
-      :while (equal nil (setf file (probe-file my-file)))
+        :while (equal nil (setf file (probe-file my-file)))
   :collect file)
 
 (probe-file my-file))
