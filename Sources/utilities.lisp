@@ -190,6 +190,29 @@ be used for urlmapping."
 
  ; ============================ OM-SYNTH ========================================================
 
+
+ (defun do-senoide (dur freq gain envelope)
+
+  (let* ((sr 44100)
+         (nbsamples (round (* dur sr)))
+         (freqs (list! freq))
+         (steps (loop for f in freqs collect (/ f sr)))
+         (sampled-envelope (om-scale (nth 2 (multiple-value-list (om-sample envelope nbsamples))) 0.0 1.0)))
+
+      (loop for x from 0 to (1- nbsamples)
+            for y-list = (make-list (length steps) :initial-element 0) :then (om+ y-list steps)
+            for amp in sampled-envelope
+            :collect
+            (om* (om* gain amp)
+                               (apply '+ (loop for y in y-list collect (sin (* 2 (coerce pi 'single-float) (cadr (multiple-value-list (floor y))))))
+
+                                      ))
+                            )
+            )
+      )
+
+;=========================
+
 (defun synth (dur freq gain envelope)
 
   (let* ((sr 44100)
@@ -201,14 +224,12 @@ be used for urlmapping."
     (with-sound-output (mysound :nch 2 :size nbsamples :sr 44100 :type :float)
 
       (loop for x from 0 to (1- nbsamples)
-            for y-list = (make-list (length steps) :initial-element 0) then (om+ y-list steps)
+            for y-list = (make-list (length steps) :initial-element 0) :then (om+ y-list steps)
             for amp in sampled-envelope
             do
             (write-in-sound mysound 1 x
-                            (* gain amp
-                               (apply '+
-                                      (loop for y in y-list collect
-                                            (sin (* 2 (coerce pi 'single-float) (cadr (multiple-value-list (floor y))))))
+                            (om* (om* gain amp)
+                               (apply '+ (loop for y in y-list collect (sin (* 2 (coerce pi 'single-float) (cadr (multiple-value-list (floor y))))))
 
                                       ))
                             )
@@ -435,6 +456,37 @@ be used for urlmapping."
   :collect file)
 
 (probe-file my-file))
+
+;=====================================================================
+
+(defun ckn-antescofo-score (voice variance local)
+(let* (
+    (voice-tempo (tempo voice))
+    (voice-tree (om-abs (ms->sec (om6-true-durations (make-value 'voice (list (list :tree (mktree (tree2ratio (tree voice)) '(4 4))) (list :tempo voice-tempo)))))))
+    (voice-midi (lmidic voice))
+    (voice-to-rest (choose-to-rest voice))
+    (SCORE
+            (loop :for voice-tree-loop :in voice-tree 
+            :for rest-loop :in voice-to-rest
+            :collect
+                    (x-append (if (equal (length (if (equal (choose voice-midi rest-loop) nil) (list 0) (choose voice-midi rest-loop))) 1) 
+                    "NOTE"
+                    "CHORD")
+
+                        (if (equal (length (if (equal (choose voice-midi rest-loop) nil) (list 0) (choose voice-midi rest-loop))) 1)
+                            (if (equal (choose voice-midi rest-loop) nil) (list 0) (choose voice-midi rest-loop))
+                            (list (if (equal (choose voice-midi rest-loop) nil) (list 0) (choose voice-midi rest-loop))))
+
+                        voice-tree-loop
+
+                        "@hook"
+                        (if (equal (if (equal (choose voice-midi rest-loop) nil) (list 0) (choose voice-midi rest-loop)) (list 0))
+                            nil
+                            "@pizz"))))
+
+    (Score-acabada (x-append (list (x-append "BPM" voice-tempo) (x-append "Variance" variance)) SCORE)))
+
+(save-as-text Score-acabada local)))
 
 ;===================================================================== Compile in OM-SHARP =================================
 
