@@ -269,6 +269,7 @@ _______________________________________________________________________
 ;; 395 - 440 
 
 (425 (Vc-pizz-lv note velocity))
+(419 (Vc-ord note velocity))
 
 ;; 14 Contrabaixo  ================================================================
 
@@ -793,6 +794,11 @@ _______________________________________________________________________
 (remove nil (flat action1))))
 
 
+;; =======================================
+
+
+;;Vc-ord
+
 
 
 ;; ==================================================== HARP  ====================================================
@@ -853,6 +859,33 @@ _______________________________________________________________________
 (if (equal (length action2) 3)
       (if (> velocity 87) (car (last action2)) (if (>= velocity 56) (second action2) (first action2)))
       (first action2))))
+
+
+
+
+
+;; =======================================
+
+(defmethod! Vc-ord ((note integer) &optional (velocity 60))
+:initvals '(nil)
+:indoc '("Sound class") 
+:icon '17359
+:doc "It reads a wave file."
+
+(let* (
+      (action1 
+        (loop :for x :in '("1c- " "2c- " "3c- " "4c- ") :collect 
+        (loop :for y :in '("pp-" "mf-" "ff-") :collect
+            (probe-file (string+ (get-pref-value :externals :ircam-instruments) 
+            "15 Cello/ordinario/" "Vc-ord-" y x (ckn-mc->n note) ".aif")))))
+      (action2 (remove nil (flat action1))))
+
+(if (equal (length action2) 3)
+      (if (> velocity 87) (car (last action2)) (if (>= velocity 56) (second action2) (first action2)))
+      (first action2))))
+
+;;Vc-ord
+
 
 
 ;; ==================================================== Contrabaixo  ====================================================

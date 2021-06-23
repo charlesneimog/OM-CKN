@@ -214,16 +214,17 @@
 
     (action2 (getsdifframes sdif-file)))
 
-    (loop :for cknloop :in (arithm-ser 1 (length action2) 1) :collect       
-        (x-append  
-          (get-slot-val (make-value-from-model 'sdifframe 
-              (posn-match action2 (om::om- cknloop 1)) nil) "FTIME")  
-          (mat-trans 
-            (posn-match 
-              (get-slot-val 
-                  (make-value-from-model 'sdifmatrix 
-                            (first (get-slot-val (make-value-from-model 'sdifframe (posn-match action2 (om- cknloop 1)) nil)
-                            "LMATRIX")) nil) "DATA") '(0 1 2))))
+        (loop 
+            :for cknloop 
+            :in (arithm-ser 1 (length action2) 1) 
+            :collect       
+    
+(x-append (get-slot-val (make-value-from-model 'sdifframe (posn-match action2 (om::om- cknloop 1)) nil) "FTIME")  
+          (mat-trans (posn-match 
+              (om::get-slot-val (make-value-from-model 'sdifmatrix 
+                (first (om::get-slot-val 
+                    (om::make-value-from-model 'sdifframe (posn-match action2 (om::om- cknloop 1)) nil)
+                                            "LMATRIX")) nil) "DATA") '(0 1 2))))
         )
     )
 )
@@ -240,9 +241,9 @@
     (action1 (sdif->list-fun sdif-file))
     (action2 
         (mapcar (lambda (x)
-        (reduce (lambda (xy xx) (+ xy xx))
-            (mapcar
-                (lambda (xxx) (third xxx)) (last-n x (- (length x) 1))))) action1)))
+          (reduce (lambda (xy xx) (+ xy xx))
+              (mapcar
+                  (lambda (xxx) (third xxx)) (last-n x (- (length x) 1))))) action1)))
 
 (make-value 'bpf (list (list :x-points nil) (list :y-points action2)))))
 

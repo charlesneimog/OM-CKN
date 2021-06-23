@@ -51,7 +51,7 @@
 ;  ========================
 
 (defmethod! ckn-VST2 ((sound sound) (sound-out string) (plugin-path string) (fxp-path string))
-:initvals '(nil)
+:initvals '(nil nil nil nil)
 :indoc '("Use VST2 plugins in your sounds") 
 :icon '17359
 :doc "It allows to use VST2 plugins in your sounds."

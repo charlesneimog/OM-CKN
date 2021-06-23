@@ -477,8 +477,6 @@ be used for urlmapping."
                             (list (if (equal (choose voice-midi rest-loop) nil) (list 0) (choose voice-midi rest-loop))))
 
                         voice-tree-loop
-
-                        "@hook"
                         (if (equal (if (equal (choose voice-midi rest-loop) nil) (list 0) (choose voice-midi rest-loop)) (list 0))
                             nil
                             "@pizz"))))
