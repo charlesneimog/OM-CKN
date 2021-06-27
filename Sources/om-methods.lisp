@@ -218,17 +218,15 @@
         (loop 
             :for cknloop 
             :in (arithm-ser 1 (length action2) 1) 
-            :collect       
+                  :collect       
     
-(x-append (get-slot-val (make-value-from-model 'sdifframe (posn-match action2 (om::om- cknloop 1)) nil) "FTIME")  
-          (mat-trans (posn-match 
-              (om::get-slot-val (make-value-from-model 'sdifmatrix 
-                (first (om::get-slot-val 
-                    (om::make-value-from-model 'sdifframe (posn-match action2 (om::om- cknloop 1)) nil)
-                                            "LMATRIX")) nil) "DATA") '(0 1 2))))
-        )
-    )
-)
+        (x-append 
+              (get-slot-val (make-value-from-model 'sdifframe (posn-match action2 (om::om- cknloop 1)) nil) "FTIME")  
+              (mat-trans (posn-match 
+                    (om::get-slot-val (make-value-from-model 'sdifmatrix 
+                                          (first (om::get-slot-val 
+                              (om::make-value-from-model 'sdifframe (posn-match action2 (om::om- cknloop 1)) nil)
+                                            "LMATRIX")) nil) "DATA") '(0 1 2)))))))
 
 ;; ====================================================
 
