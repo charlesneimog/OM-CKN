@@ -4,7 +4,7 @@
  (:doc "")
  (:info
   (:created "2021/04/14 12:36:21")
-  (:modified "2021/06/26 23:18:06")
+  (:modified "2021/06/26 23:20:34")
   (:by "om-sharp")
   (:version 1.03))
  (:window (:size (1942 1102)) (:position (-9 -9)))
@@ -3612,7 +3612,7 @@
           (:modified nil)
           (:by *app-name*)
           (:version 0))
-         (:window (:size nil) (:position nil))
+         (:window (:size (1235 475)) (:position (224 224)))
          (:text
           (:list
            "(lambda (amplitudes variavel)"
@@ -3699,7 +3699,7 @@
        (:group-id nil)
        (:name "list")
        (:x 176)
-       (:y 556)
+       (:y 608)
        (:w 60)
        (:h 33)
        (:color nil)
@@ -5045,7 +5045,24 @@
    (:inputs)
    (:outputs (:output (:name "value") (:reactive nil)))
    (:value (:list 6898 8124))
-   (:id 20)))
+   (:id 20))
+  (:comment
+   (:x 707)
+   (:y 303)
+   (:w 351)
+   (:h 49)
+   (:fgcolor
+    (:color-or-nil (:color (:color 1.0 0.0 0.0 1.0)) (:t-or-nil t)))
+   (:bgcolor nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font
+    (:font-or-nil
+     (:font (:font (:face "Segoe UI") (:size 24) (:style :plain)))
+     (:t-or-nil t)))
+   (:align nil)
+   (:text "YET NOT READY")
+   (:id 21)))
  (:connections
   (:connection
    (:from (:box 0 :out 0))
