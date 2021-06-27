@@ -402,7 +402,7 @@ be used for urlmapping."
 ;=====================================================================
 
 
-(defun fft->Sin-model (ckn-fft-instance filtro)
+(defun fft->Sin-model-fun (ckn-fft-instance filtro)
 
 (loop 
         :for x :in ckn-fft-instance 
@@ -677,7 +677,7 @@ be used for urlmapping."
 (compile 'sound-sequence-loop)
 (compile 'ckn-clear-temp-files)
 (compile 'spear-approach )
-(compile 'fft->sin-model)
+(compile 'fft->sin-model-fun)
 
 
 

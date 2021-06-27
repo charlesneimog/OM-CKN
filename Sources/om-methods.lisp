@@ -470,23 +470,23 @@ action1))
 :initvals ' ((nil))       
 :indoc ' ("A player for OM#")
 :outdoc ' ("PLAY")
-:icon 0000
+:icon '17359
 :numouts 1
 :doc "It is a player for OM#. You can download the Max/MSP patch in:  <https://bit.ly/32K0och>.
 
 For the automatic work the folder out-files of OM# must be in the files preferences of the Max/MSP."
 
-  (let* (
-    (ckn-action1 (remove nil (voice->coll voice 1))))
-        (let* (
-              (action1 
-                (progn (om::osc-send (om::x-append '/reset 1) "127.0.0.1" 3003)
-                  (loop 
-                      :for cknloop 
-                      :in ckn-action1 
-                      :collect (om::osc-send (om::x-append '/note cknloop) "127.0.0.1" 3003))))
+(let* (
+        (ckn-action1 (remove nil (voice->coll voice 1))))
+          (let* (
+                (action1 
+                  (progn (om::osc-send (om::x-append '/reset 1) "127.0.0.1" 3003)
+                    (loop 
+                        :for cknloop 
+                        :in ckn-action1 
+                                :collect (om::osc-send (om::x-append '/note cknloop) "127.0.0.1" 3003))))
 
-              (action2 (om::osc-send (om::x-append '/note-pause 1) "127.0.0.1" 3003)))
+                (action2 (om::osc-send (om::x-append '/note-pause 1) "127.0.0.1" 3003)))
       '("play"))))
 
 ; ===========================================================================
@@ -495,17 +495,18 @@ For the automatic work the folder out-files of OM# must be in the files preferen
 :initvals ' ((nil))       
 :indoc ' ("A player for OM#")
 :outdoc ' ("PLAY")
-:icon 0000
+:icon '17359
 :numouts 1
 :doc "It is a player for OM#. You can download the Max/MSP patch in:  <https://bit.ly/32K0och>.
 
 For the automatic work the folder out-files of OM# must be in the files preferences of the Max/MSP."
 
 (let* (
-    (quantification (om::omquantify (om::x->dx (flat (get-slot-val chord-seq "LONSET"))) 60 '(4 4) 128))
+    (quantification (om::omquantify 
+                          (om::x->dx (get-slot-val chord-seq "LONSET")) 60 '(4 4) 256))
     (notes (get-slot-val chord-seq "LMIDIC"))
     (dinamicas (get-slot-val chord-seq "LVEL"))
-    (voice (make-value 'voice  (list (list :tree quantification) (list :lmidic notes) (list :lvel dinamicas)))))
+    (voice (print (make-instance 'voice :tree quantification :lmidic notes :lvel dinamicas))))
     (osc-play voice)))
 
 ; ===========================================================================
@@ -514,7 +515,7 @@ For the automatic work the folder out-files of OM# must be in the files preferen
 :initvals ' ((nil))       
 :indoc ' ("A player for OM#")
 :outdoc ' ("PLAY")
-:icon 0000
+:icon '17359
 :numouts 1
 :doc "It is a player for OM#. You can download the Max/MSP patch in:  <https://bit.ly/32K0och>.
 
@@ -526,7 +527,7 @@ For the automatic work the folder out-files of OM# must be in the files preferen
 
 ;; ====================================================
 
-(defmethod* f->n  ((freq list))
+(defmethod* f->n ((freq list))
   :numouts 1
   :initvals (list 6000 nil)
   :indoc '("pitch or pitch list (midicents)" "frequency (Hz)")
@@ -543,7 +544,7 @@ Converts a (list of) freq pitch(es) to names of notes.
   :numouts 1
   :initvals (list 6000 nil)
   :indoc '("pitch or pitch list (midicents)" "frequency (Hz)")
-  :icon 'conversion
+  :icon '17359
   :doc "
 Converts a (list of) freq pitch(es) to names of notes."
 
@@ -557,6 +558,18 @@ Converts a (list of) freq pitch(es) to names of notes."
                         (make-instance 'chord
                                           :lmidic freq-to-midicents
                                           :lvel lin->vel))))
+
+; ===========================================================================
+
+(om::defmethod! fft->sin-model ((ckn-instances list) (db-filter number))
+:initvals ' ((nil) '-60)       
+:indoc ' ("A list of ckn-fft-instance class.")
+:outdoc ' ("list of ckn-fft-instance with the approach of Spear software.")
+:icon '17359
+:numouts 1
+:doc ""
+
+(fft->sin-model-fun ckn-instances db-filter))
 
 
 ;; ====================================================
