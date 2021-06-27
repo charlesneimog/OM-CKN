@@ -502,21 +502,27 @@ For the automatic work the folder out-files of OM# must be in the files preferen
 For the automatic work the folder out-files of OM# must be in the files preferences of the Max/MSP."
 
 (let* (
-    (quantification (om::omquantify (x-append 1000 (om::x->dx (flat (get-slot-val chord-seq "LONSET")))) 60 '(4 4) 128))
+    (quantification (om::omquantify (om::x->dx (flat (get-slot-val chord-seq "LONSET"))) 60 '(4 4) 128))
     (notes (get-slot-val chord-seq "LMIDIC"))
     (dinamicas (get-slot-val chord-seq "LVEL"))
-    (voice (make-value 'voice  (list (list :tree quantification) (list :lmidic notes) (list :lvel dinamicas))))
-    (ckn-action1 (remove nil (voice->coll voice 1))))
-        (let* (
-              (action1 
-                (progn (om::osc-send (om::x-append '/reset 1) "127.0.0.1" 3003)
-                  (loop 
-                      :for cknloop 
-                      :in ckn-action1 
-                      :collect (om::osc-send (om::x-append '/note cknloop) "127.0.0.1" 3003))))
+    (voice (make-value 'voice  (list (list :tree quantification) (list :lmidic notes) (list :lvel dinamicas)))))
+    (osc-play voice)))
 
-              (action2 (om::osc-send (om::x-append '/note-pause 1) "127.0.0.1" 3003)))
-      '("play"))))
+; ===========================================================================
+
+(om::defmethod! osc-play ((chord chord))
+:initvals ' ((nil))       
+:indoc ' ("A player for OM#")
+:outdoc ' ("PLAY")
+:icon 0000
+:numouts 1
+:doc "It is a player for OM#. You can download the Max/MSP patch in:  <https://bit.ly/32K0och>.
+
+For the automatic work the folder out-files of OM# must be in the files preferences of the Max/MSP."
+
+(let* (
+    (chord-seq (make-instance 'chord-seq :lmidic (list chord))))
+    (osc-play chord-seq)))
 
 ;; ====================================================
 
@@ -531,7 +537,8 @@ Converts a (list of) freq pitch(es) to names of notes.
 
 (mc->n (f->mc freq) 4))
 
-;; ====================================================
+;; ==================================================== FFT APPROACH LIKE SPEAR =====================================
+
 (defmethod* fft->chord  ((ckn-fft-instance list))
   :numouts 1
   :initvals (list 6000 nil)
@@ -551,5 +558,7 @@ Converts a (list of) freq pitch(es) to names of notes."
                                           :lmidic freq-to-midicents
                                           :lvel lin->vel))))
 
+
 ;; ====================================================
+
 (compile 'sound-seq-multi)

@@ -402,7 +402,7 @@ be used for urlmapping."
 ;=====================================================================
 
 
-(defun fft->spear (ckn-fft-instance filtro)
+(defun fft->Sin-model (ckn-fft-instance filtro)
 
 (loop 
         :for x :in ckn-fft-instance 
@@ -413,11 +413,10 @@ be used for urlmapping."
                   (AMPLITUDES (om::get-slot-val x "amplitudes"))
                   (PHRASE (om::get-slot-val x "phrase"))
                   (CORRECTION-FOR-DB (case FFT-SIZE 
-                                      (512 124.53343)
-                                      (1024 250.1927874903492)
-                                      (2048 501.4303903221932)
-                                      (4096 1026.685)
-                                      (8192 2053.370)))
+                                          (512 124.53343)
+                                          (1024 250.19278749034922D0)
+                                          (2048 501.4303903221932D0)
+                                          (4096 1026.685)))
                   (MAG->DB 
                         (let* (
                                 (action1 (om::om/ AMPLITUDES CORRECTION-FOR-DB))
@@ -443,7 +442,13 @@ be used for urlmapping."
       (loop   
             :with condition-to-stop = nil
             :for loop-amplitudes :on deb
-            :for loop-number-bin :in (om:arithm-ser 0 (1- (length deb)) 1)
+            :for loop-number-bin :in (om:arithm-ser 1 (length deb) 1)
+                                      ;; (om:arithm-ser 0 (1- (length deb)) 1) 
+
+                                      ;; Isso é um ótimo exemplo de erro comum, o código 
+                                      ;; (om:arithm-ser 0 (1- (length deb)) 1) pode transformar o resultado final das 
+                                      ;; frequencias em certa de 2 ou três Hertz.
+
             :for phrase-loop :in phrase
             :while (setf condition-to-stop (om::om< 3 (length loop-amplitudes)))
           :collect 
@@ -456,6 +461,12 @@ be used for urlmapping."
                           (om::om< first-amp second-amp)
                           (om::om> second-amp third-amp)
                           (om::om< filtro second-amp)))
+
+                                      ;;; Este pedaço de código é responsável por criar o Local Maxima
+                                      ;; É necessário cumprir 3 coisas
+                                      ;; 1ª = A amplitude do bin (x-1) precisa ser menor que a amplitude de x 
+                                      ;; 2ª = A amplitude do bin (x+1) precisa ser menor que a amplitude de x
+                                      ;; 3ª = A amplitude de x precisa ser maior que a amplitude do filtro
 
 
                   (let* (
@@ -666,7 +677,7 @@ be used for urlmapping."
 (compile 'sound-sequence-loop)
 (compile 'ckn-clear-temp-files)
 (compile 'spear-approach )
-(compile 'fft->spear)
+(compile 'fft->sin-model)
 
 
 
