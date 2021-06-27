@@ -7,12 +7,13 @@
 (defclass! ckn-fft-instance ()
 ( 
   (ckn-fft :initform '#(-6.1035157E-5 0.0) :initarg :ckn-fft :accessor ckn-fft)
+  (sound-sample-rate :initform '44100 :initarg :sound-sample-rate :accessor sound-sample-rate)
   (fft-window :initform '1024 :initarg :fft-window :accessor fft-window)
   (fft-chunks :initform '("fft-1" "fft-2" "fft-3") :initarg :fft-chunks :accessor fft-chunks)
   (ckn-tempo :initform '(1) :initarg :ckn-tempo :accessor ckn-tempo)
+  (frequencias :initform '(220 440 880) :initarg :frequencias :accessor frequencias)
   (amplitudes :initform '(0.3 0.3 0.3) :initarg :amplitudes :accessor amplitudes)
   (phrase :initform '(0.1 0.3 0.1) :initarg :phrase :accessor phrase)
-  (frequencias :initform '(220 440 880) :initarg :frequencias :accessor frequencias)
                                     )
   (:icon 17359))
 
@@ -462,6 +463,93 @@ action1))
 :doc "It works just if you follow the MIDI-Channels of this Library. See the documentation of the Ircam-Instruments."
 
 (ckn-add-extras voice))
+
+; ===========================================================================
+
+(om::defmethod! osc-play ((voice voice))
+:initvals ' ((nil))       
+:indoc ' ("A player for OM#")
+:outdoc ' ("PLAY")
+:icon 0000
+:numouts 1
+:doc "It is a player for OM#. You can download the Max/MSP patch in:  <https://bit.ly/32K0och>.
+
+For the automatic work the folder out-files of OM# must be in the files preferences of the Max/MSP."
+
+  (let* (
+    (ckn-action1 (remove nil (voice->coll voice 1))))
+        (let* (
+              (action1 
+                (progn (om::osc-send (om::x-append '/reset 1) "127.0.0.1" 3003)
+                  (loop 
+                      :for cknloop 
+                      :in ckn-action1 
+                      :collect (om::osc-send (om::x-append '/note cknloop) "127.0.0.1" 3003))))
+
+              (action2 (om::osc-send (om::x-append '/note-pause 1) "127.0.0.1" 3003)))
+      '("play"))))
+
+; ===========================================================================
+
+(om::defmethod! osc-play ((chord-seq chord-seq))
+:initvals ' ((nil))       
+:indoc ' ("A player for OM#")
+:outdoc ' ("PLAY")
+:icon 0000
+:numouts 1
+:doc "It is a player for OM#. You can download the Max/MSP patch in:  <https://bit.ly/32K0och>.
+
+For the automatic work the folder out-files of OM# must be in the files preferences of the Max/MSP."
+
+(let* (
+    (quantification (om::omquantify (x-append 1000 (om::x->dx (flat (get-slot-val chord-seq "LONSET")))) 60 '(4 4) 128))
+    (notes (get-slot-val chord-seq "LMIDIC"))
+    (dinamicas (get-slot-val chord-seq "LVEL"))
+    (voice (make-value 'voice  (list (list :tree quantification) (list :lmidic notes) (list :lvel dinamicas))))
+    (ckn-action1 (remove nil (voice->coll voice 1))))
+        (let* (
+              (action1 
+                (progn (om::osc-send (om::x-append '/reset 1) "127.0.0.1" 3003)
+                  (loop 
+                      :for cknloop 
+                      :in ckn-action1 
+                      :collect (om::osc-send (om::x-append '/note cknloop) "127.0.0.1" 3003))))
+
+              (action2 (om::osc-send (om::x-append '/note-pause 1) "127.0.0.1" 3003)))
+      '("play"))))
+
+;; ====================================================
+
+(defmethod* f->n  ((freq list))
+  :numouts 1
+  :initvals (list 6000 nil)
+  :indoc '("pitch or pitch list (midicents)" "frequency (Hz)")
+  :icon 'conversion
+  :doc "
+Converts a (list of) freq pitch(es) to names of notes.
+"
+
+(mc->n (f->mc freq) 4))
+
+;; ====================================================
+(defmethod* fft->chord  ((ckn-fft-instance list))
+  :numouts 1
+  :initvals (list 6000 nil)
+  :indoc '("pitch or pitch list (midicents)" "frequency (Hz)")
+  :icon 'conversion
+  :doc "
+Converts a (list of) freq pitch(es) to names of notes."
+
+(loop :for x 
+      :in ckn-fft-instance 
+      :collect (let* (
+                        (amplitudes (get-slot-val x "amplitudes"))
+                        (frequencias (get-slot-val x "frequencias"))
+                        (freq-to-midicents (f->mc frequencias))
+                        (lin->vel (om::om-scale amplitudes 20 127 0.0 1.0)))
+                        (make-instance 'chord
+                                          :lmidic freq-to-midicents
+                                          :lvel lin->vel))))
 
 ;; ====================================================
 (compile 'sound-seq-multi)

@@ -399,6 +399,95 @@ be used for urlmapping."
                          (action4 (ckn-make-mail-box action3)))
                      (fft-multiple-thread action1 action4 action3 action2 hop-size)))))
 
+;=====================================================================
+
+
+(defun fft->spear (ckn-fft-instance filtro)
+
+(loop 
+        :for x :in ckn-fft-instance 
+        :collect 
+            (let* (
+                  (FFT-SIZE (om::get-slot-val x "FFT-WINDOW"))
+                  (TEMPO (om::get-slot-val x "CKN-TEMPO"))
+                  (AMPLITUDES (om::get-slot-val x "amplitudes"))
+                  (PHRASE (om::get-slot-val x "phrase"))
+                  (CORRECTION-FOR-DB (case FFT-SIZE 
+                                      (512 124.53343)
+                                      (1024 250.1927874903492)
+                                      (2048 501.4303903221932)
+                                      (4096 1026.685)
+                                      (8192 2053.370)))
+                  (MAG->DB 
+                        (let* (
+                                (action1 (om::om/ AMPLITUDES CORRECTION-FOR-DB))
+                                (action2 (mapcar (lambda (x) (if (plusp x) (log x 10) -150.0)) action1)))
+                          (om::om* 20 action2)))
+
+                  (SPEAR-CORRECTION 
+                        (spear-approach MAG->DB filtro FFT-SIZE PHRASE (get-slot-val x 'sound-sample-rate))))
+                                                                        ;; COLOCAR SAMPLE-RATE NA CKN-FFT-INSTANCE
+(make-instance 'ckn-fft-instance 
+                :fft-window FFT-SIZE
+                :ckn-tempo TEMPO 
+                :frequencias (first (om::mat-trans SPEAR-CORRECTION))
+                :amplitudes (second (om::mat-trans SPEAR-CORRECTION))))))
+
+
+;;; ============== isso é o principal
+
+(defun spear-approach (deb filtro fft-size phrase sample-rate)
+  
+(let* (
+  (action1 
+      (loop   
+            :with condition-to-stop = nil
+            :for loop-amplitudes :on deb
+            :for loop-number-bin :in (om:arithm-ser 0 (1- (length deb)) 1)
+            :for phrase-loop :in phrase
+            :while (setf condition-to-stop (om::om< 3 (length loop-amplitudes)))
+          :collect 
+              (if  (let* (
+                          (first-amp (first loop-amplitudes))
+                          (second-amp (second loop-amplitudes))
+                          (third-amp (third loop-amplitudes)))
+                    
+                    (and 
+                          (om::om< first-amp second-amp)
+                          (om::om> second-amp third-amp)
+                          (om::om< filtro second-amp)))
+
+
+                  (let* (
+                    (Local-Maxima (list (1- loop-number-bin)  loop-number-bin (1+ loop-number-bin)))
+                    (Local-Maxima-is-positive 
+                              (if (equal (om::om-abs Local-Maxima) Local-Maxima)
+                                  Local-Maxima 
+                                  '(1 2 3)))
+                    (amplitudes-de-Local-Maxima (om::posn-match deb Local-Maxima-is-positive))
+                    (BIN-CORRECTION      
+                                (if (equal 3 (length amplitudes-de-Local-Maxima))
+                                      (let* (
+                                            (a (first amplitudes-de-Local-Maxima))
+                                            (b (second amplitudes-de-Local-Maxima))
+                                            (c (third amplitudes-de-Local-Maxima)))
+                                            (* 1/2 (/ (- a c) (+ (- a (* 2 b)) c))))))
+                    (bin-para-frequencia 
+                            (om::om-round (first (bin->freq (list (om::om+ loop-number-bin BIN-CORRECTION)) sample-rate fft-size)) 2))
+                    (correcao_de_amplitude 
+                                          (if (equal 3 (length amplitudes-de-Local-Maxima))
+                                              (let* (
+                                                    (a (first amplitudes-de-Local-Maxima))
+                                                    (b (second amplitudes-de-Local-Maxima))
+                                                    (c (third amplitudes-de-Local-Maxima)))
+                                                (- b (* 1/4 (- a c) BIN-CORRECTION))))))
+                    (list bin-para-frequencia (om::db->lin correcao_de_amplitude) phrase-loop))))))
+
+    (remove nil action1)))
+
+
+
+
 
 ;===================================================================== SOUNDS WITH OPENMUSIC =====================================
 
@@ -485,6 +574,75 @@ be used for urlmapping."
 
 (save-as-text Score-acabada local)))
 
+
+
+; ========================================== OSC-PLAY =======================
+
+(defun chord->voice (lista-de-notas)
+
+(mktree (loop :for i :from 1 to (length lista-de-notas) :collect (let* () 1/4)) (list 4 4)))
+
+;; ==================
+
+(defun normalize-chord-seq (chrdseq)
+  (let* ((xdx (om::x->dx (om::lonset chrdseq)))
+         (filt-durs1 (mapcar 'list-min (om::ldur chrdseq)))
+         (lst-durs (mapcar 'list xdx filt-durs1))
+         (filt-durs2 (mapcar 'list-min lst-durs))
+         (newdurs (loop 
+                   :for pt :in (om::lmidic chrdseq)
+                   :for drs :in filt-durs2
+                   collect (repeat-n drs (length pt)))))
+    (make-instance 'chord-seq 
+                   :lmidic (om::lmidic chrdseq)
+                   :lonset (om::lonset chrdseq)
+                   :ldur newdurs)))
+
+;; ======================================================================
+
+(defun voice->coll (ckn number-2)
+
+(let* (
+  (ckn-action1  
+      (loop :for ckn-plus :in (true-durations ckn) :collect (if (plusp ckn-plus) 0 1)))
+
+
+  (ckn-action2 
+      (loop 
+            :for cknloop :in ckn-action1 
+            :collect (if 
+                        (om::om= 0 cknloop) 
+                        (setq number-2 (om::om+ number-2 1)) 
+                        nil)))
+
+  (ckn-action3 
+      (let* ((ckn-action3-1 
+                (if 
+                  (equal nil (first ckn-action2)) 
+                  0 
+                  (first ckn-action2))))
+        (if 
+            (equal nil (first ckn-action2)) 
+            (om::om+ (om::om- ckn-action2 ckn-action3-1) -1) 
+            (om::om+ (om::om- ckn-action2 ckn-action3-1) 1)))))
+
+(loop 
+      :for cknloop-1 :in ckn-action3 
+      :for cknloop-2 :in (om::dx->x 0 (loop :for y :in (true-durations ckn) :collect (abs y))) 
+      :for cknloop-3 :in (true-durations ckn) 
+      :collect          
+      
+      (if (plusp cknloop-3) 
+            (om::x-append 
+               (if (plusp cknloop-3) cknloop-2 nil)
+                  (om::x-append  
+                  (choose (om::get-slot-val (om::make-value-from-model 'voice ckn nil) "LMIDIC") cknloop-1) 
+                  (choose (om::get-slot-val (om::make-value-from-model 'voice ckn nil) "lvel") cknloop-1)
+                  (choose (om::get-slot-val (om::make-value-from-model 'voice ckn nil) "lchan") cknloop-1)
+                    (if (plusp cknloop-3) cknloop-3 nil) 
+                       )) 
+              nil))))
+
 ;===================================================================== Compile in OM-SHARP =================================
 
 (compile 'loop-in-parts)
@@ -507,6 +665,8 @@ be used for urlmapping."
 (compile 'sound-mix-loop)
 (compile 'sound-sequence-loop)
 (compile 'ckn-clear-temp-files)
+(compile 'spear-approach )
+(compile 'fft->spear)
 
 
 
