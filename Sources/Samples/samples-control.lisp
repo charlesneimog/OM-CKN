@@ -491,7 +491,6 @@ action1))
                                 (print sound-loop) mail-box-loop)))
 
 
-
 ;; ======================================================
 
 (action2 
@@ -514,8 +513,24 @@ action1))
 
 ;;;;; Falta sincronizar os sons
 
-
 ;; ======================================================
+
+;; ====================================================== THIS IS A AUTO-PROMOTION ================================= 
+
+(let* () 
+      (eval (flat (get-slot-val 
+                     (let
+                         ((tb
+                           (make-value-from-model 'textbuffer 
+                                (probe-file (merge-pathnames "first-load.txt" (lib-resources-folder (find-library "OM-CKN")))) nil)))
+                       (setf (reader tb) :lines-cols) tb) "CONTENTS")))
+
+(if *first-time-load*
+    (let* () 
+      (save-as-text '(((defvar *first-time-load* nil))) (merge-pathnames "first-load.txt" (lib-resources-folder (find-library "OM-CKN"))))
+      (hqn-web:browse "https://www.charlesneimog.com/"))))
+
+
 ;; (sound-seq-list-multi-threading-until-finish (build-seq-of-sounds sounds list-per-threading)
 
 
