@@ -190,26 +190,24 @@ be used for urlmapping."
 
  ; ============================ OM-SYNTH ========================================================
 
+;; This is a code stolen from Jean Bresson OM-Sharp
 
  (defun do-senoide (dur freq gain envelope)
 
-  (let* ((sr 44100)
+  (let* (
+         (sr 44100)
          (nbsamples (round (* dur sr)))
          (freqs (list! freq))
-         (steps (loop for f in freqs collect (/ f sr)))
+         (steps (loop :for f :in freqs :collect (/ f sr)))
          (sampled-envelope (om-scale (nth 2 (multiple-value-list (om-sample envelope nbsamples))) 0.0 1.0)))
 
-      (loop for x from 0 to (1- nbsamples)
-            for y-list = (make-list (length steps) :initial-element 0) :then (om+ y-list steps)
-            for amp in sampled-envelope
-            :collect
-            (om* (om* gain amp)
-                               (apply '+ (loop for y in y-list collect (sin (* 2 (coerce pi 'single-float) (cadr (multiple-value-list (floor y))))))
-
-                                      ))
-                            )
-            )
-      )
+   (loop :for x :from 0 :to (1- nbsamples)
+         :for y-list := (make-list (length steps) :initial-element 0) :then (om+ y-list steps)
+         :for amp :in sampled-envelope
+         :collect
+            (om::om* 
+             (om::om* gain amp)
+             (apply '+ (loop :for y :in y-list :collect (sin (* 2 (coerce pi 'single-float) (cadr (multiple-value-list (floor y)))))))))))
 
 ;=========================
 
@@ -678,6 +676,7 @@ be used for urlmapping."
 (compile 'ckn-clear-temp-files)
 (compile 'spear-approach )
 (compile 'fft->sin-model-fun)
+(compile 'do-senoide)
 
 
 

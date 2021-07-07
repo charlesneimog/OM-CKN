@@ -212,7 +212,6 @@
 (let* (
     (action1 (second (multiple-value-list 
                 (om::getsdifdata sdif-file 0 "1TRC" "1TRC" '(0 1 2) nil nil nil nil))))
-
     (action2 (getsdifframes sdif-file)))
 
         (loop 
@@ -221,12 +220,17 @@
                   :collect       
     
         (x-append 
-              (get-slot-val (make-value-from-model 'sdifframe (posn-match action2 (om::om- cknloop 1)) nil) "FTIME")  
-              (mat-trans (posn-match 
+              (get-slot-val (make-value-from-model 'sdifframe (posn-match action2 (1-  cknloop)) nil) "FTIME")
+              (let* (
+
+(action3-1 
+        (posn-match 
                     (om::get-slot-val (make-value-from-model 'sdifmatrix 
                                           (first (om::get-slot-val 
-                              (om::make-value-from-model 'sdifframe (posn-match action2 (om::om- cknloop 1)) nil)
-                                            "LMATRIX")) nil) "DATA") '(0 1 2)))))))
+                              (om::make-value-from-model 'sdifframe (posn-match action2 (1- cknloop)) nil)
+                                            "LMATRIX")) nil) "DATA") '(0 1 2 3)))
+(action3-2 (mat-trans (list (om::om-round (first action3-1)) (om::om-round (second action3-1) 2) (third action3-1) (fourth action3-1)))))
+action3-2)))))
 
 ;; ====================================================
 
@@ -357,6 +361,22 @@ Result: (7 9 458)."
      (if (equal nil (first ckn-action2)) (om::om+ (om::om- ckn-action2 ckn-action3-1) -1) (om::om+ (om::om- ckn-action2 ckn-action3-1) 1))          
       )))
 
+
+;; ====================================================
+
+(defmethod! ckn-position ((list list) (my-number number) &optional (number-2 1))
+:initvals '(nil nil)
+:indoc '("Sound class" "Number of the instrument (technique)") 
+:icon '17359
+:doc "Check the ALL the position of one number in one list."
+
+(let* (
+(ckn-action1  (loop :for ckn-loop :in list 
+                    :for my-position :in (om::arithm-ser 1 (length list) 1)
+                    :collect 
+                          (if (equal ckn-loop my-number) my-position nil))))
+(remove nil ckn-action1)))
+
 ;; ====================================================
 
 (defmethod! choose-to-rest ((list list) &optional (number-2 1))
@@ -403,7 +423,7 @@ Result: (7 9 458)."
 :indoc '("a list of sounds." "Among of sounds per threading.")
 :icon '17359
 :doc "Like sound-seq-list but multithreading (more fast)."
-
+(gc-all)
 (let* (
 (action1 (sound-seq-list-multi-threading (build-seq-of-sounds sounds list-per-threading))))
 (om::om-cmd-line (string+ "powershell -command " 

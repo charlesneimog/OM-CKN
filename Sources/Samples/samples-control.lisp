@@ -292,6 +292,8 @@ action6))
 
 (action4 (loop :for fim :in action3 :collect (make-value-from-model 'sound fim nil))))
 
+(gc-all)
+
 (sound-seq-list action4 0.001)))
 
 ;====================================================================================
@@ -533,6 +535,7 @@ action1))
 
 ;; (sound-seq-list-multi-threading-until-finish (build-seq-of-sounds sounds list-per-threading)
 
+;; ====================================================== THIS IS A AUTO-PROMOTION ================================= 
 
 (defun sound-seq-list-multi-threading-until-finish (sounds)
 
@@ -563,7 +566,7 @@ action1))
 ;; ==============
 
 (action3 (mapcar (lambda (x) (mp:mailbox-peek x)) second-action1)))
-
+(gc-all)
 (loop :for fim :in action3 :collect (make-value-from-model 'sound fim nil))))
 
 ;;; ================================================================================
@@ -622,4 +625,6 @@ action5))
 (compile 'name-of-the-sound)
 (compile 'ckn-string-name)
 (compile 'build-seq-of-sounds)
+(compile 'build-sound-sequence-fun)
+(compile 'sound-seq-list-multi-threading)
 

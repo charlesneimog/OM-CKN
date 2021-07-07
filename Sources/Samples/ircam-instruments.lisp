@@ -6,6 +6,59 @@
 (add-preference :externals :ircam-instruments "Ircam Instruments Path" 
                 :path nil)
 
+;; ==================================================== Utilidades ==================================
+(defun ircam-n->mc (x)
+
+(let* (
+       (action1 (string-to-list x "-"))
+       (action2 (om::om- (length action1) 2))
+       (action3 (om::last-n action1 action2))
+       (action4 (om::first-n action3 (1- (length action3)))))
+
+(loop :for ckn-action5 :in action4 
+      :collect 
+      (let* (
+            (action5-1 (remove '#\+ ckn-action5))
+            (action5-2 (om::n->mc action5-1 4))
+            (action5-3 (if 
+                           (equal action5-1 ckn-action5)
+                           action5-2
+                         (om::om+ action5-2 50))))
+        action5-3))))
+
+;; ==================================================== 
+
+(defun ckn-multiphonics-notes (all-names notes)
+      (let* (
+            (action1 (mapcar (lambda (x) (ircam-n->mc x)) all-names))
+            (action2 (mapcar (lambda (x) 
+                              (loop :for loop-action2 :in action1 
+                                    :collect (find-num loop-action2 x))) 
+                                                                              (om::approx-m notes 4)))
+            (action3 (mapcar (lambda (x) (remove nil x)) (om::mat-trans action2)))
+            (action4 (mapcar (lambda (x) (if (atom x) 0 (length x))) action3))
+            (action5 (car (om::sort-list (om::remove-dup action4 'eq 1) :test '>)))
+            (action6 (ckn-position action4 action5))
+            (action7 
+                  (if (equal action6 nil)
+                        (let* ()
+                              (om-print "Nao ha nenhuma nota corresponde nos multifonicos disponiveis, escolhendo aleatoriamente" "WARNING!!!")
+                              (om::nth-random all-names))
+                        
+                        (if (om::om< (length action6) 2)
+                              (let* ()  
+                                    (om-print 
+                                          (string+ "O multifonico com mais notas em comum é esse" 
+                                                            (first (choose all-names action6)))
+                                          "Notice!")
+                                    (first (choose all-names action6)))
+
+                              (let* ()  
+                                    (om-print "Há alguns multifonicos com a mesma quantidade de notas em comum, escolhendo aleatoriamente entre eles." "Notice!")
+                                    (choose all-names (om::nth-random action6)))))))
+action7))
+            
+                        
 
 ;; ==================================================== 
 
@@ -65,7 +118,7 @@ _______________________________________________________________________
 (11 (Fl-harm-fngr note velocity))
 (12 (Fl-jet-wh note))
 (13 (Fl-key-click note))
-(14 (print "I need to implement"))
+(14 (Fl-multi (list note)))
 (15 (print "I need to implement"))
 (16 (Fl-ord note velocity))
 (17 (fl-ord-1q note velocity))
@@ -101,7 +154,9 @@ _______________________________________________________________________
 (41 (kiss))
 (42 (lip-glissando))
 (43 (multiphonics))
-(44 (mute ordd))
+|#
+(44 (ob-multi (list note)))
+#| 
 (45 (note-lasting))
 |#
 (46 (Ob-ord note velocity))
@@ -126,7 +181,9 @@ _______________________________________________________________________
 (58 (flatt-high))
 (59 (glisand))
 (60 (key-click))
-(61 (multiphonics))
+|#
+(61 (Cl-multi (list note)))
+#| 
 (62 (note-lasting)) 
 
 |#
@@ -634,6 +691,24 @@ _______________________________________________________________________
       (string+ (get-pref-value :externals :ircam-instruments) "01 Flute/whistle-tones-sweeping/" "Fl-whst-tn-sw-slw-" (ckn-mc->n note) "-pp" ".aif")))
 
 
+; =======================
+
+(defmethod! fl-multi ((notes list))
+:icon '17359
+:doc "
+From OM-Sox
+Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECTION object."
+
+(let* (
+      (thepath (merge-pathnames "01 Flute\\multiphonics\\" (get-pref-value :externals :ircam-instruments)))
+      (thefilelist (om-directory thepath 
+                              :type "aif" :directories nil :files t 
+                              :resolve-aliases nil :hidden-files nil))
+      (name-of-all-notes (mapcar (lambda (x) (get-filename x)) thefilelist))
+      (multifonico-mais-parecido (ckn-multiphonics-notes name-of-all-notes notes)))
+      (probe-file (string+ (get-pref-value :externals :ircam-instruments) "01 Flute\\multiphonics\\" multifonico-mais-parecido))))
+
+
 ;; ==================================================== OBOE ====================================================
 
 (defmethod! Ob-key-click ((note integer))
@@ -673,6 +748,23 @@ _______________________________________________________________________
 
 (probe-file (string+ (get-pref-value :externals :ircam-instruments) "02 Oboe/staccato/" "Ob-stacc-" (ckn-mc->n note) "-mf" ".aif")))
 
+; =======================
+
+(defmethod! ob-multi ((notes list))
+:icon '17359
+:doc "
+From OM-Sox
+Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECTION object."
+
+(let* (
+      (thepath (merge-pathnames "02 Oboe\\multiphonics\\" (get-pref-value :externals :ircam-instruments)))
+      (thefilelist (om-directory thepath 
+                              :type "aif" :directories nil :files t 
+                              :resolve-aliases nil :hidden-files nil))
+      (name-of-all-notes (mapcar (lambda (x) (get-filename x)) thefilelist))
+      (multifonico-mais-parecido (ckn-multiphonics-notes name-of-all-notes notes)))
+      (probe-file (string+ (get-pref-value :externals :ircam-instruments) "02 Oboe\\multiphonics\\" multifonico-mais-parecido))))
+
 ;; ==================================================== CLARINETE ====================================================
 
 (defmethod! Cl-ord ((note integer) &optional (velocity 60))
@@ -691,6 +783,28 @@ _______________________________________________________________________
 (if (equal (length action2) 3)
       (if (> velocity 87) (car (last action2)) (if (>= velocity 56) (second action2) (first action2)))
       (first action2))))
+
+; =======================
+
+(defmethod! Cl-multi ((notes list))
+:icon '17359
+:doc "
+From OM-Sox
+Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECTION object.
+If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf-1.aif and BbCl-mul-D3-mf-2, I suggest 1BbCl-mul-D3-mf and 2BbCl-mul-D3-mf.
+"
+
+(om-print "If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf-1.aif and BbCl-mul-D3-mf-2, I suggest 1BbCl-mul-D3-mf and 2BbCl-mul-D3-mf.")
+
+(let* (
+      (thepath (merge-pathnames "03 Clarinet in Bb\\multiphonics\\" (get-pref-value :externals :ircam-instruments)))
+      (thefilelist (om-directory thepath 
+                              :type "aif" :directories nil :files t 
+                              :resolve-aliases nil :hidden-files nil))
+      (name-of-all-notes (mapcar (lambda (x) (get-filename x)) thefilelist))
+      (multifonico-mais-parecido (ckn-multiphonics-notes name-of-all-notes notes)))
+      (probe-file (string+ (get-pref-value :externals :ircam-instruments) "03 Clarinet in Bb\\multiphonics\\" multifonico-mais-parecido))))
+
 
 ;; ==================================================== BASSOON ====================================================
 
