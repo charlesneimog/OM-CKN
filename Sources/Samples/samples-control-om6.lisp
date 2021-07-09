@@ -262,79 +262,14 @@ action6))
 
 (sound-seq-list action4 0.001)))
 
+
+;; ============
+
+(defun voice->samples-sound-fun (voice1 pan temp-files)  nil)
+
+
+
 ;====================================================================================
-
-(defun voice->samples-sound-fun (voice1 temp-files) 
- 
-(let* (
-
-(action1
-    (loop :for ckn-LOOP1 :in (choose-to-rest voice1)
-        :for ckn-LOOP2 :in (om6-true-durations voice1)
-        :collect
-        (let*
-            ((box-choose1 (choose (lmidic voice1) ckn-LOOP1))
-                (box-choose2 (choose (lchan voice1) ckn-LOOP1))
-                (box-choose3 (choose (lvel voice1) ckn-LOOP1))
-                (box-first1 (first box-choose3))
-                (box-choose4 (choose (extras voice1) ckn-LOOP1)))
-
-(if (plusp ckn-LOOP2) ;;silencio ou nÃ£o 
-
-;; NOTA 
-(sound-fade 
-
-        (sound-stereo-pan (sound-mono-to-stereo 
-            (if (om< (length box-choose1) 2) ;; MONOFONICO OU POLIFÃ”NICO
-
-            ;;;;; MONOFONICO
-
-;;;; COLOCAR MEIO PARA APAGAR ARQUIVOS TEMPORÃRIOS
-
-(sound-vol 
-    (sound-cut 
-            (samples-menores 
-                (om-abs (ms->sec ckn-LOOP2)) 
-                    (make-value-from-model 'sound
-                            (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2))) 
-                                (ircam-instruments
-                                    (first (approx-m box-choose1 2))
-                                    (first box-choose2)
-                                    box-first1)
-                                (ckn-sound-transpose 
-                                    (ircam-instruments
-                                        (first (approx-m box-choose1 2))
-                                        (first box-choose2)
-                                        box-first1)
-                                (first (om- box-choose1 (approx-m box-choose1 2))))) nil))
-        0.0 
-        (om-abs (ms->sec ckn-LOOP2)))
-    
-    (om-scale box-first1 0.001 0.999 1 110))  ;;;;; FIMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
-
-;;;;; Com acorde
-
-(sound-mix-list 
-            (acordes-de-samples (om::om-abs (ms->sec ckn-LOOP2)) box-choose1 box-choose2 box-choose3))))
-            (first box-choose4)
-            (second box-choose4)) 0.01 0.01)
-
-;;silencio 
-
-            (sound-fade (sound-silence (om-abs (ms->sec ckn-LOOP2)) 2) 0.01 0.01))))))
-
-;;; ================= Apagar temp files
-
-
-(if temp-files 
-        (ckn-clear-temp-files))
-
-;;; ================= Finalizar
-                                            
-
-action1))
-
-;;; ===========================================================
 
 (defun voice->samples-sound-om6-fun (voice1 pan temp-files) 
  
@@ -345,10 +280,12 @@ action1))
         :for ckn-LOOP2 :in (om6-true-durations voice1)
         :collect
         (let*
-            ((box-choose1 (choose (lmidic (make-instance 'chord-seq :lmidic (chords voice1))) ckn-LOOP1)) ;; fazer isso virar um chord-seq
-                (box-choose2 (choose (lchan (make-instance 'chord-seq :lmidic (chords voice1))) ckn-LOOP1))
-                (box-choose3 (choose (lvel (make-instance 'chord-seq :lmidic (chords voice1))) ckn-LOOP1))
-                (box-choose4 (choose pan ckn-LOOP1))
+            (
+              (midis-no-om6 (make-instance 'chord-seq :lmidic (chords voice1)))
+              (box-choose1 (choose (lmidic midis-no-om6) ckn-LOOP1)) ;; fazer isso virar um chord-seq
+                (box-choose2 (choose (lchan midis-no-om6) ckn-LOOP1))
+                (box-choose3 (choose (lvel midis-no-om6) ckn-LOOP1))
+                (box-choose4 (if (equal nil (choose pan ckn-LOOP1)) '(-50 50)  (choose pan ckn-LOOP1)))
                 (box-first1 (first box-choose3)))
 
 (if (plusp ckn-LOOP2) ;;silencio ou nÃ£o 
@@ -366,9 +303,9 @@ action1))
 (sound-vol 
     (sound-cut 
             (samples-menores 
-                (om-abs (ms->sec ckn-LOOP2)) 
-                    (make-instance 'sound nil
-                            (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2))) 
+                (om-abs (ms->sec ckn-LOOP2))
+
+                (objfromobjs (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2)))
                                 (ircam-instruments
                                     (first (approx-m box-choose1 2))
                                     (first box-choose2)
@@ -378,11 +315,11 @@ action1))
                                         (first (approx-m box-choose1 2))
                                         (first box-choose2)
                                         box-first1)
-                                (first (om- box-choose1 (approx-m box-choose1 2))))) nil))
+                                (first (om- box-choose1 (approx-m box-choose1 2))))) (make-instance 'sound nil)))
         0.0 
         (om-abs (ms->sec ckn-LOOP2)))
     
-    (om-scale box-first1 0.001 0.999 1 110))  ;;;;; FIMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+    (om-scale box-first1 0.001 0.999 1 110)) ;;;;; FIMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 
 ;;;;; Com acorde
 
@@ -409,8 +346,8 @@ action1))
 
 (defun samples-menores (ckn-time ckn-sound)
 
-(if (om> ckn-time (sound-dur ckn-sound)) 
-    (sound-seq ckn-sound (sound-silence (om+ (om- ckn-time (sound-dur ckn-sound)) 0.03)) 0.01)
+(if (om::om> ckn-time (sound-dur ckn-sound))
+    (sound-seq ckn-sound (sound-silence (om+ (om- ckn-time (sound-dur ckn-sound)) 0.03)) 0.001)
     ckn-sound))
 
 ;;; ================================================================================
@@ -422,21 +359,21 @@ action1))
         :for ckn-LOOP3 :in velocity
         :collect (let* (
                     (action1 
-                        (make-value-from-model 'sound
-                            (if 
+                        (objfromobjs 
+                          (if 
                                 (equal 0 (om- ckn-LOOP1 (approx-m ckn-LOOP1 2)))
-                                
-                                    (ircam-instruments 
+                                (ircam-instruments 
                                                 (approx-m ckn-LOOP1 2)
                                                 ckn-LOOP2
                                                 ckn-LOOP3)
-                                    (ckn-sound-transpose
+                                (ckn-sound-transpose
                                             (ircam-instruments
                                                 (approx-m ckn-LOOP1 2)
                                                 ckn-LOOP2
                                                 ckn-LOOP3)
                                             (om- ckn-LOOP1 (approx-m ckn-LOOP1 2))))
-                            nil)))
+                            (make-instance 'sound))))
+
                                               
                         (sound-vol (sound-cut (samples-menores ckn-time action1) 0.0 ckn-time) (om-scale ckn-LOOP3 0.001 1 1 127)))))
 
@@ -523,6 +460,105 @@ action1))
 
 (defun recursive-sound-seq (sounds list-per-threading)
 (sound-seq-list-multi-threading-until-finish (build-seq-of-sounds sounds list-per-threading)))
+
+
+
+;; ===================================================================================
+#| 
+(let* () 
+      (eval (flat (get-slot-val 
+                     (let
+                         ((tb
+                           (make-value-from-model 'textbuffer 
+                                (probe-file (merge-pathnames "first-load.txt" (lib-resources-folder (find-library "OM-CKN")))) nil)))
+                       (setf (reader tb) :lines-cols) tb) "CONTENTS")))
+
+(if *first-time-load*
+    (let* () 
+      (save-as-text '(((defvar *first-time-load* nil))) (merge-pathnames "first-load.txt" (lib-resources-folder (find-library "OM-CKN"))))
+      (hqn-web:browse "https://www.charlesneimog.com/"))))
+
+
+
+  |#
+
+
+;; (sound-seq-list-multi-threading-until-finish (build-seq-of-sounds sounds list-per-threading)
+
+;; ====================================================== THIS IS A AUTO-PROMOTION ================================= 
+
+(defun sound-seq-list-multi-threading-until-finish (sounds)
+
+(let* (
+        (first-action1 
+          (mapcar (lambda (x) (string+ "Sound-seq-" x)) (mapcar (lambda (x) (list->string-fun (list x))) (om::arithm-ser 1 (length sounds) 1))))
+        (second-action1 (ckn-make-mail-box first-action1))
+        (action1 
+            (loop 
+                :for sound-loop :in sounds
+                :for names-loop :in first-action1
+                :for mail-box-loop :in second-action1 
+                :do 
+                        (mp:process-run-function names-loop () 
+                                (lambda (x w) (mp:mailbox-send w 
+                                                                (sound-seq-list x 0.001)))
+                                sound-loop mail-box-loop)))
+
+;; ===============
+
+(action2 
+  (loop with mailbox-empty = nil :while 
+          (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) second-action1)))
+            :do (let*
+                    ((box-remove (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) second-action1))))
+            mailbox-empty)))
+
+;; ==============
+
+(action3 (mapcar (lambda (x) (mp:mailbox-peek x)) second-action1)))
+(gc-all)
+(loop :for fim :in action3 :collect (make-value-from-model 'sound fim nil))))
+
+;;; ================================================================================
+
+(defun recursive-sound-seq (sounds list-per-threading)
+(sound-seq-list-multi-threading-until-finish (build-seq-of-sounds sounds list-per-threading)))
+
+;;; ================================================================================
+
+(defun save-temp-sounds (sounds) 
+
+(let* (
+    (first-action1 
+        (mapcar 
+            (lambda (x) (string+ "Sound-" x))
+                (mapcar (lambda (x) (format nil "~6,'0D" x)) (om::arithm-ser 1 (length sounds) 1)))))
+
+(loop :for loop-sound :in sounds
+      :for loop-names :in first-action1
+      :collect (om:save-sound loop-sound (merge-pathnames "om-ckn/" (outfile (string+ loop-names ".wav")))))))
+
+;;; ================================================================================
+
+(defun sox-sequence (sounds sequence-name)
+
+(let* (
+(action1 (save-temp-sounds sounds))
+(action2 (om::save-sound (first sounds) (merge-pathnames "om-ckn/" (outfile (string+ "Sound-001" ".wav")))))
+(action3 (x-append action2 (first-n action1 (1- (length sounds)))))
+(action4 (om-cmd-line 
+          (string+ 
+           (list->string-fun (list (namestring *SOX-PATH*)))
+           " "
+           "--combine sequence " 
+           (list->string-fun (list (namestring (merge-pathnames "om-ckn/" (outfile "*.wav")))))
+           " "
+           (list->string-fun (list (namestring (outfile sequence-name)))))))
+(action5 (loop-until-probe-file (outfile sequence-name))))
+(sleep 5)
+(ckn-clear-temp-files)
+action5))
+
 
 ;;; ================================================================================
 

@@ -382,7 +382,7 @@ action1))
             ((box-choose1 (choose (lmidic (make-instance 'chord-seq :lmidic (chords voice1))) ckn-LOOP1)) ;; fazer isso virar um chord-seq
                 (box-choose2 (choose (lchan (make-instance 'chord-seq :lmidic (chords voice1))) ckn-LOOP1))
                 (box-choose3 (choose (lvel (make-instance 'chord-seq :lmidic (chords voice1))) ckn-LOOP1))
-                (box-choose4 (choose pan ckn-LOOP1))
+                (box-choose4 (if (equal nil (choose pan ckn-LOOP1)) '(-50 50)  (choose pan ckn-LOOP1)))
                 (box-first1 (first box-choose3)))
 
 (if (plusp ckn-LOOP2) ;;silencio ou nÃ£o 
@@ -473,6 +473,12 @@ action1))
                             nil)))
                                               
                         (sound-vol (sound-cut (samples-menores ckn-time action1) 0.0 ckn-time) (om-scale ckn-LOOP3 0.001 1 1 127)))))
+
+
+
+
+
+
 
 ;;; ================================================================================
 

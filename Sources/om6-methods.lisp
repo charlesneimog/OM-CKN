@@ -444,10 +444,17 @@ action1))
 
 ;; (ckn-clear-temp-files)
 
-(if (equal (check-samples-in-voice voice) "Todas as alturas possuem samples correspondentes")
+(if (equal (check-samples-in-voice voice) 
+
+
+
+
+
+
+"Todas as alturas possuem samples correspondentes")
 
 (if (om-print (equal *app-name* "om-sharp") "app-name")
-    (voice->samples-sound-fun voice pan temp-files)
+    (voice->samples-sound-om6-fun voice pan temp-files)
     (voice->samples-sound-om6-fun voice pan temp-files))
 
 (let* ((action1 (print "I am not able to finding all the samples")))

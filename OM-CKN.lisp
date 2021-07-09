@@ -19,7 +19,7 @@
       "Sources/Samples/samples-control-om6"
       "Sources/Samples/ircam-instruments-om6"
       "Sources/sinusoidal-modeling"
-      "Sources/om-methods"
+      "Sources/om6-methods"
       "Sources/utilities"
       "Sources/stolen-functions"
       
