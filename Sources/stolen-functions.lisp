@@ -41,7 +41,7 @@ Returns a list of file pathnames of the fxp Presets. Connect it to a LIST-SELECT
 
 (defun find-num (arr num)
   (cond ((null arr) nil)              
-        ((= (car arr) num) t)         
+        ((om::om= (car arr) num) t)         
         (t (find-num (cdr arr) num))))
 
         ;; https://stackoverflow.com/questions/67101950/problem-about-finding-the-same-number-of-a-given-number-in-list-lisp

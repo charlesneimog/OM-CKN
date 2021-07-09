@@ -245,20 +245,21 @@ action6))
 
 
 
-;; ======================================================
+;; ====================
 
 (action2 
-  (loop with mailbox-empty = nil :while 
+  (loop :with mailbox-empty := nil :while 
           (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) second-action1)))
-            :do (let*
-                    ((box-remove (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) second-action1))))
+        :do (let* (
+                  (box-remove (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) second-action1))))
+              (om-print "Esperando" "Verbose")
             mailbox-empty)))
 
-;; ======================================================
+;; ===================
 
 (action3 (mapcar (lambda (x) (mp:mailbox-peek x)) second-action1))
 
-(action4 (loop :for fim :in action3 :collect (make-value-from-model 'sound fim nil))))
+(action4 (loop :for fim :in action3 :collect (objfromobjs fim (make-instance 'sound))))) ;;; corrigir (objfromobjs fim (make-instance 'sound))
 
 (sound-seq-list action4 0.001)))
 

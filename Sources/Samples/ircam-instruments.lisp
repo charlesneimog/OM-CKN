@@ -93,13 +93,29 @@ action7))
 
 ============================  FLUTE ============================
 
-||| 1 = Flute Aeolian   ||| 2 = Flute Aeolian+Ordinario ||| 3 = Flute Aeolian-to-ordinário 
-
-||| 5 = Flute crescendo ||| 6 = Flute-cres-to-desc      ||| 6 = Flute-decr                 
+||| 01 = Flute Aeolian   ||| 02 = Flute Aeolian+Ordinario ||| 03 = Flute Aeolian-to-ordinário 
+||| 05 = Flute crescendo ||| 06 = Flute-cres-to-desc      ||| 07 = Flute-decr     
+||| 08 = Flute Disc fing ||| 09 = Fl-flatt                ||| 10 = Fl-harm-fngr
+||| 11 = Fl-harm-fngr    ||| 12 = Fl-jet-wh               ||| 13 = Fl-key-click    
+||| 14 =  Fl-multi       ||| 16 = Fl-ord                  ||| 17 =  fl-ord-quarter-tone
+||| 18 = Fl-ord_aeol     ||| 19 = Fl-ord_flatt            ||| 20 = Fl-pizz 21  Fl-ply+sng 
+||| 22 = Fl-ply+sng-uni  ||| 23 = Fl-sfz                  ||| 24 = Fl-stacc 
+||| 25 = Fl-tongue-ram   ||| 26 =  Fl-trill-maj2          ||| 27 =  Fl-trill-min2 
+||| 28 =  Fl-whst-tn     ||| 29 =  Fl-whst-tn-sw-slw      
 _______________________________________________________________________
 
 ============================= OBOE ===============================
 
+||| 30  = blow-without           ||| 31  = chromatic-scale            ||| 32  = crescendo 
+||| 33  = crescendo-to-desc      ||| 34  = decrescendo                ||| 35  = discolored-fingering 
+||| 36  = double-trill-major     ||| 37  = double-trill-minor         ||| 38  = flatt  
+||| 39  = harmonic-fing          ||| 40  = Ob-key-click               ||| 41  = kiss 
+||| 42  = clip-glissando         ||| 43  = multiphonics               ||| 44  = ob-multi        
+||| 45  = note-lasting           ||| 46  = Ob-ord                     ||| 47  = ordinario-1q  
+||| 48  = sforzando              ||| 49  = Ob-stacc                   ||| 50  = trill-major-second  
+||| 51  = trill-major            ||| 52  = vibrato 
+
+_______________________________________________________________________
 "
 
 (case number-of-the-instrument

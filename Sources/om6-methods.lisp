@@ -364,7 +364,7 @@ Result: (7 9 458)."
 
 ;; ====================================================
 
-(defmethod! ckn-position ((list list) (my-number number) &optional (number-2 1))
+(defmethod! ckn-position ((list list) (my-number number))
 :initvals '(nil nil)
 :indoc '("Sound class" "Number of the instrument (technique)") 
 :icon '17359
@@ -445,11 +445,6 @@ action1))
 ;; (ckn-clear-temp-files)
 
 (if (equal (check-samples-in-voice voice) 
-
-
-
-
-
 
 "Todas as alturas possuem samples correspondentes")
 
