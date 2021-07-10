@@ -364,7 +364,23 @@ Result: (7 9 458)."
 
 ;; ====================================================
 
-(defmethod! ckn-position ((list list) (my-number number) &optional (number-2 1))
+(defmethod! ckn-position ((list list) (my-number number))
+:initvals '(nil nil)
+:indoc '("Sound class" "Number of the instrument (technique)") 
+:icon '17359
+:doc "Check the ALL the position of one number in one list."
+
+(let* (
+(ckn-action1  (loop :for ckn-loop :in list 
+                    :for my-position :in (om::arithm-ser 1 (length list) 1)
+                    :collect 
+                          (if (equal ckn-loop my-number) my-position nil))))
+(remove nil ckn-action1)))
+
+
+;; ====================================================
+
+(defmethod! ckn-position ((list list) (my-number list))
 :initvals '(nil nil)
 :indoc '("Sound class" "Number of the instrument (technique)") 
 :icon '17359
