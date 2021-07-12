@@ -71,7 +71,7 @@
                                     (first (choose all-names action6)))
 
                               (let* ()  
-                                    (om-print "Há alguns multifonicos com a mesma quantidade de notas em comum, escolhendo aleatoriamente entre eles." "Notice!")
+                                    (om-print "Ha alguns multifonicos com a mesma quantidade de notas em comum, escolhendo aleatoriamente entre eles." "Notice!")
                                     (choose all-names (om::nth-random action6)))))))
 action7))
             
@@ -99,8 +99,23 @@ action7))
       (equal nil (ircam-instruments loop-notas loop-canais loop-vel)))))
 
 (if (equal nil (remove nil test)) "Todas as alturas possuem samples correspondentes" 
-(format nil "A nota ~d não possuem sample correspondente" (1+ (position t test))))))
+(format nil "A nota ~d nao possuem sample correspondente! :( " (1+ (position t test))))))
 
+;; ==================================================== 
+
+#|
+(defmethod!  ircam-instruments ((notes list) (number-of-the-instrument integer) &optional (velocity 60))
+:initvals '(6000 20 60)
+:indoc '("Sound class" "Number of the instrument (technique)") 
+:icon '17359
+:doc "It create the patch of a sound."
+
+(case number-of-the-instrument
+  (14 (Fl-multi notes))
+  (61 (Cl-multi notes))))
+
+
+|#
 ;; ==================================================== 
 
 (defmethod!  ircam-instruments ((note integer) (number-of-the-instrument integer) &optional (velocity 60))

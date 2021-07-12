@@ -201,7 +201,7 @@
 :initvals ' (NIL)
 :indoc ' ("Sdif-File.")
 :icon '17359
-:doc ""
+:doc "It will give us the list of all the elements of SDIF of the type '1TRC'. The first element of the list is the time (ms), then we have the list of all the partials that appears in this SDIF frame. With the order Index, freq, amplitude, and phrase."
 
 (sdif->list-fun sdif-file))
 
@@ -210,27 +210,16 @@
 (defun sdif->list-fun (sdif-file) 
 
 (let* (
-    (action1 (second (multiple-value-list 
-                (om::getsdifdata sdif-file 0 "1TRC" "1TRC" '(0 1 2) nil nil nil nil))))
-    (action2 (getsdifframes sdif-file)))
-
-        (loop 
-            :for cknloop 
-            :in (arithm-ser 1 (length action2) 1) 
-                  :collect       
+        (sdif-data (multiple-value-list (getsdifdata sdif-file 0 "1TRC" "1TRC" (list 0 1 2 3) nil nil nil nil)))
+        (sdif-tempo (second sdif-data))
+        (sdif (first sdif-data)))
     
-        (x-append 
-              (get-slot-val (make-value-from-model 'sdifframe (posn-match action2 (1-  cknloop)) nil) "FTIME")
-              (let* (
 
-(action3-1 
-        (posn-match 
-                    (om::get-slot-val (make-value-from-model 'sdifmatrix 
-                                          (first (om::get-slot-val 
-                              (om::make-value-from-model 'sdifframe (posn-match action2 (1- cknloop)) nil)
-                                            "LMATRIX")) nil) "DATA") '(0 1 2 3)))
-(action3-2 (mat-trans (list (om::om-round (first action3-1)) (om::om-round (second action3-1) 2) (third action3-1) (fourth action3-1)))))
-action3-2)))))
+    (loop 
+        :for tempo :in sdif-tempo 
+        :for loop-data :in sdif 
+        :collect 
+        (x-append (om::om-round (om::om* tempo 1000)) loop-data))))
 
 ;; ====================================================
 
@@ -308,7 +297,7 @@ action3-2)))))
 
 
 (defmethod! ckn-sound-transpose ((sound pathname) (cents number))
-:initvals ' (NIL)
+:initvals ' (NIL nil)
 :indoc ' ("Pathname of a sound-file" "Tranposition in cents")
 :icon '17359
 :doc ""
@@ -379,6 +368,20 @@ Result: (7 9 458)."
 
 ;; ====================================================
 
+(defmethod! ckn-position ((list list) (my-number list))
+:initvals '(nil nil)
+:indoc '("Sound class" "Number of the instrument (technique)") 
+:icon '17359
+:doc "Check the ALL the position of one number in one list."
+
+(let* (
+(ckn-action1  (loop :for ckn-loop :in list 
+                    :for my-position :in (om::arithm-ser 1 (length list) 1)
+                    :collect 
+                          (if (equal ckn-loop my-number) my-position nil))))
+(remove nil ckn-action1)))
+;; ====================================================
+
 (defmethod! choose-to-rest ((list list) &optional (number-2 1))
 :initvals '(nil nil)
 :indoc '("Sound class" "Number of the instrument (technique)") 
@@ -406,15 +409,6 @@ Result: (7 9 458)."
 :doc "Transform a list in one string."
 
 (list->string-fun list))
-;; ====================================================
-
-(defmethod! om6-true-durations ((voice voice))
-:initvals '(nil)
-:indoc '("a voice" ) 
-:icon 'tree
-:doc "Imported from OM6."
-
-(true-durations voice))
 
 ;; ====================================================
 
@@ -434,7 +428,7 @@ action1))
 
 ;; ====================================================
 
-(defmethod! voice->samples-sound ((voice voice) &optional (pan nil) (temp-files t))
+(defmethod! voice->samples ((voice voice) &optional (pan nil) (temp-files t))
 :initvals '(nil nil t)
 :indoc '("a voice" "panoramic information - see the object sound-stereo-pan" "Clear temp files") 
 :icon '17359

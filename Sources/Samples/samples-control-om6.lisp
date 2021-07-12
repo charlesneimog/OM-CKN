@@ -89,7 +89,7 @@
 (action3 (loop :for x :in action1 :collect (string+ x "-")))
 (action4 (ckn-string-name (first-n action3 action2)))
 (action5 (string+ action4 (format nil "~d-cents" desvio) ".aif"))
-(action6 (outfile action5))
+(action6 (merge-pathnames (string+ "om-ckn/" action5) (outfile "")))
 (action7 (namestring action6))
 (action8 (om-cmd-line 
           (string+ (list->string-fun (list (namestring *SOX-PATH*)))
@@ -278,7 +278,7 @@ action6))
 
 (action1
     (loop :for ckn-LOOP1 :in (choose-to-rest voice1)
-        :for ckn-LOOP2 :in (om6-true-durations voice1)
+        :for ckn-LOOP2 :in (true-durations voice1)
         :collect
         (let*
             (
@@ -289,17 +289,17 @@ action6))
                 (box-choose4 (if (equal nil (choose pan ckn-LOOP1)) '(-50 50)  (choose pan ckn-LOOP1)))
                 (box-first1 (first box-choose3)))
 
-(if (plusp ckn-LOOP2) ;;silencio ou nÃ£o 
+(if (plusp ckn-LOOP2) ;;silencio ou nao 
 
 ;; NOTA 
 (sound-fade 
 
         (sound-stereo-pan (sound-mono-to-stereo 
-            (if (om< (length box-choose1) 2) ;; MONOFONICO OU POLIFÃ”NICO
+            (if (om< (length box-choose1) 2) ;; MONOFONICO OU POLIFONICO
 
             ;;;;; MONOFONICO
 
-;;;; COLOCAR MEIO PARA APAGAR ARQUIVOS TEMPORÃRIOS
+;;;; COLOCAR MEIO PARA APAGAR ARQUIVOS Temporarios
 
 (sound-vol 
     (sound-cut 
@@ -312,11 +312,11 @@ action6))
                                     (first box-choose2)
                                     box-first1)
                                 (ckn-sound-transpose 
-                                    (ircam-instruments
-                                        (first (approx-m box-choose1 2))
+                                    (print (ircam-instruments
+                                        (first (om::approx-m box-choose1 2))
                                         (first box-choose2)
-                                        box-first1)
-                                (first (om- box-choose1 (approx-m box-choose1 2))))) (make-instance 'sound nil)))
+                                        box-first1))
+                                (car (om- box-choose1 (om::approx-m box-choose1 2))))) (make-instance 'sound nil)))
         0.0 
         (om-abs (ms->sec ckn-LOOP2)))
     

@@ -466,7 +466,7 @@ action1))
     (voice->samples-sound-fun voice pan temp-files)
     (voice->samples-sound-om6-fun voice pan temp-files))
 
-(let* ((action1 (print "I am not able to finding all the samples")))
+(let* ((action1 (print "Not able to find all the samples")))
                 (om-abort))))
 
 ;; ====================================================
