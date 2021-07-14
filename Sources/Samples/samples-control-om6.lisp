@@ -118,7 +118,7 @@ action6))
 
 ;; ===============================================================================
 
-(defun true-durations (ckn)
+(defun om6-true-durations (ckn)
 
  (let* ((newchrdseq (if (typep ckn 'note) 
                            (om::Objfromobjs (om::Objfromobjs ckn (make-instance 'chord)) (make-instance 'chord-seq))
@@ -252,7 +252,7 @@ action6))
           (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) second-action1)))
         :do (let* (
                   (box-remove (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) second-action1))))
-              (om-print "Esperando" "Verbose")
+              (om-print "Esperando" "Verbose ::")
             mailbox-empty)))
 
 ;; ===================
@@ -278,7 +278,7 @@ action6))
 
 (action1
     (loop :for ckn-LOOP1 :in (choose-to-rest voice1)
-        :for ckn-LOOP2 :in (true-durations voice1)
+        :for ckn-LOOP2 :in (om6-true-durations voice1)
         :collect
         (let*
             (
@@ -569,7 +569,7 @@ action5))
 (compile 'build-sound-mix-fun)
 (compile 'build-sound-sequence-fun)
 (compile 'normalize-chord-seq)
-(compile 'true-durations)
+(compile 'om6-true-durations)
 (compile 'ckn-transpose-a-sound) 
 (compile 'name-of-the-sound)
 (compile 'ckn-string-name)

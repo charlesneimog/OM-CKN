@@ -150,7 +150,7 @@ action6))
 
 ;; ===============================================================================
 
-(defun true-durations (ckn)
+(defun om6-true-durations (ckn)
 
  (let* ((newchrdseq (if (typep ckn 'note) 
                            (om::Objfromobjs (om::Objfromobjs ckn (make-instance 'chord)) (make-instance 'chord-seq))
@@ -626,7 +626,6 @@ action5))
 (compile 'build-sound-mix-fun)
 (compile 'build-sound-sequence-fun)
 (compile 'normalize-chord-seq)
-(compile 'true-durations)
 (compile 'ckn-transpose-a-sound) 
 (compile 'name-of-the-sound)
 (compile 'ckn-string-name)

@@ -339,7 +339,7 @@ Result: (7 9 458)."
 :doc "It create the patch of a sound."
 
 (let* (
-(ckn-action1  (loop :for ckn-plus :in (true-durations voice) :collect (if (plusp ckn-plus) 0 1)))
+(ckn-action1  (loop :for ckn-plus :in (om6-true-durations voice) :collect (if (plusp ckn-plus) 0 1)))
 
 (ckn-action2 (loop :for cknloop :in ckn-action1 :collect (if (= 0 cknloop) (setq number-2 (+ number-2 1)) nil))))
 

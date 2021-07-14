@@ -344,6 +344,10 @@ _______________________________________________________________________
 
 ;; 07 trumpet ================================================================
 
+|# 
+(162 (CTp-ord note velocity)) 
+
+#| 
 145 + 33 = 178
 
 ;; 08 Trombone ================================================================
@@ -367,7 +371,7 @@ _______________________________________________________________________
 
 ;; 12 Harp  ================================================================
 
-(300 (Hp-ord note))
+(300 (Hp-ord note velocity))
 
 ;; 13 Violin  ================================================================
 
@@ -885,7 +889,29 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
 
 (first action2)))
 
+;; ==================================================== FRENCH HORN ================================================
 
+;; ==================================================== TRUMPET ====================================================
+
+(defmethod! CTp-ord ((note integer) &optional (velocity 60))
+:initvals '(nil)
+:indoc '("Integer in Midicents") 
+:icon '17359
+:doc "It reads a wave file."
+
+(let* (
+      (action1 
+        (loop :for y :in '("-ff" "-mf" "-pp") :collect
+            (probe-file (string+ *IRCAM-PATH* 
+            "07 Trumpet in C/ordinario/" "CTp-ord-" (ckn-mc->n note) y ".aif"))))
+      (action2 (remove nil (flat action1))))
+
+
+(if (equal (length action2) 3)
+      (if (> velocity 80) (car action2) (if (> velocity 40) (second action2) (third action2)))
+
+
+  (om::nth-random action2))))
 
 ;; ==================================================== GUITAR  ====================================================
 
@@ -973,7 +999,7 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
 
 ;; ==================================================== HARP  ====================================================
 
-(defmethod! Hp-ord ((note integer))
+(defmethod! Hp-ord ((note integer) (velocity integer))
 :initvals '(nil)
 :indoc '("Sound class") 
 :icon '17359
@@ -981,7 +1007,7 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
 
 (let* (
       (action1 
-        (loop :for x :in '("ff" "mp" "pp") :collect 
+        (loop :for x :in '("pp" "mf" "ff") :collect 
         (probe-file (string+ *IRCAM-PATH* 
             "12 Harp/ordinario/" "Hp-ord-" (ckn-mc->n note) "-" x ".aif"))))
       (action2 (remove nil (flat action1))))
