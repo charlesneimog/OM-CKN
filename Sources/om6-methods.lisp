@@ -380,6 +380,7 @@ Result: (7 9 458)."
                     :collect 
                           (if (equal ckn-loop my-number) my-position nil))))
 (remove nil ckn-action1)))
+
 ;; ====================================================
 
 (defmethod! choose-to-rest ((list list) &optional (number-2 1))
@@ -451,14 +452,33 @@ action1))
 
 ;; ====================================================
 
-(defmethod! talk-with-omlily nil
+(defmethod! ckn-save-temp-sounds ((sounds list))
 :initvals '(nil)
-:indoc '("a voice" ) 
+:indoc '("List of sounds") 
 :icon '17359
-:doc "Imported from OM6 and omlily developep by Karim Haddad.It just works fine in Windows OS that use the Pdf Xchange Editor."
+:doc "Save temp sound inside the folder om-ckn in outfiles."
 
-(om-cmd-line "TASKKILL /IM PDFXEdit.exe") 
-(osc-send '("/test" 0) "127.0.0.1" 3000))
+(save-temp-sounds sounds))
+
+;; ====================================================
+
+(defmethod! ckn-save-temp-sounds ((sounds sound))
+:initvals '(nil)
+:indoc '("List of sounds") 
+:icon '17359
+:doc "Save temp sound inside the folder om-ckn in outfiles."
+
+(car (save-temp-sounds (list sounds))))
+
+;; ====================================================
+
+(defmethod! ckn-save-temp-sounds ((sounds om-sound-data))
+:initvals '(nil)
+:indoc '("List of sounds") 
+:icon '17359
+:doc "Save temp sound inside the folder om-ckn in outfiles."
+
+(car (save-temp-sounds (list sounds))))
 
 ;; ====================================================
 

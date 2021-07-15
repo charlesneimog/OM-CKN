@@ -652,6 +652,16 @@ be used for urlmapping."
                        )) 
               nil))))
 
+;; ======================================================================
+
+(defun choose-ratio-of-note (voice note-number)
+  (let* (
+        (action1 (remove nil (mapcar (lambda (x) (if (plusp x) x nil)) (tree2ratio (tree voice)))))
+        (action2 (mktree (list (choose action1 note-number)) (list 4 4)))
+        (action3 (make-instance 'voice :tree action2 :tempo (tempo voice))))
+    (car (true-durations action3))))
+
+
 ;===================================================================== Compile in OM-SHARP =================================
 
 (compile 'loop-in-parts)
