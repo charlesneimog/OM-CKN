@@ -296,7 +296,7 @@ be used for urlmapping."
       :while (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mail-box)))
       :do 
             (let* () (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mail-box))
-               mailbox-empty))
+                  mailbox-empty))
 
 (mapcar (lambda (x) (mp:mailbox-peek x)) mail-box)))
 
@@ -305,12 +305,11 @@ be used for urlmapping."
 
 (defun do-fft-chunks (fft-chunks)
 
-(let* ()
+      (let* ()
+            (om-print "Aguarde" "Verbose :: ")
 
-(print (format nil "São ~a janelas" (length fft-chunks)))
-
-(loop :for chunks-number :in (arithm-ser 1 (length fft-chunks) 1)
-      :collect (list->string-fun (list 'fft- chunks-number)))))
+  (loop :for chunks-number :in (arithm-ser 1 (length fft-chunks) 1)
+        :collect (list->string-fun (list 'fft- chunks-number)))))
 
 ;================================================
 
@@ -362,7 +361,7 @@ be used for urlmapping."
 
 ;=====================================================================
 (defun fft-ckn-om (sound-self fft-size hop-size windows-type)
-
+(om-print "Aguarde!" "OM-CKN - Verbose ::")
   (let* (
         (start (if (equal nil nil)
                    0 
@@ -380,6 +379,8 @@ be used for urlmapping."
         (fft-chunk-to-ms (arithm-ser 1 sound-windows-length 1))
         (fft-chunk-to-ms-parts (loop-in-parts fft-chunk-to-ms 128 128))
         (boolean-window-size (om> sound-windows-length 129)))
+
+(om-print "Conversao para Bytes concluida, aguarde o FFT." "OM-CKN - Verbose ::")
 
 (if boolean-window-size
     (flat (loop :for loop-sound-windows-parts :in sound-windows-parts 
@@ -465,8 +466,6 @@ be used for urlmapping."
                                       ;; 1ª = A amplitude do bin (x-1) precisa ser menor que a amplitude de x 
                                       ;; 2ª = A amplitude do bin (x+1) precisa ser menor que a amplitude de x
                                       ;; 3ª = A amplitude de x precisa ser maior que a amplitude do filtro
-
-
                   (let* (
                     (Local-Maxima (list (1- loop-number-bin)  loop-number-bin (1+ loop-number-bin)))
                     (Local-Maxima-is-positive 
@@ -536,8 +535,7 @@ be used for urlmapping."
                                             (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.aif" (outfile ""))))))))))
 (om::om-cmd-line (string+ "powershell -command " 
                           (list->string-fun (list (string+ "del " 
-                                            (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.wav" (outfile ""))))))))))
-))
+                                            (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.wav" (outfile ""))))))))))))
 
 ;=====================================================================
 
@@ -548,9 +546,9 @@ be used for urlmapping."
 
 
 (defun loop-until-probe-file (my-file)
-  (loop :with file = nil 
-        :while (equal nil (setf file (probe-file my-file)))
-  :collect file)
+        (loop :with file = nil 
+              :while (equal nil (setf file (probe-file my-file)))
+        :collect file)
 
 (probe-file my-file))
 
@@ -612,28 +610,27 @@ be used for urlmapping."
 (defun voice->coll (ckn number-2)
 
 (let* (
-  (ckn-action1  
-      (loop :for ckn-plus :in (true-durations ckn) :collect (if (plusp ckn-plus) 0 1)))
-
-
-  (ckn-action2 
-      (loop 
-            :for cknloop :in ckn-action1 
-            :collect (if 
-                        (om::om= 0 cknloop) 
-                        (setq number-2 (om::om+ number-2 1)) 
-                        nil)))
+  (ckn-action1  (loop 
+                      :for ckn-plus :in (true-durations ckn) 
+                      :collect (if (plusp ckn-plus) 0 1)))
+  (ckn-action2  (loop 
+                      :for cknloop :in ckn-action1 
+                      :collect (if 
+                                    (om::om= 0 cknloop)
+                                    (setq number-2 (om::om+ number-2 1)))))
 
   (ckn-action3 
-      (let* ((ckn-action3-1 
-                (if 
-                  (equal nil (first ckn-action2)) 
-                  0 
-                  (first ckn-action2))))
-        (if 
-            (equal nil (first ckn-action2)) 
-            (om::om+ (om::om- ckn-action2 ckn-action3-1) -1) 
-            (om::om+ (om::om- ckn-action2 ckn-action3-1) 1)))))
+            (let* ((ckn-action3-1 
+                          (if 
+                              (equal nil (first ckn-action2))
+                              0 
+                              (first ckn-action2))))
+                                  
+                                  
+                  (if 
+                              (equal nil (first ckn-action2)) 
+                              (om::om+ (om::om- ckn-action2 ckn-action3-1) -1) 
+                              (om::om+ (om::om- ckn-action2 ckn-action3-1) 1)))))
 
 (loop 
       :for cknloop-1 :in ckn-action3 
@@ -649,8 +646,7 @@ be used for urlmapping."
                   (choose (om::get-slot-val (om::make-value-from-model 'voice ckn nil) "lvel") cknloop-1)
                   (choose (om::get-slot-val (om::make-value-from-model 'voice ckn nil) "lchan") cknloop-1)
                     (if (plusp cknloop-3) cknloop-3 nil) 
-                       )) 
-              nil))))
+                       ))))))
 
 ;; ======================================================================
 
@@ -687,6 +683,7 @@ be used for urlmapping."
 (compile 'spear-approach )
 (compile 'fft->sin-model-fun)
 (compile 'do-senoide)
+(compile 'sound->bytes-om)
 
 
 

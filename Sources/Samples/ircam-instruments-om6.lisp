@@ -8,11 +8,10 @@
 :icon '17359
 :doc "This object define the name of the composer and the name of the piece."
 
-(defparameter *IRCAM-PATH* (namestring x)))
+(defparameter *IRCAM-PATH* (namestring x))
+(om-save-pathname (namestring *IRCAM-PATH*))
+*IRCAM-PATH*)
 
-
-
-(in-package :om)
 
 ;; ==================================================== Preferencias ==================================
 
@@ -127,21 +126,13 @@ action7))
 ============================  FLUTE ============================
 
 ||| 01 = Flute Aeolian   ||| 02 = Flute Aeolian+Ordinario ||| 03 = Flute Aeolian-to-ordinário 
-
 ||| 05 = Flute crescendo ||| 06 = Flute-cres-to-desc      ||| 07 = Flute-decr     
-
 ||| 08 = Flute Disc fing ||| 09 = Fl-flatt                ||| 10 = Fl-harm-fngr
-
 ||| 11 = Fl-harm-fngr    ||| 12 = Fl-jet-wh               ||| 13 = Fl-key-click    
-
 ||| 14 =  Fl-multi       ||| 16 = Fl-ord                  ||| 17 =  fl-ord-quarter-tone
-
 ||| 18 = Fl-ord_aeol     ||| 19 = Fl-ord_flatt            ||| 20 = Fl-pizz 21  Fl-ply+sng 
-
 ||| 22 = Fl-ply+sng-uni  ||| 23 = Fl-sfz                  ||| 24 = Fl-stacc 
-
-||| 25 = Fl-tongue-ram   ||| 26 =  Fl-trill-maj2          ||| 27 =  Fl-trill-min2 
-
+||| 25 = Fl-tongue-ram   ||| 26 = Fl-trill-maj2           ||| 27 =  Fl-trill-min2 
 ||| 28 =  Fl-whst-tn     ||| 29 =  Fl-whst-tn-sw-slw      
 _______________________________________________________________________
 
@@ -408,7 +399,7 @@ _______________________________________________________________________
 :icon '17359
 :doc "It reads a wave file."
 
-(probe-file (string+ *IRCAM-PATH* "01 Flute/aeolian/" "Fl-aeol-" (ckn-mc->n note) "-p" ".aif")))
+(probe-file (string+ (namestring *IRCAM-PATH*) "01 Flute/aeolian/" "Fl-aeol-" (ckn-mc->n note) "-p" ".aif")))
 
 ; =======================
 
@@ -422,7 +413,7 @@ _______________________________________________________________________
 (let* (
       (action1 
         (loop :for y :in '("-pp" "-mf" "-ff") :collect
-            (probe-file (string+ *IRCAM-PATH* 
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
             "01 Flute/aeolian-and-ordinario/" "Fl-aeol+ord-" (ckn-mc->n note) y ".aif"))))
       (action2 (remove nil (flat action1))))
 
@@ -441,7 +432,7 @@ _______________________________________________________________________
 :doc "It reads a wave file."
 
 (probe-file 
-      (string+ *IRCAM-PATH* "01 Flute/aeolian-to-ordinario/" "Fl-aeol_ord-" (ckn-mc->n note) "-mf" ".aif")))
+      (string+ (namestring *IRCAM-PATH*) "01 Flute/aeolian-to-ordinario/" "Fl-aeol_ord-" (ckn-mc->n note) "-mf" ".aif")))
 
 ; =======================
 
@@ -452,7 +443,7 @@ _______________________________________________________________________
 :doc "It reads a wave file."
 
 (probe-file 
-      (string+ *IRCAM-PATH* "01 Flute/crescendo/" "Fl-cresc-" (ckn-mc->n note) "-ppff" ".aif")))
+      (string+ (namestring *IRCAM-PATH*) "01 Flute/crescendo/" "Fl-cresc-" (ckn-mc->n note) "-ppff" ".aif")))
 
 
 ; =======================
@@ -466,7 +457,7 @@ _______________________________________________________________________
 :doc "It reads a wave file."
 
 (probe-file 
-      (string+ *IRCAM-PATH* "01 Flute/crescendo-to-decrescendo/" "Fl-cre_dec-" (ckn-mc->n note) "-ppmfpp" ".aif")))
+      (string+ (namestring *IRCAM-PATH*) "01 Flute/crescendo-to-decrescendo/" "Fl-cre_dec-" (ckn-mc->n note) "-ppmfpp" ".aif")))
 
 ; =======================
 
@@ -479,7 +470,7 @@ _______________________________________________________________________
 :doc "It reads a wave file."
 
 (probe-file 
-      (string+ *IRCAM-PATH* "01 Flute/decrescendo/" "Fl-decresc-" (ckn-mc->n note) "-ffpp" ".aif")))
+      (string+ (namestring *IRCAM-PATH*) "01 Flute/decrescendo/" "Fl-decresc-" (ckn-mc->n note) "-ffpp" ".aif")))
 
 ; =======================
 
@@ -492,7 +483,7 @@ _______________________________________________________________________
 :doc "It reads a wave file."
 
 (probe-file 
-      (string+ *IRCAM-PATH* "01 Flute/discolored-fingering/" "Fl-dsclrd-fngr-" (ckn-mc->n note) "-mf" ".aif")))
+      (string+ (namestring *IRCAM-PATH*) "01 Flute/discolored-fingering/" "Fl-dsclrd-fngr-" (ckn-mc->n note) "-mf" ".aif")))
 
 ; 008
 ; =======================
@@ -506,7 +497,7 @@ _______________________________________________________________________
 (let* (
       (action1 
         (loop :for y :in '("-pp" "-mf" "-ff") :collect
-            (probe-file (string+ *IRCAM-PATH* 
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
             "01 Flute/flatterzunge/" "Fl-flatt-" (ckn-mc->n note) y ".aif"))))
       (action2 (remove nil (flat action1))))
 
@@ -525,7 +516,7 @@ _______________________________________________________________________
 :doc "It reads a wave file."
 
 (probe-file 
-      (string+ *IRCAM-PATH* "01 Flute/flatterzunge-to-ordinario/" "Fl-flatt_ord-" (ckn-mc->n note) "-mf" ".aif")))
+      (string+ (namestring *IRCAM-PATH*) "01 Flute/flatterzunge-to-ordinario/" "Fl-flatt_ord-" (ckn-mc->n note) "-mf" ".aif")))
 
 ; =======================
 
@@ -540,7 +531,7 @@ _______________________________________________________________________
 (let* (
       (action1 
         (loop :for y :in '("-p" "-f") :collect
-            (probe-file (string+ *IRCAM-PATH* 
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
             "01 Flute/harmonic-fingering/" "Fl-harm-fngr-" (ckn-mc->n note) y ".aif"))))
       (action2 (remove nil (flat action1))))
 
@@ -558,7 +549,7 @@ _______________________________________________________________________
 :doc "It reads a wave file."
 
 (probe-file 
-      (string+ *IRCAM-PATH* "01 Flute/jet-whistle/"  "Fl-jet-wh" ".aif")))
+      (string+ (namestring *IRCAM-PATH*) "01 Flute/jet-whistle/"  "Fl-jet-wh" ".aif")))
 
 ; =======================
 
@@ -571,7 +562,7 @@ _______________________________________________________________________
 :doc "It reads a wave file."
 
 (probe-file 
-      (string+ *IRCAM-PATH* "01 Flute/key-click/"  "Fl-key-cl-"  (ckn-mc->n note) "-f" ".aif")))
+      (string+ (namestring *IRCAM-PATH*) "01 Flute/key-click/"  "Fl-key-cl-"  (ckn-mc->n note) "-f" ".aif")))
 
 ; =======================
 
@@ -583,7 +574,7 @@ _______________________________________________________________________
 :icon '17359
 :doc "It reads a wave file. The number in Ircam Instruments is 20."
 
-(probe-file (string+ *IRCAM-PATH* "01 Flute/pizzicato/" "Fl-pizz-" (ckn-mc->n note) "-f" ".aif")))
+(probe-file (string+ (namestring *IRCAM-PATH*) "01 Flute/pizzicato/" "Fl-pizz-" (ckn-mc->n note) "-f" ".aif")))
 
 ; =======================
 
@@ -593,7 +584,7 @@ _______________________________________________________________________
 :icon '17359
 :doc "It reads a wave file."
 
-(probe-file (string+ *IRCAM-PATH* "01 Flute/tongue-ram/" "Fl-tng-ram-" (ckn-mc->n note) "-mf" ".aif")))
+(probe-file (string+ (namestring *IRCAM-PATH*) "01 Flute/tongue-ram/" "Fl-tng-ram-" (ckn-mc->n note) "-mf" ".aif")))
 
 ; =======================
 
@@ -606,7 +597,7 @@ _______________________________________________________________________
 (let* (
       (action1 
         (loop :for y :in '("-pp" "-mf" "-ff") :collect
-            (probe-file (string+ *IRCAM-PATH* 
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
             "01 Flute/ordinario/" "Fl-ord-" (ckn-mc->n note) y ".aif"))))
       (action2 (remove nil (flat action1))))
 
@@ -627,7 +618,7 @@ _______________________________________________________________________
       (correction (if (om= (om- note (approx-m (1- note) 2)) 50) "+" "-"))
       (action1 
         (loop :for y :in '("-pp" "-mf" "-ff") :collect
-            (probe-file (string+ *IRCAM-PATH* 
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
             "01 Flute/ordinario-1q/" "Fl-ord-" (ckn-mc->n (approx-m (1- note) 2)) correction y ".aif"))))
       (action2 (remove nil (flat action1))))
 
@@ -645,7 +636,7 @@ _______________________________________________________________________
 :doc "It reads a wave file."
 
 (probe-file 
-      (string+ *IRCAM-PATH* "01 Flute/ordinario-to-aeolian/" "Fl-ord_aeol-" (ckn-mc->n note) "-mf" ".aif")))
+      (string+ (namestring *IRCAM-PATH*) "01 Flute/ordinario-to-aeolian/" "Fl-ord_aeol-" (ckn-mc->n note) "-mf" ".aif")))
 
 ; =======================
 
@@ -656,7 +647,7 @@ _______________________________________________________________________
 :doc "It reads a wave file."
 
 (probe-file 
-      (string+ *IRCAM-PATH* "01 Flute/ordinario-to-flatterzunge/" "Fl-ord_flatt-" (ckn-mc->n note) "-mf" ".aif")))
+      (string+ (namestring *IRCAM-PATH*) "01 Flute/ordinario-to-flatterzunge/" "Fl-ord_flatt-" (ckn-mc->n note) "-mf" ".aif")))
 
 ; =======================
 
@@ -666,7 +657,7 @@ _______________________________________________________________________
 :icon '17359
 :doc "It reads a wave file from ircam instruments."
 
-(probe-file (string+ *IRCAM-PATH* "01 Flute/play-and-sing/" "Fl-ply+sng-" (ckn-mc->n (first note)) "+"  (ckn-mc->n (second note)) "-mf" ".aif")))
+(probe-file (string+ (namestring *IRCAM-PATH*) "01 Flute/play-and-sing/" "Fl-ply+sng-" (ckn-mc->n (first note)) "+"  (ckn-mc->n (second note)) "-mf" ".aif")))
 
 ; =======================
 
@@ -677,7 +668,7 @@ _______________________________________________________________________
 :doc "It reads a wave file."
 
 (probe-file 
-      (string+ *IRCAM-PATH* "01 Flute/play-and-sing-unison/" "Fl-ply+sng-uni-" (ckn-mc->n note) "-mf" ".aif")))
+      (string+ (namestring *IRCAM-PATH*) "01 Flute/play-and-sing-unison/" "Fl-ply+sng-uni-" (ckn-mc->n note) "-mf" ".aif")))
 
 ; =======================
 
@@ -690,7 +681,7 @@ _______________________________________________________________________
 (let* (
       (action1 
         (loop :for y :in '("-fp" "-f") :collect
-            (probe-file (string+ *IRCAM-PATH* 
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
             "01 Flute/sforzando/" "Fl-sfz-" (ckn-mc->n note) y ".aif"))))
       (action2 (remove nil (flat action1))))
 
@@ -704,7 +695,7 @@ _______________________________________________________________________
 :icon '17359
 :doc "It reads a wave file."
 
-(probe-file (string+ *IRCAM-PATH* "01 Flute/staccato/" "Fl-stacc-" (ckn-mc->n note) "-mf" ".aif")))
+(probe-file (string+ (namestring *IRCAM-PATH*) "01 Flute/staccato/" "Fl-stacc-" (ckn-mc->n note) "-mf" ".aif")))
 
 ; =======================
 
@@ -715,7 +706,7 @@ _______________________________________________________________________
 :doc "It reads a wave file."
 
 (probe-file 
-      (string+ *IRCAM-PATH* "01 Flute/trill-major-second-up/" "Fl-trill-maj2-" (ckn-mc->n note) "-mf" ".aif")))
+      (string+ (namestring *IRCAM-PATH*) "01 Flute/trill-major-second-up/" "Fl-trill-maj2-" (ckn-mc->n note) "-mf" ".aif")))
 
 ; =======================
 
@@ -726,7 +717,7 @@ _______________________________________________________________________
 :doc "It reads a wave file."
 
 (probe-file 
-      (string+ *IRCAM-PATH* "01 Flute/trill-minor-second-up/" "Fl-trill-min2-" (ckn-mc->n note) "-mf" ".aif")))
+      (string+ (namestring *IRCAM-PATH*) "01 Flute/trill-minor-second-up/" "Fl-trill-min2-" (ckn-mc->n note) "-mf" ".aif")))
 
 ; =======================
 
@@ -737,7 +728,7 @@ _______________________________________________________________________
 :doc "It reads a wave file."
 
 (probe-file 
-      (string+ *IRCAM-PATH* "01 Flute/whistle-tones/" "Fl-whst-tn-" (ckn-mc->n note) "-pp" ".aif")))
+      (string+ (namestring *IRCAM-PATH*) "01 Flute/whistle-tones/" "Fl-whst-tn-" (ckn-mc->n note) "-pp" ".aif")))
 
 ; =======================
 
@@ -748,7 +739,7 @@ _______________________________________________________________________
 :doc "It reads a wave file."
 
 (probe-file 
-      (string+ *IRCAM-PATH* "01 Flute/whistle-tones-sweeping/" "Fl-whst-tn-sw-slw-" (ckn-mc->n note) "-pp" ".aif")))
+      (string+ (namestring *IRCAM-PATH*) "01 Flute/whistle-tones-sweeping/" "Fl-whst-tn-sw-slw-" (ckn-mc->n note) "-pp" ".aif")))
 
 
 ; =======================
@@ -760,13 +751,13 @@ From OM-Sox
 Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECTION object."
 
 (let* (
-      (thepath (merge-pathnames "01 Flute\\multiphonics\\" *IRCAM-PATH*))
+      (thepath (merge-pathnames "01 Flute\\multiphonics\\" (namestring *IRCAM-PATH*)))
       (thefilelist (om-directory thepath 
                               :type "aif" :directories nil :files t 
                               :resolve-aliases nil :hidden-files nil))
       (name-of-all-notes (mapcar (lambda (x) (get-filename x)) thefilelist))
       (multifonico-mais-parecido (ckn-multiphonics-notes name-of-all-notes notes)))
-      (probe-file (string+ *IRCAM-PATH* "01 Flute\\multiphonics\\" multifonico-mais-parecido))))
+      (probe-file (string+ (namestring *IRCAM-PATH*) "01 Flute\\multiphonics\\" multifonico-mais-parecido))))
 
 
 ;; ==================================================== OBOE ====================================================
@@ -777,7 +768,7 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
 :icon '17359
 :doc "It reads a wave file."
 
-(probe-file (string+ *IRCAM-PATH* "02 Oboe/key-click/" "Ob-key-cl-" (ckn-mc->n note) "-pp" ".aif")))
+(probe-file (string+ (namestring *IRCAM-PATH*) "02 Oboe/key-click/" "Ob-key-cl-" (ckn-mc->n note) "-pp" ".aif")))
 
 ; =======================
 
@@ -790,7 +781,7 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
 (let* (
       (action1 
         (loop :for y :in '("-pp" "-mf" "-ff") :collect
-            (probe-file (string+ *IRCAM-PATH* 
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
             "02 Oboe/ordinario/" "Ob-ord-" (ckn-mc->n note) y ".aif"))))
       (action2 (remove nil (flat action1))))
 
@@ -806,7 +797,7 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
 :icon '17359
 :doc "It reads a wave file."
 
-(probe-file (string+ *IRCAM-PATH* "02 Oboe/staccato/" "Ob-stacc-" (ckn-mc->n note) "-mf" ".aif")))
+(probe-file (string+ (namestring *IRCAM-PATH*) "02 Oboe/staccato/" "Ob-stacc-" (ckn-mc->n note) "-mf" ".aif")))
 
 ; =======================
 
@@ -817,13 +808,13 @@ From OM-Sox
 Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECTION object."
 
 (let* (
-      (thepath (merge-pathnames "02 Oboe\\multiphonics\\" *IRCAM-PATH*))
+      (thepath (merge-pathnames "02 Oboe\\multiphonics\\" (namestring *IRCAM-PATH*)))
       (thefilelist (om-directory thepath 
                               :type "aif" :directories nil :files t 
                               :resolve-aliases nil :hidden-files nil))
       (name-of-all-notes (mapcar (lambda (x) (get-filename x)) thefilelist))
       (multifonico-mais-parecido (ckn-multiphonics-notes name-of-all-notes notes)))
-      (probe-file (string+ *IRCAM-PATH* "02 Oboe\\multiphonics\\" multifonico-mais-parecido))))
+      (probe-file (string+ (namestring *IRCAM-PATH*) "02 Oboe\\multiphonics\\" multifonico-mais-parecido))))
 
 ;; ==================================================== CLARINETE ====================================================
 
@@ -836,7 +827,7 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
 (let* (
       (action1 
         (loop :for y :in '("-pp" "-mf" "-ff") :collect
-            (probe-file (string+ *IRCAM-PATH* 
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
             "03 Clarinet in Bb/ordinario/" "BbCl-ord-" (ckn-mc->n note) y ".aif"))))
       (action2 (remove nil (flat action1))))
 
@@ -857,13 +848,13 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
 (om-print "If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf-1.aif and BbCl-mul-D3-mf-2, I suggest 1BbCl-mul-D3-mf and 2BbCl-mul-D3-mf.")
 
 (let* (
-      (thepath (merge-pathnames "03 Clarinet in Bb\\multiphonics\\" *IRCAM-PATH*))
+      (thepath (merge-pathnames "03 Clarinet in Bb\\multiphonics\\" (namestring *IRCAM-PATH*)))
       (thefilelist (om-directory thepath 
                               :type "aif" :directories nil :files t 
                               :resolve-aliases nil :hidden-files nil))
       (name-of-all-notes (mapcar (lambda (x) (get-filename x)) thefilelist))
       (multifonico-mais-parecido (ckn-multiphonics-notes name-of-all-notes notes)))
-      (probe-file (string+ *IRCAM-PATH* "03 Clarinet in Bb\\multiphonics\\" multifonico-mais-parecido))))
+      (probe-file (string+ (namestring *IRCAM-PATH*) "03 Clarinet in Bb\\multiphonics\\" multifonico-mais-parecido))))
 
 
 ;; ==================================================== BASSOON ====================================================
@@ -879,7 +870,7 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
 (let* (
       (action1 
         (loop :for y :in '("-mf" "-f") :collect
-            (probe-file (string+ *IRCAM-PATH* 
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
             "05 Saxophone Alto in Eb/slap-pitched/" "ASax-slap-" (ckn-mc->n note) y ".aif"))))
       (action2 (remove nil (flat action1))))
 
@@ -902,7 +893,7 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
 (let* (
       (action1 
         (loop :for y :in '("-ff" "-mf" "-pp") :collect
-            (probe-file (string+ *IRCAM-PATH* 
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
             "07 Trumpet in C/ordinario/" "CTp-ord-" (ckn-mc->n note) y ".aif"))))
       (action2 (remove nil (flat action1))))
 
@@ -924,7 +915,7 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
 (let* (
       (action1 
        (loop :for x :in '("1c" "2c" "3c" "4c" "5c" "6c") :collect 
-             (probe-file (string+ *IRCAM-PATH* "11 Guitar/pizzicato-bartok/" "Gtr-pizz-bartok-" (ckn-mc->n note) "-ff-" x ".aif"))))
+             (probe-file (string+ (namestring *IRCAM-PATH*) "11 Guitar/pizzicato-bartok/" "Gtr-pizz-bartok-" (ckn-mc->n note) "-ff-" x ".aif"))))
 
       (action2 (remove nil (flat action1))))
 
@@ -944,7 +935,7 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
       (action1 
         (loop :for x :in '("1c- " "2c- " "3c- " "4c- " "5c- " "6c- ") :collect 
         (loop :for y :in '("pp-" "mf-" "ff-") :collect
-            (probe-file (string+ *IRCAM-PATH* 
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
             "11 Guitar/ordinario/" "Gtr-ord-" y x (ckn-mc->n note) ".aif")))))
       (action2 (remove nil (flat action1))))
 
@@ -968,7 +959,7 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
       (action1 
         (loop :for x :in '("1c- " "2c- " "3c- " "4c- " "5c- " "6c- ") :collect 
         (loop :for y :in '("pp-" "mf-" "ff-") :collect
-            (probe-file (string+ *IRCAM-PATH* 
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
             "15 Cello/pizzicato-secco/" "Vc-pizz-sec-" y x (ckn-mc->n note) ".aif"))))))
 (remove nil (flat action1))))
 
@@ -985,7 +976,7 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
       (action1 
         (loop :for x :in '("1c- " "2c- " "3c- " "4c- " "5c- " "6c- ") :collect 
         (loop :for y :in '("pp-" "mf-" "ff-") :collect
-            (probe-file (string+ *IRCAM-PATH*
+            (probe-file (string+ (namestring *IRCAM-PATH*)
             "15 Cello/pizzicato-secco/" "Vc-pizz-sec-" y x (ckn-mc->n note) ".aif"))))))
 (remove nil (flat action1))))
 
@@ -1008,7 +999,7 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
 (let* (
       (action1 
         (loop :for x :in '("pp" "mf" "ff") :collect 
-        (probe-file (string+ *IRCAM-PATH* 
+        (probe-file (string+ (namestring *IRCAM-PATH*) 
             "12 Harp/ordinario/" "Hp-ord-" (ckn-mc->n note) "-" x ".aif"))))
       (action2 (remove nil (flat action1))))
 
@@ -1028,7 +1019,7 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
       (action1 
         (loop :for x :in '("1c- " "2c- " "3c- " "4c- ") :collect 
         (loop :for y :in '("pp-" "mf-" "ff-") :collect
-            (probe-file (string+ *IRCAM-PATH* 
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
             "13 Violin/pizzicato-secco/" "Vn-pizz-sec-" y x (ckn-mc->n note) ".aif")))))
       (action2 (remove nil (flat action1))))
 
@@ -1048,7 +1039,7 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
       (action1 
         (loop :for x :in '("1c- " "2c- " "3c- " "4c- ") :collect 
         (loop :for y :in '("pp-" "mf-" "ff-") :collect
-            (probe-file (string+ *IRCAM-PATH* 
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
             "15 Cello/pizzicato-l-vib/" "Vc-pizz-lv-" y x (ckn-mc->n note) ".aif")))))
       (action2 (remove nil (flat action1))))
 
@@ -1072,7 +1063,7 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
       (action1 
         (loop :for x :in '("1c- " "2c- " "3c- " "4c- ") :collect 
         (loop :for y :in '("pp-" "mf-" "ff-") :collect
-            (probe-file (string+ *IRCAM-PATH* 
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
             "15 Cello/ordinario/" "Vc-ord-" y x (ckn-mc->n note) ".aif")))))
       (action2 (remove nil (flat action1))))
 
@@ -1096,7 +1087,7 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
       (action1 
         (loop :for x :in '("1c" "2c" "3c" "4c") :collect 
         (loop :for y :in '("pp-" "mf-" "ff-") :collect
-            (probe-file (string+ *IRCAM-PATH* 
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
             "16 Contrabass/pizzicato-l-vib/" "Cb-pizz-lv-" (ckn-mc->n note) "-" y x ".aif")))))
       (action2 (remove nil (flat action1))))
 

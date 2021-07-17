@@ -929,8 +929,6 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
 
 ;;Vc-ord
 
-
-
 ;; ==================================================== HARP  ====================================================
 
 (defmethod! Hp-ord ((note integer) &optional (velocity 60))

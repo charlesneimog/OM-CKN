@@ -422,8 +422,10 @@ Result: (7 9 458)."
 :doc "Transform a list in one string."
 
 (list->string-fun list))
+
 ;; ====================================================
 
+#| 
 (defmethod! om6-true-durations ((voice voice))
 :initvals '(nil)
 :indoc '("a voice" ) 
@@ -432,6 +434,8 @@ Result: (7 9 458)."
 
 (om6-true-durations voice))
 
+|#
+
 ;; ====================================================
 
 (defmethod! sound-seq-multi ((sounds list) &optional (list-per-threading 30))
@@ -439,14 +443,14 @@ Result: (7 9 458)."
 :indoc '("a list of sounds." "Among of sounds per threading.")
 :icon '17359
 :doc "Like sound-seq-list but multithreading (more fast)."
-(gc-all)
-(let* (
-(action1 (sound-seq-list-multi-threading (build-seq-of-sounds sounds list-per-threading))))
-(om::om-cmd-line (string+ "powershell -command " 
-                          (list->string-fun (list (string+ "del " 
-                                            (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.aif" (outfile ""))))))))))
-(gc-all)
-action1))
+        (gc-all)
+    (let* (
+    (action1 (sound-seq-list-multi-threading (build-seq-of-sounds sounds list-per-threading))))
+    (om::om-cmd-line (string+ "powershell -command " 
+                              (list->string-fun (list (string+ "del " 
+                                                (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.aif" (outfile ""))))))))))
+            (gc-all)
+        action1))
 
 ;; ====================================================
 
