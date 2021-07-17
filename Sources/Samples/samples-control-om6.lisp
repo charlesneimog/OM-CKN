@@ -2,59 +2,76 @@
 
 ;; Caminho para Mr Swatson  ========================
 
+(defvar *MrsWatson-PATH* nil "path to MrsWatson")
 
-(defvar *MrsWatson-PATH* "path to MrsWatson")
+(pushr 'MrsWatson-Path *external-prefs*)
 
-(pushr 'om-ckn *external-prefs*)
+(defmethod get-external-name ((module (eql 'MrsWatson-Path))) "OM-CKN - Path to MrsWatson")
 
-(defmethod get-external-name ((module (eql 'om-ckn))) "path to MrsWatson")
+(defmethod get-external-module-path ((module (eql 'MrsWatson-Path)) modulepref) (get-pref modulepref :MrsWatson-Path))
 
-(defmethod get-external-module-path ((module (eql 'om-ckn)) modulepref) (get-pref modulepref :om-ckn))
+(defmethod set-external-module-path ((module (eql 'MrsWatson-Path)) modulepref path) 
+  (set-pref modulepref :MrsWatson-Path path))
 
-(defmethod set-external-module-path ((module (eql 'om-ckn)) modulepref path) 
-  (set-pref modulepref :om-ckn path))
-
-(defmethod save-external-prefs ((module (eql 'om-ckn))) 
-  `(:om-ckn ,(om-save-pathname *MrsWatson-PATH*)))
+(defmethod save-external-prefs ((module (eql 'MrsWatson-Path))) 
+  `(:MrsWatson-Path ,(om-save-pathname *MrsWatson-PATH*)))
 
 
-(defmethod put-external-preferences ((module (eql 'om-ckn)) moduleprefs)
-    (when (get-pref moduleprefs :om-ckn)
-      (setf *MrsWatson-PATH* (find-true-external (get-pref moduleprefs :om-ckn))))
+(defmethod put-external-preferences ((module (eql 'MrsWatson-Path)) moduleprefs)
+    (when (get-pref moduleprefs :MrsWatson-Path)
+      (setf *MrsWatson-PATH* (find-true-external (get-pref moduleprefs :MrsWatson-Path))))
     t)
 
 ;; Caminho para Sox  ========================
 
 (defvar *SOX-PATH* "path to OM-SOX")
 
-(pushr 'om-ckn *external-prefs*)
+(pushr 'sox-path *external-prefs*)
 
-(defmethod get-external-name ((module (eql 'om-ckn))) "OM-CKN Sox path")
+(defmethod get-external-name ((module (eql 'sox-path))) "OM-CKN - Sox path")
 
-(defmethod get-external-module-path ((module (eql 'om-ckn)) modulepref) (get-pref modulepref :om-ckn))
+(defmethod get-external-module-path ((module (eql 'sox-path)) modulepref) (get-pref modulepref :sox-path))
 
-(defmethod set-external-module-path ((module (eql 'om-ckn)) modulepref path) 
-  (set-pref modulepref :om-ckn path))
+(defmethod set-external-module-path ((module (eql 'sox-path)) modulepref path) 
+  (set-pref modulepref :sox-path path))
 
-(defmethod save-external-prefs ((module (eql 'om-ckn))) 
-  `(:om-ckn ,(om-save-pathname *SOX-PATH*)))
+(defmethod save-external-prefs ((module (eql 'sox-path))) 
+  `(:sox-path ,(om-save-pathname *SOX-PATH*)))
 
-
-(defmethod put-external-preferences ((module (eql 'om-ckn)) moduleprefs)
-    (when (get-pref moduleprefs :om-ckn)
-      (setf *SOX-PATH* (find-true-external (get-pref moduleprefs :om-ckn))))
+(defmethod put-external-preferences ((module (eql 'sox-path)) moduleprefs)
+    (when (get-pref moduleprefs :sox-path)
+      (setf *SOX-PATH* (find-true-external (get-pref moduleprefs :sox-path))))
     t)
+
+;; Caminho para Instrumentos do Ircam  ========================
+
+(defparameter *IRCAM-PATH* nil "OM-CKN - Path to Ircam-instruments Folder")
+
+(pushr 'Ircam-path *external-prefs*)
+
+(defmethod get-external-name ((module (eql 'Ircam-path))) "OM-CKN - Ircam-instruments Folder")
+
+(defmethod get-external-module-path ((module (eql 'Ircam-path)) modulepref) (get-pref modulepref :Ircam-path))
+
+(defmethod set-external-module-path ((module (eql 'Ircam-path)) modulepref path) 
+  (set-pref modulepref :Ircam-path path))
+
+(defmethod save-external-prefs ((module (eql 'Ircam-path))) 
+  `(:Ircam-path ,(om-save-pathname *IRCAM-PATH*)))
+
+(defmethod put-external-preferences ((module (eql 'Ircam-path)) moduleprefs)
+    (when (get-pref moduleprefs :Ircam-path)
+      (setf *IRCAM-PATH* (get-pref moduleprefs :Ircam-path))) t)
 
 
 ;; =================================================================================================
+
 (defun string-to-list (string &optional (separator " "))
   (when string
     (multiple-value-bind (token rest)
         (string-until-char string separator)
       (cons token (string-to-list rest separator)))))
 ;; =================================================================================================
-
-;;(defun sox-pitchshift (sample cents-tranposition)
 
 (defun name-of-the-sound (p)
   (let ((path (and p (pathname p))))
@@ -82,24 +99,24 @@
 ;  ========================
 
 (defun ckn-transpose-a-sound (instrumentos desvio) 
+(print "It just works in Windows OS.")
+      (let* (
+          (action1 (string-to-list (name-of-the-sound instrumentos) "-"))
+          (action2 (1- (length action1)))
+          (action3 (loop :for x :in action1 :collect (string+ x "-")))
+          (action4 (ckn-string-name (first-n action3 action2)))
+          (action5 (string+ action4 (format nil "~d-cents" desvio) ".aif"))
+          (action6 (merge-pathnames (string+ "om-ckn/" action5) (outfile "")))
+          (action7 (namestring action6))
+          (action8 (om-cmd-line 
+                    (string+ (list->string-fun (list (namestring *SOX-PATH*)))
+                    " "
+                    (list->string-fun (list instrumentos))
+                    " "
+                    (list->string-fun (list action7))
+                    (format nil " pitch ~d" desvio)))))
 
-(let* (
-(action1 (string-to-list (name-of-the-sound instrumentos) "-"))
-(action2 (1- (length action1)))
-(action3 (loop :for x :in action1 :collect (string+ x "-")))
-(action4 (ckn-string-name (first-n action3 action2)))
-(action5 (string+ action4 (format nil "~d-cents" desvio) ".aif"))
-(action6 (merge-pathnames (string+ "om-ckn/" action5) (outfile "")))
-(action7 (namestring action6))
-(action8 (om-cmd-line 
-          (string+ (list->string-fun (list (namestring *SOX-PATH*)))
-          " "
-          (list->string-fun (list instrumentos))
-          " "
-          (list->string-fun (list action7))
-          (format nil " pitch ~d" desvio)))))
-
-action6))
+          action6))
 
 ;; Fazer um código mais bonito
 
@@ -380,42 +397,6 @@ action1))
 
 ;;; ================================================================================
 
-(lambda (sounds)
-
-(let* (
-        (first-action1 (mapcar (lambda (x) (string+ "Sound-seq-" x)) (mapcar (lambda (x) (list->string-fun (list x))) (om::arithm-ser 1 (length sounds) 1))))
-        (second-action1 (ckn-make-mail-box first-action1))
-        (action1 
-            (loop 
-                :for sound-loop :in sounds
-                :for names-loop :in first-action1
-                :for mail-box-loop :in second-action1 
-                :do 
-                        (mp:process-run-function names-loop () 
-                                (lambda (x w) (mp:mailbox-send w 
-                                                                (sound-seq-list x 0.001)))
-                                (print sound-loop) mail-box-loop)))
-
-
-
-;; ======================================================
-
-(action2 
-  (loop with mailbox-empty = nil :while 
-          (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) second-action1)))
-            :do (let*
-        ((box-remove (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) second-action1))))
-            mailbox-empty)))
-
-;; ======================================================
-
-(action3 (mapcar (lambda (x) (mp:mailbox-peek x)) second-action1))
-
-(action4 (loop :for fim :in action3 :collect (make-value-from-model 'sound fim nil))))
-
-(sound-seq-list action4 0.001)))
-
-
 
 
 ;;;;; Falta sincronizar os sons
@@ -462,31 +443,71 @@ action1))
 (defun recursive-sound-seq (sounds list-per-threading)
 (sound-seq-list-multi-threading-until-finish (build-seq-of-sounds sounds list-per-threading)))
 
+;; =================================== to solve problem with OM-Super-VP
+
+(defmethod! ckn-save-data ((self t) &optional (path nil))
+  :icon 908
+  :initvals '(nil "data.txt")
+  :indoc '("data (list, BPF, or TextFile)" "a file location")
+  :doc "Saves the data from <self> as a text file in <path>." 
+  (let ((out (cond ((pathnamep path) path)
+                   (path (outfile path))
+                   (t (om-choose-new-file-dialog :directory (def-save-directory) 
+                                                 :prompt "New Text file"
+                                                 :types '("Text Files" "*.txt;*.*"))))))
+    (when (and (pathnamep out)
+               (or (bpf-p self)
+                   (typep self 'textfile)
+                   (listp self)))
+      (setf *last-saved-dir* (make-pathname :directory (pathname-directory out)))
+      (save-params self out)
+      out)))
+
+;; ====================================================== THIS IS A AUTO-PROMOTION ================================= 
 
 
-;; ===================================================================================
-#| 
 (let* () 
-      (eval (flat (get-slot-val 
-                     (let
-                         ((tb
-                           (make-value-from-model 'textbuffer 
-                                (probe-file (merge-pathnames "first-load.txt" (lib-resources-folder (find-library "OM-CKN")))) nil)))
-                       (setf (reader tb) :lines-cols) tb) "CONTENTS")))
+      (eval (flat 
+              (let ( 
+                    (textfile 
+                      (OBJFROMOBJS (merge-pathnames "first-load.txt" (lib-resources-folder (find-library "OM-CKN"))) (MAKE-INSTANCE 'TEXTFILE))))
+ (setf (ed-mode textfile) "supersede") (setf (eval-mode textfile) "list") (rep-editor textfile 1))))
 
 (if *first-time-load*
     (let* () 
-      (save-as-text '(((defvar *first-time-load* nil))) (merge-pathnames "first-load.txt" (lib-resources-folder (find-library "OM-CKN"))))
-      (hqn-web:browse "https://www.charlesneimog.com/"))))
+      (ckn-save-data '(((defvar *first-time-load* nil))) (merge-pathnames "first-load.txt" (lib-resources-folder (find-library "OM-CKN"))))
+      (hqn-web:browse "https://www.charlesneimog.com/")
 
 
 
-  |#
+      (om-message-dialog 
+                    (format nil
+"
+                    STEPS TO GOOD USE OF OM-CKN:
 
+    1. You need define the Ircam-instuments Path with object IRCAM-SAMPLES-FOLDER.
+    2. You need define the Plugins Path with object PLUGINS-FOLDER.
+    3. You need define the FXP Path with object FXP-FOLDER.
+
+
+" 2021)
+                  :window-title "OM-CKN - Charles K. Neimog"
+
+                  :size (om-make-point 680 200) 
+                  :position (om-make-point 000 040)
+                                                        ) 
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        )))
 
 ;; (sound-seq-list-multi-threading-until-finish (build-seq-of-sounds sounds list-per-threading)
 
-;; ====================================================== THIS IS A AUTO-PROMOTION ================================= 
+;; ======================================================================================= 
+
 
 (defun sound-seq-list-multi-threading-until-finish (sounds)
 
@@ -524,6 +545,7 @@ action1))
 
 (defun recursive-sound-seq (sounds list-per-threading)
 (sound-seq-list-multi-threading-until-finish (build-seq-of-sounds sounds list-per-threading)))
+
 
 ;;; ================================================================================
 
