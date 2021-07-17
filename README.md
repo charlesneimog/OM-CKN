@@ -13,3 +13,6 @@ ____________________________________________
 
 
 I implemented the possibility of using VST2 within OM-Sharp and OM (not all ready yet). For that, I am using **[MrsWatson](https://github.com/teragonaudio/MrsWatson)**. 
+
+
+![VST2 use](https://github.com/charlesneimog/OM-CKN/blob/master/Wiki/VST2%20examples.png)
