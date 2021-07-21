@@ -34,6 +34,8 @@
 
 (print 
  "
-                                              OM-CKN   ")
+                                              OM-CKN - 
+                                              
+                                              by Charles K. Neimog   ")
                     
 
