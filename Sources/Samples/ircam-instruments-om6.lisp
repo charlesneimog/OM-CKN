@@ -145,7 +145,7 @@ _______________________________________________________________________
 ||| 42  = clip-glissando         ||| 43  = multiphonics               ||| 44  = ob-multi        
 ||| 45  = note-lasting           ||| 46  = Ob-ord                     ||| 47  = ordinario-1q  
 ||| 48  = sforzando              ||| 49  = Ob-stacc                   ||| 50  =  trill-major-second  
-||| 51  =  trill-major           ||| 52  =  vibrato 
+||| 51  =  trill-major           ||| 52  = Vibrato 
 
 "
 
@@ -366,10 +366,11 @@ _______________________________________________________________________
 
 ;; 13 Violin  ================================================================
 
-(328 (Violin-pizz-secco note velocity))
+(328 (Vn-pizz-sec note velocity))
 
 ;; 13 Viola  ================================================================
 
+(381 (Va-pizz-sec note))
 ;; 349 - 394 
 
 ;; 14 Violoncello  ================================================================
@@ -904,7 +905,14 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
 
   (om::nth-random action2))))
 
+;; ==================================================== TROMBONE  ====================================================
+
+;; ==================================================== TUBA  ====================================================
+
+;; ==================================================== ACCORDION  ====================================================
+
 ;; ==================================================== GUITAR  ====================================================
+
 
 (defmethod! Gtr-pizz-bartok ((note integer))
 :initvals '(nil)
@@ -946,48 +954,6 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
       ;; resolver questoes de dinâmicas
 
 
-
-;; ==================================================== CELLO  ====================================================
-
-(defmethod! Vc-pizz-secco ((note integer))
-:initvals '(nil)
-:indoc '("Sound class") 
-:icon '17359
-:doc "It reads a wave file."
-
-(let* (
-      (action1 
-        (loop :for x :in '("1c- " "2c- " "3c- " "4c- " "5c- " "6c- ") :collect 
-        (loop :for y :in '("pp-" "mf-" "ff-") :collect
-            (probe-file (string+ (namestring *IRCAM-PATH*) 
-            "15 Cello/pizzicato-secco/" "Vc-pizz-sec-" y x (ckn-mc->n note) ".aif"))))))
-(remove nil (flat action1))))
-
-
-;; =======================================
-
-(defmethod! Cello-pizz-secco ((note integer))
-:initvals '(nil)
-:indoc '("Sound class") 
-:icon '12874613924
-:doc "It reads a wave file."
-
-(let* (
-      (action1 
-        (loop :for x :in '("1c- " "2c- " "3c- " "4c- " "5c- " "6c- ") :collect 
-        (loop :for y :in '("pp-" "mf-" "ff-") :collect
-            (probe-file (string+ (namestring *IRCAM-PATH*)
-            "15 Cello/pizzicato-secco/" "Vc-pizz-sec-" y x (ckn-mc->n note) ".aif"))))))
-(remove nil (flat action1))))
-
-
-;; =======================================
-
-
-;;Vc-ord
-
-
-
 ;; ==================================================== HARP  ====================================================
 
 (defmethod! Hp-ord ((note integer) (velocity integer))
@@ -1009,7 +975,7 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
 
 ;; ==================================================== Violin  ====================================================
 
-(defmethod! Violin-pizz-secco ((note integer) &optional (velocity 60))
+(defmethod! Vn-pizz-sec ((note integer) &optional (velocity 60))
 :initvals '(6000)
 :indoc '("Sound class") 
 :icon '17359
@@ -1027,7 +993,46 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
       (if (> velocity 87) (car (last action2)) (if (>= velocity 56) (second action2) (first action2)))
       (first action2))))
 
-;; ==================================================== Cello  ====================================================
+
+;; ==================================================== Violin  ====================================================
+
+(defmethod! Va-pizz-sec ((note integer) &optional (velocity 60))
+:initvals '(6000)
+:indoc '("Sound class") 
+:icon '17359
+:doc "It reads a wave file."
+
+(let* (
+      (action1 
+        (loop :for x :in '("1c- " "2c- " "3c- " "4c- ") :collect 
+        (loop :for y :in '("pp-" "mf-" "ff-") :collect
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
+            "14 Viola/pizzicato-secco/" "Va-pizz-sec-" y x (ckn-mc->n note) ".aif")))))
+      (action2 (remove nil (flat action1))))
+
+(if (equal (length action2) 3)
+      (if (> velocity 87) (car (last action2)) (if (>= velocity 56) (second action2) (first action2)))
+      (first action2))))
+
+
+;; ==================================================== CELLO  ====================================================
+
+(defmethod! Vc-pizz-secco ((note integer))
+:initvals '(nil)
+:indoc '("Sound class") 
+:icon '17359
+:doc "It reads a wave file."
+
+(let* (
+      (action1 
+        (loop :for x :in '("1c- " "2c- " "3c- " "4c- " "5c- " "6c- ") :collect 
+        (loop :for y :in '("pp-" "mf-" "ff-") :collect
+            (probe-file (string+ (namestring *IRCAM-PATH*) 
+            "15 Cello/pizzicato-secco/" "Vc-pizz-sec-" y x (ckn-mc->n note) ".aif"))))))
+(remove nil (flat action1))))
+
+
+;; =======================================
 
 (defmethod! Vc-pizz-lv ((note integer) &optional (velocity 60))
 :initvals '(nil)
@@ -1046,10 +1051,6 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
 (if (equal (length action2) 3)
       (if (> velocity 87) (car (last action2)) (if (>= velocity 56) (second action2) (first action2)))
       (first action2))))
-
-
-
-
 
 ;; =======================================
 
@@ -1072,8 +1073,6 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
       (first action2))))
 
 ;;Vc-ord
-
-
 
 ;; ==================================================== Contrabaixo  ====================================================
 

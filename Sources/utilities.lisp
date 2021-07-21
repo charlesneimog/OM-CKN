@@ -407,10 +407,10 @@ be used for urlmapping."
         :for x :in ckn-fft-instance 
         :collect 
             (let* (
-                  (FFT-SIZE (om::get-slot-val x "FFT-WINDOW"))
-                  (TEMPO (om::get-slot-val x "CKN-TEMPO"))
-                  (AMPLITUDES (om::get-slot-val x "amplitudes"))
-                  (PHRASE (om::get-slot-val x "phrase"))
+                  (FFT-SIZE (FFT-WINDOW x))
+                  (TEMPO (ckn-tempo x))
+                  (AMPLITUDES (amplitudes x))
+                  (PHRASE (phrase x))
                   (CORRECTION-FOR-DB (case FFT-SIZE 
                                           (512 124.53343)
                                           (1024 250.19278749034922D0)
@@ -423,7 +423,7 @@ be used for urlmapping."
                           (om::om* 20 action2)))
 
                   (SPEAR-CORRECTION 
-                        (spear-approach MAG->DB filtro FFT-SIZE PHRASE (get-slot-val x 'sound-sample-rate))))
+                        (spear-approach MAG->DB filtro FFT-SIZE PHRASE (sound-sample-rate x))))
                                                                         ;; COLOCAR SAMPLE-RATE NA CKN-FFT-INSTANCE
 (make-instance 'ckn-fft-instance 
                 :fft-window FFT-SIZE
