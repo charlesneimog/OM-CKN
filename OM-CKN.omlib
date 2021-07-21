@@ -28,7 +28,7 @@
             (:package (:name "SDIF") (:functions sdif->list sdif-envelope))
             (:package (:name "VST2 Plugins") (:functions ckn-VST2 define-VST2-plugin define-fxp-presets))
             (:package (:name "Sound Functions") (:functions sound-seq-list sound-mix-list ckn-sound-transpose))
-            (:package (:name "FFT") (:classes ckn-fft-instance) (:functions do-fft fft->amplitude fft->phrase sound->bytes))
+            (:package (:name "FFT") (:classes ckn-fft-instance) (:functions do-fft fft->amplitude fft->phrase fft->sin-model fft->chord sound->bytes))
             (:package (:name "Ircam Instruments") (:functions ircam-instruments)
                   (:packages
                         (:package (:name "Flute")
