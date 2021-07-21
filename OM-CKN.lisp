@@ -16,11 +16,11 @@
       "Sources/quicklisp-packages/package" 
       "Sources/quicklisp-packages/iterate"
       "Sources/Cloud/FFT-window"
+      "Sources/utilities"
       "Sources/Samples/samples-control-om6"
       "Sources/Samples/ircam-instruments-om6"
       "Sources/sinusoidal-modeling"
-      "Sources/om6-methods"
-      "Sources/utilities"
+      "Sources/om-methods"
       "Sources/stolen-functions"
       
             ))
@@ -34,7 +34,6 @@
 
 (print 
  "
-                                              OM-CKN   "
-)
+                                              OM-CKN   ")
                     
 
