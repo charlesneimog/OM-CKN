@@ -134,6 +134,7 @@
           (let ((channel-ptr (om-read-ptr (om-sound-buffer-ptr b) (1- (n-channels self)) :pointer)))
           (loop :for i :from 0 :to (n-samples self) :by 1 :collect (om-read-ptr channel-ptr i :float))))))
 
+;; ==================
 
 (defun sound->bytes-om (self)
 
@@ -599,7 +600,7 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 (om::defmethod! fft->sin-model ((ckn-instances list) (db-filter number))
 :initvals ' ((nil) '-60)       
-:indoc ' ("A list of ckn-fft-instance class.")
+:indoc ' ("A list of ckn-fft-instance class." "Threshold in dB.")
 :outdoc ' ("list of ckn-fft-instance with the approach of Spear software.")
 :icon '17359
 :numouts 1
@@ -611,3 +612,5 @@ Converts a (list of) freq pitch(es) to names of notes."
 ;; ====================================================
 
 (compile 'sound-seq-multi)
+(compile 'sound->bytes-om)
+(compile 'fft->sin-model-fun)
