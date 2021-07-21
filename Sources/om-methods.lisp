@@ -546,7 +546,7 @@ For the automatic work the folder out-files of OM# must be in the files preferen
                           (om::x->dx (get-slot-val chord-seq "LONSET")) 60 '(4 4) 256))
     (notes (get-slot-val chord-seq "LMIDIC"))
     (dinamicas (get-slot-val chord-seq "LVEL"))
-    (voice (print (make-instance 'voice :tree quantification :lmidic notes :lvel dinamicas))))
+    (voice (make-instance 'voice :tree quantification :lmidic notes :lvel dinamicas)))
     (osc-play voice)))
 
 ; ===========================================================================
@@ -591,19 +591,19 @@ Converts a (list of) freq pitch(es) to names of notes."
 (loop :for x 
       :in ckn-fft-instance 
       :collect (let* (
-                        (amplitudes (get-slot-val x "amplitudes"))
-                        (frequencias (get-slot-val x "frequencias"))
+                        (amplitudes (amplitudes x))
+                        (frequencias (frequencias x))
                         (freq-to-midicents (f->mc frequencias))
                         (lin->vel (om::om-scale amplitudes 20 127 0.0 1.0)))
                         (make-instance 'chord
-                                          :lmidic freq-to-midicents
-                                          :lvel lin->vel))))
+                                          :lmidic (remove nil freq-to-midicents)
+                                          :lvel (remove nil lin->vel)))))
 
 ; ===========================================================================
 
 (om::defmethod! fft->sin-model ((ckn-instances list) (db-filter number))
 :initvals ' ((nil) '-60)       
-:indoc ' ("A list of ckn-fft-instance class.")
+:indoc ' ("A list of ckn-fft-instance class." "Threshold in dB.")
 :outdoc ' ("list of ckn-fft-instance with the approach of Spear software.")
 :icon '17359
 :numouts 1

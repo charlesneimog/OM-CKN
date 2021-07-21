@@ -611,7 +611,7 @@ be used for urlmapping."
 
 (let* (
   (ckn-action1  (loop 
-                      :for ckn-plus :in (true-durations ckn) 
+                      :for ckn-plus :in (om6-true-durations ckn) 
                       :collect (if (plusp ckn-plus) 0 1)))
   (ckn-action2  (loop 
                       :for cknloop :in ckn-action1 
@@ -634,8 +634,8 @@ be used for urlmapping."
 
 (loop 
       :for cknloop-1 :in ckn-action3 
-      :for cknloop-2 :in (om::dx->x 0 (loop :for y :in (true-durations ckn) :collect (abs y))) 
-      :for cknloop-3 :in (true-durations ckn) 
+      :for cknloop-2 :in (om::dx->x 0 (loop :for y :in (om6-true-durations ckn) :collect (abs y))) 
+      :for cknloop-3 :in (om6-true-durations ckn) 
       :collect          
       
       (if (plusp cknloop-3) 
@@ -655,7 +655,7 @@ be used for urlmapping."
         (action1 (remove nil (mapcar (lambda (x) (if (plusp x) x nil)) (tree2ratio (tree voice)))))
         (action2 (mktree (list (choose action1 note-number)) (list 4 4)))
         (action3 (make-instance 'voice :tree action2 :tempo (tempo voice))))
-    (car (true-durations action3))))
+    (car (om6-true-durations action3))))
 
 
 ;===================================================================== Compile in OM-SHARP =================================
@@ -683,7 +683,6 @@ be used for urlmapping."
 (compile 'spear-approach )
 (compile 'fft->sin-model-fun)
 (compile 'do-senoide)
-(compile 'sound->bytes-om)
 
 
 

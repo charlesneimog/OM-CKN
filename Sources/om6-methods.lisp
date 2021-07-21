@@ -577,19 +577,19 @@ Converts a (list of) freq pitch(es) to names of notes.
 
 ;; ==================================================== FFT APPROACH LIKE SPEAR =====================================
 
-(defmethod* fft->chord  ((ckn-fft-instance list))
+(defmethod* fft->chord ((ckn-fft-instance list))
   :numouts 1
   :initvals (list 6000 nil)
   :indoc '("pitch or pitch list (midicents)" "frequency (Hz)")
   :icon '17359
   :doc "
-Converts a (list of) freq pitch(es) to names of notes."
+Converts a (list of) freq pitch(es) to names of notes. It must be used after fft->sin-model"
 
 (loop :for x 
       :in ckn-fft-instance 
       :collect (let* (
-                        (amplitudes (get-slot-val x "amplitudes"))
-                        (frequencias (get-slot-val x "frequencias"))
+                        (amplitudes (amplitudes x))
+                        (frequencias (frequencias x))
                         (freq-to-midicents (f->mc frequencias))
                         (lin->vel (om::om-scale amplitudes 20 127 0.0 1.0)))
                         (make-instance 'chord
