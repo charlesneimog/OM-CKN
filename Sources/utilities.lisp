@@ -286,7 +286,7 @@ be used for urlmapping."
                                  :ckn-fft (make-instance 'fft-complex-numbers :complex-numbers fft)
                                  :fft-window (* 2 (length amp))
                                  :fft-chunks z
-                                 :ckn-tempo (om::sec->ms (om::samples->sec (om::om* hop-size z) 44100))
+                                 :ckn-tempo (om::sec->ms (om::samples->sec (om::om* hop-size (1- z)) 44100))
                                  :amplitudes amp
                                  :phrase phrase
                                  :frequencias nil))))
@@ -379,9 +379,9 @@ be used for urlmapping."
         (sound-windows (sound-window zero-padding fft-size hop-size windows-type))
         (sound-windows-parts (loop-in-parts sound-windows 128 128))
         (sound-windows-length (length sound-windows))
-        (fft-chunk-to-ms (arithm-ser 1 sound-windows-length 1))
+        (fft-chunk-to-ms (om::arithm-ser 1 sound-windows-length 1))
         (fft-chunk-to-ms-parts (loop-in-parts fft-chunk-to-ms 128 128))
-        (boolean-window-size (om> sound-windows-length 129)))
+        (boolean-window-size (om::om> sound-windows-length 129)))
 
 (om-print "Conversao para Bytes concluida, aguarde o FFT." "OM-CKN - Verbose ::")
 
