@@ -20,10 +20,14 @@
 ;; asdf
 
 ;==================================================================================
+
 (defclass! fft-complex-numbers ()
-( 
-  (complex-numbers :initform '#(-6.1035157E-5 0.0) :initarg :complex-numbers :accessor complex-numbers)
-                                    ))
+((complex-numbers :initform '#(-6.1035157E-5 0.0) :initarg :complex-numbers :accessor complex-numbers)))
+
+;==================================================================================
+
+(defclass! sound-bytes ()
+((bytes :initform nil :initarg :bytes :accessor bytes)))
                                     
 ;==================================================
 

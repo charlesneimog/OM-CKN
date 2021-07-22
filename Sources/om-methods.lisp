@@ -2,28 +2,33 @@
 (in-package :om)
 
 
+
 ;================================================== FFT-Class =====================
 
 (defclass! ckn-fft-instance ()
 ( 
   (ckn-fft :initform '#(-6.1035157E-5 0.0) :initarg :ckn-fft :accessor ckn-fft)
-  (sound-sample-rate :initform '44100 :initarg :sound-sample-rate :accessor sound-sample-rate)
-  (fft-window :initform '1024 :initarg :fft-window :accessor fft-window)
-  (fft-chunks :initform '("fft-1" "fft-2" "fft-3") :initarg :fft-chunks :accessor fft-chunks)
-  (ckn-tempo :initform '(1) :initarg :ckn-tempo :accessor ckn-tempo)
-  (frequencias :initform '(220 440 880) :initarg :frequencias :accessor frequencias)
-  (amplitudes :initform '(0.3 0.3 0.3) :initarg :amplitudes :accessor amplitudes)
-  (phrase :initform '(0.1 0.3 0.1) :initarg :phrase :accessor phrase)
+  (sound-sample-rate :initform nil :initarg :sound-sample-rate :accessor sound-sample-rate)
+  (fft-window :initform nil :initarg :fft-window :accessor fft-window)
+  (fft-chunks :initform nil :initarg :fft-chunks :accessor fft-chunks)
+  (ckn-tempo :initform nil :initarg :ckn-tempo :accessor ckn-tempo)
+  (frequencias :initform nil :initarg :frequencias :accessor frequencias)
+  (amplitudes :initform nil :initarg :amplitudes :accessor amplitudes)
+  (phrase :initform nil :initarg :phrase :accessor phrase)
                                     )
   (:icon 17359))
 
-;; asdf
+;==================================================================================
+
+(defclass! fft-complex-numbers ()
+((complex-numbers :initform '#(-6.1035157E-5 0.0) :initarg :complex-numbers :accessor complex-numbers))
+(:icon 17359))
 
 ;==================================================================================
-(defclass! fft-complex-numbers ()
-( 
-  (complex-numbers :initform '#(-6.1035157E-5 0.0) :initarg :complex-numbers :accessor complex-numbers)
-                                    ))
+
+(defclass! sound-bytes ()
+((bytes :initform nil :initarg :bytes :accessor bytes))
+(:icon 17359))
                                     
 ;==================================================
 
@@ -45,6 +50,9 @@
 :doc "It does the FFT in a sound."
 
 (if (compiled-function-p #'sapa-fft!) nil (compile 'sapa-fft!))
+
+(case window-type
+  (nil (om-message-dialog "You need to define which window-type (fourth inlet) will be used for the fft analysis.")))
 
 (if 
     (equal *app-name* "om-sharp")
@@ -122,9 +130,9 @@
 :icon '17359
 :doc "It reads a wave file."
 
-(if (equal *app-name* "om-sharp") 
-  (sound->bytes-fun self)
-  (sound->bytes-om self)))
+(if (print (equal *app-name* "om-sharp"))
+  (make-instance 'sound-bytes :bytes (sound->bytes-fun self))
+  (sound->bytes-om-class self)))
 
 ;=====================================
 
@@ -140,6 +148,16 @@
   (let* ((pontos
           (audio-io::om-get-sound-buffer (filename self) :float t)))
 (loop :for i :from 0 :to (om-sound-n-samples self) :by 1 :collect (om-read-ptr pontos i :float))))
+
+
+;; =======
+
+(defun sound->bytes-om-class (self)
+
+  (let* ((pontos
+          (audio-io::om-get-sound-buffer (filename self) :float t))
+(numbers (loop :for i :from 0 :to (om-sound-n-samples self) :by 1 :collect (om-read-ptr pontos i :float))))
+(make-instance 'sound-bytes :bytes numbers)))
 
 
 ;=====================================
@@ -580,12 +598,11 @@ Converts a (list of) freq pitch(es) to names of notes.
 
 ;; ==================================================== FFT APPROACH LIKE SPEAR =====================================
 
-(defmethod* fft->chord  ((ckn-fft-instance list))
-  :numouts 1
-  :initvals (list 6000 nil)
-  :indoc '("pitch or pitch list (midicents)" "frequency (Hz)")
-  :icon '17359
-  :doc "
+(defmethod! fft->chord  ((ckn-fft-instance list))
+:initvals '(6000 nil)
+:indoc '("pitch or pitch list (midicents)" "frequency (Hz)")
+:icon '17359
+:doc "
 Converts a (list of) freq pitch(es) to names of notes."
 
 (loop :for x 
@@ -601,12 +618,11 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 ; ===========================================================================
 
-(om::defmethod! fft->sin-model ((ckn-instances list) (db-filter number))
+(defmethod! fft->sin-model ((ckn-instances list) (db-filter number))
 :initvals ' ((nil) '-60)       
 :indoc ' ("A list of ckn-fft-instance class." "Threshold in dB.")
 :outdoc ' ("list of ckn-fft-instance with the approach of Spear software.")
 :icon '17359
-:numouts 1
 :doc ""
 
 (fft->sin-model-fun ckn-instances db-filter))
