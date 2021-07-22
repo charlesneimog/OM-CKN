@@ -572,12 +572,25 @@ For the automatic work the folder out-files of OM# must be in the files preferen
   :numouts 1
   :initvals (list 6000 nil)
   :indoc '("pitch or pitch list (midicents)" "frequency (Hz)")
-  :icon 'conversion
+  :icon '141
   :doc "
 Converts a (list of) freq pitch(es) to names of notes.
 "
 
 (mc->n (f->mc freq) 4))
+
+;; ====================================================
+
+(defmethod* ms->samples ((sec number) (sample-rate number))
+  :numouts 1
+  :initvals (list 6000 nil)
+  :indoc '("numbers of seconds" "samples rate of the audio")
+  :icon '141
+  :doc "
+Converts a (list of) seconds to milisseconds.
+"
+(sec->samples (om::om/ sec 1000) sample-rate))
+
 
 ;; ==================================================== FFT APPROACH LIKE SPEAR =====================================
 
