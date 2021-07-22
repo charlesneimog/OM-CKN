@@ -589,7 +589,7 @@ Converts a (list of) freq pitch(es) to names of notes.
   :doc "
 Converts a (list of) seconds to milisseconds.
 "
-(sec->samples (om::om/ sec 1000) sample-rate))
+(om::om-round (sec->samples (om::om/ sec 1000) sample-rate)))
 
 
 ;; ==================================================== FFT APPROACH LIKE SPEAR =====================================
