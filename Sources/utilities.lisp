@@ -403,7 +403,6 @@ be used for urlmapping."
 
 ;=====================================================================
 
-
 (defun fft->Sin-model-fun (ckn-fft-instance filtro)
 
 (loop 
@@ -498,10 +497,6 @@ be used for urlmapping."
                     (list bin-para-frequencia (om::db->lin correcao_de_amplitude) phrase-loop))))))
 
     (remove nil action1)))
-
-
-
-
 
 ;===================================================================== SOUNDS WITH OPENMUSIC =====================================
 
@@ -689,17 +684,3 @@ be used for urlmapping."
 (compile 'spear-approach )
 (compile 'fft->sin-model-fun)
 (compile 'do-senoide)
-
-
-
-    
-    
-
-
-
-
-
-
-
-
-
