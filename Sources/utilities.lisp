@@ -330,7 +330,7 @@ be used for urlmapping."
                 (1- (om::n-samples sound-self))
                 (1+ (sec->samples (ms->sec (second (markers sound-self))) (sample-rate sound-self)))))
         (sound (sound->bytes sound-self))
-        (sound-selection (let* ((action1 (first-n sound finish))
+        (sound-selection (let* ((action1 (first-n (bytes sound) finish))
                                 (action2 (- finish start)))
                            (last-n action1 action2)))
         (zero-padding (x-append sound-selection 
@@ -369,11 +369,14 @@ be used for urlmapping."
         (finish (if t   ; (< (length (markers sound-self)) 2)
                 (1- (om-sound-n-samples sound-self))
                 (1+ (sec->samples (second (markers sound-self)) (sample-rate sound-self)))))
-        (sound (sound->bytes-om sound-self))
-        (sound-selection (let* ((action1 (first-n sound finish))
-                                (action2 (om::om- finish start)))
+        (sound (sound->bytes-om-class sound-self))
+        (sound-selection (let* ((action1 (first-n (bytes sound) finish))
+                                (action2 (- finish start)))
                            (last-n action1 action2)))
-        (sound-windows (sound-window sound-selection fft-size hop-size windows-type))
+        (zero-padding (x-append sound-selection 
+                                (loop :for i :from 1 :to (om::om- (om* (ceiling (om/ (length sound-selection) fft-size)) fft-size) (length sound-selection))
+                                      :collect (let* () 0))))
+        (sound-windows (sound-window zero-padding fft-size hop-size windows-type))
         (sound-windows-parts (loop-in-parts sound-windows 128 128))
         (sound-windows-length (length sound-windows))
         (fft-chunk-to-ms (arithm-ser 1 sound-windows-length 1))
@@ -427,6 +430,9 @@ be used for urlmapping."
                                                                         ;; COLOCAR SAMPLE-RATE NA CKN-FFT-INSTANCE
 (make-instance 'ckn-fft-instance 
                 :fft-window FFT-SIZE
+                :ckn-fft nil
+                :fft-chunks nil
+                :phrase nil
                 :ckn-tempo TEMPO 
                 :frequencias (first (om::mat-trans SPEAR-CORRECTION))
                 :amplitudes (second (om::mat-trans SPEAR-CORRECTION))))))
