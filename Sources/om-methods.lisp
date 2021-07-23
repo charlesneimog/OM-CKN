@@ -472,7 +472,7 @@ Result: (7 9 458)."
 
 ;; ====================================================
 
-(defmethod! voice->samples-sound ((voice voice) &optional (pan nil) (temp-files t))
+(defmethod! voice->samples ((voice voice) &optional (pan nil) (temp-files t))
 :initvals '(nil nil t)
 :indoc '("a voice" "panoramic information - see the object sound-stereo-pan" "Clear temp files") 
 :icon '17359

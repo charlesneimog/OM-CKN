@@ -22,7 +22,7 @@
       "Sources/sinusoidal-modeling"
       "Sources/om-methods"
       "Sources/stolen-functions"
-      
+      "Sources/Samples/OrchideaSOL2020"
             ))
 
 
