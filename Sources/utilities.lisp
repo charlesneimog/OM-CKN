@@ -187,6 +187,19 @@ be used for urlmapping."
     (reverse (x-append (list action1) result))
   (setf sound-bytes-window (loop-in-parts action2 window hop-size (push action1 result))))))
 
+; ============================
+
+(defun sound->bytes-smart (self)
+
+(let* (
+        (pontos
+          (audio-io::om-get-sound-buffer (filename self) :float t))
+        (sound-markers (om::om-round (sec->samples (markers self) 44100)))
+        (numbers (if (not (equal (length (markers self)) 2))
+                      (loop :for i :from 0 :to (om-sound-n-samples self) :by 1 :collect (om-read-ptr pontos i :float))
+                      (loop :for i :from (first sound-markers) :to (second sound-markers) :by 1 :collect (om-read-ptr pontos i :float)))))
+(make-instance 'sound-bytes :bytes numbers)))
+
 
  ; ============================ OM-SYNTH ========================================================
 
@@ -235,6 +248,8 @@ be used for urlmapping."
       )))
 
 
+
+
 ;=========================
 
 #| (lambda (sound-self fft-size hop-size)
@@ -264,7 +279,7 @@ be used for urlmapping."
 ;=========================
 
 
-(defun fft-multiple-thread (fft-chunks mail-box nomes chunks hop-size)
+(defun fft-multiple-thread (fft-chunks mail-box nomes chunks sample-rate hop-size)
 
 (let* ()
 
@@ -286,6 +301,7 @@ be used for urlmapping."
                                  :ckn-fft (make-instance 'fft-complex-numbers :complex-numbers fft)
                                  :fft-window (* 2 (length amp))
                                  :fft-chunks z
+                                 :sound-sample-rate sample-rate
                                  :ckn-tempo (om::sec->ms (om::samples->sec (om::om* hop-size (1- z)) 44100))
                                  :amplitudes amp
                                  :phrase phrase
@@ -349,7 +365,7 @@ be used for urlmapping."
           :collect (let* (
                          (action1 (do-fft-chunks loop-sound-windows-parts))
                          (action2 (ckn-make-mail-box action1)))
-                     (fft-multiple-thread loop-sound-windows-parts action2 action1 loop-fft-chunk-to-ms-parts hop-size))) 1)
+                     (fft-multiple-thread loop-sound-windows-parts action2 action1 loop-fft-chunk-to-ms-parts (sample-rate sound-self) hop-size))) 1)
   
   (let* (
                          
@@ -357,23 +373,15 @@ be used for urlmapping."
                          (action2 fft-chunk-to-ms)                         
                          (action3 (do-fft-chunks sound-windows))
                          (action4 (ckn-make-mail-box action3)))
-                     (fft-multiple-thread action1 action4 action3 action2 hop-size)))))
+                     (fft-multiple-thread action1 action4 action3 action2 (sample-rate sound-self) hop-size)))))
 
 ;=====================================================================
+
 (defun fft-ckn-om (sound-self fft-size hop-size windows-type)
 (om-print "Aguarde!" "OM-CKN - Verbose ::")
   (let* (
-        (start (if (equal nil nil)
-                   0 
-                 (1+ (sec->samples (first (markers sound-self)) (sample-rate sound-self)))))
-        (finish (if t   ; (< (length (markers sound-self)) 2)
-                (1- (om-sound-n-samples sound-self))
-                (1+ (sec->samples (second (markers sound-self)) (sample-rate sound-self)))))
-        (sound (sound->bytes-om-class sound-self))
-        (sound-selection (let* ((action1 (first-n (bytes sound) finish))
-                                (action2 (- finish start)))
-                           (last-n action1 action2)))
-        (zero-padding (x-append sound-selection 
+        (sound-selection (bytes (sound->bytes-smart sound-self)))
+        (zero-padding (x-append sound-selection
                                 (loop :for i :from 1 :to (om::om- (om* (ceiling (om/ (length sound-selection) fft-size)) fft-size) (length sound-selection))
                                       :collect (let* () 0))))
         (sound-windows (sound-window zero-padding fft-size hop-size windows-type))
@@ -391,7 +399,7 @@ be used for urlmapping."
           :collect (let* (
                          (action1 (do-fft-chunks loop-sound-windows-parts))
                          (action2 (ckn-make-mail-box action1)))
-                     (fft-multiple-thread loop-sound-windows-parts action2 action1 loop-fft-chunk-to-ms-parts hop-size))) 1)
+                     (fft-multiple-thread loop-sound-windows-parts action2 action1 loop-fft-chunk-to-ms-parts (sample-rate sound-self) hop-size))) 1)
   
   (let* (
                          
@@ -399,7 +407,8 @@ be used for urlmapping."
                          (action2 fft-chunk-to-ms)                         
                          (action3 (do-fft-chunks sound-windows))
                          (action4 (ckn-make-mail-box action3)))
-                     (fft-multiple-thread action1 action4 action3 action2 hop-size)))))
+                     (fft-multiple-thread action1 action4 action3 action2 (sample-rate sound-self) hop-size)))))
+
 
 ;=====================================================================
 
@@ -629,9 +638,9 @@ be used for urlmapping."
                                   
                                   
                   (if 
-                              (equal nil (first ckn-action2)) 
-                              (om::om+ (om::om- ckn-action2 ckn-action3-1) -1) 
-                              (om::om+ (om::om- ckn-action2 ckn-action3-1) 1)))))
+                      (equal nil (first ckn-action2)) 
+                      (om::om+ (om::om- ckn-action2 ckn-action3-1) -1) 
+                      (om::om+ (om::om- ckn-action2 ckn-action3-1) 1)))))
 
 (loop 
       :for cknloop-1 :in ckn-action3 
