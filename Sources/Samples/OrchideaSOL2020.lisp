@@ -8,9 +8,9 @@
 :icon '17359
 :doc "This object define the name of the composer and the name of the piece."
 
-(defparameter *OrchideaSOL-PATH* x)
-(om-save-pathname *OrchideaSOL-PATH*)
-*OrchideaSOL-PATH*)
+(save-as-text '(((defvar *OrchideaSOL-PATH* x))) (merge-pathnames "OrchideaSOL-PATH.lisp" (merge-pathnames "sources/" (mypathname (find-library "OM-CKN")))))
+(defvar *OrchideaSOL-PATH* x))
+
 
 ;; ====================================================
 
@@ -387,14 +387,9 @@
       ;;;; 189 DESIRES SOME ATTENTION!!!!!!!!!!!!!!!! ;) VELOCITY PARA CONTROLAR O ESPECTRO QUE SERÁ UTILIZADO; 
 (190 (om::nth-random          (ckn-in-files (merge-pathnames "Keyboards/Accordion/key_click/" *OrchideaSOL-PATH*) 'wav)))
 (191 (ckn-dinamics (ckn-find-the-samples 3 note *OrchideaSOL-PATH* "Keyboards/Accordion/ordinario/" 'wav) velocity))
-(192 (ckn-dinamics (ckn-find-the-samples 3 note *OrchideaSOL-PATH* "Keyboards/Accordion/sforzato/" 'wav) velocity))
+(192 (ckn-dinamics (ckn-find-the-samples 3 note *OrchideaSOL-PATH* "Keyboards/Accordion/sforzato/" 'wav) velocity))))
 
-
-))
-
-
-
-;;;; Need special functions 
+;;; ========================= Need special functions ===================
 
 (defun Cl-harmonic_fingering (where-is-the-nome note OrchideaSOL path-of-the-instrument type)
   (let* (

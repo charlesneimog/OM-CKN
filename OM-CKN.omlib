@@ -20,6 +20,8 @@
       "Sources/utilities"
       "Sources/stolen-functions"
       "Sources/Score/score"
+      "Sources/Samples/OrchideaSOL2020"
+      "Sources/Samples/test"
       )
 
 (:symbols 

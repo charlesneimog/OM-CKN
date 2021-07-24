@@ -44,6 +44,11 @@
 
 ;; ==================================================== 
 
+(defun multiphonics-notes (note)
+      (ckn-multiphonics-notes all-names note))
+
+
+
 (defun ckn-multiphonics-notes (all-names notes)
       (let* (
             (action1 (mapcar (lambda (x) (ircam-n->mc x)) all-names))
@@ -75,10 +80,6 @@
 action7))
             
                         
-
-
-
-
 ;; ==================================================== 
 
 (defmethod! check-samples-in-voice ((voice voice))
@@ -346,7 +347,7 @@ _______________________________________________________________________
 
 ;; 08 Trombone ================================================================
 
-178 + 28 = 206
+178 + 23 = 201
 
 ;; 09 Tuba ================================================================
 
