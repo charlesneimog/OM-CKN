@@ -550,7 +550,7 @@ action1))
 ;;; ================================================================================
 
 (defun save-temp-sounds (sounds) 
-
+(gc-all)
 (let* (
     (first-action1 
         (mapcar 
