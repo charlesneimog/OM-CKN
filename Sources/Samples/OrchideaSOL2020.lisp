@@ -81,12 +81,46 @@
 :doc "It create the patch of a sound.
 
 ============================  FLUTE ============================
-
-
+1 = Aeolian                         6  = Jet_whistle
+2 = Aeolian-and-Ordinario           7  = key_click
+3 = Discolored_fingering            8  = ordinario
+4 = Flatterzunge                    9  = sforzato
+5 = Harmonic_fingering              10 = whistle_tones
 
 ============================= OBOE ===============================
+11 = Blow_without_reed              16 = kiss
+12 = discolored_fingering           17 = ordinario
+13 = flatterzunge                   18 = sforzato
+14 = harmonic_fingering             19 = vibrato
+15 = key_click                      20 = ordinario+surdina
 
+============================= Clarinet Bb ===============================
+21 = aeolian_and_ordinario          26 = ordinario_high_register
+22 = flatterzunge                   27 = sforzato
+23 = flatterzunge_high_register     
+24 = key_click                      
+25 = ordinario
 
+============================= Bassoon ===============================
+28 = blow_without_reed              29 = flatterzunge
+30 = harmonic_fingering             31 = key_click
+32 = ordinario                      33 = sforzato
+34 = vibrato                        35 = ordinario+sordina
+
+============================= Sax-Alto ===============================
+36 = aeolian                        37 = bisbigliando
+38 = blow_without_reed              39 = discolor_fingering
+40 = double_tonguing                41 = flatterzunge
+42 = harmonic_fingering             43 = key_click
+44 = kiss                           45 = ordinario
+46 = ordinario_high_register        47 = sforzato
+48 = slap_pitched                   49 = slap_unpitched
+
+============================= Trumpet_C ===============================
+50 = brassy                         51 = flatterzunge
+52 = ordinario                      53 = pedal_tone
+54 = sforzato                       55 = slap_pitched
+56 = flatterzunge_open+sordina_wah  57 = ordinario_closed+sordina_wah
 "
 
 (case number-of-the-instrument

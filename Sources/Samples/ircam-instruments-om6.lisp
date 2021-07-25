@@ -101,8 +101,9 @@ action7))
       :collect 
       (equal nil (ircam-instruments loop-notas loop-canais loop-vel)))))
 
-(if (equal nil (remove nil test)) "Todas as alturas possuem samples correspondentes" 
-(format nil "A nota ~d nao possuem sample correspondente! :( " (1+ (position t test))))))
+(om-print (list->string-fun (flat (list (CHOOSE NOTAS  (om::om+ (POSITION T TEST) 1))))) "NOTA QUE NÃO TEM")
+(IF (EQUAL NIL (REMOVE NIL TEST)) "TODAS AS ALTURAS POSSUEM SAMPLES CORRESPONDENTES" 
+(FORMAT NIL "A NOTA ~D NAO POSSUEM SAMPLE CORRESPONDENTE! :( " (1+ (POSITION T TEST))))))
 
 ;; ==================================================== 
 
