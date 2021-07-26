@@ -7,7 +7,7 @@
 
 (defclass! ckn-fft-instance ()
 ( 
-  (ckn-fft :initform '#(-6.1035157E-5 0.0) :initarg :ckn-fft :accessor ckn-fft)
+  (ckn-complex-numbers :initform '#(-6.1035157E-5 0.0) :initarg :ckn-complex-numbers :accessor ckn-complex-numbers)
   (sound-sample-rate :initform nil :initarg :sound-sample-rate :accessor sound-sample-rate)
   (fft-window :initform nil :initarg :fft-window :accessor fft-window)
   (fft-chunks :initform nil :initarg :fft-chunks :accessor fft-chunks)
