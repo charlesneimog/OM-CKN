@@ -7,8 +7,6 @@
     (concatenate 'string 
                  (write-to-string (car ckn-list)) (list->string-fun (cdr ckn-list)))))
 
-
-
 ;====================================
 
 (defun list-dimensions (list depth)
@@ -249,35 +247,6 @@ be used for urlmapping."
             )
       )))
 
-
-
-
-;=========================
-
-#| (lambda (sound-self fft-size hop-size)
-
-  (let* (
-        (start (if (equal (markers sound-self) nil) 
-                   0 
-                 (1+ (sec->samples (ms->sec (first (markers sound-self))) (sample-rate sound-self)))))
-        (finish (if (< (length (markers sound-self)) 2)
-                (1- (n-samples sound-self))
-                (1+ (sec->samples (ms->sec (second (markers sound-self))) (sample-rate sound-self)))))
-        (sound (sound->bytes sound-self))
-        (sound-selection (let* ((action1 (first-n sound finish))
-                                (action2 (- finish start)))
-                           (last-n action1 action2)))
-        (sound-windows (sound-window sound-selection fft-size hop-size))
-        (sound-windows-parts (loop-in-parts sound-windows 128 128))
-        (sound-windows-length (length sound-windows))
-        (fft-chunk-to-ms (arithm-ser 1 sound-windows-length 1))
-        (fft-chunk-to-ms-parts (loop-in-parts fft-chunk-to-ms 128 128))
-        (boolean-window-size (if (om> sound-windows-length 129) 
-
-)))))
-
-|#
-
 ;=========================
 
 
@@ -300,7 +269,7 @@ be used for urlmapping."
                               (phrase (fft->phrase fft)))
                              ;(length-amp (length amp))) ;; colocar a sequencia fft                                                               
                               (make-instance 'ckn-fft-instance 
-                                 :ckn-fft (make-instance 'fft-complex-numbers :complex-numbers fft)
+                                 :ckn-complex-numbers (make-instance 'fft-complex-numbers :complex-numbers fft)
                                  :fft-window (* 2 (length amp))
                                  :fft-chunks z
                                  :sound-sample-rate sample-rate
@@ -440,7 +409,7 @@ be used for urlmapping."
                                                                         ;; COLOCAR SAMPLE-RATE NA CKN-FFT-INSTANCE
 (make-instance 'ckn-fft-instance 
                 :fft-window FFT-SIZE
-                :ckn-fft nil
+                :ckn-complex-numbers nil
                 :fft-chunks nil
                 :phrase nil
                 :ckn-tempo TEMPO 

@@ -109,7 +109,7 @@
             (samples-menores 
                 (om-abs (ms->sec ckn-LOOP2))
 
-                (objfromobjs (print (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2)))
+                (objfromobjs (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2)))
                                 (orchidea-instruments
                                     (first (approx-m box-choose1 2))
                                     (first box-choose2)
@@ -119,7 +119,7 @@
                                         (car (om::approx-m box-choose1 2))
                                         (car box-choose2)
                                         box-first1)
-                                (car (om::om- box-choose1 (om::approx-m box-choose1 2)))))) (make-instance 'sound nil)))
+                                (car (om::om- box-choose1 (om::approx-m box-choose1 2))))) (make-instance 'sound nil)))
         0.0 
         (om-abs (ms->sec ckn-LOOP2)))
     
@@ -170,105 +170,6 @@ action1))
                                             (om- ckn-LOOP1 (approx-m ckn-LOOP1 2))))
                             (make-instance 'sound))))
 
-                                              
-                        (sound-vol (sound-cut (samples-menores ckn-time action1) 0.0 ckn-time) (om-scale ckn-LOOP3 0.001 1 1 127)))))
-
-;; ====================================================
-(defun o-voice->samples-sharp (voice1 pan temp-files) 
- 
-(let* (
-
-(action1
-    (loop :for ckn-LOOP1 :in (choose-to-rest voice1)
-        :for ckn-LOOP2 :in (om6-true-durations voice1)
-        :collect
-        (let*
-            ((box-choose1 (choose (lmidic voice1) ckn-LOOP1))
-                (box-choose2 (choose (lchan voice1) ckn-LOOP1))
-                (box-choose3 (choose (lvel voice1) ckn-LOOP1))
-                (box-first1 (first box-choose3))
-                (box-choose4 (if (equal nil (choose pan ckn-LOOP1)) '(-50 50)  (choose pan ckn-LOOP1))))
-
-(if (plusp ckn-LOOP2) ;;silencio ou nÃƒÂ£o 
-
-;; NOTA 
-(sound-fade 
-
-        (sound-stereo-pan (sound-mono-to-stereo 
-            (if (om< (length box-choose1) 2) ;; MONOFONICO OU POLIFÃƒâ€NICO
-
-            ;;;;; MONOFONICO
-
-;;;; COLOCAR MEIO PARA APAGAR ARQUIVOS TEMPORÃƒÂRIOS
-
-(sound-vol 
-    (sound-cut 
-            (samples-menores 
-                (om-abs (ms->sec ckn-LOOP2)) 
-                    (make-value-from-model 'sound
-                            (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2))) 
-                                (orchidea-instruments
-                                    (first (approx-m box-choose1 2))
-                                    (first box-choose2)
-                                    box-first1)
-                                (ckn-sound-transpose 
-                                    (orchidea-instruments
-                                        (first (approx-m box-choose1 2))
-                                        (first box-choose2)
-                                        box-first1)
-                                (first (om- box-choose1 (approx-m box-choose1 2))))) nil))
-        0.0 
-        (om-abs (ms->sec ckn-LOOP2)))
-    
-    (om-scale box-first1 0.001 0.999 1 110))  ;;;;; FIMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
-
-;;;;; Com acorde
-
-(sound-mix-list 
-            (o-acordes-de-samples-sharp (om::om-abs (ms->sec ckn-LOOP2)) box-choose1 box-choose2 box-choose3))))
-            (first box-choose4)
-            (second box-choose4)) 0.01 0.01)
-
-;;silencio 
-
-            (sound-fade (sound-silence (om-abs (ms->sec ckn-LOOP2)) 2) 0.01 0.01))))))
-
-;;; ================= Apagar temp files
-
-
-(if temp-files 
-        (ckn-clear-temp-files))
-
-;;; ================= Finalizar
-                                            
-
-action1))
-
-
-;; ====================================================
-
-(defun o-acordes-de-samples-sharp (ckn-time midic channel velocity)
-
-    (loop :for ckn-LOOP1 :in midic
-        :for ckn-LOOP2 :in channel
-        :for ckn-LOOP3 :in velocity
-        :collect (let* (
-                    (action1 
-                        (make-value-from-model 'sound
-                            (if 
-                                (equal 0 (om- ckn-LOOP1 (approx-m ckn-LOOP1 2)))
-                                
-                                    (orchidea-instruments 
-                                                (approx-m ckn-LOOP1 2)
-                                                ckn-LOOP2
-                                                ckn-LOOP3)
-                                    (ckn-sound-transpose
-                                            (orchidea-instruments
-                                                (approx-m ckn-LOOP1 2)
-                                                ckn-LOOP2
-                                                ckn-LOOP3)
-                                            (om- ckn-LOOP1 (approx-m ckn-LOOP1 2))))
-                            nil)))
                                               
                         (sound-vol (sound-cut (samples-menores ckn-time action1) 0.0 ckn-time) (om-scale ckn-LOOP3 0.001 1 1 127)))))
 
@@ -707,7 +608,7 @@ action1))
 ;;  Accordion
 (188 (om::nth-random          (ckn-in-files (merge-pathnames "Keyboards/Accordion/breath/" *OrchideaSOL-PATH*) 'wav)))
 (189 (ckn-dinamics-2 (ckn-find-the-samples 3 note *OrchideaSOL-PATH* "Keyboards/Accordion/combination_of_registers/" 'wav) velocity))
-      ;;;; 189 DESIRES SOME ATTENTION!!!!!!!!!!!!!!!! ;) VELOCITY PARA CONTROLAR O ESPECTRO QUE SERÁ UTILIZADO; 
+      ;;;; 189 DESIRES SOME ATTENTION!!!!!!!!!!!!!!!! ;) VELOCITY PARA CONTROLAR O ESPECTRO QUE SERÃ UTILIZADO; 
 (190 (om::nth-random          (ckn-in-files (merge-pathnames "Keyboards/Accordion/key_click/" *OrchideaSOL-PATH*) 'wav)))
 (191 (ckn-dinamics (ckn-find-the-samples 3 note *OrchideaSOL-PATH* "Keyboards/Accordion/ordinario/" 'wav) velocity))
 (192 (ckn-dinamics (ckn-find-the-samples 3 note *OrchideaSOL-PATH* "Keyboards/Accordion/sforzato/" 'wav) velocity))))

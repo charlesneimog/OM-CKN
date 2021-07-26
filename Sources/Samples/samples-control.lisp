@@ -475,7 +475,7 @@ action1))
                         (sound-vol (sound-cut (samples-menores ckn-time action1) 0.0 ckn-time) (om-scale ckn-LOOP3 0.001 1 1 127)))))
 
 
-
+;;;;
 
 
 
