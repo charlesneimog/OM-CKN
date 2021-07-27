@@ -130,16 +130,21 @@
 :icon '17359
 :doc "It reads a wave file."
 
-(if (print (equal *app-name* "om-sharp"))
+(if (equal *app-name* "om-sharp")
   (make-instance 'sound-bytes :bytes (sound->bytes-fun self))
   (sound->bytes-om-class self)))
 
 ;=====================================
 
 (defun sound->bytes-fun (self)
-(let* ((verbose (print (format nil "Read bytes of the sound."))))
+(format nil "Read bytes of the sound.")
 (with-audio-buffer (b self)
-          (let ((channel-ptr (om-read-ptr (om-sound-buffer-ptr b) (1- (n-channels self)) :pointer)))
+          (let* ((sound-markers (ms->samples (markers self) (sample-rate self)))
+                (2-markers (equal (length sound-markers) 2))
+                (channel-ptr (om-read-ptr (om-sound-buffer-ptr b) (1- (n-channels self)) :pointer)))
+      (if 2-markers
+          (loop :for i :from (first sound-markers) :to (second sound-markers)
+                :by 1 :collect (om-read-ptr channel-ptr i :float))
           (loop :for i :from 0 :to (n-samples self) :by 1 :collect (om-read-ptr channel-ptr i :float))))))
 
 
@@ -549,7 +554,7 @@ For the automatic work the folder out-files of OM# must be in the files preferen
 
 ; ===========================================================================
 
-(om::defmethod! osc-play ((chord-seq chord-seq))
+(om::defmethod! osc-play ((self chord-seq))
 :initvals ' ((nil))       
 :indoc ' ("A player for OM#")
 :outdoc ' ("PLAY")
@@ -559,13 +564,16 @@ For the automatic work the folder out-files of OM# must be in the files preferen
 
 For the automatic work the folder out-files of OM# must be in the files preferences of the Max/MSP."
 
-(let* (
-    (quantification (om::omquantify 
-                          (om::x->dx (get-slot-val chord-seq "LONSET")) 60 '(4 4) 256))
-    (notes (get-slot-val chord-seq "LMIDIC"))
-    (dinamicas (get-slot-val chord-seq "LVEL"))
-    (voice (make-instance 'voice :tree quantification :lmidic notes :lvel dinamicas)))
-    (osc-play voice)))
+
+  (let* ( 
+        (durations-of-the-chors (om::om- 0 (om::om/ (om::x->dx (lonset self)) 1000)))
+        (loop-notes (loop :for x :in (lmidic self) 
+                          :for y :in durations-of-the-chors 
+                          :collect (if (not x) y (abs y))))
+        (to-voice (make-instance 'voice :tree (mktree loop-notes '(4 4)) :lmidic (remove nil (lmidic self)))))
+(osc-play to-voice)))
+       
+
 
 ; ===========================================================================
 

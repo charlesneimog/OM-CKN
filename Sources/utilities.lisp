@@ -308,21 +308,12 @@ be used for urlmapping."
 ;===============================================
 
 (defun fft-ckn (sound-self fft-size hop-size windows-type)
-
+(om-print "Aguarde!" "OM-CKN - Verbose ::")
   (let* (
-        (start (if (equal (markers sound-self) nil)
-                   0 
-                 (1+ (om::sec->samples (om::ms->sec (first (markers sound-self))) (sample-rate sound-self)))))
-        (finish (if (< (length (markers sound-self)) 2)
-                (1- (om::n-samples sound-self))
-                (1+ (sec->samples (ms->sec (second (markers sound-self))) (sample-rate sound-self)))))
-        (sound (sound->bytes sound-self))
-        (sound-selection (let* ((action1 (first-n (bytes sound) finish))
-                                (action2 (- finish start)))
-                           (last-n action1 action2)))
-        (zero-padding (x-append sound-selection 
-                                (loop :for i :from 1 :to (om::om- (om* (ceiling (om/ (length sound-selection) fft-size)) fft-size) (length sound-selection))
-                                      :collect (let* () 0))))
+        (sound (sound->bytes-fun sound-self))
+        (zero-padding (x-append sound 
+                                (loop :for i :from 1 :to (om::om- (om* (ceiling (om/ (length sound) fft-size)) fft-size) (length sound))
+                                      :collect 0)))
         (sound-windows (sound-window zero-padding fft-size hop-size windows-type))
         (sound-windows-parts (loop-in-parts sound-windows 128 128))
         (sound-windows-length (length sound-windows))
