@@ -16,3 +16,7 @@ I implemented the possibility of using VST2 within OM-Sharp and OM (not all read
 
 
 ![VST2 use](https://github.com/charlesneimog/OM-CKN/blob/master/Wiki/VST2%20examples.png)
+
+### Some examples
+
+![FFT working](https://github.com/charlesneimog/OM-CKN/blob/master/Wiki/FFT%20working.png)
