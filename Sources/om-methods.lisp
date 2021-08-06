@@ -674,10 +674,10 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 (defmethod! markers-cut ((sound sound))
 :initvals ' ((nil) -60)       
-:indoc ' ("A list of ckn-fft-instance class." "Threshold in dB.")
-:outdoc ' ("list of ckn-fft-instance with the approach of Spear software.")
+:indoc ' ("A sound.")
+:outdoc ' ("The new sound")
 :icon '17359
-:doc "It will cut the sound use TWO FIRST markers."
+:doc "It will cut one sound using the TWO FIRST markers."
 
 (let* (
       (sound-markers (om::markers sound)))
