@@ -10,6 +10,7 @@
   (ckn-complex-numbers :initform '#(-6.1035157E-5 0.0) :initarg :ckn-complex-numbers :accessor ckn-complex-numbers)
   (sound-sample-rate :initform nil :initarg :sound-sample-rate :accessor sound-sample-rate)
   (fft-window :initform nil :initarg :fft-window :accessor fft-window)
+  (ckn-hop-size :initform nil :initarg :ckn-hop-size :accessor ckn-hop-size)
   (fft-chunks :initform nil :initarg :fft-chunks :accessor fft-chunks)
   (ckn-tempo :initform nil :initarg :ckn-tempo :accessor ckn-tempo)
   (frequencias :initform nil :initarg :frequencias :accessor frequencias)
@@ -618,16 +619,19 @@ Converts a (list of) seconds to milisseconds.
 
 ;; ==================================================== FFT APPROACH LIKE SPEAR =====================================
 
-(defmethod! fft->chord  ((ckn-fft-instance list))
-:initvals '(6000 nil)
+(defmethod! fft->chord-seq  ((ckn-fft-instance list) (down number) (up number))
+:initvals '(nil 3600 8400)
 :indoc '("pitch or pitch list (midicents)" "frequency (Hz)")
 :icon '17359
 :doc "
 Converts a (list of) freq pitch(es) to names of notes."
 
-(loop :for x 
-      :in ckn-fft-instance 
-      :collect (let* (
+
+(let* (
+    (fft->chords 
+     (loop :for x 
+           :in ckn-fft-instance 
+           :collect (let* (
                         (amplitudes (amplitudes x))
                         (frequencias (frequencias x))
                         (freq-to-midicents (f->mc frequencias))
@@ -635,17 +639,68 @@ Converts a (list of) freq pitch(es) to names of notes."
                         (make-instance 'chord
                                           :lmidic (remove nil freq-to-midicents)
                                           :lvel (remove nil lin->vel)))))
+    (filter (lambda (x) 
+              (let* (
+                     (matrix-transformation (mat-trans (list (lmidic x) (lvel x))))
+                     (lambda-filter (loop :for y :in matrix-transformation 
+                                          :collect (let* (
+                                                          (notas (first y))
+                                                          (dinamicas (second y))
+                                                          (boolean-if (and (< notas up) (> notas down))))
+                                                     (if boolean-if (x-append notas dinamicas) nil)))))
+                     (let* (
+                            (remove-nil (remove nil lambda-filter))
+                            (second-matrix-transformation (mat-trans remove-nil)))
+                       (make-instance 'chord :lmidic (first second-matrix-transformation) :lvel (second second-matrix-transformation))))))
+  (make-chords (mapcar filter fft->chords)))
+  (make-instance 'chord-seq :lmidic make-chords :lonset (list 0 (om::om-round (samples->ms (ckn-hop-size (first ckn-fft-instance)) (sound-sample-rate (first ckn-fft-instance))))))))
+
+
+    
 
 ; ===========================================================================
 
 (defmethod! fft->sin-model ((ckn-instances list) (db-filter number))
-:initvals ' ((nil) '-60)       
+:initvals ' ((nil) -60)       
 :indoc ' ("A list of ckn-fft-instance class." "Threshold in dB.")
 :outdoc ' ("list of ckn-fft-instance with the approach of Spear software.")
 :icon '17359
 :doc ""
 
 (fft->sin-model-fun ckn-instances db-filter))
+
+
+; ===========================================================================
+
+(defmethod! markers-cut ((sound sound))
+:initvals ' ((nil) -60)       
+:indoc ' ("A list of ckn-fft-instance class." "Threshold in dB.")
+:outdoc ' ("list of ckn-fft-instance with the approach of Spear software.")
+:icon '17359
+:doc "It will cut the sound use TWO FIRST markers."
+
+(let* (
+      (sound-markers (om::markers sound)))
+      (om::sound-cut sound (first sound-markers) (second sound-markers))))
+
+;; ORCHIDEA INSTRUMENTS ===============================
+
+(defmethod! o-voice2samples ((voice voice) &optional (pan nil) (temp-files t))
+:initvals ' ((nil) '-60)       
+:indoc ' ("A list of ckn-fft-instance class." "Threshold in dB.")
+:outdoc ' ("list of ckn-fft-instance with the approach of Spear software.")
+:icon '17360
+:doc ""
+
+(om-print "Aguarde!" "Verbose")
+;; (ckn-clear-temp-files)
+(if (equal (o-check-samples-in-voice voice) "Todas as alturas possuem samples correspondentes")
+(if (equal *app-name* "om-sharp")
+    (o-voice->samples-sharp voice pan temp-files)
+    )
+
+(let* ((action1 (print "Not able to find all the samples")))
+                (om-abort))))
 
 
 ;; ====================================================
