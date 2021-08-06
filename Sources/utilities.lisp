@@ -272,6 +272,7 @@ be used for urlmapping."
                                  :ckn-complex-numbers (make-instance 'fft-complex-numbers :complex-numbers fft)
                                  :fft-window (* 2 (length amp))
                                  :fft-chunks z
+                                 :ckn-hop-size hop-size
                                  :sound-sample-rate sample-rate
                                  :ckn-tempo (om::sec->ms (om::samples->sec (om::om* hop-size (1- z)) 44100))
                                  :amplitudes amp
@@ -279,11 +280,10 @@ be used for urlmapping."
                                  :frequencias nil))))
                    ckn-fft-chunks create-mailbox chunks-number))
 
-(loop :with mailbox-empty = nil 
-      :while (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mail-box)))
-      :do 
-            (let* () (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mail-box))
-                  mailbox-empty))
+(loop :with mailbox-empty := nil 
+      :while (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mail-box))))
+ ;;     :finally (return mailbox-empty))
+
 
 (mapcar (lambda (x) (mp:mailbox-peek x)) mail-box)))
 
@@ -401,6 +401,7 @@ be used for urlmapping."
 (make-instance 'ckn-fft-instance 
                 :fft-window FFT-SIZE
                 :ckn-complex-numbers nil
+                :ckn-hop-size (ckn-hop-size x)
                 :fft-chunks nil
                 :phrase nil
                 :ckn-tempo TEMPO 

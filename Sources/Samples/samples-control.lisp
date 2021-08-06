@@ -3,8 +3,7 @@
 ;; Caminho para MrsWatson  ========================
 
 (add-preference :externals :MrsWatson-exe "MrsWatson Path" 
-                :file "C:/Users/neimog/OneDrive - design.ufjf.br/Documentos/OM - Workspace/OM-Libraries/OM-CKN/executables/MrsWatson/Windows/
-                mrswatson64.exe")
+                :file nil)
 
 ;; Caminho para Plugins DLL  ========================
 
@@ -16,13 +15,15 @@
 (add-preference :externals :fxp-presets  "FXP Presets" 
   :path nil)
 
-;; ========================
-
-
 ;; Caminho para Sox  ========================
 
 (add-preference :externals :sox-exe "Sox Path" 
-                :file "C:/Users/charl/OneDrive - design.ufjf.br/Documentos/OM - Workspace/OM-Libraries/OM-CKN/executables/windows/sox.exe")
+                :file nil)
+
+;; Orchidea Instruments  ========================
+
+(add-preference :externals :OrchideaSOL "SOL Samples Library" 
+                :path nil)
 
 ;  ========================
 
@@ -67,6 +68,27 @@
 (ckn-clear-temp-files)
 
 (make-value-from-model 'sound (outfile sound-out) nil))
+
+;  ========================
+
+(defmethod! ckn-VST2 ((sound sound) (sound-out pathname) (plugin-path string) (fxp-path string))
+:initvals '(nil nil nil nil)
+:indoc '("Use VST2 plugins in your sounds") 
+:icon '17359
+:doc "It allows to use VST2 plugins in your sounds."
+
+(om-cmd-line 
+ (string+ 
+  (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
+    " --input " (list->string-fun (list (namestring (file-pathname sound))))
+    " --output " (list->string-fun (list (namestring sound-out)))
+    " --plugin " (list->string-fun (list (namestring (define-VST2-plugin plugin-path)))) "," 
+                 (list->string-fun (list (namestring (define-fxp-presets fxp-path))))))
+
+(ckn-clear-temp-files)
+
+(make-value-from-model 'sound sound-out nil))
+
 
 ;  ========================
 

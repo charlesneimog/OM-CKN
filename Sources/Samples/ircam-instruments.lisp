@@ -2,7 +2,7 @@
 
 ;; ==================================================== Preferencias ==================================
 
-(add-preference-section :externals "OM-CKN" nil '(:ircam-instruments :MrsWatson-exe :sox-exe :plugins ::fxp-presets))
+(add-preference-section :externals "OM-CKN" nil '(:ircam-instruments :OrchideaSOL :MrsWatson-exe :sox-exe :plugins ::fxp-presets))
 (add-preference :externals :ircam-instruments "Ircam Instruments Path" 
                 :path nil)
 
