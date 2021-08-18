@@ -1,9 +1,93 @@
 
 (in-package :om)
 
+; ========================================
+
+(defmethod! complex-numbers-parts ((list list))
+:initvals ' (NIL)
+:indoc ' ("list of complex-numbers")
+:icon '17359
+:numouts 2
+:outdoc '("imagpart" "realpart")
+:doc ""
+(values 
+  (mapcar (lambda (x) (imagpart x)) list)
+  (mapcar (lambda (x) (realpart x)) list)))
+
+; ================================ Python Methods ==================================
+
+(defmethod! bpf-python ((X list) (Y list) &optional (thickness 1) (color 'black))
+:initvals '('(1 2 3) '(3 2 1) 0.2 black)
+:indoc ' ("X points" "Y points" "Thickness" "The color (for example black)")
+:icon '17359
+:doc "This is a BPF like the BPF of OM-Sharp. But you can you more numbers.
+
+For this work you need:
+  1. Install Python and put it the Path variables.
+  2. Install the pip (Google it!!)
+  3. Install the matplotlib.pyplot with 'pip install matplotlib.pyplot'."
+
+(let* (
+      (x_if (if (not x) (om::arithm-ser 1 (length y) 1) x))
+      (y_if (if (not y) (om::arithm-ser 1 (length x) 1) y))
+      (X-PYTHON (lisp-list_2_python-list x_if))
+      (Y-PYTHON (lisp-list_2_python-list y_if)))
+(mp:process-run-function (string+ "BPF-PYTHON" (ckn-int2string (om::om-random 1 1000)))
+      () 
+                  (lambda (x-axis y-axis) (if
+                                              (equal *app-name* "om-sharp")
+                                                     (bpf-python-fun x-axis y-axis thickness color)
+                                                     (bpf-python-om x-axis y-axis thickness)
+                                            )) X-PYTHON Y-PYTHON)))
+
+; ==================================================================================
+
+(defmethod! save-bpf-python ((X list) (Y list) &optional (thickness 0.4) (outfile nil) (color 'black) (blackbackgroud nil) (dpi 300))
+:initvals ' (NIL)
+:indoc ' ("Sdif-File.")
+:icon '17359
+:doc "This is a BPF like the BPF of OM-Sharp. But you can you more numbers.
+
+For this work you need:
+  1. Install Python and put it the Path variables.
+  2. Install the pip (Google it!!)
+  3. Install the matplotlib.pyplot with 'pip install matplotlib.pyplot'."
+
+(let* (
+      (outfile_in_python (list->string-fun (list (namestring outfile))))
+      (black-backgroud (if blackbackgroud  "plt" "#plt")) 
+      (x_if (if (not x) (om::arithm-ser 1 (length y) 1) x))
+      (y_if (if (not y) (om::arithm-ser 1 (length x) 1) y))
+      (X-PYTHON (lisp-list_2_python-list x_if))
+      (Y-PYTHON (lisp-list_2_python-list y_if)))
+(mp:process-run-function (string+ "Save-PYTHON-" (ckn-int2string (om::om-random 1 1000)))
+      () 
+                  (lambda (x-axis y-axis) (if
+                                              (equal *app-name* "om-sharp")
+                                                     (save-bpf-python-fun x-axis y-axis thickness color outfile_in_python black-backgroud dpi)))
+                  X-PYTHON Y-PYTHON)))
+
+; ==================================================================================
+(defmethod! 3dc-python ((X list) (Y list) (Z list) &optional (thickness 1) (color 'black))
+:initvals ' (NIL)
+:indoc ' ("Sdif-File.")
+:icon '17359
+:doc "This is a BPF like the BPF of OM-Sharp. But you can you more numbers.
+
+For this work you need:
+  1. Install Python and put it the Path variables.
+  2. Install the pip (Google it!!)
+  3. Install the matplotlib.pyplot with 'pip install matplotlib.pyplot'."
+(let* (
+      (X-PYTHON (lisp-list_2_python-list X))
+      (Y-PYTHON (lisp-list_2_python-list Y))
+      (Z-PYTHON (lisp-list_2_python-list Z)))
+(mp:process-run-function (string+ "3DC-PYTHON" (ckn-int2string (om::om-random 1 1000)))
+                 () 
+                  (lambda (x-axis w-axis z-axis) (3dc-python-fun x-axis w-axis z-axis thickness color)) X-PYTHON Y-PYTHON Z-PYTHON)))
 
 
-;================================================== FFT-Class =====================
+; ================================================== FFT-Class =====================
 
 (defclass! ckn-fft-instance ()
 ( 
@@ -75,6 +159,20 @@
 
 ;==================================================
 
+(defmethod! complex-senoide ((freq number) (sec number) (samples-rate number))
+:initvals '(nil)
+:indoc '("Frequency in Hz" "Durations in sec." "Sample-rate")
+:icon '17359
+:doc "It does one senoide in the complex plan."
+
+(let* (
+      (durations (x-append 0 sec))
+      (sec-samples (round (om::sec->samples sec samples-rate)))
+      (sampling (nth 2 (om::multiple-value-list (om::om-sample durations sec-samples)))))
+  (create-pure-tone freq sampling)))
+
+;==================================================
+
 (defmethod! fft->amplitude ((fft array))
 :initvals '(nil)
 :indoc '("Sound class") 
@@ -93,7 +191,7 @@
 
 (fft->phrase-fun fft))
 
-;====================================
+;==================================== ARRAY UTILITIES =======
 
 (defmethod! list-to-array ((array-my list) (dimensions integer))
 :initvals '((nil) (nil))
@@ -137,44 +235,13 @@
 
 ;=====================================
 
-(defun sound->bytes-fun (self)
-(format nil "Read bytes of the sound.")
-(with-audio-buffer (b self)
-          (let* ((sound-markers (ms->samples (markers self) (sample-rate self)))
-                (2-markers (equal (length sound-markers) 2))
-                (channel-ptr (om-read-ptr (om-sound-buffer-ptr b) (1- (n-channels self)) :pointer)))
-      (if 2-markers
-          (loop :for i :from (first sound-markers) :to (second sound-markers)
-                :by 1 :collect (om-read-ptr channel-ptr i :float))
-          (loop :for i :from 0 :to (n-samples self) :by 1 :collect (om-read-ptr channel-ptr i :float))))))
-
-
-(defun sound->bytes-om (self)
-
-  (let* ((pontos
-          (audio-io::om-get-sound-buffer (filename self) :float t)))
-(loop :for i :from 0 :to (om-sound-n-samples self) :by 1 :collect (om-read-ptr pontos i :float))))
-
-
-;; =======
-
-(defun sound->bytes-om-class (self)
-
-  (let* ((pontos
-          (audio-io::om-get-sound-buffer (filename self) :float t))
-(numbers (loop :for i :from 0 :to (om-sound-n-samples self) :by 1 :collect (om-read-ptr pontos i :float))))
-(make-instance 'sound-bytes :bytes numbers)))
-
-
-;=====================================
-
 (defmethod! cartopol ((fft cons))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File.")
 :numouts 2
 :outdoc ' ("phrase" "amplitude")
 :icon '17359
-:doc ""
+:doc "Do the same thing that the cartopol of Max/MSP."
 
 (values 
   (mapcar (lambda (x) (fft->phrase x)) fft)
@@ -329,7 +396,6 @@ action3-2)))))
 (if (equal 0 cents) sound (ckn-transpose-a-sound sound cents)))
 
 ;; ====================================================
-
 
 (defmethod! ckn-sound-transpose ((sound pathname) (cents number))
 :initvals ' (NIL)

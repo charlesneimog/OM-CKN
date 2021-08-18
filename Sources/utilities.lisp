@@ -2,6 +2,132 @@
 
 ;==================================== FUNCTIONS ===================
 
+;==================================== Python Functions ===========
+(defun create-pure-tone (frequency time)
+(let* (
+      (angle (om* (* -2 (coerce pi 'single-float) frequency) time))
+      (cos-angle (mapcar (lambda (X) (cos x)) angle))
+      (sin-angle (mapcar (lambda (X) (sin x)) angle)))
+  (om::om+ cos-angle (om::om* (sqrt -1) sin-angle))))
+
+;; ============
+(defun ckn-int2string (int)
+  (write-to-string int))
+
+;; ============
+(defun lisp-list_2_python-list (list)
+(let* (
+      (list2string (mapcar (lambda (x) (ckn-int2string x)) list)))
+      (loop :for x :in list2string :collect (string+ x ", "))))
+
+;; ============
+(defun bpf-python-fun (X Y Z color)
+(let* (
+      (python-code (format nil
+                    "
+import matplotlib.pyplot as plt
+plt.rcParams['agg.path.chunksize'] = 10000
+X = ~d
+Y = ~d
+plt.figure(figsize=(20, 10), dpi=100)
+plt.plot(X, Y, lw=~d, color='~d')
+plt.subplots_adjust(left=0.02, right=0.986, top=0.986, bottom=0.029)
+plt.show()
+" x y z color))
+      (save-python-code (om::save-as-text python-code (om::outfile "bpf.py")))
+      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
+      (om::om-cmd-line (string+ "python " prepare-cmd-code))))
+
+;; ============
+(defun save-bpf-python-fun (X Y thickness color outfile blackback dpi)
+
+(let* (
+      (python-code (format nil
+                    "
+import matplotlib.pyplot as plt
+plt.rcParams['agg.path.chunksize'] = 1000
+~d.style.use('dark_background')
+X = ~d
+Y = ~d
+plt.figure(figsize=(20, 10), dpi=~d)
+plt.plot(X, Y, lw=~d, color='~d')
+plt.subplots_adjust(left=0.02, right=0.986, top=0.986, bottom=0.029)
+plt.rcParams['agg.path.chunksize'] = 10000
+plt.savefig(~d)
+plt.show()
+print('Documento Salvo em ~d')
+" blackback x y dpi thickness  color outfile outfile))
+      (save-python-code (om::save-as-text python-code (om::outfile "save-bpf.py")))
+      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
+      (om::om-cmd-line (string+ "python " prepare-cmd-code))))
+
+;; ============
+(defun bpf-python-om (X Y Z)
+(let* (
+      (python-code (format nil
+                    "
+import matplotlib.pyplot as plt
+X = ~d
+Y = ~d
+plt.figure(figsize=(14, 7))
+plt.plot(X, Y, lw=~d, color='black')
+plt.subplots_adjust(left=0.02, right=0.986, top=0.986, bottom=0.029)
+plt.show()
+" x y z))
+      (save-python-code (ckn-save-as-text python-code (om::outfile "bpf.py")))
+      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
+      (om::om-cmd-line (string+ "python " prepare-cmd-code))))
+
+;; ============
+(defun 3dc-python-fun (X Y Z A color)
+(let* (
+      (python-code (format nil
+                    "
+from mpl_toolkits import mplot3d
+import numpy as np
+import matplotlib.pyplot as plt
+plt.rcParams['agg.path.chunksize'] = 10000
+ax = plt.axes(projection='3d')
+ax.xaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))
+ax.yaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))
+ax.zaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))
+ax.xaxis._axinfo['grid']['color'] =  (1,0,1,0)
+ax.yaxis._axinfo['grid']['color'] =  (1,0,1,0)
+ax.zaxis._axinfo['grid']['color'] =  (1,0,0,0)
+zline = ~d
+xline = ~d
+yline = ~d
+plt.subplots_adjust(left=0.0, right=1, top=1, bottom=0.0)
+ax.plot3D(xline, yline, zline,  lw=~d, color='~d')
+plt.show()
+" x y z a color))
+      (save-python-code (om::save-as-text python-code (om::outfile "3dc.py")))
+      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
+      (om::om-cmd-line (string+ "python " prepare-cmd-code))))
+
+;; =========================================
+(defmethod* ckn-save-as-text ((self t) &optional (path "data") (type "txt"))
+  :icon 908
+  :initvals '(nil "data")
+  :indoc '("data (list, BPF, or TextBuffer)" "a file location")
+  :doc "Saves the data from <self> as a text file in <path>."
+  (let ((file (cond
+               ((null path) (om-choose-new-file-dialog :directory (def-save-directory) :types '("Text files" "*.txt" "All files" "*.*")))
+               ((pathnamep path) path)
+               ((stringp path) (if (pathname-directory path) (pathname (string+ path type)) (outfile path :type type))))))
+    (if file
+        (progn
+          (with-open-file (out file :direction :output :if-does-not-exist :create :if-exists :supersede)
+            (write-data self out))
+          file)
+      (om-abort))))
+
+;; =========================================
+
+(defmethod write-data ((self t) out)
+  (format out "~A~%" self))
+
+;==================================== 
 (defun list->string-fun (ckn-list)
   (when ckn-list
     (concatenate 'string 
@@ -137,10 +263,6 @@ be used for urlmapping."
 
 ; ============================
 
-(defun positive? (x) (equal (abs x) x))
-
-; ============================
-
 (defun sound-window (sound-bytes-window window hop-size windows-type &optional result)
 
 (let* (
@@ -155,39 +277,39 @@ be used for urlmapping."
                 (om-ckn::apply-window (list-to-array (first-n sound-bytes-window window) 1) windows-type))) 
 
       (action2 (last-n sound-bytes-window (let* ((number (- (length sound-bytes-window) hop-size)))
-                                            (if (positive? number) number 1)))))
+                                            (if (plusp number) number 1)))))
 (if (< (length (remove nil action2)) window) 
     (reverse (x-append (list action1) result))
     (setf sound-bytes-window (sound-window action2 window hop-size windows-type (push action1 result))))))
 
 
-; ============================
+;=====================================
 
 (defun sound-window-list (sound-bytes-window window hop-size &optional result)
 
 (let* (
       (action1 (first-n sound-bytes-window window))
       (action2 (last-n sound-bytes-window (let* ((number (- (length sound-bytes-window) hop-size)))
-                                            (if (positive? number) number 1)))))
+                                            (if (plusp number) number 1)))))
 (if (< (length (remove nil action2)) window) 
     (x-append result (list action1)) 
   (setf sound-bytes-window (sound-window-list action2 window hop-size (push action1 result))))))
 
-; ============================
+;=====================================
 
 (defun loop-in-parts (sound-bytes-window window hop-size &optional result)
 
 (let* (
       (action1 (first-n sound-bytes-window window))
       (action2 (let* ((number (- (length sound-bytes-window) hop-size)))
-                      (if (positive? number)      
+                      (if (plusp number)      
                         (last-n sound-bytes-window number)
                         sound-bytes-window))))
 (if (< (length (remove nil action2)) window)
     (reverse (x-append (list action1) result))
   (setf sound-bytes-window (loop-in-parts action2 window hop-size (push action1 result))))))
 
-; ============================
+;=====================================
 
 (defun sound->bytes-smart (self)
 
@@ -200,6 +322,35 @@ be used for urlmapping."
                       (loop :for i :from (first sound-markers) :to (second sound-markers) :by 1 :collect (om-read-ptr pontos i :float)))))
 (make-instance 'sound-bytes :bytes numbers)))
 
+;=====================================
+
+(defun sound->bytes-fun (self)
+(format nil "Read bytes of the sound.")
+(with-audio-buffer (b self)
+          (let* ((sound-markers (ms->samples (markers self) (sample-rate self)))
+                (2-markers (equal (length sound-markers) 2))
+                (channel-ptr (om-read-ptr (om-sound-buffer-ptr b) (1- (n-channels self)) :pointer)))
+      (if 2-markers
+          (loop :for i :from (first sound-markers) :to (second sound-markers)
+                :by 1 :collect (om-read-ptr channel-ptr i :float))
+          (loop :for i :from 0 :to (n-samples self) :by 1 :collect (om-read-ptr channel-ptr i :float))))))
+
+
+(defun sound->bytes-om (self)
+
+  (let* ((pontos
+          (audio-io::om-get-sound-buffer (filename self) :float t)))
+(loop :for i :from 0 :to (om-sound-n-samples self) :by 1 :collect (om-read-ptr pontos i :float))))
+
+
+;=====================================
+
+(defun sound->bytes-om-class (self)
+
+  (let* ((pontos
+          (audio-io::om-get-sound-buffer (filename self) :float t))
+(numbers (loop :for i :from 0 :to (om-sound-n-samples self) :by 1 :collect (om-read-ptr pontos i :float))))
+(make-instance 'sound-bytes :bytes numbers)))
 
  ; ============================ OM-SYNTH ========================================================
 
@@ -636,7 +787,6 @@ be used for urlmapping."
 (compile 'loop-in-parts)
 (compile 'sound-window-list)
 (compile 'sound-window)
-(compile 'positive?)
 (compile 'real-samplify)
 (compile 'energy)
 (compile 'fft->amplitude-fun)
