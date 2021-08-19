@@ -68,6 +68,7 @@ For this work you need:
                   X-PYTHON Y-PYTHON)))
 
 ; ==================================================================================
+
 (defmethod! 3dc-python ((X list) (Y list) (Z list) &optional (thickness 1) (color 'black))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File.")
@@ -78,6 +79,7 @@ For this work you need:
   1. Install Python and put it the Path variables.
   2. Install the pip (Google it!!)
   3. Install the matplotlib.pyplot with 'pip install matplotlib.pyplot'."
+
 (let* (
       (X-PYTHON (lisp-list_2_python-list X))
       (Y-PYTHON (lisp-list_2_python-list Y))
@@ -565,6 +567,26 @@ Result: (7 9 458)."
 
 ;; ====================================================
 
+(defmethod! voice->samples-ITD ((voice voice) &optional (pan nil) (temp-files t))
+:initvals '(nil nil t)
+:indoc '("a voice" "panoramic information - see the object sound-stereo-pan" "Clear temp files") 
+:icon '17359
+:doc "Imported from OM6. It can take."
+
+(om-print "Aguarde!" "Verbose")
+
+(ckn-clear-temp-files)
+
+(if (equal (check-samples-in-voice voice) "Todas as alturas possuem samples correspondentes")
+
+(if (om-print (equal *app-name* "om-sharp") "app-name")
+    (voice->samples-sound-ITD-fun voice pan temp-files))
+
+(let* ((action1 (print "Not able to find all the samples")))
+                (om-abort))))
+
+;; ====================================================
+
 (defmethod! talk-with-omlily nil
 :initvals '(nil)
 :indoc '("a voice" ) 
@@ -770,5 +792,3 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 
 ;; ====================================================
-
-(compile 'sound-seq-multi)
