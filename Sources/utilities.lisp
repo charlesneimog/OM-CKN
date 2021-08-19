@@ -352,6 +352,28 @@ be used for urlmapping."
 (numbers (loop :for i :from 0 :to (om-sound-n-samples self) :by 1 :collect (om-read-ptr pontos i :float))))
 (make-instance 'sound-bytes :bytes numbers)))
 
+
+; =====================================
+
+(defun bytes->sound-fun (onda canal)
+
+(let* ((nbsamples (length onda)))
+      (with-sound-output (mysound :nch 2 :size nbsamples :sr 44100 :type :float)
+            (loop :for x :from 0 :to (1- nbsamples)
+                  :for onda-loop :in onda
+                  :do
+            (write-in-sound mysound (1- canal) x onda-loop)))))
+
+; =====================================
+
+(defun ITD-Sound (sound number)
+(let* (
+      (s-bytes (bytes (sound->bytes sound)))
+      (place-of-sound (om::om-abs (x-append number (om::om- number 29))))
+      (channel-1 (bytes->sound-fun (x-append (om::repeat-n 0.0 (first place-of-sound)) s-bytes) 1))
+      (channel-2 (bytes->sound-fun (x-append (om::repeat-n 0.0 (second place-of-sound)) s-bytes) 2)))
+      (om::sound-mix channel-1 channel-2)))
+
  ; ============================ OM-SYNTH ========================================================
 
 ;; This is a code stolen from Jean Bresson OM-Sharp
@@ -806,3 +828,5 @@ be used for urlmapping."
 (compile 'spear-approach )
 (compile 'fft->sin-model-fun)
 (compile 'do-senoide)
+(compile 'ITD-Sound)
+(compile 'bytes->sound-fun)

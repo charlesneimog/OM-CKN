@@ -461,6 +461,56 @@ action1))
 
 action1))
 
+;;; ============================ COM ITD ===========================================
+
+(defun voice->samples-sound-ITD-fun (voice1 pan temp-files) 
+ 
+(let* (
+
+    (action1
+            (loop   :for ckn-LOOP1 :in (choose-to-rest voice1)
+                    :for ckn-LOOP2 :in (om6-true-durations voice1)
+                    :collect
+        (let*
+            ((box-choose1 (choose (lmidic voice1) ckn-LOOP1))
+                (box-choose2 (choose (lchan voice1) ckn-LOOP1))
+                (box-choose3 (choose (lvel voice1) ckn-LOOP1))
+                (box-first1 (first box-choose3))
+                (box-choose4 (if (equal nil (choose pan ckn-LOOP1)) 15  (choose pan ckn-LOOP1))))
+
+(if (plusp ckn-LOOP2) ;;silencio ou NAO 
+
+;; NOTA 
+(sound-fade 
+        (ITD-Sound  (if (om< (length box-choose1) 2) ;; MONOFONICO OU POLIFONICO
+                            (sound-vol 
+                                    (sound-cut (samples-menores (om-abs (ms->sec ckn-LOOP2)) 
+                                        (make-value-from-model 'sound
+                                                (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2)))
+                                                    (ircam-instruments (first (approx-m box-choose1 2)) (first box-choose2) box-first1)
+                                                    (ckn-sound-transpose 
+                                                                (ircam-instruments 
+                                                                        (first (approx-m box-choose1 2)) 
+                                                                        (first box-choose2) box-first1)
+                                        (first (om- box-choose1 (approx-m box-choose1 2))))) nil))
+                                    0.0 
+                                    (om-abs (ms->sec ckn-LOOP2)))
+        
+                            (om-scale box-first1 0.001 0.999 1 110))
+
+                        ;;;;; Com acorde
+                (sound-mix-list 
+                        (acordes-de-samples (om::om-abs (ms->sec ckn-LOOP2)) box-choose1 box-choose2 box-choose3)))
+                            box-choose4) 0.001 0.001)
+;;silencio 
+(sound-fade (sound-silence (om-abs (ms->sec ckn-LOOP2)) 2) 0.01 0.01))))))
+;;; ================= Apagar temp files
+
+(if temp-files (ckn-clear-temp-files))
+
+;;; ================= Finalizar                        
+action1))
+
 ;;; ================================================================================
 
 (defun samples-menores (ckn-time ckn-sound)
@@ -654,4 +704,5 @@ action5))
 (compile 'build-seq-of-sounds)
 (compile 'build-sound-sequence-fun)
 (compile 'sound-seq-list-multi-threading)
+(compile 'voice->samples-sound-ITD-fun)
 
