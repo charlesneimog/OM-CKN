@@ -9,19 +9,19 @@
 
 (:source-files
       "Sources/Sapa-FFT/fft"
-      "Sources/Sapa-FFT/utilities"  
       "Sources/quicklisp-packages/package" 
       "Sources/quicklisp-packages/iterate"
       "Sources/Cloud/FFT-window"
-      "Sources/Samples/samples-control"
-      "Sources/Samples/ircam-instruments"
-      "Sources/sinusoidal-modeling"
+      "Sources/om-methods" 
       "Sources/utilities"
+      "Sources/Sapa-FFT/utilities" 
+      "Sources/Samples/ircam-instruments"
+      "Sources/Samples/samples-control"
+      "Sources/sinusoidal-modeling"
       "Sources/stolen-functions"
       "Sources/Score/score"
       "Sources/Samples/OrchideaSOL2020"
-      "Sources/Samples/test"
-      "Sources/om-methods"
+;      "Sources/Samples/test"
       )
 
 (:symbols 
