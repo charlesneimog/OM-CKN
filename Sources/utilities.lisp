@@ -355,14 +355,14 @@ be used for urlmapping."
 
 ; =====================================
 
-(defun bytes->sound-fun (onda canal)
+(defun bytes->sound-fun (onda quantos-canais qual-canal)
 
 (let* ((nbsamples (length onda)))
-      (with-sound-output (mysound :nch 2 :size nbsamples :sr 44100 :type :float)
+      (with-sound-output (mysound :nch quantos-canais :size nbsamples :sr 44100 :type :float)
             (loop :for x :from 0 :to (1- nbsamples)
                   :for onda-loop :in onda
                   :do
-            (write-in-sound mysound (1- canal) x onda-loop)))))
+            (write-in-sound mysound (om::om- qual-canal 1) x onda-loop)))))
 
 ; =====================================
 
@@ -370,15 +370,15 @@ be used for urlmapping."
 (let* (
       (s-bytes (bytes (sound->bytes sound)))
       (place-of-sound (om::om-abs (x-append number (om::om- number 29))))
-      (channel-1 (bytes->sound-fun (x-append (om::repeat-n 0.0 (first place-of-sound)) s-bytes) 1))
-      (channel-2 (bytes->sound-fun (x-append (om::repeat-n 0.0 (second place-of-sound)) s-bytes) 2)))
+      (channel-1 (bytes->sound-fun (x-append (om::repeat-n 0.0 (first place-of-sound)) s-bytes) 2 1))
+      (channel-2 (bytes->sound-fun (x-append (om::repeat-n 0.0 (second place-of-sound)) s-bytes) 2 2)))
       (om::sound-mix channel-1 channel-2)))
 
  ; ============================ OM-SYNTH ========================================================
 
 ;; This is a code stolen from Jean Bresson OM-Sharp
 
- (defun do-senoide (dur freq gain envelope)
+(defun do-senoide (dur freq gain envelope)
 
   (let* (
          (sr 44100)
@@ -452,29 +452,21 @@ be used for urlmapping."
                                  :phrase phrase
                                  :frequencias nil))))
                    ckn-fft-chunks create-mailbox chunks-number))
-
-(loop :with mailbox-empty := nil 
-      :while (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mail-box))))
- ;;     :finally (return mailbox-empty))
-
-
+(loop-until-finish-process mail-box)
 (mapcar (lambda (x) (mp:mailbox-peek x)) mail-box)))
-
 
 ;========================= 
 
 (defun do-fft-chunks (fft-chunks)
 
-      (let* ()
-            (om-print "Aguarde" "Verbose :: ")
-
-  (loop :for chunks-number :in (arithm-ser 1 (length fft-chunks) 1)
-        :collect (list->string-fun (list 'fft- chunks-number)))))
+(let* ()
+      (om-print "Aguarde" "Verbose :: ")
+      (loop :for chunks-number :in (arithm-ser 1 (length fft-chunks) 1)
+            :collect (list->string-fun (list 'fft- chunks-number)))))
 
 ;================================================
 
 (defun ckn-make-mail-box (names-of-all-process)
-
 (loop :for name-process :in names-of-all-process
       :collect (mp:make-mailbox :lock-name name-process)))
 
@@ -525,9 +517,7 @@ be used for urlmapping."
         (fft-chunk-to-ms (om::arithm-ser 1 sound-windows-length 1))
         (fft-chunk-to-ms-parts (loop-in-parts fft-chunk-to-ms 128 128))
         (boolean-window-size (om::om> sound-windows-length 129)))
-
 (om-print "Conversao para Bytes concluida, aguarde o FFT." "OM-CKN - Verbose ::")
-
 (if boolean-window-size
     (flat (loop :for loop-sound-windows-parts :in sound-windows-parts 
           :for loop-fft-chunk-to-ms-parts :in fft-chunk-to-ms-parts
@@ -535,7 +525,6 @@ be used for urlmapping."
                          (action1 (do-fft-chunks loop-sound-windows-parts))
                          (action2 (ckn-make-mail-box action1)))
                      (fft-multiple-thread loop-sound-windows-parts action2 action1 loop-fft-chunk-to-ms-parts (sample-rate sound-self) hop-size))) 1)
-  
   (let* (
                          
                          (action1 sound-windows)
@@ -582,7 +571,7 @@ be used for urlmapping."
                 :amplitudes (second (om::mat-trans SPEAR-CORRECTION))))))
 
 
-;;; ============== isso é o principal
+;;; ============== isso é o principal ================== ESBOCO
 
 (defun spear-approach (deb filtro fft-size phrase sample-rate)
   
@@ -597,7 +586,6 @@ be used for urlmapping."
                                       ;; Isso é um ótimo exemplo de erro comum, o código 
                                       ;; (om:arithm-ser 0 (1- (length deb)) 1) pode transformar o resultado final das 
                                       ;; frequencias em certa de 2 ou três Hertz.
-
             :for phrase-loop :in phrase
             :while (setf condition-to-stop (om::om< 3 (length loop-amplitudes)))
           :collect 
@@ -610,7 +598,6 @@ be used for urlmapping."
                           (om::om< first-amp second-amp)
                           (om::om> second-amp third-amp)
                           (om::om< filtro second-amp)))
-
                                       ;;; Este pedaço de código é responsável por criar o Local Maxima
                                       ;; É necessário cumprir 3 coisas
                                       ;; 1ª = A amplitude do bin (x-1) precisa ser menor que a amplitude de x 
@@ -689,8 +676,6 @@ be used for urlmapping."
     (format nil "~{~A ~}" lst))
 
 ;=====================================================================
-
-
 (defun loop-until-probe-file (my-file)
         (loop :with file = nil 
               :while (equal nil (setf file (probe-file my-file)))
@@ -698,6 +683,13 @@ be used for urlmapping."
 
 (probe-file my-file))
 
+;=====================================================================
+
+(defun loop-until-finish-process (mailbox)
+      (loop :with mailbox-empty = nil :while 
+            (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mailbox)))
+            :do (let* ()
+            mailbox-empty)))
 ;=====================================================================
 
 (defun ckn-antescofo-score (voice variance local)
@@ -724,15 +716,10 @@ be used for urlmapping."
                             "@pizz"))))
 
     (Score-acabada (x-append (list (x-append "BPM" voice-tempo) (x-append "Variance" variance)) SCORE)))
-
 (save-as-text Score-acabada local)))
 
-
-
 ; ========================================== OSC-PLAY =======================
-
 (defun chord->voice (lista-de-notas)
-
 (mktree (loop :for i :from 1 to (length lista-de-notas) :collect (let* () 1/4)) (list 4 4)))
 
 ;; ==================
@@ -754,7 +741,6 @@ be used for urlmapping."
 ;; ======================================================================
 
 (defun voice->coll (ckn number-2)
-
 (let* (
   (ckn-action1  (loop 
                       :for ckn-plus :in (om6-true-durations ckn) 
@@ -764,26 +750,21 @@ be used for urlmapping."
                       :collect (if 
                                     (om::om= 0 cknloop)
                                     (setq number-2 (om::om+ number-2 1)))))
-
   (ckn-action3 
             (let* ((ckn-action3-1 
                           (if 
                               (equal nil (first ckn-action2))
                               0 
-                              (first ckn-action2))))
-                                  
-                                  
+                              (first ckn-action2))))             
                   (if 
                       (equal nil (first ckn-action2)) 
                       (om::om+ (om::om- ckn-action2 ckn-action3-1) -1) 
                       (om::om+ (om::om- ckn-action2 ckn-action3-1) 1)))))
-
 (loop 
       :for cknloop-1 :in ckn-action3 
       :for cknloop-2 :in (om::dx->x 0 (loop :for y :in (om6-true-durations ckn) :collect (abs y))) 
       :for cknloop-3 :in (om6-true-durations ckn) 
       :collect          
-      
       (if (plusp cknloop-3) 
             (om::x-append 
                (if (plusp cknloop-3) cknloop-2 nil)
