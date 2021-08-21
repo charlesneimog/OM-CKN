@@ -196,9 +196,7 @@ action6))
     
    (let ((result (remove nil (mapcar #'(lambda (x) (if (not (or (= x 1) (= x -1))) x ))
           resultat2))))
-         (if (= 2 (length onsets)) (list (car result) (second result)) result))
-   ))
-
+         (if (= 2 (length onsets)) (list (car result) (second result)) result))))
 
 ;====================================================================================
 
@@ -217,7 +215,6 @@ action6))
 ;====================================================================================
 
 (defun build-sound-mix-fun (sounds)
-
 (let*  (
     (action1 (sound-mix (first sounds) (second sounds)))
     (action2 (if 
@@ -237,9 +234,7 @@ action6))
 (4800 "C3") (4900 "C#3") (5000 "D3") (5100 "D#3") (5200 "E3") (5300 "F3") (5400 "F#3") (5500 "G3") (5600 "G#3") (5700 "A3") (5800 "A#3") (5900 "B3")
 (6000 "C4") (6100 "C#4") (6200 "D4") (6300 "D#4") (6400 "E4") (6500 "F4") (6600 "F#4") (6700 "G4") (6800 "G#4") (6900 "A4") (7000 "A#4") (7100 "B4")
 (7200 "C5") (7300 "C#5") (7400 "D5") (7500 "D#5") (7600 "E5") (7700 "F5") (7800 "F#5") (7900 "G5") (8000 "G#5") (8100 "A5") (8200 "A#5") (8300 "B5")
-(8400 "C6") (8500 "C#6") (8600 "D6") (8700 "D#6") (8800 "E6") (8900 "F6") (9000 "F#6") (9100 "G6") (9200 "G#6") (9300 "A6") (9400 "A#6") (9500 "B6")
-
-     
+(8400 "C6") (8500 "C#6") (8600 "D6") (8700 "D#6") (8800 "E6") (8900 "F6") (9000 "F#6") (9100 "G6") (9200 "G#6") (9300 "A6") (9400 "A#6") (9500 "B6")    
 (nil nil)))
        
 ;====================================================================================
@@ -266,7 +261,6 @@ action6))
 
 ;====================================================================================
 (defun sound-seq-list-multi-threading (sounds)
-
 (let* (
     (action1 
           (mapcar (lambda (x) (string+ "Sound-seq-" x)) (mapcar (lambda (x) (list->string-fun (list x))) (om::arithm-ser 1 (length sounds) 1))))
@@ -289,7 +283,6 @@ action6))
 (defun voice->samples-sound-fun (voice1 pan temp-files) 
  
 (let* (
-
 (action1
     (loop   :for ckn-LOOP1 :in (choose-to-rest voice1)
             :for ckn-LOOP2 :in (om6-true-durations voice1)
