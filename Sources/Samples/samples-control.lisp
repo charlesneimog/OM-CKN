@@ -199,21 +199,6 @@ action6))
          (if (= 2 (length onsets)) (list (car result) (second result)) result))
    ))
 
-;====================================================================================
-
-(defun normalize-chord-seq (chrdseq)
-  (let* ((xdx (om::x->dx (om::lonset chrdseq)))
-         (filt-durs1 (mapcar 'list-min (om::ldur chrdseq)))
-         (lst-durs (mapcar 'list xdx filt-durs1))
-         (filt-durs2 (mapcar 'list-min lst-durs))
-         (newdurs (loop 
-                   :for pt :in (om::lmidic chrdseq)
-                   :for drs :in filt-durs2
-                   collect (repeat-n drs (length pt)))))
-    (make-instance 'chord-seq 
-                   :lmidic (om::lmidic chrdseq)
-                   :lonset (om::lonset chrdseq)
-                   :ldur newdurs)))
 
 ;====================================================================================
 
@@ -283,40 +268,21 @@ action6))
 (defun sound-seq-list-multi-threading (sounds)
 
 (let* (
-        (first-action1 
+    (action1 
           (mapcar (lambda (x) (string+ "Sound-seq-" x)) (mapcar (lambda (x) (list->string-fun (list x))) (om::arithm-ser 1 (length sounds) 1))))
-        (second-action1 (ckn-make-mail-box first-action1))
-        (action1 
-            (loop 
-                :for sound-loop :in sounds
-                :for names-loop :in first-action1
-                :for mail-box-loop :in second-action1 
-                :do 
-                        (mp:process-run-function names-loop () 
-                                (lambda (x w) (mp:mailbox-send w 
-                                                                (sound-seq-list x 0.001)))
-                                sound-loop mail-box-loop)))
-
-
-
-;; ======================================================
-
-(action2 
-  (loop with mailbox-empty = nil :while 
-          (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) second-action1)))
-            :do (let*
-                    ((box-remove (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) second-action1))))
-            mailbox-empty)))
-
-;; ======================================================
-
-(action3 (mapcar (lambda (x) (mp:mailbox-peek x)) second-action1))
-
-(action4 (loop :for fim :in action3 :collect (make-value-from-model 'sound fim nil))))
-
-(gc-all)
-
-(sound-seq-list action4 0.001)))
+    (action2 (ckn-make-mail-box action1))
+    (action3 (let* ()
+                    (loop 
+                            :for sound-loop :in sounds
+                            :for names-loop :in action1
+                            :for mail-box-loop :in action2 
+                        :do 
+                        (mp:process-run-function names-loop () (lambda (x w) (mp:mailbox-send w (sound-seq-list x 0.001))) sound-loop mail-box-loop)) 
+                    (loop-until-finish-process action2) ;; espera todos os processos terminarem
+                    (mapcar (lambda (x) (mp:mailbox-peek x)) action2))) ;; coleta os dados
+    (action4 (loop :for fim :in action3 :collect (make-value-from-model 'sound fim nil))))
+    (gc-all)
+    (sound-seq-list action4 0.001)))
 
 ;====================================================================================
 
@@ -325,69 +291,47 @@ action6))
 (let* (
 
 (action1
-    (loop :for ckn-LOOP1 :in (choose-to-rest voice1)
-        :for ckn-LOOP2 :in (om6-true-durations voice1)
-        :collect
-        (let*
-            ((box-choose1 (choose (lmidic voice1) ckn-LOOP1))
-                (box-choose2 (choose (lchan voice1) ckn-LOOP1))
-                (box-choose3 (choose (lvel voice1) ckn-LOOP1))
-                (box-first1 (first box-choose3))
-                (box-choose4 (if (equal nil (choose pan ckn-LOOP1)) '(-50 50)  (choose pan ckn-LOOP1))))
+    (loop   :for ckn-LOOP1 :in (choose-to-rest voice1)
+            :for ckn-LOOP2 :in (om6-true-durations voice1)
+            :collect
+                (let*
+                    ((box-choose1 (choose (lmidic voice1) ckn-LOOP1))
+                    (box-choose2 (choose (lchan voice1) ckn-LOOP1))
+                    (box-choose3 (choose (lvel voice1) ckn-LOOP1))
+                    (box-first1 (first box-choose3))
+                    (box-choose4 (if (equal nil (choose pan ckn-LOOP1)) '(-50 50)  (choose pan ckn-LOOP1))))
 
-(if (plusp ckn-LOOP2) ;;silencio ou nÃ£o 
-
-;; NOTA 
-(sound-fade 
-
-        (sound-stereo-pan (sound-mono-to-stereo 
-            (if (om< (length box-choose1) 2) ;; MONOFONICO OU POLIFÃ”NICO
-
+(if (plusp ckn-LOOP2) ;;silencio ou nao 
+;; SE FOR NOTA 
+    (om::sound-fade 
+        (om::sound-stereo-pan (sound-mono-to-stereo 
+                                (if (om< (length box-choose1) 2) ;; MONOFONICO OU POLIFONICO
             ;;;;; MONOFONICO
-
-;;;; COLOCAR MEIO PARA APAGAR ARQUIVOS TEMPORÃRIOS
-
-(sound-vol 
-    (sound-cut 
-            (samples-menores 
-                (om-abs (ms->sec ckn-LOOP2)) 
-                    (make-value-from-model 'sound
-                            (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2))) 
-                                (ircam-instruments
-                                    (first (approx-m box-choose1 2))
-                                    (first box-choose2)
-                                    box-first1)
-                                (ckn-sound-transpose 
+            (sound-vol 
+                (sound-cut 
+                    (samples-menores (om-abs (ms->sec ckn-LOOP2)) (make-value-from-model 'sound 
+                                (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2))) 
                                     (ircam-instruments
                                         (first (approx-m box-choose1 2))
                                         (first box-choose2)
                                         box-first1)
-                                (first (om- box-choose1 (approx-m box-choose1 2))))) nil))
-        0.0 
-        (om-abs (ms->sec ckn-LOOP2)))
-    
-    (om-scale box-first1 0.001 0.999 1 110))  ;;;;; FIMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+                                    (ckn-sound-transpose 
+                                        (ircam-instruments
+                                            (first (approx-m box-choose1 2))
+                                            (first box-choose2)
+                                            box-first1)
+                                    (first (om- box-choose1 (approx-m box-choose1 2))))) nil)) 0.0 (om-abs (ms->sec ckn-LOOP2)))
+                (om-scale box-first1 0.001 0.999 1 110))  ;;;;; FIMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 
-;;;;; Com acorde
+            ;;;;; POLIFONICO
 
-(sound-mix-list 
-            (acordes-de-samples (om::om-abs (ms->sec ckn-LOOP2)) box-choose1 box-choose2 box-choose3))))
-            (first box-choose4)
-            (second box-choose4)) 0.01 0.01)
-
+            (sound-mix-list 
+                        (acordes-de-samples (om::om-abs (ms->sec ckn-LOOP2)) box-choose1 box-choose2 box-choose3))))
+                        (first box-choose4)
+                        (second box-choose4)) 0.01 0.01)
 ;;silencio 
-
             (sound-fade (sound-silence (om-abs (ms->sec ckn-LOOP2)) 2) 0.01 0.01))))))
-
-;;; ================= Apagar temp files
-
-
-(if temp-files 
-        (ckn-clear-temp-files))
-
-;;; ================= Finalizar
-                                            
-
+(if temp-files (ckn-clear-temp-files)) ;;; ================= Apagar temp files
 action1))
 
 ;;; ===========================================================
@@ -542,58 +486,10 @@ action1))
                                                 ckn-LOOP2
                                                 ckn-LOOP3)
                                             (om- ckn-LOOP1 (approx-m ckn-LOOP1 2))))
-                            nil)))
-                                              
+                            nil)))          
                         (sound-vol (sound-cut (samples-menores ckn-time action1) 0.0 ckn-time) (om-scale ckn-LOOP3 0.001 1 1 127)))))
 
 
-;;;;
-
-
-
-
-;;; ================================================================================
-
-(lambda (sounds)
-
-(let* (
-        (first-action1 (mapcar (lambda (x) (string+ "Sound-seq-" x)) (mapcar (lambda (x) (list->string-fun (list x))) (om::arithm-ser 1 (length sounds) 1))))
-        (second-action1 (ckn-make-mail-box first-action1))
-        (action1 
-            (loop 
-                :for sound-loop :in sounds
-                :for names-loop :in first-action1
-                :for mail-box-loop :in second-action1 
-                :do 
-                        (mp:process-run-function names-loop () 
-                                (lambda (x w) (mp:mailbox-send w 
-                                                                (sound-seq-list x 0.001)))
-                                (print sound-loop) mail-box-loop)))
-
-
-;; ======================================================
-
-(action2 
-  (loop with mailbox-empty = nil :while 
-          (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) second-action1)))
-            :do (let*
-        ((box-remove (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) second-action1))))
-            mailbox-empty)))
-
-;; ======================================================
-
-(action3 (mapcar (lambda (x) (mp:mailbox-peek x)) second-action1))
-
-(action4 (loop :for fim :in action3 :collect (make-value-from-model 'sound fim nil))))
-
-(sound-seq-list action4 0.001)))
-
-
-
-
-;;;;; Falta sincronizar os sons
-
-;; ======================================================
 
 ;; ====================================================== THIS IS A AUTO-PROMOTION ================================= 
 
@@ -610,61 +506,18 @@ action1))
       (save-as-text '(((defvar *first-time-load* nil))) (merge-pathnames "first-load.txt" (lib-resources-folder (find-library "OM-CKN"))))
       (hqn-web:browse "https://www.charlesneimog.com/"))))
 
-
-;; (sound-seq-list-multi-threading-until-finish (build-seq-of-sounds sounds list-per-threading)
-
-;; ====================================================== THIS IS A AUTO-PROMOTION ================================= 
-
-(defun sound-seq-list-multi-threading-until-finish (sounds)
-
-(let* (
-        (first-action1 
-          (mapcar (lambda (x) (string+ "Sound-seq-" x)) (mapcar (lambda (x) (list->string-fun (list x))) (om::arithm-ser 1 (length sounds) 1))))
-        (second-action1 (ckn-make-mail-box first-action1))
-        (action1 
-            (loop 
-                :for sound-loop :in sounds
-                :for names-loop :in first-action1
-                :for mail-box-loop :in second-action1 
-                :do 
-                        (mp:process-run-function names-loop () 
-                                (lambda (x w) (mp:mailbox-send w 
-                                                                (sound-seq-list x 0.001)))
-                                sound-loop mail-box-loop)))
-
-;; ===============
-
-(action2 
-  (loop with mailbox-empty = nil :while 
-          (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) second-action1)))
-            :do (let*
-                    ((box-remove (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) second-action1))))
-            mailbox-empty)))
-
-;; ==============
-
-(action3 (mapcar (lambda (x) (mp:mailbox-peek x)) second-action1)))
-(gc-all)
-(loop :for fim :in action3 :collect (make-value-from-model 'sound fim nil))))
-
-;;; ================================================================================
-
-(defun recursive-sound-seq (sounds list-per-threading)
-(sound-seq-list-multi-threading-until-finish (build-seq-of-sounds sounds list-per-threading)))
-
 ;;; ================================================================================
 
 (defun save-temp-sounds (sounds) 
+    (let* (
+            (first-action1 
+                (mapcar 
+                    (lambda (x) (string+ "Sound-" x))
+                        (mapcar (lambda (x) (format nil "~6,'0D" x)) (om::arithm-ser 1 (length sounds) 1)))))
 
-(let* (
-    (first-action1 
-        (mapcar 
-            (lambda (x) (string+ "Sound-" x))
-                (mapcar (lambda (x) (format nil "~6,'0D" x)) (om::arithm-ser 1 (length sounds) 1)))))
-
-(loop :for loop-sound :in sounds
-      :for loop-names :in first-action1
-      :collect (om:save-sound loop-sound (merge-pathnames "om-ckn/" (outfile (string+ loop-names ".wav")))))))
+            (loop :for loop-sound :in sounds
+                :for loop-names :in first-action1
+                :collect (om:save-sound loop-sound (merge-pathnames "om-ckn/" (outfile (string+ loop-names ".wav")))))))
 
 ;;; ================================================================================
 
@@ -687,11 +540,7 @@ action1))
 (ckn-clear-temp-files)
 action5))
 
-
 ;;; ================================================================================
-
-
-
 (compile 'voice->samples-sound-fun)
 (compile 'samples-menores)
 (compile 'acordes-de-samples)
@@ -702,7 +551,6 @@ action5))
 (compile 'name-of-the-sound)
 (compile 'ckn-string-name)
 (compile 'build-seq-of-sounds)
-(compile 'build-sound-sequence-fun)
 (compile 'sound-seq-list-multi-threading)
 (compile 'voice->samples-sound-ITD-fun)
 
