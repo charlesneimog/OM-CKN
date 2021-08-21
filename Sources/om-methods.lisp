@@ -237,6 +237,17 @@ For this work you need:
 
 ;=====================================
 
+(defmethod! bytes->sound ((self list) (quantos-canais number) (qual-canal number))
+:initvals '(nil)
+:indoc '("bytes 0 until 1 list" "number of channels" "where write?")
+:icon '17359
+:doc "It create a sound from list of bytes (0 until 1)."
+
+(if (equal *app-name* "om-sharp")
+    (bytes->sound-fun self quantos-canais qual-canal)))
+
+;=====================================
+
 (defmethod! cartopol ((fft cons))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File.")
@@ -443,10 +454,7 @@ Result: (7 9 458)."
 
 (let* (
 (ckn-action1  (loop :for ckn-plus :in (om6-true-durations voice) :collect (if (plusp ckn-plus) 0 1)))
-
 (ckn-action2 (loop :for cknloop :in ckn-action1 :collect (if (= 0 cknloop) (setq number-2 (+ number-2 1)) nil))))
-
-
 (let* (
      (ckn-action3-1 
      (if (equal nil (first ckn-action2)) 0 (first ckn-action2))))
