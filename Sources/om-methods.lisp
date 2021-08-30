@@ -159,6 +159,22 @@ For this work you need:
             (5 :rectangular)
             (6 nil)))))
 
+
+;==================================================
+
+(defmethod! complex-senoide-h ((freq number) (sec number) (samples-rate number))
+:initvals '(nil)
+:indoc '("Frequency in Hz" "Durations in sec." "Sample-rate")
+:icon '17359
+:doc "It does one senoide in the complex plan."
+
+(let* (
+      (durations (x-append 0 sec))
+      (sec-samples (round (om::sec->samples sec samples-rate)))
+      (sampling (nth 2 (om::multiple-value-list (om::om-sample durations sec-samples)))))
+  (create-pure-tone-h freq sampling)))
+
+
 ;==================================================
 
 (defmethod! complex-senoide ((freq number) (sec number) (samples-rate number))
