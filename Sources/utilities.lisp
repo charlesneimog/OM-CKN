@@ -191,18 +191,13 @@ plt.show()
   `(simple-array complex-sample (,size)))
 
 ;======================================
-
 (defun energy (x)
-  (declare (type complex-sample-array x)
-           (optimize speed))
   (let ((acc 0d0))
     (declare (type double-float acc))
     (map nil (lambda (x)
                (let ((r (realpart x))
                      (i (imagpart x)))
-                 (incf acc (+ (* r r) (* i i)))))
-         x)
-    acc))
+                 (incf acc (+ (* r r) (* i i))))) x) acc))
 
 ;======================================
 
@@ -366,10 +361,9 @@ be used for urlmapping."
 
 ; =====================================
 
-(defun ITD-Sound (sound number)
+(defun ITD-Sound (sound place-of-sound)
 (let* (
       (s-bytes (bytes (sound->bytes sound)))
-      (place-of-sound (om::om-abs (x-append number (om::om- number 29))))
       (channel-1 (bytes->sound-fun (x-append (om::repeat-n 0.0 (first place-of-sound)) s-bytes) 2 1))
       (channel-2 (bytes->sound-fun (x-append (om::repeat-n 0.0 (second place-of-sound)) s-bytes) 2 2)))
       (om::sound-mix channel-1 channel-2)))
@@ -558,17 +552,18 @@ be used for urlmapping."
                           (om::om* 20 action2)))
 
                   (SPEAR-CORRECTION 
-                        (spear-approach MAG->DB filtro FFT-SIZE PHRASE (sound-sample-rate x))))
+                        (om::mat-trans (spear-approach MAG->DB filtro FFT-SIZE PHRASE (sound-sample-rate x)))))
                                                                         ;; COLOCAR SAMPLE-RATE NA CKN-FFT-INSTANCE
 (make-instance 'ckn-fft-instance 
                 :fft-window FFT-SIZE
                 :ckn-complex-numbers nil
                 :ckn-hop-size (ckn-hop-size x)
                 :fft-chunks nil
-                :phrase nil
+                :sound-sample-rate (sound-sample-rate x)
+                :phrase (third SPEAR-CORRECTION)
                 :ckn-tempo TEMPO 
-                :frequencias (first (om::mat-trans SPEAR-CORRECTION))
-                :amplitudes (second (om::mat-trans SPEAR-CORRECTION))))))
+                :frequencias (first SPEAR-CORRECTION)
+                :amplitudes (second SPEAR-CORRECTION)))))
 
 
 ;;; ============== isso é o principal ================== ESBOCO
@@ -578,7 +573,6 @@ be used for urlmapping."
 (let* (
   (action1 
       (loop   
-            :with condition-to-stop = nil
             :for loop-amplitudes :on deb
             :for loop-number-bin :in (om:arithm-ser 1 (length deb) 1)
                                       ;; (om:arithm-ser 0 (1- (length deb)) 1) 
@@ -587,7 +581,7 @@ be used for urlmapping."
                                       ;; (om:arithm-ser 0 (1- (length deb)) 1) pode transformar o resultado final das 
                                       ;; frequencias em certa de 2 ou três Hertz.
             :for phrase-loop :in phrase
-            :while (setf condition-to-stop (om::om< 3 (length loop-amplitudes)))
+            :while (om::om< 3 (length loop-amplitudes))
           :collect 
               (if  (let* (
                           (first-amp (first loop-amplitudes))
@@ -784,9 +778,16 @@ be used for urlmapping."
         (action3 (make-instance 'voice :tree action2 :tempo (tempo voice))))
     (car (om6-true-durations action3))))
 
+;================================================ ckn-gc-all ==================
+
+(defun ckn-gc-all (x)
+
+(nth 1 (om::multiple-value-list (om::seq (om::gc-all) x))))
+
 
 ;===================================================================== Compile in OM-SHARP =================================
 
+(compile 'ckn-gc-all)
 (compile 'loop-in-parts)
 (compile 'sound-window-list)
 (compile 'sound-window)
