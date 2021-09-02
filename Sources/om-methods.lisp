@@ -620,29 +620,6 @@ Result: (7 9 458)."
 (om-cmd-line "TASKKILL /IM PDFXEdit.exe") 
 (osc-send '("/test" 0) "127.0.0.1" 3000))
 
-;; ====================================================
-
-(defmethod! sound-seq-sox ((sounds list) (name string))
-:initvals '(nil)
-:indoc '("list of sounds" "Name of the sound after build sequence.") 
-:icon '17359
-:doc "It does the same that sound-seq, but it uses the SoX."
-
-(let* (
-(action1 (save-temp-sounds sounds))
-(action2 (om::save-sound (first sounds) (merge-pathnames "om-ckn/" (outfile (string+ "Sound-001" ".wav")))))
-(action3 (x-append action2 (first-n action1 (1- (length sounds)))))
-(action4 (om-cmd-line 
-          (string+ 
-           (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))
-           " "
-           "--combine sequence " 
-           (list->string-fun (list (namestring (merge-pathnames "om-ckn/" (outfile "*.wav")))))
-           " "
-           (list->string-fun (list (namestring (outfile sequence-name)))))))
-(action5 (loop-until-probe-file (outfile sequence-name))))
-(ckn-clear-temp-files)
-action5))
 
 ;; ====================================================
 
@@ -664,23 +641,33 @@ action5))
 
 (sound-vol-sox-fun sounds volume))
 
+;; ====================
+
+(defmethod! sound-vol-sox ((sounds string) (volume number))
+:initvals '(nil)
+:indoc '("sound" "volume in this format 0.9 that means 90% of the original sound.") 
+:icon '17359
+:doc "It does the same that sound-vol, but it uses the SoX."
+
+(sound-vol-sox-fun sounds volume))
+
 ;; ====================================================
-(defmethod! sound-mix-sox ((sounds list))
+(defmethod! sound-mix-sox ((sounds list) (name string))
 :initvals '(nil)
 :indoc '("sounds") 
 :icon '17359
 :doc "It does the same that sound-mix and sound-mix-list."
 
-(sound-mix-sox-fun sounds))
+(sound-mix-sox-fun sounds name))
 
 ;; ====================================================
-(defmethod! sound-seq-sox ((sounds list))
+(defmethod! sound-seq-sox ((sounds list) (name string))
 :initvals '(nil)
 :indoc '("sounds") 
 :icon '17359
 :doc "It does the same that sound-seq and sound-seq-list."
 
-(sound-seq-sox-fun sounds))
+(sound-seq-sox-fun sounds name))
 
 ;; ====================================================
 (defmethod! sound-fade-sox ((sounds pathname) (fade list))
@@ -689,6 +676,34 @@ action5))
 :icon '17359
 :doc "It does the same that sound-fade."
 (sound-fade-sox-fun sounds fade))
+
+;; ====================================================
+(defmethod! sound-fade-sox ((sounds string) (fade list))
+:initvals '(nil)
+:indoc '("sounds" "list with fade-in and fade-out") 
+:icon '17359
+:doc "It does the same that sound-fade."
+(sound-fade-sox-fun sounds fade))
+
+;; ====================================================
+(defmethod! sound-silence-sox ((sounds single-float))
+:initvals '(nil)
+:indoc '("float number") 
+:icon '17359
+:doc "It does the same that sound-silence but using sox."
+
+(let* (
+  (sox-path (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))))
+  (sound-in-out 
+      (list (namestring (merge-pathnames "om-ckn/" 
+        (outfile (string+ "silence-" (format nil "~d" sounds)   ".wav"))))))
+  (line-command 
+    (string+ sox-path " " "-n " " " (list->string-fun sound-in-out) " trim 0 " (format nil "~d" sounds)))
+  (the-command (om::om-cmd-line line-command))
+  (loading (loop-until-probe-file (car sound-in-out))))
+    (car sound-in-out)))
+
+;; SOX -n "C:\Users\neimog\OneDrive - design.ufjf.br\Documentos\OM - Workspace\out-files\om-ckn\silence.wav" trim 0 10
 
 ; ===========================================================================
 

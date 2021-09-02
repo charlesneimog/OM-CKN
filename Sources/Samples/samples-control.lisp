@@ -564,13 +564,13 @@ action5))
 
 ;;; ================================================================================
 
-(defun sound-mix-sox-fun (sounds)
+(defun sound-mix-sox-fun (sounds name)
     (let* (
             (sox-path (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))))
             (sound-in-path (names-to-mix sounds))
             (sound-in-out 
                 (list (namestring (merge-pathnames "om-ckn/" 
-                    (outfile (string+ (first (om::string-to-list (get-filename (first sounds)) ".")) "-mix-sound" ".wav"))))))
+                    (outfile (string+ name "-mix-sound" ".wav"))))))
             (line-command 
                 (string+ sox-path " " " --combine mix " " "  sound-in-path " " (list->string-fun sound-in-out)))
             (the-command (om::om-cmd-line line-command))
@@ -579,13 +579,13 @@ action5))
 
 ;;; ================================================================================
 
-(defun sound-seq-sox-fun (sounds)
+(defun sound-seq-sox-fun (sounds name)
     (let* (
             (sox-path (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))))
             (sound-in-path (names-to-mix sounds))
             (sound-in-out 
                 (list (namestring (merge-pathnames "om-ckn/" 
-                    (outfile (string+ (first (om::string-to-list (get-filename (first sounds)) ".")) "-seq-sound" ".wav"))))))
+                    (outfile (string+ name "-seq-sound" ".wav"))))))
             (line-command 
                 (string+ sox-path " " " --combine sequence " " "  sound-in-path " " (list->string-fun sound-in-out)))
             (the-command (om::om-cmd-line line-command))
@@ -602,7 +602,7 @@ action5))
   (sound-in-out 
       (list (namestring (merge-pathnames "om-ckn/" 
         (outfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-with-fade" ".wav"))))))
-  (action-sound-fade (format nil " fade ~d ~d" (first fade) (second fade)))
+  (action-sound-fade (format nil " fade p ~d ~d" (first fade) (second fade)))
   (line-command 
     (string+ sox-path " " (list->string-fun (list (namestring sound-in-path))) " " (list->string-fun sound-in-out) " " action-sound-fade))
   (the-command (om::om-cmd-line line-command))
