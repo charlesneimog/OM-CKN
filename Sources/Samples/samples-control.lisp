@@ -507,10 +507,22 @@ action1))
                 (mapcar 
                     (lambda (x) (string+ "Sound-" x))
                         (mapcar (lambda (x) (format nil "~6,'0D" x)) (om::arithm-ser 1 (length sounds) 1)))))
-
+      
             (loop :for loop-sound :in sounds
                 :for loop-names :in first-action1
-                :collect (om:save-sound loop-sound (merge-pathnames "om-ckn/" (outfile (string+ loop-names ".wav")))))))
+                :collect (ckn-gc-all (om:save-sound loop-sound (merge-pathnames "om-ckn/" (outfile (string+ loop-names ".wav"))))))))
+
+
+;;; ================================================================================
+
+(defun save-temp-sounds-index (sounds index) 
+    (let* (
+            (first-action1 
+                (mapcar (lambda (x) (string+ "Sound-" x)) (mapcar (lambda (x) (format nil "~6,'0D" x)) (list index)))))
+      
+            (loop :for loop-sound :in (list sounds)
+                :for loop-names :in first-action1
+                :collect (om:save-sound loop-sound (print (merge-pathnames "om-ckn/" (outfile (string+ loop-names ".wav"))))))))
 
 ;;; ================================================================================
 
@@ -532,6 +544,23 @@ action1))
 (sleep 5)
 (ckn-clear-temp-files)
 action5))
+
+;;; ================================================================================
+
+(defun sound-vol-sox-fun (sounds volume)
+
+(let* (
+  (sox-path (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))))
+  (sound-in-path sounds)
+  (sound-in-out 
+      (list (namestring (merge-pathnames "om-ckn/" 
+        (outfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-vol-correction" ".wav"))))))
+  (action-sound-vol (format nil " -v ~d " volume))
+  (line-command 
+    (string+ sox-path " " action-sound-vol " " (list->string-fun (list (namestring sound-in-path))) " " (list->string-fun sound-in-out)))
+  (the-command (om::om-cmd-line line-command))
+  (loading (loop-until-probe-file (car sound-in-out))))
+    (car sound-in-out)))
 
 ;;; ================================================================================
 (compile 'voice->samples-sound-fun)

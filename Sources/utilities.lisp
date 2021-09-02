@@ -674,7 +674,7 @@ be used for urlmapping."
         (loop :with file = nil 
               :while (equal nil (setf file (probe-file my-file)))
         :collect file)
-
+        
 (probe-file my-file))
 
 ;=====================================================================
