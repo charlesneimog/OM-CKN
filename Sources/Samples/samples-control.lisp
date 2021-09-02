@@ -563,6 +563,53 @@ action5))
     (car sound-in-out)))
 
 ;;; ================================================================================
+
+(defun sound-mix-sox-fun (sounds)
+    (let* (
+            (sox-path (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))))
+            (sound-in-path (names-to-mix sounds))
+            (sound-in-out 
+                (list (namestring (merge-pathnames "om-ckn/" 
+                    (outfile (string+ (first (om::string-to-list (get-filename (first sounds)) ".")) "-mix-sound" ".wav"))))))
+            (line-command 
+                (string+ sox-path " " " --combine mix " " "  sound-in-path " " (list->string-fun sound-in-out)))
+            (the-command (om::om-cmd-line line-command))
+            (loading (loop-until-probe-file (car sound-in-out))))
+                (car sound-in-out)))
+
+;;; ================================================================================
+
+(defun sound-seq-sox-fun (sounds)
+    (let* (
+            (sox-path (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))))
+            (sound-in-path (names-to-mix sounds))
+            (sound-in-out 
+                (list (namestring (merge-pathnames "om-ckn/" 
+                    (outfile (string+ (first (om::string-to-list (get-filename (first sounds)) ".")) "-seq-sound" ".wav"))))))
+            (line-command 
+                (string+ sox-path " " " --combine sequence " " "  sound-in-path " " (list->string-fun sound-in-out)))
+            (the-command (om::om-cmd-line line-command))
+            (loading (loop-until-probe-file (car sound-in-out))))
+                (car sound-in-out)))
+
+;;; ================================================================================
+
+(defun sound-fade-sox-fun (sounds fade)
+
+(let* (
+  (sox-path (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))))
+  (sound-in-path sounds)
+  (sound-in-out 
+      (list (namestring (merge-pathnames "om-ckn/" 
+        (outfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-with-fade" ".wav"))))))
+  (action-sound-fade (format nil " fade ~d ~d" (first fade) (second fade)))
+  (line-command 
+    (string+ sox-path " " (list->string-fun (list (namestring sound-in-path))) " " (list->string-fun sound-in-out) " " action-sound-fade))
+  (the-command (om::om-cmd-line line-command))
+  (loading (loop-until-probe-file (car sound-in-out))))
+    (car sound-in-out)))
+
+;;; ================================================================================
 (compile 'voice->samples-sound-fun)
 (compile 'samples-menores)
 (compile 'acordes-de-samples)

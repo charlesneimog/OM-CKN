@@ -664,6 +664,32 @@ action5))
 
 (sound-vol-sox-fun sounds volume))
 
+;; ====================================================
+(defmethod! sound-mix-sox ((sounds list))
+:initvals '(nil)
+:indoc '("sounds") 
+:icon '17359
+:doc "It does the same that sound-mix and sound-mix-list."
+
+(sound-mix-sox-fun sounds))
+
+;; ====================================================
+(defmethod! sound-seq-sox ((sounds list))
+:initvals '(nil)
+:indoc '("sounds") 
+:icon '17359
+:doc "It does the same that sound-seq and sound-seq-list."
+
+(sound-seq-sox-fun sounds))
+
+;; ====================================================
+(defmethod! sound-fade-sox ((sounds pathname) (fade list))
+:initvals '(nil)
+:indoc '("sounds" "list with fade-in and fade-out") 
+:icon '17359
+:doc "It does the same that sound-fade."
+(sound-fade-sox-fun sounds fade))
+
 ; ===========================================================================
 
 (defmethod! sound-markers-cut ((sound sound))
@@ -734,8 +760,6 @@ For the automatic work the folder out-files of OM# must be in the files preferen
         (to-voice (make-instance 'voice :tree (mktree loop-notes '(4 4)) :lmidic (remove nil (lmidic self)))))
 (osc-play to-voice)))
        
-
-
 ; ===========================================================================
 
 (om::defmethod! osc-play ((chord chord))
