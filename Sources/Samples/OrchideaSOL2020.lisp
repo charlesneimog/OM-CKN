@@ -29,9 +29,8 @@
 :doc "This object define the name of the composer and the name of the piece."
 
 (if (equal *app-name* "om-sharp")
-    (o-voice->samples-sharp voice pan temp-files)))
-
-
+    (o-voice->samples-sharp voice pan temp-files)
+    (o-voice->samples-fun voice pan temp-files)))
 
 
 ;; ====================================================
@@ -178,7 +177,7 @@ action1))
                         (objfromobjs 
                           (if 
                                 (equal 0 (om- ckn-LOOP1 (approx-m ckn-LOOP1 2)))
-                                (orchidea-instruments 
+                                (orchidea-instruments
                                                 (approx-m ckn-LOOP1 2)
                                                 ckn-LOOP2
                                                 ckn-LOOP3)
@@ -190,7 +189,7 @@ action1))
                                             (om- ckn-LOOP1 (approx-m ckn-LOOP1 2))))
                             (make-instance 'sound))))
 
-                                              
+                                          
                         (sound-vol (sound-cut (samples-menores ckn-time action1) 0.0 ckn-time) (om-scale ckn-LOOP3 0.001 1 1 127)))))
 
 ;; ====================================================
@@ -206,7 +205,7 @@ action1))
             ((box-choose1 (choose (lmidic voice1) ckn-LOOP1))
                 (box-choose2 (choose (lchan voice1) ckn-LOOP1))
                 (box-choose3 (choose (lvel voice1) ckn-LOOP1))
-                (box-first1 (first box-choose3))
+                (box-first1 (car box-choose3))
                 (box-choose4 (if (equal nil (choose pan ckn-LOOP1)) '(-50 50)  (choose pan ckn-LOOP1))))
 
 (if (plusp ckn-LOOP2) ;;silencio ou nÃƒÂ£o 
@@ -226,16 +225,16 @@ action1))
             (samples-menores 
                 (om-abs (ms->sec ckn-LOOP2)) 
                     (make-value-from-model 'sound
-                            (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2))) 
-                                (orchidea-instruments
+                            (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2)))
+                                (ckn-orchidea-instruments
                                     (first (approx-m box-choose1 2))
                                     (first box-choose2)
                                     box-first1)
                                 (ckn-sound-transpose 
-                                    (orchidea-instruments
-                                        (first (approx-m box-choose1 2))
-                                        (first box-choose2)
-                                        box-first1)
+                                    (ckn-orchidea-instruments
+                                               (first (approx-m box-choose1 2))
+                                               (first box-choose2)
+                                               box-first1)
                                 (first (om- box-choose1 (approx-m box-choose1 2))))) nil))
         0.0 
         (om-abs (ms->sec ckn-LOOP2)))
@@ -278,12 +277,12 @@ action1))
                             (if 
                                 (equal 0 (om- ckn-LOOP1 (approx-m ckn-LOOP1 2)))
                                 
-                                    (orchidea-instruments 
+                                    (ckn-orchidea-instruments 
                                                 (approx-m ckn-LOOP1 2)
                                                 ckn-LOOP2
                                                 ckn-LOOP3)
                                     (ckn-sound-transpose
-                                            (orchidea-instruments
+                                            (ckn-orchidea-instruments
                                                 (approx-m ckn-LOOP1 2)
                                                 ckn-LOOP2
                                                 ckn-LOOP3)
@@ -294,7 +293,7 @@ action1))
 
 ;; ====================================================
 
-(defmethod! orchidea-instruments ((note integer) (number-of-the-instrument integer) &optional (velocity 60))
+(defmethod! ckn-orchidea-instruments ((note integer) (number-of-the-instrument integer) &optional (velocity 60))
 :initvals '(6000 20 60)
 :indoc '("Sound class" "Number of the instrument (technique)") 
 :icon '17360
@@ -731,6 +730,8 @@ action1))
 (190 (om::nth-random          (ckn-in-files (merge-pathnames "Keyboards/Accordion/key_click/" *OrchideaSOL-PATH*) 'wav)))
 (191 (ckn-dinamics (ckn-find-the-samples 3 note *OrchideaSOL-PATH* "Keyboards/Accordion/ordinario/" 'wav) velocity))
 (192 (ckn-dinamics (ckn-find-the-samples 3 note *OrchideaSOL-PATH* "Keyboards/Accordion/sforzato/" 'wav) velocity))))
+
+
 
 ;;; ========================= Need special functions ===================
 
