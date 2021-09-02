@@ -129,7 +129,7 @@ For this work you need:
 
 ;==================================================
 
-(defmethod! do-fft ((sound sound) (fft-size number) (hop-size number) (window-type number))
+(defmethod! ckn-fft ((sound sound) (fft-size number) (hop-size number) (window-type number))
 :initvals '(nil 2048 512 nil)
 :indoc '("Sound class" "FFT-size" "Hop-size" "Windows-type") 
 :menuins '((3 (("hann" 1) ("blackman" 2) ("barlett" 3) ("hamming" 4) ("rectangular" 5) ("nenhuma" 6))))
@@ -784,7 +784,7 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 ; ===========================================================================
 
-(defmethod! markers-cut ((sound sound))
+(defmethod! sound-markers-cut ((sound sound))
 :initvals ' ((nil) -60)       
 :indoc ' ("A sound.")
 :outdoc ' ("The new sound")
