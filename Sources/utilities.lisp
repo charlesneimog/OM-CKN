@@ -670,6 +670,13 @@ be used for urlmapping."
     (format nil "~{~A ~}" lst))
 
 ;=====================================================================
+
+(defun names-to-mix (in1)
+(reduce (lambda (z y) (string+ z y))
+          (flat (loop for x :in in1 :collect  
+                      (flat (x-append (list->string-fun (list (string+ (namestring x) " "))) " "))))))
+
+;=====================================================================
 (defun loop-until-probe-file (my-file)
         (loop :with file = nil 
               :while (equal nil (setf file (probe-file my-file)))
