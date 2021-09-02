@@ -531,7 +531,7 @@ Result: (7 9 458)."
 
 ;; ====================================================
 
-(defmethod! u-list->string ((list list))
+(defmethod! ckn-list->string ((list list))
 :initvals '(nil nil)
 :indoc '("A list of names?") 
 :icon '17359
@@ -626,11 +626,59 @@ Result: (7 9 458)."
 :initvals '(nil)
 :indoc '("list of sounds" "Name of the sound after build sequence.") 
 :icon '17359
-:doc "Imported from OM6 and omlily developep by Karim Haddad.It just works fine in Windows OS that use the Pdf Xchange Editor."
+:doc "It does the same that sound-seq, but it uses the SoX."
 
-(sox-sequence sounds name))
+(let* (
+(action1 (save-temp-sounds sounds))
+(action2 (om::save-sound (first sounds) (merge-pathnames "om-ckn/" (outfile (string+ "Sound-001" ".wav")))))
+(action3 (x-append action2 (first-n action1 (1- (length sounds)))))
+(action4 (om-cmd-line 
+          (string+ 
+           (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))
+           " "
+           "--combine sequence " 
+           (list->string-fun (list (namestring (merge-pathnames "om-ckn/" (outfile "*.wav")))))
+           " "
+           (list->string-fun (list (namestring (outfile sequence-name)))))))
+(action5 (loop-until-probe-file (outfile sequence-name))))
+(ckn-clear-temp-files)
+action5))
 
 ;; ====================================================
+
+(defmethod! sound-vol-sox ((sounds sound) (volume number))
+:initvals '(nil)
+:indoc '("sound" "volume in this format 0.9 that means 90% of the original sound.") 
+:icon '17359
+:doc "It does the same that sound-vol, but it uses the SoX."
+
+(sound-vol-sox-fun (file-pathname sounds) volume))
+
+;; ====================
+
+(defmethod! sound-vol-sox ((sounds pathname) (volume number))
+:initvals '(nil)
+:indoc '("sound" "volume in this format 0.9 that means 90% of the original sound.") 
+:icon '17359
+:doc "It does the same that sound-vol, but it uses the SoX."
+
+(sound-vol-sox-fun sounds volume))
+
+; ===========================================================================
+
+(defmethod! sound-markers-cut ((sound sound))
+:initvals ' ((nil) -60)       
+:indoc ' ("A sound.")
+:outdoc ' ("The new sound")
+:icon '17359
+:doc "It will cut one sound using the TWO FIRST markers."
+
+(let* (
+      (sound-markers (om::markers sound)))
+      (om::sound-cut sound (first sound-markers) (second sound-markers))))
+
+
+;; ==================================================== NOTES AND SCORE ==================
 
 (defmethod! ckn-add-extras ((voice voice))
 :initvals '(nil)
@@ -640,7 +688,7 @@ Result: (7 9 458)."
 
 (ckn-add-extras voice))
 
-; ===========================================================================
+; ====================================================== MICROTONAL PLAYER =================
 
 (om::defmethod! osc-play ((voice voice))
 :initvals ' ((nil))       
@@ -704,7 +752,7 @@ For the automatic work the folder out-files of OM# must be in the files preferen
     (chord-seq (make-instance 'chord-seq :lmidic (list chord))))
     (osc-play chord-seq)))
 
-;; ====================================================
+;; ==================================================== Utilitities
 
 (defmethod* f->n ((freq list))
   :numouts 1
@@ -765,7 +813,7 @@ Converts a (list of) freq pitch(es) to names of notes."
                             (second-matrix-transformation (mat-trans remove-nil)))
                        (make-instance 'chord :lmidic (first second-matrix-transformation) :lvel (second second-matrix-transformation))))))
   (make-chords (mapcar filter fft->chords)))
-  (make-instance 'chord-seq :lmidic make-chords :lonset (list 0 (om::om-round (samples->ms (ckn-hop-size (first ckn-fft-instance)) (sound-sample-rate (first ckn-fft-instance))))))))
+  (make-instance 'chord-seq :lmidic make-chords :lonset (list 0 (om::om-round (sec->ms (samples->sec (ckn-hop-size (first ckn-fft-instance)) (sound-sample-rate (first ckn-fft-instance)))))))))
 
 
     
@@ -780,20 +828,6 @@ Converts a (list of) freq pitch(es) to names of notes."
 :doc ""
 
 (fft->sin-model-fun ckn-instances db-filter))
-
-
-; ===========================================================================
-
-(defmethod! sound-markers-cut ((sound sound))
-:initvals ' ((nil) -60)       
-:indoc ' ("A sound.")
-:outdoc ' ("The new sound")
-:icon '17359
-:doc "It will cut one sound using the TWO FIRST markers."
-
-(let* (
-      (sound-markers (om::markers sound)))
-      (om::sound-cut sound (first sound-markers) (second sound-markers))))
 
 ;; ORCHIDEA INSTRUMENTS ===============================
 
