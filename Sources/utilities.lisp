@@ -296,10 +296,10 @@ be used for urlmapping."
 
 (let* (
       (action1 (first-n sound-bytes-window window))
-      (action2 (print (let* ((number (- (length sound-bytes-window) hop-size)))
+      (action2 (let* ((number (- (length sound-bytes-window) hop-size)))
                       (if (plusp number)      
                         (last-n sound-bytes-window number)
-                        sound-bytes-window)))))
+                        sound-bytes-window))))
 (if (or (< (length (remove nil action2)) window) (equal action1 action2))
     (if (equal action1 action2) 
         (reverse (x-append (list action2) (list action1) result)) 
