@@ -26,15 +26,16 @@
 
 (:symbols 
       (:packages
-            (:package (:name "My Compositional Tools") (:functions voice->samples))
+            (:package (:name "My Compositional Tools") (:functions voice->samples o-voice->samples))
             (:package (:name "SDIF") (:functions sdif->list sdif-envelope))
+            (:package (:name "Sound") (:functions ))
             (:package (:name "VST2 Plugins") (:functions ckn-VST2 define-VST2-plugin define-fxp-presets))
-            (:package (:name "Sound Functions") (:functions sound-seq-list sound-mix-list ckn-sound-transpose))
-            (:package (:name "FFT") (:classes ckn-fft-instance) (:functions do-fft fft->amplitude fft->phrase fft->sin-model fft->chord-seq sound->bytes))
+            (:package (:name "Sound Functions") (:functions sound-seq-list sound-seq-multi sound-mix-list sound-markers-cut sound-mix-list ckn-sound-transpose))
+            (:package (:name "FFT") (:classes ckn-fft-instance) (:functions ckn-fft fft->amplitude fft->phrase fft->sin-model fft->chord-seq sound->bytes))
             (:package (:name "Python") (:functions bpf-python 3dc-python))
             (:package (:name "Math and Music") (:functions complex-senoide))
             (:package (:name "Ircam Instruments") (:functions ircam-instruments))
-            (:package (:name "Orchidea-SOL") (:functions OrchideaSOL-folder orchidea-instruments o-check-samples-in-voice ))
+            (:package (:name "Orchidea-SOL") (:functions OrchideaSOL-folder orchidea-instruments o-check-samples-in-voice))
             (:package (:name "Utilities") (:functions list-to-array array-to-list by-N half fft->dB u-list->string)))))
 
       
