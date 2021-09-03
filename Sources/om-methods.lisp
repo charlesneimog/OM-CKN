@@ -698,7 +698,7 @@ Result: (7 9 458)."
       (list (namestring (merge-pathnames "om-ckn/" 
         (outfile (string+ "silence-" (format nil "~d" sounds)   ".wav"))))))
   (line-command 
-    (string+ sox-path " " "-n " " " (list->string-fun sound-in-out) " trim 0 " (format nil "~d" sounds)))
+    (string+ sox-path " " "-n " " -r 44100 " " " (list->string-fun sound-in-out) " trim 0 " (format nil "~d" sounds)))
   (the-command (om::om-cmd-line line-command))
   (loading (loop-until-probe-file (car sound-in-out))))
     (car sound-in-out)))
@@ -728,6 +728,16 @@ Result: (7 9 458)."
 :doc "It works just if you follow the MIDI-Channels of this Library. See the documentation of the Ircam-Instruments."
 
 (ckn-add-extras voice))
+
+;; =======================================
+
+(defmethod! ckn-voice ((tree list) (chords list) (lvel list) (lchan list))
+:initvals '(nil)
+:indoc '("voice without drawing?") 
+:icon '17359
+:doc "Build a voice."
+
+(make-instance 'voice :tree tree :lmidic chords :lvel lvel :lchan lchan))
 
 ; ====================================================== MICROTONAL PLAYER =================
 
