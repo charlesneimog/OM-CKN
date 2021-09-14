@@ -54,7 +54,7 @@
                                     (first (choose all-names action6)))
 
                               (let* ()  
-                                    (om-print "Há alguns multifonicos com a mesma quantidade de notas em comum, escolhendo aleatoriamente entre eles." "Notice!")
+                                    (om-print "Ha alguns multifonicos com a mesma quantidade de notas em comum, escolhendo aleatoriamente entre eles." "Notice!")
                                     (choose all-names (om::nth-random action6)))))))
 action7))
             
@@ -117,241 +117,244 @@ _______________________________________________________________________
 
 _______________________________________________________________________
 "
+(let* (
+      (action1 
+                  (case number-of-the-instrument
 
-(case number-of-the-instrument
+                  ; =========== Flute 
 
-; =========== Flute 
+                  (1 (Fl-aeol note))
+                  (2 (Fl-aeol+ord note velocity))
+                  (3 (Fl-aeol-to-ord note))
+                  (5 (Fl-cresc note))
+                  (6 (Fl-cresc-to-decr note))
+                  (7 (Fl-decr note))
+                  (8 (Fl-disc-fing note))
+                  (9 (Fl-flatt note velocity))
+                  (10 (Fl-flatt-to-ord note))
+                  (11 (Fl-harm-fngr note velocity))
+                  (12 (Fl-jet-wh note))
+                  (13 (Fl-key-click note))
+                  (14 (Fl-multi (list note)))
+                  (15 (print "I need to implement"))
+                  (16 (Fl-ord note velocity))
+                  (17 (fl-ord-1q note velocity))
+                  (18 (Fl-ord_aeol note))
+                  (19 (Fl-ord_flatt note))
+                  (20 (Fl-pizz note))
+                  (21 (Fl-ply+sng note))
+                  (22 (Fl-ply+sng-uni note))
+                  (23 (Fl-sfz note))
+                  (24 (Fl-stacc note))
+                  (25 (Fl-tongue-ram note))
+                  (26 (Fl-trill-maj2 note))
+                  (27 (Fl-trill-min2 note))
+                  (28 (Fl-whst-tn note))
+                  (29 (Fl-whst-tn-sw-slw note))
 
-(1 (Fl-aeol note))
-(2 (Fl-aeol+ord note velocity))
-(3 (Fl-aeol-to-ord note))
-(5 (Fl-cresc note))
-(6 (Fl-cresc-to-decr note))
-(7 (Fl-decr note))
-(8 (Fl-disc-fing note))
-(9 (Fl-flatt note velocity))
-(10 (Fl-flatt-to-ord note))
-(11 (Fl-harm-fngr note velocity))
-(12 (Fl-jet-wh note))
-(13 (Fl-key-click note))
-(14 (Fl-multi (list note)))
-(15 (print "I need to implement"))
-(16 (Fl-ord note velocity))
-(17 (fl-ord-1q note velocity))
-(18 (Fl-ord_aeol note))
-(19 (Fl-ord_flatt note))
-(20 (Fl-pizz note))
-(21 (Fl-ply+sng note))
-(22 (Fl-ply+sng-uni note))
-(23 (Fl-sfz note))
-(24 (Fl-stacc note))
-(25 (Fl-tongue-ram note))
-(26 (Fl-trill-maj2 note))
-(27 (Fl-trill-min2 note))
-(28 (Fl-whst-tn note))
-(29 (Fl-whst-tn-sw-slw note))
+                  ;; Oboé ================================================================
 
-;; Oboé ================================================================
+                  #| 
+                  (30 (blow-without))
+                  (31 (chromatic-scale))
+                  (32 (crescendo))
+                  (33 (crescendo-to-desc))
+                  (34 (decrescendo))
+                  (35 (discolored-fingering))
+                  (36 (double-trill-major))
+                  (37 (double-trill-minor))
+                  (38 (flatt))
+                  (39 (harmonic-fing))
+                  |#
+                  (40 (Ob-key-click note))
+                  #| 
+                  (41 (kiss))
+                  (42 (lip-glissando))
+                  (43 (multiphonics))
+                  |#
+                  (44 (ob-multi (list note)))
+                  #| 
+                  (45 (note-lasting))
+                  |#
+                  (46 (Ob-ord note velocity))
+                  #| 
+                  (47 (ordinario-1q))
+                  (48 (sforzando))
+                  |#
+                  (49 (Ob-stacc note))
+                  #| 
 
-#| 
-(30 (blow-without))
-(31 (chromatic-scale))
-(32 (crescendo))
-(33 (crescendo-to-desc))
-(34 (decrescendo))
-(35 (discolored-fingering))
-(36 (double-trill-major))
-(37 (double-trill-minor))
-(38 (flatt))
-(39 (harmonic-fing))
-|#
-(40 (Ob-key-click note))
-#| 
-(41 (kiss))
-(42 (lip-glissando))
-(43 (multiphonics))
-|#
-(44 (ob-multi (list note)))
-#| 
-(45 (note-lasting))
-|#
-(46 (Ob-ord note velocity))
-#| 
-(47 (ordinario-1q))
-(48 (sforzando))
-|#
-(49 (Ob-stacc note))
-#| 
+                  (50 (trill-major-second))
+                  (51 (trill-major0))
+                  (52 (vibrato))
 
-(50 (trill-major-second))
-(51 (trill-major0))
-(52 (vibrato))
+                  ;; Clarinete  ================================================================
 
-;; Clarinete  ================================================================
+                  (53 (aeoliand-and-ordinario))
+                  (54 (crscendo))
+                  (55 (cresecndo-to-de))
+                  (56 (descr))
+                  (57 (flatt))
+                  (58 (flatt-high))
+                  (59 (glisand))
+                  (60 (key-click))
+                  |#
+                  (61 (Cl-multi (list note)))
+                  #| 
+                  (62 (note-lasting)) 
 
-(53 (aeoliand-and-ordinario))
-(54 (crscendo))
-(55 (cresecndo-to-de))
-(56 (descr))
-(57 (flatt))
-(58 (flatt-high))
-(59 (glisand))
-(60 (key-click))
-|#
-(61 (Cl-multi (list note)))
-#| 
-(62 (note-lasting)) 
+                  |#
+                  (63 (Cl-ord note velocity))
+                  #| 
 
-|#
-(63 (Cl-ord note velocity))
-#| 
+                  (64 (ord-1q))
+                  (65 (ordinario-high))
+                  (66 (sforzando))
+                  (67 (staccato))
+                  (68 (trill-major))
+                  (69 (trill-minor))
 
-(64 (ord-1q))
-(65 (ordinario-high))
-(66 (sforzando))
-(67 (staccato))
-(68 (trill-major))
-(69 (trill-minor))
+                  ;; Basson  ================================================================
 
-;; Basson  ================================================================
+                  (70 (blow-with))
+                  (71 (chromatic-scale))
+                  (72 (crescendo))
+                  (73 (crscendo-to-des))
+                  (74 (descrecndo))
+                  (75 (flatter))
+                  (76 (glissando))
+                  (77 (harmonic))
+                  (78 (key-click))
+                  (79 (multiphonis))
+                  (80 (note-lasting))
+                  (81 (ordinario))
+                  (82 (ordinario-1q))
+                  (83 (sforzando))
+                  (84 (sordina))
+                  (85 (staccato))
+                  (86 (trill-major))
+                  (87 (trill-minor))
+                  (88 (vibrato))
 
-(70 (blow-with))
-(71 (chromatic-scale))
-(72 (crescendo))
-(73 (crscendo-to-des))
-(74 (descrecndo))
-(75 (flatter))
-(76 (glissando))
-(77 (harmonic))
-(78 (key-click))
-(79 (multiphonis))
-(80 (note-lasting))
-(81 (ordinario))
-(82 (ordinario-1q))
-(83 (sforzando))
-(84 (sordina))
-(85 (staccato))
-(86 (trill-major))
-(87 (trill-minor))
-(88 (vibrato))
+                  ;; Saxophone  ================================================================
 
-;; Saxophone  ================================================================
-
-(89 (aeolian))
-(90 (backwards))
-(91 (bisbigliando))
-(92 (blow-without))
-(93 (chromatic-scale))
-(94 (crescendo))
-(95 (crescendo-to-desc))
-(96 (descrescendo))
-(97 (discolored-fing))
-(98 (double-tonguin))
-(99 (exploding))
-(100 (flatter))
-(101 (flatter-to-ord))
-(102 (glissando))
-(103 (harmonic-fin))
-(104 (harmonic-gliss))
-(105 (key-click))
-(106 (kiss))
-(107 (move-bell-from-down-up))
-(108 (move-bell-left-to-right))
-(109 (multi))
-(110 (ord))
-(111 (ord-1q))
-(112 (ord-high))
-(113 (ord-to-flat))
-(114 (play-and-sing-gli))
-(115 (play-and-sing-m2-up))
-(116 (play-and-sing-unison))
-(117 (sforzando)) |#
-
-
-(118 (Asax-slap note velocity))
-
-#|
-(119 (slap-unpitched))
-(120 (staccato))
-(121 (trill-major))
-(122 (trill-minor))
-
-;; 06 French Horn  ================================================================
-
-(123 (brassy))
-(124 (brassy-to-ordinario))
-(125 (chromatic-scale))
-(126 (crescendo)
-(127 (crescendo-to-decresdenco))
-(128 (decrescendo))
-(129 (flatt))
-(130 (flat-stopped))
-(131 (flt-to-ord))
-(132 (mute flt))
-(133 (mute-ord))
-(134 (note-last))
-(135 (open-to-stopped))
-(136 (ordinario))
-(137 (ord-to-brassy))
-(138 (ord-to-fltt-))
-(139 (sforzando))
-(140 (slap-pitched))
-(141 (staccati))
-(142 (stopped))
-(143 (stiooed-to-open))
-(144 (trill0major-seg))
-(145 (trill-minor))
-
-;; 07 trumpet ================================================================
-
-145 + 33 = 178
-
-;; 08 Trombone ================================================================
-
-178 + 28 = 206
-
-;; 09 Tuba ================================================================
-
-206 + 43 = 249
-
-;; 10 acordion ================================================================ 
-249 + 13 = 262
-
-;; 11 Guitar ================================================================
-
-262 + 19 = 281
-|#
-
-(271 (Gtr-ord note velocity))
-(274 (Gtr-pizz-bartok note))
-
-;; 12 Harp  ================================================================
-
-(300 (Hp-ord note velocity))
-
-;; 13 Violin  ================================================================
-
-(328 (Violin-pizz-secco note velocity))
-
-;; 13 Viola  ================================================================
-
-;; 349 - 394 
-
-;; 14 Violoncello  ================================================================
-
-;; 395 - 440 
-
-(425 (Vc-pizz-lv note velocity))
-(419 (Vc-ord note velocity))
-
-;; 14 Contrabaixo  ================================================================
+                  (89 (aeolian))
+                  (90 (backwards))
+                  (91 (bisbigliando))
+                  (92 (blow-without))
+                  (93 (chromatic-scale))
+                  (94 (crescendo))
+                  (95 (crescendo-to-desc))
+                  (96 (descrescendo))
+                  (97 (discolored-fing))
+                  (98 (double-tonguin))
+                  (99 (exploding))
+                  (100 (flatter))
+                  (101 (flatter-to-ord))
+                  (102 (glissando))
+                  (103 (harmonic-fin))
+                  (104 (harmonic-gliss))
+                  (105 (key-click))
+                  (106 (kiss))
+                  (107 (move-bell-from-down-up))
+                  (108 (move-bell-left-to-right))
+                  (109 (multi))
+                  (110 (ord))
+                  (111 (ord-1q))
+                  (112 (ord-high))
+                  (113 (ord-to-flat))
+                  (114 (play-and-sing-gli))
+                  (115 (play-and-sing-m2-up))
+                  (116 (play-and-sing-unison))
+                  (117 (sforzando)) |#
 
 
-(497 (Cb-pizz-lv note velocity))
+                  (118 (Asax-slap note velocity))
+
+                  #|
+                  (119 (slap-unpitched))
+                  (120 (staccato))
+                  (121 (trill-major))
+                  (122 (trill-minor))
+
+                  ;; 06 French Horn  ================================================================
+
+                  (123 (brassy))
+                  (124 (brassy-to-ordinario))
+                  (125 (chromatic-scale))
+                  (126 (crescendo)
+                  (127 (crescendo-to-decresdenco))
+                  (128 (decrescendo))
+                  (129 (flatt))
+                  (130 (flat-stopped))
+                  (131 (flt-to-ord))
+                  (132 (mute flt))
+                  (133 (mute-ord))
+                  (134 (note-last))
+                  (135 (open-to-stopped))
+                  (136 (ordinario))
+                  (137 (ord-to-brassy))
+                  (138 (ord-to-fltt-))
+                  (139 (sforzando))
+                  (140 (slap-pitched))
+                  (141 (staccati))
+                  (142 (stopped))
+                  (143 (stiooed-to-open))
+                  (144 (trill0major-seg))
+                  (145 (trill-minor))
+
+                  ;; 07 trumpet ================================================================
+
+                  145 + 33 = 178
+
+                  ;; 08 Trombone ================================================================
+
+                  178 + 28 = 206
+
+                  ;; 09 Tuba ================================================================
+
+                  206 + 43 = 249
+
+                  ;; 10 acordion ================================================================ 
+                  249 + 13 = 262
+
+                  ;; 11 Guitar ================================================================
+
+                  262 + 19 = 281
+                  |#
+
+                  (271 (Gtr-ord note velocity))
+                  (274 (Gtr-pizz-bartok note))
+
+                  ;; 12 Harp  ================================================================
+
+                  (300 (Hp-ord note velocity))
+
+                  ;; 13 Violin  ================================================================
+
+                  (328 (Violin-pizz-secco note velocity))
+
+                  ;; 13 Viola  ================================================================
+
+                  ;; 349 - 394 
+
+                  ;; 14 Violoncello  ================================================================
+
+                  ;; 395 - 440 
+
+                  (425 (Vc-pizz-lv note velocity))
+                  (419 (Vc-ord note velocity))
+
+                  ;; 14 Contrabaixo  ================================================================
+
+
+                  (497 (Cb-pizz-lv note velocity))
 
 
 
-(nil nil)))
+                  (nil nil))))
+            (print (format nil "Sample :: ~d" (name-of-path action1)))
+            action1))
 
 
 ;; ==================================================== FLUTE ====================================================

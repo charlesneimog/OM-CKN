@@ -57,7 +57,7 @@
 :icon '17359
 :doc "It allows to use VST2 plugins in your sounds."
 
-(om-cmd-line 
+(ckn-cmd-line 
  (string+ 
   (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
     " --input " (list->string-fun (list (namestring (file-pathname sound))))
@@ -77,7 +77,7 @@
 :icon '17359
 :doc "It allows to use VST2 plugins in your sounds."
 
-(om-cmd-line 
+(ckn-cmd-line 
  (string+ 
   (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
     " --input " (list->string-fun (list (namestring (file-pathname sound))))
@@ -100,7 +100,7 @@
 
 (let* (
 (action1 
-(om-cmd-line 
+(ckn-cmd-line 
  (print (string+ 
   (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
     " --input " (list->string-fun (list (namestring sound)))
@@ -147,12 +147,13 @@
 (action5 (string+ action4 (format nil "~d-cents" desvio) ".aif"))
 (action6 (merge-pathnames (string+ "om-ckn/" action5) (outfile "")))
 (action7 (namestring action6)))
-(om-cmd-line (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))
+(ckn-cmd-line (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))
           " "
           (list->string-fun (list instrumentos))
           " "
           (list->string-fun (list action7))
           (format nil " pitch ~d" desvio)))
+(print (format nil "Transpondo em ~d cents" desvio))
 action6))
 
 ;; Fazer um código mais bonito
@@ -532,7 +533,7 @@ action1))
 (action1 (save-temp-sounds sounds))
 (action2 (om::save-sound (first sounds) (merge-pathnames "om-ckn/" (outfile (string+ "Sound-001" ".wav")))))
 (action3 (x-append action2 (first-n action1 (1- (length sounds)))))
-(action4 (om-cmd-line 
+(action4 (ckn-cmd-line 
           (string+ 
            (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))
            " "
@@ -554,11 +555,11 @@ action5))
   (sound-in-path sounds)
   (sound-in-out 
       (list (namestring (merge-pathnames "om-ckn/" 
-        (outfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-vol-correction" ".wav"))))))
+        (outfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-" (ckn-int2string (om-random 1000 9999)) "-vol-correction" ".wav"))))))
   (action-sound-vol (format nil " -v ~d " volume))
   (line-command 
     (string+ sox-path " " action-sound-vol " " (list->string-fun (list (namestring sound-in-path))) " " (list->string-fun sound-in-out)))
-  (the-command (om::om-cmd-line line-command))
+  (the-command (ckn-cmd-line line-command))
   (loading (loop-until-probe-file (car sound-in-out))))
     (car sound-in-out)))
 
@@ -570,12 +571,30 @@ action5))
             (sound-in-path (names-to-mix sounds))
             (sound-in-out 
                 (list (namestring (merge-pathnames "om-ckn/" 
-                    (outfile (string+ name "-mix-sound" ".wav"))))))
+                    (outfile (string+ name "-" (ckn-int2string (om-random 1000 9999)) "-mix-sound" ".wav"))))))
             (line-command 
                 (string+ sox-path " " " --combine mix " " "  sound-in-path " " (list->string-fun sound-in-out)))
-            (the-command (om::om-cmd-line line-command))
+            (the-command (ckn-cmd-line line-command))
             (loading (loop-until-probe-file (car sound-in-out))))
-                (car sound-in-out)))
+                (print (car (om::list! sound-in-out)))))
+
+(compile 'sound-mix-sox)
+;;; ================================================================================
+
+(defun sound-mix-sox-responsive (sounds nomes number)
+(let*  (
+       (action1 (loop-in-parts (flat sounds) 20 20))
+       (names (arithm-ser 1 (length (flat action1)) 1))
+       (after-number (+ number 1))
+       (action2 (mapcar (lambda (x y) (sound-mix-sox (flat x) (string+ (ckn-int2string (om-random 1000 9999)) (ckn-int2string y) "-inside"))) action1 names)))
+  (PRINT after-number)
+       (if (om::om= (length (flat action2)) 1)
+           (car (flat action2))
+         (if (om::om< (length (flat action2)) 20)
+         (sound-mix-sox (flat action2) (string+ nomes "-finish"))
+         (setf sounds (sound-mix-sox-responsive action2 nomes after-number))))))
+
+(compile 'sound-mix-sox-responsive)
 
 ;;; ================================================================================
 
@@ -585,10 +604,10 @@ action5))
             (sound-in-path (names-to-mix sounds))
             (sound-in-out 
                 (list (namestring (merge-pathnames "om-ckn/" 
-                    (outfile (string+ name "-seq-sound" ".wav"))))))
+                    (outfile (string+ name (ckn-int2string (om-random 1000 9999)) "-seq-sound" ".wav"))))))
             (line-command 
                 (string+ sox-path " " " --combine sequence " " "  sound-in-path " " (list->string-fun sound-in-out)))
-            (the-command (om::om-cmd-line line-command))
+            (the-command (ckn-cmd-line line-command))
             (loading (loop-until-probe-file (car sound-in-out))))
                 (car sound-in-out)))
 
@@ -601,11 +620,11 @@ action5))
   (sound-in-path sounds)
   (sound-in-out 
       (list (namestring (merge-pathnames "om-ckn/" 
-        (outfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-with-fade" ".wav"))))))
+        (outfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-" (ckn-int2string (om-random 1000 9999)) "-with-fade" ".wav"))))))
   (action-sound-fade (format nil " fade p ~d ~d" (first fade) (second fade)))
   (line-command 
     (string+ sox-path " " (list->string-fun (list (namestring sound-in-path))) " " (list->string-fun sound-in-out) " " action-sound-fade))
-  (the-command (om::om-cmd-line line-command))
+  (the-command (ckn-cmd-line line-command))
   (loading (loop-until-probe-file (car sound-in-out))))
     (car sound-in-out)))
 
