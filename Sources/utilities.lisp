@@ -2,8 +2,19 @@
 
 ;==================================== FUNCTIONS ===================
 
-;==================================== Python Functions ===========
+(defun remove-nth-element-fun (n list)
+  "Remove the nth element of a list."
+(if (not n)
+list  
+(if (> (1- n) (length list))
+      list
+    (append (subseq list 0 (1- n))
+            (subseq list n)))))
+
+;; ============
+
 (defun create-pure-tone (frequency time)
+      "It will create a pure-tone using complex coordenates."
 (let* (
       (angle (om* (* -2 (coerce pi 'single-float) frequency) time))
       (cos-angle (mapcar (lambda (X) (cos x)) angle))
@@ -11,17 +22,23 @@
   (om::om+ cos-angle (om::om* (sqrt -1) sin-angle))))
 
 ;; ============
+
 (defun ckn-int2string (int)
+      "Number to string."
   (write-to-string int))
 
-;; ============
+
+;==================================== Python Functions ===========
+
 (defun lisp-list_2_python-list (list)
+      "Transform a list in lisp to a list in Python."
 (let* (
       (list2string (mapcar (lambda (x) (ckn-int2string x)) list)))
       (loop :for x :in list2string :collect (string+ x ", "))))
 
 ;; ============
 (defun bpf-python-fun (X Y Z color)
+      "Build a BPF using Python."
 (let* (
       (python-code (format nil
                     "
@@ -40,6 +57,7 @@ plt.show()
 
 ;; ============
 (defun save-bpf-python-fun (X Y thickness color outfile blackback dpi)
+      "Save a BPF using Python."
 
 (let* (
       (python-code (format nil
@@ -106,6 +124,7 @@ plt.show()
       (om::om-cmd-line (string+ "python " prepare-cmd-code))))
 
 ;; =========================================
+
 (defmethod* ckn-save-as-text ((self t) &optional (path "data") (type "txt"))
   :icon 908
   :initvals '(nil "data")
@@ -237,7 +256,7 @@ plt.show()
   (integer-length (1- n)))
 
 ; ============================
-
+#| 
 (defun get-function-discriminators (function-name)
   "Get the discriminators of a function and sort them appropriately to
 be used for urlmapping."
@@ -249,6 +268,7 @@ be used for urlmapping."
 					    function-name)))))
     (sort-function-discriminators discriminators)))
 
+|#
 ; ============================
 
 (defun half-fun (in-array)
@@ -306,6 +326,94 @@ be used for urlmapping."
         (reverse (x-append (list action1) result)))
   (setf sound-bytes-window (loop-in-parts action2 window hop-size (push action1 result))))))
 
+
+;===================================== SDIF TRACKING ============
+(defun prepare-fft2sdif (list-fft-instance)
+(let* (
+            (all-frequencias (mapcar (lambda (x) (frequencias x)) list-fft-instance))
+;;          (all-frequencias (mc->f (f->mc (mapcar (lambda (x) (frequencias x)) list-fft-instance)))) 
+            (all-amplitudes (mapcar (lambda (x) (amplitudes x)) list-fft-instance))
+            (all-phrase (mapcar (lambda (x) (phrase x)) list-fft-instance))
+            (all-peaks (mapcar (lambda (a b c) (list a b c)) all-frequencias all-amplitudes all-phrase)))
+            (mapcar (lambda (x) (om::mat-trans x)) all-peaks)))
+
+;=====================================
+
+(defun index-of-individual-partial-tranking (frequencia cents spectro)
+      (let* (
+            (inside-remove-if-lambda (lambda 
+                                    (remove-if-x)
+                                          (not (and 
+                                                (om::om> frequencia (om::om- remove-if-x cents)) 
+                                                (om::om< frequencia (om::om+ remove-if-x cents))))))
+            (remove-if-lambda (lambda (x) (remove-if inside-remove-if-lambda x)))
+            (partial-tracking (mapcar remove-if-lambda spectro))
+            (filtro 
+                  (loop :for inside-partial-tracking :in partial-tracking 
+                        :collect 
+                              (if 
+                                    (om::om= (length inside-partial-tracking) 1)
+                                    inside-partial-tracking 
+                                    (let* (
+                                          (math-frequencia-closest (mapcar (lambda (x) (om::om- frequencia x)) inside-partial-tracking))
+                                          (frequencia-closest (om::list-min math-frequencia-closest))
+                                          (position-closest-frequency (ckn-position math-frequencia-closest frequencia-closest)))
+                                          (choose inside-partial-tracking position-closest-frequency)))))
+            (took-the-peak (mapcar (lambda (x y) (ckn-position x y)) spectro (flat filtro))))
+      took-the-peak))
+
+;=====================================
+(defun tracking-partial-from-spectro (individual-partial-tranking spectro-total index)
+"Remove os parciais que já foram rastreados."                  
+(let* (
+      (organize (mapcar (lambda (x y) (choose x y)) spectro-total individual-partial-tranking))
+      (add-index-to-partial (mapcar (lambda (x) (if (not x) nil (om::flat (om::x-append index x)))) organize)))
+      add-index-to-partial))
+
+;=====================================
+(defun remove-tracking-partial-from-spectro (index-of-individual-partial-tranking prepare-fft)
+(mapcar (lambda (x y) (remove-nth-element-fun x y)) (om::flat index-of-individual-partial-tranking) prepare-fft))
+
+;=====================================
+(defun freq-cents-wrong (prepare-fft2sdif)
+
+(mapcar (lambda (x) (frequencias x)) prepare-fft2sdif))
+;;(mc->f (f->mc (mapcar (lambda (x) (frequencias x)) prepare-fft2sdif))))
+;=====================================
+(defun freq-cents-wrong-inside (list-fft-instance)
+(mapcar (lambda (x) (mapcar (lambda (y) (first y)) x)) list-fft-instance))
+
+;;(mc->f (f->mc (mapcar (lambda (x) (mapcar (lambda (y) (first y)) x)) list-fft-instance))))
+;======================================
+(defun ckn-partial-tracking (prepare-fft todas-frequencias cents-threshold index-inicial &optional result)
+
+(let* (
+      (frequencia-da-vez  (first todas-frequencias))
+      (sem-a-da-vez (cdr todas-frequencias))
+      (partial-tracking   (index-of-individual-partial-tranking frequencia-da-vez cents-threshold (freq-cents-wrong-inside prepare-fft)))
+      (remocao-do-parcial (remove-tracking-partial-from-spectro partial-tracking prepare-fft))
+      (como-farei-o-index (1+ index-inicial))
+      (parcial-rastreado (tracking-partial-from-spectro partial-tracking prepare-fft como-farei-o-index))) ;;salvar
+(if 
+ (not sem-a-da-vez)
+ (x-append (list parcial-rastreado) result)
+ (setf prepare-fft 
+      (ckn-partial-tracking remocao-do-parcial sem-a-da-vez cents-threshold como-farei-o-index (push parcial-rastreado result))))))
+
+;=====================================
+(defun ckn-cmd-line (str)
+  (oa::om-command-line str))
+
+;=====================================
+
+(defun name-of-path (p)
+  (let ((path (and p (pathname p))))
+  (when (pathnamep path)
+    (string+ (pathname-name path) 
+             (if (and (pathname-type path) (stringp (pathname-type path)))
+                 (string+ "." (pathname-type path)) 
+               "")))))
+               
 ;=====================================
 
 (defun sound->bytes-smart (self)
@@ -332,6 +440,7 @@ be used for urlmapping."
                 :by 1 :collect (om-read-ptr channel-ptr i :float))
           (loop :for i :from 0 :to (n-samples self) :by 1 :collect (om-read-ptr channel-ptr i :float))))))
 
+;=====================================
 
 (defun sound->bytes-om (self)
 
@@ -459,6 +568,19 @@ be used for urlmapping."
       (om-print "Aguarde" "Verbose :: ")
       (loop :for chunks-number :in (arithm-ser 1 (length fft-chunks) 1)
             :collect (list->string-fun (list 'fft- chunks-number)))))
+
+;========================= Multithreading with lispwork ====================
+
+(defun ckn-mailbox-name (list-of-something)
+
+(let* ()
+      (loop :for chunks-number :in (arithm-ser 1 (length list-of-something) 1)
+            :collect (list->string-fun (list 'mailbox- (om::om-random 100 999) chunks-number)))))
+
+;========================= 
+
+(defun ckn-mailbox-peek (mail-box)
+(mapcar (lambda (x) (mp:mailbox-peek x)) mail-box))
 
 ;================================================
 
@@ -626,35 +748,8 @@ be used for urlmapping."
 
     (remove nil action1)))
 
-;===================================================================== SOUNDS WITH OPENMUSIC =====================================
+;===================================================================== Files control =====================================
 
-(defun sound-mix-loop (sounds  &optional result)
-
-(let*  (
-    (action1 (sound-mix (first sounds) (second sounds)))
-    (action2 (if (<= (length sounds) 2)
-            (last-n action1 (- (length sounds) 2))
-               action1)))
-    (if (< (length (list action2)) 2 )
-      (x-append result action2)
-      (setf sounds (sound-mix-loop action2 (push action1 result))))))
-
-;=====================================================================
-
-(defun sound-sequence-loop (sounds &optional result)
-
-(let*  (
-    (action1 (sound-seq (first sounds) (second sounds)))
-    (action2 (if (<= (length sounds) 2)
-            (last-n sounds (- (length sounds) 2))
-               action1)))
-
-    (if (< (length (list action2)) 2 )
-      (x-append result action2)
-      (setf sounds (sound-sequence-loop action2 (push action1 result))))))
-
-
-;=====================================================================
 
 (defun ckn-clear-temp-files ()
 
@@ -666,6 +761,14 @@ be used for urlmapping."
                           (list->string-fun (list (string+ "del " 
                                             (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.wav" (outfile ""))))))))))))
 
+;=====================================================================
+
+(defun ckn-copy2outfile (x)
+(let* (
+      (action1 (string+ "copy " (list->string-fun (list x)) " " (list->string-fun (list (namestring (outfile "")))))))
+      (ckn-cmd-line action1)
+      (ckn-clear-temp-files)
+      (outfile (name-of-path x))))
 ;=====================================================================
 
 (defun ckn-list-to-string (lst)
@@ -813,8 +916,6 @@ be used for urlmapping."
 (compile 'do-fft-chunks)
 (compile 'ckn-make-mail-box)
 (compile 'fft-ckn)
-(compile 'sound-mix-loop)
-(compile 'sound-sequence-loop)
 (compile 'ckn-clear-temp-files)
 (compile 'spear-approach )
 (compile 'fft->sin-model-fun)

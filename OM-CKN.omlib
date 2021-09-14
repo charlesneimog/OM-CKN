@@ -36,6 +36,7 @@
             (:package (:name "Math and Music") (:functions complex-senoide))
             (:package (:name "Ircam Instruments") (:functions ircam-instruments))
             (:package (:name "Orchidea-SOL") (:functions OrchideaSOL-folder orchidea-instruments o-check-samples-in-voice))
+            (:package (:name "Multithreading") (:functions ckn-make-mail-box ckn-mailbox-name ckn-mailbox-peek))
             (:package (:name "Utilities") (:functions list-to-array array-to-list by-N half fft->dB ckn-list->string)))))
 
       

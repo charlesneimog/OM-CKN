@@ -226,12 +226,12 @@ action1))
                 (om-abs (ms->sec ckn-LOOP2)) 
                     (make-value-from-model 'sound
                             (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2)))
-                                (ckn-orchidea-instruments
+                                (orchidea-instruments
                                     (first (approx-m box-choose1 2))
                                     (first box-choose2)
                                     box-first1)
                                 (ckn-sound-transpose 
-                                    (ckn-orchidea-instruments
+                                    (orchidea-instruments
                                                (first (approx-m box-choose1 2))
                                                (first box-choose2)
                                                box-first1)
@@ -277,12 +277,12 @@ action1))
                             (if 
                                 (equal 0 (om- ckn-LOOP1 (approx-m ckn-LOOP1 2)))
                                 
-                                    (ckn-orchidea-instruments 
+                                    (orchidea-instruments 
                                                 (approx-m ckn-LOOP1 2)
                                                 ckn-LOOP2
                                                 ckn-LOOP3)
                                     (ckn-sound-transpose
-                                            (ckn-orchidea-instruments
+                                            (orchidea-instruments
                                                 (approx-m ckn-LOOP1 2)
                                                 ckn-LOOP2
                                                 ckn-LOOP3)
@@ -293,7 +293,7 @@ action1))
 
 ;; ====================================================
 
-(defmethod! ckn-orchidea-instruments ((note integer) (number-of-the-instrument integer) &optional (velocity 60))
+(defmethod! orchidea-instruments ((note integer) (number-of-the-instrument integer) &optional (velocity 60))
 :initvals '(6000 20 60)
 :indoc '("Sound class" "Number of the instrument (technique)") 
 :icon '17360
@@ -443,7 +443,7 @@ action1))
 (2  (ckn-dinamics   (ckn-find-the-samples 3 note *OrchideaSOL-PATH* "Winds/Flute/aeolian_and_ordinario/" 'wav) velocity))
 (3  (ckn-dinamics   (ckn-find-the-samples 3 note *OrchideaSOL-PATH* "Winds/Flute/discolored_fingering/" 'wav) velocity))
 (4  (ckn-dinamics   (ckn-find-the-samples 3 note *OrchideaSOL-PATH* "Winds/Flute/flatterzunge/" 'wav) velocity))
-(5  (first          (ckn-dinamics-2 (ckn-find-the-samples 3 note *OrchideaSOL-PATH* "Winds/Flute/harmonic_fingering/" 'wav) velocity)))
+(5  (first          (om::list! (ckn-dinamics-2 (ckn-find-the-samples 3 note *OrchideaSOL-PATH* "Winds/Flute/harmonic_fingering/" 'wav) velocity))))
 (6  (first          (ckn-in-files (merge-pathnames "Winds/Flute/jet_whistle/" *OrchideaSOL-PATH*) 'wav)))
 (7  (first          (ckn-find-the-samples 3 note *OrchideaSOL-PATH* "Winds/Flute/key_click/" (quote 'wav)))) ;; WRONG CODE 
 
@@ -752,7 +752,6 @@ action1))
         (all-the-files (ckn-in-files (namestring instrument-pathname) type))
         (all-the-notes (n->mc (mapcar (lambda (x) (first (string-to-list (choose (string-to-list (get-filename x) "-") where-is-the-nome) "_"))) all-the-files) 4))
         (position-of-the-note (ckn-position all-the-notes note)))
-        (om-print "This function will load the sample that correspond to the second note." "OM-CKN ::")
         (om::nth-random (choose all-the-files position-of-the-note))))
 
 

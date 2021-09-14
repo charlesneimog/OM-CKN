@@ -539,6 +539,21 @@ Result: (7 9 458)."
 
 (list->string-fun list))
 
+;; ==============================================
+
+(defmethod! remove-nth-element ((lists list) (numbers list))
+:initvals '(nil nil)
+:indoc '("A list of names?") 
+:icon '17359
+:doc "Transform a list in one string."
+
+(let* (
+      (action1 (remove-nth-element-fun (car numbers) lists))
+      (action2 (cdr numbers)))
+      (if (not (cdr numbers))
+          action1
+          (setf lists (remove-nth-element action1 action2)))))
+            
 ;; ====================================================
 
 #| 
@@ -552,21 +567,7 @@ Result: (7 9 458)."
 
 |#
 
-;; ====================================================
 
-(defmethod! sound-seq-multi ((sounds list) &optional (list-per-threading 30))
-:initvals '(nil)
-:indoc '("a list of sounds." "Among of sounds per threading.")
-:icon '17359
-:doc "Like sound-seq-list but multithreading (more fast)."
-        (gc-all)
-    (let* (
-    (action1 (sound-seq-list-multi-threading (build-seq-of-sounds sounds list-per-threading))))
-    (om::om-cmd-line (string+ "powershell -command " 
-                              (list->string-fun (list (string+ "del " 
-                                                (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.aif" (outfile ""))))))))))
-            (gc-all)
-        action1))
 
 ;; ====================================================
 
@@ -608,17 +609,6 @@ Result: (7 9 458)."
 
 (let* ((action1 (print "Not able to find all the samples")))
                 (om-abort))))
-
-;; ====================================================
-
-(defmethod! talk-with-omlily nil
-:initvals '(nil)
-:indoc '("a voice" ) 
-:icon '17359
-:doc "Imported from OM6 and omlily developep by Karim Haddad.It just works fine in Windows OS that use the Pdf Xchange Editor."
-
-(om-cmd-line "TASKKILL /IM PDFXEdit.exe") 
-(osc-send '("/test" 0) "127.0.0.1" 3000))
 
 
 ;; ====================================================
@@ -699,7 +689,7 @@ Result: (7 9 458)."
         (outfile (string+ "silence-" (format nil "~d" sounds)   ".wav"))))))
   (line-command 
     (string+ sox-path " " "-n " " -r 44100 " " " (list->string-fun sound-in-out) " trim 0 " (format nil "~d" sounds)))
-  (the-command (om::om-cmd-line line-command))
+  (the-command (ckn-cmd-line line-command))
   (loading (loop-until-probe-file (car sound-in-out))))
     (car sound-in-out)))
 
@@ -718,6 +708,21 @@ Result: (7 9 458)."
       (sound-markers (om::markers sound)))
       (om::sound-cut sound (first sound-markers) (second sound-markers))))
 
+;; ====================================================
+
+(defmethod! sound-seq-multi ((sounds list) &optional (list-per-threading 30))
+:initvals '(nil)
+:indoc '("a list of sounds." "Among of sounds per threading.")
+:icon '17359
+:doc "Like sound-seq-list but multithreading (more fast)."
+        (gc-all)
+    (let* (
+    (action1 (sound-seq-list-multi-threading (build-seq-of-sounds sounds list-per-threading))))
+    (om::om-cmd-line (string+ "powershell -command " 
+                              (list->string-fun (list (string+ "del " 
+                                                (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.aif" (outfile ""))))))))))
+            (gc-all)
+        action1))
 
 ;; ==================================================== NOTES AND SCORE ==================
 
@@ -725,19 +730,19 @@ Result: (7 9 458)."
 :initvals '(nil)
 :indoc '("Add some notehead in OM-Score") 
 :icon '17359
-:doc "It works just if you follow the MIDI-Channels of this Library. See the documentation of the Ircam-Instruments."
+:doc ""
 
 (ckn-add-extras voice))
 
 ;; =======================================
 
-(defmethod! ckn-voice ((tree list) (chords list) (lvel list) (lchan list))
+(defmethod! ckn-voice ((tree list) (chords list) (lvel list) (lchan list) (tempo number))
 :initvals '(nil)
 :indoc '("voice without drawing?") 
 :icon '17359
 :doc "Build a voice."
 
-(make-instance 'voice :tree tree :lmidic chords :lvel lvel :lchan lchan))
+(make-instance 'voice :tree tree :lmidic chords :lvel lvel :lchan lchan :tempo tempo))
 
 ; ====================================================== MICROTONAL PLAYER =================
 
@@ -844,10 +849,10 @@ Converts a (list of) freq pitch(es) to names of notes."
                         (amplitudes (amplitudes x))
                         (frequencias (frequencias x))
                         (freq-to-midicents (f->mc frequencias))
-                        (lin->vel (om::om-scale amplitudes 20 127 0.0 1.0)))
+                        (lin->vel (om::om-scale amplitudes 30 127 0.0 1.0)))
                         (make-instance 'chord
-                                          :lmidic (remove nil freq-to-midicents)
-                                          :lvel (remove nil lin->vel)))))
+                                          :lmidic freq-to-midicents
+                                          :lvel lin->vel))))
     (filter (lambda (x) 
               (let* (
                      (matrix-transformation (mat-trans (list (lmidic x) (lvel x))))
@@ -856,7 +861,7 @@ Converts a (list of) freq pitch(es) to names of notes."
                                                           (notas (first y))
                                                           (dinamicas (second y))
                                                           (boolean-if (and (< notas up) (> notas down))))
-                                                     (if boolean-if (x-append notas dinamicas) nil)))))
+                                                     (if boolean-if (list notas dinamicas) nil)))))
                      (let* (
                             (remove-nil (remove nil lambda-filter))
                             (second-matrix-transformation (mat-trans remove-nil)))
