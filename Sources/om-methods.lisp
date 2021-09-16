@@ -2,7 +2,8 @@
 (in-package :om)
 
 ;; Preferencias ========================
-
+ 
+(add-preference-section :externals "OM-CKN" nil '(:sox-exe :MrsWatson-exe :ircam-instruments :OrchideaSOL :plugins :fxp-presets))
 ;; Caminho para MrsWatson  ========================
 
 (add-preference :externals :ircam-instruments "Ircam Instruments Path" :folder "Your Ircam Instruments Folder")
@@ -18,19 +19,16 @@
 ;; Orchidea Instruments  ========================
 
 (add-preference :externals :OrchideaSOL "SOL Samples Library" :folder "SOL folder")
- 
-
- (add-preference-section :externals "Folders - OM-CKN" nil '(:ircam-instruments :OrchideaSOL :plugins :fxp-presets))
 
 ;; Caminho para MrsWatson  ========================
 
-
-(add-preference :externals :MrsWatson-exe "MrsWatson Path"
-                :file "SOL folder")
+(add-preference :externals :MrsWatson-exe "MrsWatson Path" :path 
+  (merge-pathnames "executables/MrsWatson/mrswatson64.exe" (lib-resources-folder (find-library "OM-CKN"))))
 
 ;; Caminho para Sox  ========================
 
-(add-preference :externals :sox-exe "Sox Path" :file "SOL folder")
+(add-preference :externals :sox-exe "Sox Path" :path 
+  (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN"))))
 
 ;; Caminho para Sox  ========================
 
@@ -446,6 +444,18 @@ action3-2)))))
 :doc ""
 
 (build-sound-mix-fun sound))
+
+
+;; ====================================================
+
+
+(defmethod! ckn-sound-transpose ((sound sound) (cents number))
+:initvals ' (NIL)
+:indoc ' ("Pathname of a sound-file" "Tranposition in cents")
+:icon '17359
+:doc ""
+
+(if (equal 0 cents) sound (ckn-transpose-a-sound (namestring (file-pathname sound)) cents)))
 
 ;; ====================================================
 
