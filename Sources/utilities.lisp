@@ -897,6 +897,11 @@ be used for urlmapping."
 (nth 1 (om::multiple-value-list (om::seq (om::gc-all) x))))
 
 
+;; ===================================== Folder organization =========================== 
+
+(om-cmd-line (string+ "MKDIR "  (string+ "MKDIR "  (list->string-fun (list (namestring (outfile "om-ckn")))))))
+
+
 ;===================================================================== Compile in OM-SHARP =================================
 
 (compile 'ckn-gc-all)
