@@ -192,4 +192,3 @@
 (compile 'hanning-value)
 (compile 'make-window)
 (compile 'window-value)
-

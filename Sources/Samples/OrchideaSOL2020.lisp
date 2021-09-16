@@ -1,9 +1,12 @@
 (in-package :om)
 
 ;; ==================================================== 
+
+#|
 (if (equal *app-name* "om-sharp")
     (defvar *OrchideaSOL-PATH* (get-pref-value :externals :OrchideaSOL))
     nil)
+|#
 
 ;; ====================================================
 
