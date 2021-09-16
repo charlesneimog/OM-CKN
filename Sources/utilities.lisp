@@ -16,7 +16,7 @@ list
 (defun create-pure-tone (frequency time)
       "It will create a pure-tone using complex coordenates."
 (let* (
-      (angle (om* (* -2 (coerce pi 'single-float) frequency) time))
+      (angle (om::om* (* -2 (coerce pi 'single-float) frequency) time))
       (cos-angle (mapcar (lambda (X) (cos x)) angle))
       (sin-angle (mapcar (lambda (X) (sin x)) angle)))
   (om::om+ cos-angle (om::om* (sqrt -1) sin-angle))))
@@ -131,7 +131,7 @@ plt.show()
   :indoc '("data (list, BPF, or TextBuffer)" "a file location")
   :doc "Saves the data from <self> as a text file in <path>."
   (let ((file (cond
-               ((null path) (om-choose-new-file-dialog :directory (def-save-directory) :types '("Text files" "*.txt" "All files" "*.*")))
+               ((null path) (om::om-choose-new-file-dialog :directory (def-save-directory) :types '("Text files" "*.txt" "All files" "*.*")))
                ((pathnamep path) path)
                ((stringp path) (if (pathname-directory path) (pathname (string+ path type)) (outfile path :type type))))))
     (if file
@@ -139,7 +139,7 @@ plt.show()
           (with-open-file (out file :direction :output :if-does-not-exist :create :if-exists :supersede)
             (write-data self out))
           file)
-      (om-abort))))
+      (om::om-abort))))
 
 ;; =========================================
 
@@ -294,7 +294,7 @@ be used for urlmapping."
       (action2 (last-n sound-bytes-window (let* ((number (- (length sound-bytes-window) hop-size)))
                                             (if (plusp number) number 1)))))
 (if (< (length (remove nil action2)) window) 
-    (reverse (x-append (list action1) result))
+    (reverse (om::x-append (list action1) result))
     (setf sound-bytes-window (sound-window action2 window hop-size windows-type (push action1 result))))))
 
 
@@ -307,7 +307,7 @@ be used for urlmapping."
       (action2 (last-n sound-bytes-window (let* ((number (- (length sound-bytes-window) hop-size)))
                                             (if (plusp number) number 1)))))
 (if (< (length (remove nil action2)) window) 
-    (x-append result (list action1)) 
+    (om::x-append result (list action1)) 
   (setf sound-bytes-window (sound-window-list action2 window hop-size (push action1 result))))))
 
 ;=====================================
@@ -322,8 +322,8 @@ be used for urlmapping."
                         sound-bytes-window))))
 (if (or (< (length (remove nil action2)) window) (equal action1 action2))
     (if (equal action1 action2) 
-        (reverse (x-append (list action2) (list action1) result)) 
-        (reverse (x-append (list action1) result)))
+        (reverse (om::x-append (list action2) (list action1) result)) 
+        (reverse (om::x-append (list action1) result)))
   (setf sound-bytes-window (loop-in-parts action2 window hop-size (push action1 result))))))
 
 
@@ -396,7 +396,7 @@ be used for urlmapping."
       (parcial-rastreado (tracking-partial-from-spectro partial-tracking prepare-fft como-farei-o-index))) ;;salvar
 (if 
  (not sem-a-da-vez)
- (x-append (list parcial-rastreado) result)
+ (om::x-append (list parcial-rastreado) result)
  (setf prepare-fft 
       (ckn-partial-tracking remocao-do-parcial sem-a-da-vez cents-threshold como-farei-o-index (push parcial-rastreado result))))))
 
@@ -423,8 +423,8 @@ be used for urlmapping."
           (audio-io::om-get-sound-buffer (filename self) :float t))
         (sound-markers (om::om-round (sec->samples (markers self) 44100)))
         (numbers (if (not (equal (length (markers self)) 2))
-                      (loop :for i :from 0 :to (om-sound-n-samples self) :by 1 :collect (om-read-ptr pontos i :float))
-                      (loop :for i :from (first sound-markers) :to (second sound-markers) :by 1 :collect (om-read-ptr pontos i :float)))))
+                      (loop :for i :from 0 :to (om::om-sound-n-samples self) :by 1 :collect (om::om-read-ptr pontos i :float))
+                      (loop :for i :from (first sound-markers) :to (second sound-markers) :by 1 :collect (om::om-read-ptr pontos i :float)))))
 (make-instance 'sound-bytes :bytes numbers)))
 
 ;=====================================
@@ -434,11 +434,11 @@ be used for urlmapping."
 (with-audio-buffer (b self)
           (let* ((sound-markers (ms->samples (markers self) (sample-rate self)))
                 (2-markers (equal (length sound-markers) 2))
-                (channel-ptr (om-read-ptr (om-sound-buffer-ptr b) (1- (n-channels self)) :pointer)))
+                (channel-ptr (om::om-read-ptr (om::om-sound-buffer-ptr b) (1- (n-channels self)) :pointer)))
       (if 2-markers
           (loop :for i :from (first sound-markers) :to (second sound-markers)
-                :by 1 :collect (om-read-ptr channel-ptr i :float))
-          (loop :for i :from 0 :to (n-samples self) :by 1 :collect (om-read-ptr channel-ptr i :float))))))
+                :by 1 :collect (om::om-read-ptr channel-ptr i :float))
+          (loop :for i :from 0 :to (n-samples self) :by 1 :collect (om::om-read-ptr channel-ptr i :float))))))
 
 ;=====================================
 
@@ -446,7 +446,7 @@ be used for urlmapping."
 
   (let* ((pontos
           (audio-io::om-get-sound-buffer (filename self) :float t)))
-(loop :for i :from 0 :to (om-sound-n-samples self) :by 1 :collect (om-read-ptr pontos i :float))))
+(loop :for i :from 0 :to (om::om-sound-n-samples self) :by 1 :collect (om::om-read-ptr pontos i :float))))
 
 
 ;=====================================
@@ -455,7 +455,7 @@ be used for urlmapping."
 
   (let* ((pontos
           (audio-io::om-get-sound-buffer (filename self) :float t))
-(numbers (loop :for i :from 0 :to (om-sound-n-samples self) :by 1 :collect (om-read-ptr pontos i :float))))
+(numbers (loop :for i :from 0 :to (om::om-sound-n-samples self) :by 1 :collect (om::om-read-ptr pontos i :float))))
 (make-instance 'sound-bytes :bytes numbers)))
 
 
@@ -475,8 +475,8 @@ be used for urlmapping."
 (defun ITD-Sound (sound place-of-sound)
 (let* (
       (s-bytes (bytes (sound->bytes sound)))
-      (channel-1 (bytes->sound-fun (x-append (om::repeat-n 0.0 (first place-of-sound)) s-bytes) 2 1))
-      (channel-2 (bytes->sound-fun (x-append (om::repeat-n 0.0 (second place-of-sound)) s-bytes) 2 2)))
+      (channel-1 (bytes->sound-fun (om::x-append (om::repeat-n 0.0 (first place-of-sound)) s-bytes) 2 1))
+      (channel-2 (bytes->sound-fun (om::x-append (om::repeat-n 0.0 (second place-of-sound)) s-bytes) 2 2)))
       (om::sound-mix channel-1 channel-2)))
 
  ; ============================ OM-SYNTH ========================================================
@@ -490,7 +490,7 @@ be used for urlmapping."
          (nbsamples (round (* dur sr)))
          (freqs (list! freq))
          (steps (loop :for f :in freqs :collect (/ f sr)))
-         (sampled-envelope (om-scale (nth 2 (multiple-value-list (om-sample envelope nbsamples))) 0.0 1.0)))
+         (sampled-envelope (om::om-scale (nth 2 (multiple-value-list (om::om-sample envelope nbsamples))) 0.0 1.0)))
 
    (loop :for x :from 0 :to (1- nbsamples)
          :for y-list := (make-list (length steps) :initial-element 0) :then (om+ y-list steps)
@@ -508,16 +508,16 @@ be used for urlmapping."
          (nbsamples (round (* dur sr)))
          (freqs (list! freq))
          (steps (loop for f in freqs collect (/ f sr)))
-         (sampled-envelope (om-scale (nth 2 (multiple-value-list (om-sample envelope nbsamples))) 0.0 1.0)))
+         (sampled-envelope (om::om-scale (nth 2 (multiple-value-list (om::om-sample envelope nbsamples))) 0.0 1.0)))
 
     (with-sound-output (mysound :nch 2 :size nbsamples :sr 44100 :type :float)
 
       (loop for x from 0 to (1- nbsamples)
-            for y-list = (make-list (length steps) :initial-element 0) :then (om+ y-list steps)
+            for y-list = (make-list (length steps) :initial-element 0) :then (om::om+ y-list steps)
             for amp in sampled-envelope
             do
             (write-in-sound mysound 1 x
-                            (om* (om* gain amp)
+                            (om::om* (om::om* gain amp)
                                (apply '+ (loop for y in y-list collect (sin (* 2 (coerce pi 'single-float) (cadr (multiple-value-list (floor y))))))
 
                                       ))
@@ -565,7 +565,7 @@ be used for urlmapping."
 (defun do-fft-chunks (fft-chunks)
 
 (let* ()
-      (om-print "Aguarde" "Verbose :: ")
+      (om::om-print "Aguarde" "Verbose :: ")
       (loop :for chunks-number :in (arithm-ser 1 (length fft-chunks) 1)
             :collect (list->string-fun (list 'fft- chunks-number)))))
 
@@ -591,11 +591,11 @@ be used for urlmapping."
 ;===============================================
 
 (defun fft-ckn (sound-self fft-size hop-size windows-type)
-(om-print "Aguarde!" "OM-CKN - Verbose ::")
+(om::om-print "Aguarde!" "OM-CKN - Verbose ::")
   (let* (
         (sound (sound->bytes-fun sound-self))
-        (zero-padding (x-append sound 
-                                (loop :for i :from 1 :to (om::om- (om* (ceiling (om/ (length sound) fft-size)) fft-size) (length sound))
+        (zero-padding (om::x-append sound 
+                                (loop :for i :from 1 :to (om::om- (om::om* (ceiling (om/ (length sound) fft-size)) fft-size) (length sound))
                                       :collect 0)))
         (sound-windows (sound-window zero-padding fft-size hop-size windows-type))
         (sound-windows-parts (loop-in-parts sound-windows 128 128))
@@ -623,11 +623,11 @@ be used for urlmapping."
 ;=====================================================================
 
 (defun fft-ckn-om (sound-self fft-size hop-size windows-type)
-(om-print "Aguarde!" "OM-CKN - Verbose ::")
+(om::om-print "Aguarde!" "OM-CKN - Verbose ::")
   (let* (
         (sound-selection (bytes (sound->bytes-smart sound-self)))
-        (zero-padding (x-append sound-selection
-                                (loop :for i :from 1 :to (om::om- (om* (ceiling (om/ (length sound-selection) fft-size)) fft-size) (length sound-selection))
+        (zero-padding (om::x-append sound-selection
+                                (loop :for i :from 1 :to (om::om- (om::om* (ceiling (om/ (length sound-selection) fft-size)) fft-size) (length sound-selection))
                                       :collect (let* () 0))))
         (sound-windows (sound-window zero-padding fft-size hop-size windows-type))
         (sound-windows-parts (loop-in-parts sound-windows 128 128))
@@ -635,7 +635,7 @@ be used for urlmapping."
         (fft-chunk-to-ms (om::arithm-ser 1 sound-windows-length 1))
         (fft-chunk-to-ms-parts (loop-in-parts fft-chunk-to-ms 128 128))
         (boolean-window-size (om::om> sound-windows-length 129)))
-(om-print "Conversao para Bytes concluida, aguarde o FFT." "OM-CKN - Verbose ::")
+(om::om-print "Conversao para Bytes concluida, aguarde o FFT." "OM-CKN - Verbose ::")
 (if boolean-window-size
     (flat (loop :for loop-sound-windows-parts :in sound-windows-parts 
           :for loop-fft-chunk-to-ms-parts :in fft-chunk-to-ms-parts
@@ -779,7 +779,7 @@ be used for urlmapping."
 (defun names-to-mix (in1)
 (reduce (lambda (z y) (string+ z y))
           (flat (loop for x :in in1 :collect  
-                      (flat (x-append (list->string-fun (list (string+ (namestring x) " "))) " "))))))
+                      (flat (om::x-append (list->string-fun (list (string+ (namestring x) " "))) " "))))))
 
 ;=====================================================================
 (defun loop-until-probe-file (my-file)
@@ -801,14 +801,14 @@ be used for urlmapping."
 (defun ckn-antescofo-score (voice variance local)
 (let* (
     (voice-tempo (tempo voice))
-    (voice-tree (om-abs (ms->sec (om6-true-durations (make-value 'voice (list (list :tree (mktree (tree2ratio (tree voice)) '(4 4))) (list :tempo voice-tempo)))))))
+    (voice-tree (om::om-abs (ms->sec (om6-true-durations (make-value 'voice (list (list :tree (mktree (tree2ratio (tree voice)) '(4 4))) (list :tempo voice-tempo)))))))
     (voice-midi (lmidic voice))
     (voice-to-rest (choose-to-rest voice))
     (SCORE
             (loop :for voice-tree-loop :in voice-tree 
             :for rest-loop :in voice-to-rest
             :collect
-                    (x-append (if (equal (length (if (equal (choose voice-midi rest-loop) nil) (list 0) (choose voice-midi rest-loop))) 1) 
+                    (om::x-append (if (equal (length (if (equal (choose voice-midi rest-loop) nil) (list 0) (choose voice-midi rest-loop))) 1) 
                     "NOTE"
                     "CHORD")
 
@@ -821,7 +821,7 @@ be used for urlmapping."
                             nil
                             "@pizz"))))
 
-    (Score-acabada (x-append (list (x-append "BPM" voice-tempo) (x-append "Variance" variance)) SCORE)))
+    (Score-acabada (om::x-append (list (om::x-append "BPM" voice-tempo) (om::x-append "Variance" variance)) SCORE)))
 (save-as-text Score-acabada local)))
 
 ; ========================================== OSC-PLAY =======================

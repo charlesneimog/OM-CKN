@@ -8,8 +8,8 @@
 :icon '17359
 :doc "This object define the name of the composer and the name of the piece."
 
-(defparameter *IRCAM-PATH* (namestring x))
-(om-save-pathname (namestring *IRCAM-PATH*))
+      (defparameter *IRCAM-PATH* (namestring x))
+      (om::om-save-pathname (namestring *IRCAM-PATH*))
 *IRCAM-PATH*)
 
 ;; ==================================================== Utilidades ==================================
@@ -50,7 +50,6 @@
                         (let* ()
                               (om-print "Nao ha nenhuma nota corresponde nos multifonicos disponiveis, escolhendo aleatoriamente" "WARNING!!!")
                               (om::nth-random all-names))
-                        
                         (if (om::om< (length action6) 2)
                               (let* ()  
                                     (om-print 
@@ -58,11 +57,10 @@
                                                             (first (choose all-names action6)))
                                           "Notice!")
                                     (first (choose all-names action6)))
-
                               (let* ()  
                                     (om-print "Ha alguns multifonicos com a mesma quantidade de notas em comum, escolhendo aleatoriamente entre eles." "Notice!")
                                     (choose all-names (om::nth-random action6)))))))
-action7))
+                  action7))
             
                         
 ;; ==================================================== 
