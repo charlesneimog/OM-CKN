@@ -27,3 +27,6 @@
     (when (get-pref moduleprefs :om-ckn)
       (setf *SOX-PATH* (find-true-external (get-pref moduleprefs :om-ckn))))
     t)
+
+
+(print "OM6-PRF")

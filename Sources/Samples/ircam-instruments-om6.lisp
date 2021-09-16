@@ -12,16 +12,6 @@
 (om-save-pathname (namestring *IRCAM-PATH*))
 *IRCAM-PATH*)
 
-
-;; ==================================================== Preferencias ==================================
-
-#| 
-(add-preference-section :externals "OM-CKN" nil '(:ircam-instruments :MrsWatson-exe :sox-exe :plugins ::fxp-presets))
-(add-preference :externals :ircam-instruments "Ircam Instruments Path" 
-                :path nil)
-
-|#
-
 ;; ==================================================== Utilidades ==================================
 (defun ircam-n->mc (x)
 
@@ -101,7 +91,7 @@ action7))
       :collect 
       (equal nil (ircam-instruments loop-notas loop-canais loop-vel)))))
 
-(om-print (list->string-fun (flat (list (CHOOSE NOTAS  (om::om+ (POSITION T TEST) 1))))) "NOTA QUE NÃO TEM")
+(om-print (list->string-fun (flat (list (CHOOSE NOTAS  (om::om+ (POSITION T TEST) 1))))) "NOTA QUE Nï¿½O TEM")
 (IF (EQUAL NIL (REMOVE NIL TEST)) "TODAS AS ALTURAS POSSUEM SAMPLES CORRESPONDENTES" 
 (FORMAT NIL "A NOTA ~D NAO POSSUEM SAMPLE CORRESPONDENTE! :( " (1+ (POSITION T TEST))))))
 

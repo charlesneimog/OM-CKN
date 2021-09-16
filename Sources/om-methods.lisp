@@ -3,33 +3,40 @@
 
 ;; Preferencias ========================
 
-(add-preference-section :externals "OM-CKN" nil '(:ircam-instruments :OrchideaSOL :MrsWatson-exe :sox-exe :plugins :fxp-presets))
-
 ;; Caminho para MrsWatson  ========================
 
-(add-preference :externals :ircam-instruments "Ircam Instruments Path" :folder :no-default)
-
-;; Caminho para MrsWatson  ========================
-
-(add-preference :externals :MrsWatson-exe "MrsWatson Path" :file :no-default)
+(add-preference :externals :ircam-instruments "Ircam Instruments Path" :folder "Your Ircam Instruments Folder")
 
 ;; Caminho para Plugins DLL  ========================
 
-(add-preference :externals :plugins "Plugins DLL" :folder :no-default)
+(add-preference :externals :plugins "Plugins DLL" :folder "Your Plugins VTS2 Folder")
 
 ;; Caminho para FPX Presets ========================
 
-(add-preference :externals :fxp-presets  "FXP Presets" :folder :no-default)
-
-;; Caminho para Sox  ========================
-
-(add-preference :externals :sox-exe "Sox Path" :file :no-default)
+(add-preference :externals :fxp-presets  "FXP Presets" :folder "Your FPX Presets Folder")
 
 ;; Orchidea Instruments  ========================
 
-(add-preference :externals :OrchideaSOL "SOL Samples Library" :folder :no-default)
+(add-preference :externals :OrchideaSOL "SOL Samples Library" :folder "SOL folder")
+ 
 
+ (add-preference-section :externals "Folders - OM-CKN" nil '(:ircam-instruments :OrchideaSOL :plugins :fxp-presets))
 
+;; Caminho para MrsWatson  ========================
+
+#| 
+(add-preference :externals :MrsWatson-exe "MrsWatson Path"
+                :file 
+                #+linux (pathname (which-executable "MrsWatson" "no MrsWatson found in $PATH"))
+                #-linux #P"/usr/local/bin/MrsWatson"
+                )
+
+|# 
+;; Caminho para Sox  ========================
+
+(add-preference :externals :sox-exe "Sox Path" :file nil )
+
+;; Caminho para Sox  ========================
 
 
 ; ======================================== Methods and Functions ==================================================

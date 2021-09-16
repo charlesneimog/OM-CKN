@@ -15,3 +15,4 @@
 
 (in-package om-ckn)
 
+(print "MY-PACKAGE")

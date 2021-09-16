@@ -1032,3 +1032,7 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
 (if (equal (length action2) 3)
       (if (> velocity 87) (car (last action2)) (if (>= velocity 56) (second action2) (first action2)))
       (first action2))))
+
+;; ===================
+
+(print "IRCAM-INSTRUMENTS")
