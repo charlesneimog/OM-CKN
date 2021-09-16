@@ -1,25 +1,5 @@
 (in-package :om)
 
-;; Caminho para MrsWatson  ========================
-
-(add-preference :externals :MrsWatson-exe "MrsWatson Path" :file nil)
-
-;; Caminho para Plugins DLL  ========================
-
-(add-preference :externals :plugins "Plugins DLL" :path nil)
-
-;; Caminho para FPX Presets ========================
-
-(add-preference :externals :fxp-presets  "FXP Presets" :path nil)
-
-;; Caminho para Sox  ========================
-
-(add-preference :externals :sox-exe "Sox Path" :file nil)
-
-;; Orchidea Instruments  ========================
-
-(add-preference :externals :OrchideaSOL "SOL Samples Library" :path nil)
-
 ;  ========================
 
 (defmethod! define-fxp-presets ((fxp-presets string))
