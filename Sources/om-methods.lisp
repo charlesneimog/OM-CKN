@@ -1,7 +1,38 @@
 
 (in-package :om)
 
-; ========================================
+;; Preferencias ========================
+
+(add-preference-section :externals "OM-CKN" nil '(:ircam-instruments :OrchideaSOL :MrsWatson-exe :sox-exe :plugins :fxp-presets))
+
+;; Caminho para MrsWatson  ========================
+
+(add-preference :externals :ircam-instruments "Ircam Instruments Path" :folder :no-default)
+
+;; Caminho para MrsWatson  ========================
+
+(add-preference :externals :MrsWatson-exe "MrsWatson Path" :file :no-default)
+
+;; Caminho para Plugins DLL  ========================
+
+(add-preference :externals :plugins "Plugins DLL" :folder :no-default)
+
+;; Caminho para FPX Presets ========================
+
+(add-preference :externals :fxp-presets  "FXP Presets" :folder :no-default)
+
+;; Caminho para Sox  ========================
+
+(add-preference :externals :sox-exe "Sox Path" :file :no-default)
+
+;; Orchidea Instruments  ========================
+
+(add-preference :externals :OrchideaSOL "SOL Samples Library" :folder :no-default)
+
+
+
+
+; ======================================== Methods and Functions ==================================================
 
 (defmethod! complex-numbers-parts ((list list))
 :initvals ' (NIL)
