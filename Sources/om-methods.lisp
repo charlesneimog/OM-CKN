@@ -24,17 +24,13 @@
 
 ;; Caminho para MrsWatson  ========================
 
-#| 
-(add-preference :externals :MrsWatson-exe "MrsWatson Path"
-                :file 
-                #+linux (pathname (which-executable "MrsWatson" "no MrsWatson found in $PATH"))
-                #-linux #P"/usr/local/bin/MrsWatson"
-                )
 
-|# 
+(add-preference :externals :MrsWatson-exe "MrsWatson Path"
+                :file "SOL folder")
+
 ;; Caminho para Sox  ========================
 
-(add-preference :externals :sox-exe "Sox Path" :file nil )
+(add-preference :externals :sox-exe "Sox Path" :file "SOL folder")
 
 ;; Caminho para Sox  ========================
 
