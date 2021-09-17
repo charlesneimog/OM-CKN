@@ -2,6 +2,7 @@
 
 ;==================================== FUNCTIONS ===================
 
+
 (defun remove-nth-element-fun (n list)
   "Remove the nth element of a list."
 (if (not n)
@@ -120,6 +121,45 @@ ax.plot3D(xline, yline, zline,  lw=~d, color='~d')
 plt.show()
 " x y z a color))
       (save-python-code (om::save-as-text python-code (om::outfile "3dc.py")))
+      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
+      (om::om-cmd-line (string+ "python " prepare-cmd-code))))
+
+;; =========================================
+
+(defun vst3-python-fun (sound_path sound_out plugin_path parameter_name parameter_value)
+(let* (
+      (python-code (format nil
+                    "
+import soundfile as sf
+from pedalboard import load_plugin
+
+plugin = load_plugin(r'~d')
+plugin.parameters['~d'] = ~d
+audio, sample_rate = sf.read('~d')
+final_audio = plugin.process(audio, sample_rate)
+sf.write('~d', final_audio, sample_rate)
+"                                   
+                                    plugin_path parameter_name parameter_value sound_path sound_out))
+      (save-python-code (om::save-as-text python-code (om::outfile "vst3-sound.py")))
+      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
+      (om::om-cmd-line (string+ "python " prepare-cmd-code))))
+
+
+
+[(0.0, midi_note_on(C4, 127)), (1.0, midi_note_on(D4, 127)), (3.0, midi_note_on(E4, 127))]
+;; =========================================
+
+(defun vst3-plugin-parameter (plugin_path)
+(let* (
+      (python-code (format nil
+                    "
+from pedalboard import load_plugin
+
+plugin = load_plugin(r'~d')
+print(plugin.parameters.keys())
+"                               
+                                    plugin_path))
+      (save-python-code (om::save-as-text python-code (om::outfile "parameters-vst3-sound.py")))
       (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
       (om::om-cmd-line (string+ "python " prepare-cmd-code))))
 

@@ -1,14 +1,8 @@
 import soundfile as sf
 from pedalboard import load_plugin
 
+plugin = load_plugin("C:\\USERS\\NEIMOG\\ONEDRIVE - DESIGN.UFJF.BR\\DOCUMENTOS\\REAPER MEDIA\\PLUGINS\\ATMOS 2 VST WIN x64\\Atmos 2.vst3")
 
-dearVR = load_plugin("python/dearVR MICRO.vst3")
-print(dearVR.parameters.keys())
-dearVR.hrtf = 'dearVR'
-setattr(dearVR, 'azimuth_ￂﾰ', '-90.0ￂﾰ') ### wait for the developer fix one bug
-
-audio, sample_rate = sf.read('C:/Users/neimog/OneDrive - design.ufjf.br/Documentos/REAPER Media/untitled.wav')
-
-final_audio = dearVR.process(audio, sample_rate)
-
-sf.write('C:/Users/neimog/OneDrive - design.ufjf.br/Documentos/OM - Workspace/out-files/dearVR-1.wav', final_audio, sample_rate)
+midi_messages = ((0.0, (60, 127)), (1.0, (62, 127)), (3.0, (64, 127)))
+output = plugin.process(sample_rate=44100, midi_messages=midi_messages)
+sf.write('C:/Users/neimog/OneDrive/Documentos/OM - Workspace/out-files/MIDI-TEST.wav', output, sample_rate)

@@ -14,7 +14,7 @@
 
 ;  ========================
 
-(defmethod! define-VST2-plugin ((plugin-name string))
+(defmethod! define-plugin ((plugin-name string))
 :initvals '(nil)
 :indoc '("Define the fxp-presets to use in your sound.") 
 :icon '17359
@@ -80,24 +80,24 @@
 (make-value-from-model 'sound (loop-until-probe-file (outfile sound-out)) nil)))
 
 ;  ========================
-
-(defmethod! ckn-VST2 ((sound sound) (sound-out string) (plugin-path string) (fxp-path string))
-:initvals '(nil nil nil nil)
-:indoc '("Use VST2 plugins in your sounds") 
+(defmethod! ckn-VST2-midi ((midi string) (sound-out string) (plugin-path string) (fxp-path string) &optional (verbose nil))
+:initvals '(nil)
+:indoc '("With this object you can see the index parameters of some VST2 plugin.") 
 :icon '17359
-:doc "It allows to use VST2 plugins in your sounds."
+:doc "With this object you can see the index parameters of some VST2 plugin."
 
-(ckn-cmd-line 
- (string+ 
-  (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
-    " --input " (list->string-fun (list (namestring (file-pathname sound))))
-    " --output " (list->string-fun (list (namestring (outfile sound-out))))
-    " --plugin " (list->string-fun (list (namestring (define-VST2-plugin plugin-path)))) "," 
-                 (list->string-fun (list (namestring (define-fxp-presets fxp-path))))))
+(let* (
+        (action2  
+            (string+ 
+                (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
+                    " --input " (list->string-fun (list (namestring midi)))
+                    " --output " (list->string-fun (list (namestring (outfile sound-out))))
+                    " --plugin " (string+ (list->string-fun (list (namestring plugin-path))) "," (list->string-fun (list (namestring fxp-path)))))))
 
-(ckn-clear-temp-files)
+(if verbose (om-shell action2) (ckn-cmd-line action2))
 
-(make-value-from-model 'sound (outfile sound-out) nil))
+(make-value-from-model 'sound (loop-until-probe-file (outfile sound-out)) nil)))
+
 
 ;  ========================
 
@@ -141,7 +141,7 @@
 
 ;; ======================================
 
-(defmethod! list-dll-plugins (&key (type nil) (unix nil) (directories nil) (files t) (resolve-aliases nil) (hidden-files nil) (path nil))
+(defmethod! list-vst2-plugins (&key (type nil) (unix nil) (directories nil) (files t) (resolve-aliases nil) (hidden-files nil) (path nil))
 :icon '17359
 :doc "
 From OM-Sox
@@ -151,7 +151,21 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
                   (thefilelist (om-directory thepath 
                                              :type "dll" :directories directories :files files 
                                              :resolve-aliases resolve-aliases :hidden-files hidden-files)))
-              (mapcar (lambda (x) (get-filename x)) thefilelist)))      
+              (mapcar (lambda (x) (get-filename x)) thefilelist)))  
+
+;; ======================================
+
+(defmethod! list-vst3-plugins (&key (type nil) (unix nil) (directories nil) (files t) (resolve-aliases nil) (hidden-files nil) (path nil))
+:icon '17359
+:doc "
+From OM-Sox
+Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECTION object."
+
+            (let* ((thepath (get-pref-value :externals :plugins))
+                  (thefilelist (om-directory thepath 
+                                             :type "vst3" :directories directories :files files 
+                                             :resolve-aliases resolve-aliases :hidden-files hidden-files)))
+              (mapcar (lambda (x) (get-filename x)) thefilelist)))         
 
 ;; ======================================
 
@@ -552,10 +566,23 @@ action1))
                                 (probe-file (merge-pathnames "first-load.txt" (lib-resources-folder (find-library "OM-CKN")))) nil)))
                        (setf (reader tb) :lines-cols) tb) "CONTENTS")))
 
-(if *first-time-load*
-    (let* () 
-      (save-as-text '(((defvar *first-time-load* nil))) (merge-pathnames "first-load.txt" (lib-resources-folder (find-library "OM-CKN"))))
-      (hqn-web:browse "https://www.charlesneimog.com/"))))
+    (if *first-time-load*
+        (let* () 
+            (save-as-text '(((defvar *first-time-load* nil))) (merge-pathnames "first-load.txt" (lib-resources-folder (find-library "OM-CKN"))))
+            (hqn-web:browse "https://www.charlesneimog.com/")))
+    (print (format nil "
+If you want to work with python you need:
+      1. Download python 3.
+      2. Download the pip for python 3.
+      3. Put this code in your terminal: 
+            pip install matplotlib 
+            pip install numpy 
+            pip install mplot3d
+            pip install mpl_toolkits
+            pip install pedalboard
+            pip install soundfile
+      And vo ala. 
+")))
 
 ;;; ================================================================================
 
