@@ -1,31 +1,18 @@
 (in-package :om)
 
-(defmethod! list-dll-plugins (&key (type nil) (unix nil) (directories nil) (files t) (resolve-aliases nil) (hidden-files nil) (path nil))
-:icon '17359
-:doc "
-From OM-Sox
-Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECTION object."
 
-            (let* ((thepath (get-pref-value :externals :plugins))
-                  (thefilelist (om-directory thepath 
-                                             :type "dll" :directories directories :files files 
-                                             :resolve-aliases resolve-aliases :hidden-files hidden-files)))
-              (mapcar (lambda (x) (get-filename x)) thefilelist)))      
 
 ;; ======================================
-
-(defmethod! list-fxp-presets (&key (type nil) (unix nil) (directories nil) (files t) (resolve-aliases nil) (hidden-files nil) (path nil))
-:icon '17359
-:doc "
-From OM-Sox
-Returns a list of file pathnames of the fxp Presets. Connect it to a LIST-SELECTION object."
-
-            (let* ((thepath (get-pref-value :externals :fxp-presets))
-                  (thefilelist (om-directory thepath 
-                                             :type "fxp" :directories directories :files files 
-                                             :resolve-aliases resolve-aliases :hidden-files hidden-files)))
-            (mapcar (lambda (x) (get-filename x)) thefilelist)))
-
+(defun concatString (list)
+  "A non-recursive function that concatenates a list of strings."
+  (if (listp list)
+      (let ((result ""))
+        (dolist (item list)
+          (if (stringp item)
+              (setq result (concatenate 'string result item))))
+        result)))
+        
+      ;; https://stackoverflow.com/questions/5457346/lisp-function-to-concatenate-a-list-of-string
 
 ;; ======================================
 

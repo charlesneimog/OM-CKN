@@ -22,7 +22,62 @@
 
 (let* (
 (action1 (probe-file (merge-pathnames plugin-name (namestring (get-pref-value :externals :plugins))))))
-(if (equal nil action1) (let* ((action1 (om-print "Plugin nao encontrado" "Abortando"))) (om-abort)) action1)))
+(if (equal nil action1) (let* ((action1 (om-print "Plugin nao encontrado" "Abortando"))) (abort)) (namestring action1))))
+
+;  ========================
+(defmethod! plugins-parameter-index ((plugin-path string))
+:initvals '(nil)
+:indoc '("With this object you can see the index parameters of some VST2 plugin.") 
+:icon '17359
+:doc "With this object you can see the index parameters of some VST2 plugin."
+
+(om-shell 
+ (string+ 
+  (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
+" --plugin " (list->string-fun (list (namestring plugin-path))) " --display-info")))
+
+;  ========================
+(defmethod! ckn-VST2-parameters ((sound sound) (sound-out string) (plugin-path string) (parameter_index number) (parameter_value number) &optional (verbose nil)) 
+:initvals '(nil)
+:indoc '("With this object you can see the index parameters of some VST2 plugin.") 
+:icon '17359
+:doc "With this object you can see the index parameters of some VST2 plugin."
+
+(let* (
+      (action1 
+       (string+ 
+  (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
+    " --input " (list->string-fun (list (namestring (file-pathname sound))))
+    " --output " (list->string-fun (list (namestring (outfile sound-out))))
+    " --plugin " (list->string-fun (list (namestring plugin-path)))
+    " --parameter " (string+ (ckn-int2string parameter_index) "," (ckn-int2string parameter_value)))))
+
+(if verbose (om-shell action1) (ckn-cmd-line action1))
+
+(make-value-from-model 'sound (loop-until-probe-file (outfile sound-out)) nil)))
+
+;  ========================
+(defmethod! ckn-VST2-multi-parameters ((sound sound) (sound-out string) (plugin-path string) (parameter_index list) &optional (verbose nil)) 
+:initvals '(nil)
+:indoc '("With this object you can see the index parameters of some VST2 plugin.") 
+:icon '17359
+:doc "With this object you can see the index parameters of some VST2 plugin."
+
+(let* (
+        (action1 (concatString (loop :for x :in parameter_index 
+                                    :collect (string+ " --parameter " (string+ (ckn-int2string (first x)) "," (ckn-int2string (second x)))))))
+
+
+        (action2  
+            (string+ 
+                (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
+                    " --input " (list->string-fun (list (namestring (file-pathname sound))))
+                    " --output " (list->string-fun (list (namestring (outfile sound-out))))
+                    " --plugin " (list->string-fun (list (namestring plugin-path)))
+                    action1)))
+(if verbose (om-shell action2) (ckn-cmd-line action2))
+
+(make-value-from-model 'sound (loop-until-probe-file (outfile sound-out)) nil)))
 
 ;  ========================
 
@@ -64,7 +119,6 @@
 
 (make-value-from-model 'sound sound-out nil))
 
-
 ;  ========================
 
 (defmethod! ckn-VST2 ((sound pathname) (sound-out string) (plugin-path string) (fxp-path string))
@@ -84,6 +138,34 @@
                  (list->string-fun (list (namestring (define-fxp-presets fxp-path)))))))))
 
 (make-value-from-model 'sound (outfile sound-out) nil)))
+
+;; ======================================
+
+(defmethod! list-dll-plugins (&key (type nil) (unix nil) (directories nil) (files t) (resolve-aliases nil) (hidden-files nil) (path nil))
+:icon '17359
+:doc "
+From OM-Sox
+Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECTION object."
+
+            (let* ((thepath (get-pref-value :externals :plugins))
+                  (thefilelist (om-directory thepath 
+                                             :type "dll" :directories directories :files files 
+                                             :resolve-aliases resolve-aliases :hidden-files hidden-files)))
+              (mapcar (lambda (x) (get-filename x)) thefilelist)))      
+
+;; ======================================
+
+(defmethod! list-fxp-presets (&key (type nil) (unix nil) (directories nil) (files t) (resolve-aliases nil) (hidden-files nil) (path nil))
+:icon '17359
+:doc "
+From OM-Sox
+Returns a list of file pathnames of the fxp Presets. Connect it to a LIST-SELECTION object."
+
+            (let* ((thepath (get-pref-value :externals :fxp-presets))
+                  (thefilelist (om-directory thepath 
+                                             :type "fxp" :directories directories :files files 
+                                             :resolve-aliases resolve-aliases :hidden-files hidden-files)))
+            (mapcar (lambda (x) (get-filename x)) thefilelist)))
 
 ;  ========================
 
@@ -602,6 +684,22 @@ action5))
   (the-command (ckn-cmd-line line-command))
   (loading (loop-until-probe-file (car sound-in-out))))
     (car sound-in-out)))
+
+
+;;; ================================================================================
+
+(defun sound-mono-to-stereo-sox (x)
+
+        (ckn-cmd-line (string+ 
+                (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))
+                " "
+                (list->string-fun (list (namestring x)))
+                " "
+                (list->string-fun (list (namestring (outfile "sox-stereo.wav"))))
+                " "
+                " channels 2 "))
+        (loop-until-probe-file (outfile "sox-stereo.wav"))
+(outfile "sox-stereo.wav"))
 
 ;;; ================================================================================
 (compile 'voice->samples-sound-fun)
