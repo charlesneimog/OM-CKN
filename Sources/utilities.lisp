@@ -143,10 +143,7 @@ sf.write('~d', final_audio, sample_rate)
       (save-python-code (om::save-as-text python-code (om::outfile "vst3-sound.py")))
       (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
       (om::om-cmd-line (string+ "python " prepare-cmd-code))))
-
-
-
-[(0.0, midi_note_on(C4, 127)), (1.0, midi_note_on(D4, 127)), (3.0, midi_note_on(E4, 127))]
+      
 ;; =========================================
 
 (defun vst3-plugin-parameter (plugin_path)
@@ -446,7 +443,7 @@ be used for urlmapping."
 
 ;=====================================
 
-(defun name-of-path (p)
+(defun name-of-file (p)
   (let ((path (and p (pathname p))))
   (when (pathnamep path)
     (string+ (pathname-name path) 
@@ -454,6 +451,23 @@ be used for urlmapping."
                  (string+ "." (pathname-type path)) 
                "")))))
                
+;  ========================
+
+(defun ckn-string-name (list-name)
+
+(let*  (
+    (action1 (string+ (first list-name) (second list-name)))
+    (action2 (if 
+                (>  (length (x-append action1 list-name)) 2)
+                (x-append action1 (last-n list-name (- (length list-name) 2)))
+                action1)))
+    
+    (if (< (length action2) 2)
+            (first action2)
+            (setf list-name (ckn-string-name action2)))))
+
+
+
 ;=====================================
 
 (defun sound->bytes-smart (self)
@@ -939,7 +953,7 @@ be used for urlmapping."
 
 ;; ===================================== Folder organization =========================== 
 
-(om-cmd-line (string+ "MKDIR "  (string+ "MKDIR "  (list->string-fun (list (namestring (outfile "om-ckn")))))))
+(ensure-directories-exist (outfile " " :subdirs "\om-ckn"))
 
 
 ;===================================================================== Compile in OM-SHARP =================================

@@ -2,36 +2,19 @@
 (in-package :om)
 
 ;; Preferencias ========================
- 
-(add-preference-section :externals "OM-CKN" nil '(:sox-exe :MrsWatson-exe :ircam-instruments :OrchideaSOL :plugins :fxp-presets))
-;; Caminho para MrsWatson  ========================
 
-(add-preference :externals :ircam-instruments "Ircam Instruments Path" :folder "Your Ircam Instruments Folder")
-
-;; Caminho para Plugins DLL  ========================
-
-(add-preference :externals :plugins "Plugins DLL" :folder "Your Plugins VTS2 Folder")
-
-;; Caminho para FPX Presets ========================
-
-(add-preference :externals :fxp-presets  "FXP Presets" :folder "Your FPX Presets Folder")
-
-;; Orchidea Instruments  ========================
-
-(add-preference :externals :OrchideaSOL "SOL Samples Library" :folder "SOL folder")
-
-;; Caminho para MrsWatson  ========================
-
-(add-preference :externals :MrsWatson-exe "MrsWatson Path" :path 
-  (merge-pathnames "executables/MrsWatson/mrswatson64.exe" (lib-resources-folder (find-library "OM-CKN"))))
-
-;; Caminho para Sox  ========================
-
-(add-preference :externals :sox-exe "Sox Path" :path 
-  (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN"))))
-
-;; Caminho para Sox  ========================
-
+(if (equal *app-name* "om-sharp")
+  (let* ()
+          (add-preference-section :externals "OM-CKN" nil '(:sox-exe :MrsWatson-exe :ircam-instruments :OrchideaSOL :plugins :fxp-presets))
+          (add-preference :externals :ircam-instruments "Ircam Instruments Path" :folder "Your Ircam Instruments Folder")
+          (add-preference :externals :plugins "Plugins DLL" :folder "Your Plugins VTS2 Folder")
+          (add-preference :externals :fxp-presets  "FXP Presets" :folder "Your FPX Presets Folder")
+          (add-preference :externals :OrchideaSOL "SOL Samples Library" :folder "SOL folder")
+          (add-preference :externals :MrsWatson-exe "MrsWatson Path" :path 
+                (merge-pathnames "executables/MrsWatson/mrswatson64.exe" (lib-resources-folder (find-library "OM-CKN"))))
+          (add-preference :externals :sox-exe "Sox Path" :path 
+                (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN")))))
+                                        )
 
 ; ======================================== Methods and Functions ==================================================
 
@@ -696,8 +679,8 @@ Result: (7 9 458)."
 
 ;; ====================================================
 (defmethod! sound-seq-sox ((sounds list) (name string))
-:initvals '(nil)
-:indoc '("sounds") 
+:initvals '(nil "sox-seq.wav")
+:indoc '("list of pathnames of sounds") 
 :icon '17359
 :doc "It does the same that sound-seq and sound-seq-list."
 
@@ -720,7 +703,7 @@ Result: (7 9 458)."
 (sound-fade-sox-fun sounds fade))
 
 ;; ====================================================
-(defmethod! sound-silence-sox ((sounds single-float))
+(defmethod! sound-silence-sox ((sounds single-float) &optional (channels 1))
 :initvals '(nil)
 :indoc '("float number") 
 :icon '17359
@@ -732,7 +715,7 @@ Result: (7 9 458)."
       (list (namestring (merge-pathnames "om-ckn/" 
         (outfile (string+ "silence-" (format nil "~d" sounds)   ".wav"))))))
   (line-command 
-    (string+ sox-path " " "-n " " -r 44100 " " " (list->string-fun sound-in-out) " trim 0 " (format nil "~d" sounds)))
+    (string+ sox-path " " "-n " (format nil "~d " channels) " -r 44100 " " " (list->string-fun sound-in-out) " trim 0 " (format nil "~d" sounds)))
   (the-command (ckn-cmd-line line-command))
   (loading (loop-until-probe-file (car sound-in-out))))
     (car sound-in-out)))
