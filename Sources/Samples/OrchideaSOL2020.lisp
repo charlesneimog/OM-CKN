@@ -2,11 +2,9 @@
 
 ;; ==================================================== 
 
-#|
 (if (equal *app-name* "om-sharp")
     (defvar *OrchideaSOL-PATH* (get-pref-value :externals :OrchideaSOL))
     nil)
-|#
 
 ;; ====================================================
 
@@ -35,11 +33,9 @@
     (o-voice->samples-sharp voice pan temp-files)
     (o-voice->samples-fun voice pan temp-files)))
 
-
 ;; ====================================================
 
 (defun ckn-in-files (path type)
-
             (let* (
                         (thefilelist (om-directory path 
                                              :type type :directories nil :files t 

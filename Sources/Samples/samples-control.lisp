@@ -2,6 +2,15 @@
 
 ;  ========================
 
+(defclass! vst2 ()
+((vst2-path :initform nil :initarg :vst2-path :accessor vst2-path)))
+
+; ====
+
+(defclass! vst3 ()
+((vst3-path :initform nil :initarg :vst3-path :accessor vst3-path)))
+; ===========================
+
 (defmethod! define-fxp-presets ((fxp-presets string))
 :initvals '(nil)
 :indoc '("Define the fxp-presets to use in your sound.") 
@@ -10,19 +19,24 @@
 
 (let* (
 (action1 (probe-file (merge-pathnames fxp-presets (namestring (get-pref-value :externals :fxp-presets))))))
-(if (equal nil action1) (let* ((action1 (om-print "FXP Presets nao encontrado" "Abortando"))) (om-abort)) action1)))
+(if (equal nil action1) (let* ((action1 (om-print "fxp-presets not found" "Abort"))) (abort)) (namestring action1))))
 
 ;  ========================
 
 (defmethod! define-plugin ((plugin-name string))
-:initvals '(nil)
-:indoc '("Define the fxp-presets to use in your sound.") 
+:initvals '("My awesome plugin.vst3")
+:indoc '("Define the plugin-name to use in your sound, it need to be vst2 or vst3.") 
 :icon '17359
-:doc "It defines the fxp-presets to use in your sound with the object ckn-VST2."
+:doc "It defines the plugin-name to use in your sound with the object ckn-VST2."
 
 (let* (
-(action1 (probe-file (merge-pathnames plugin-name (namestring (get-pref-value :externals :plugins))))))
-(if (equal nil action1) (let* ((action1 (om-print "Plugin nao encontrado" "Abortando"))) (abort)) (namestring action1))))
+        (action1 (probe-file (merge-pathnames plugin-name (namestring (get-pref-value :externals :plugins)))))
+        (action2 (if (equal nil action1) (let* () (om-print "Plugin not found" "Abort ::") (abort)) action1))
+        (action3 (cdr (om::string-to-list (name-of-file action2) "."))))
+        (if 
+            (equal '("dll") action3)
+            (make-value 'vst2 (list (list :vst2-path action2)))
+            (make-value 'vst3 (list (list :vst3-path action2))))))
 
 ;  ========================
 (defmethod! plugins-parameter-index ((plugin-path string))
@@ -37,27 +51,7 @@
 " --plugin " (list->string-fun (list (namestring plugin-path))) " --display-info")))
 
 ;  ========================
-(defmethod! ckn-VST2-parameters ((sound sound) (sound-out string) (plugin-path string) (parameter_index number) (parameter_value number) &optional (verbose nil)) 
-:initvals '(nil)
-:indoc '("With this object you can see the index parameters of some VST2 plugin.") 
-:icon '17359
-:doc "With this object you can see the index parameters of some VST2 plugin."
-
-(let* (
-      (action1 
-       (string+ 
-  (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
-    " --input " (list->string-fun (list (namestring (file-pathname sound))))
-    " --output " (list->string-fun (list (namestring (outfile sound-out))))
-    " --plugin " (list->string-fun (list (namestring plugin-path)))
-    " --parameter " (string+ (ckn-int2string parameter_index) "," (ckn-int2string parameter_value)))))
-
-(if verbose (om-shell action1) (ckn-cmd-line action1))
-
-(make-value-from-model 'sound (loop-until-probe-file (outfile sound-out)) nil)))
-
-;  ========================
-(defmethod! ckn-VST2-multi-parameters ((sound sound) (sound-out string) (plugin-path string) (parameter_index list) &optional (verbose nil)) 
+(defmethod! ckn-parameters ((sound sound) (sound-out string) (plugin-path vst2) (parameter_index list) &optional (verbose nil)) 
 :initvals '(nil)
 :indoc '("With this object you can see the index parameters of some VST2 plugin.") 
 :icon '17359
@@ -73,14 +67,14 @@
                 (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
                     " --input " (list->string-fun (list (namestring (file-pathname sound))))
                     " --output " (list->string-fun (list (namestring (outfile sound-out))))
-                    " --plugin " (list->string-fun (list (namestring plugin-path)))
+                    " --plugin " (list->string-fun (list (namestring (vst2-path plugin-path))))
                     action1)))
 (if verbose (om-shell action2) (ckn-cmd-line action2))
 
 (make-value-from-model 'sound (loop-until-probe-file (outfile sound-out)) nil)))
 
 ;  ========================
-(defmethod! ckn-VST2-midi ((midi string) (sound-out string) (plugin-path string) (fxp-path string) &optional (verbose nil))
+(defmethod! midi->audio ((midi string) (sound-out string) (plugin-path vst2) (fxp-path string) &optional (verbose nil))
 :initvals '(nil)
 :indoc '("With this object you can see the index parameters of some VST2 plugin.") 
 :icon '17359
@@ -92,16 +86,15 @@
                 (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
                     " --input " (list->string-fun (list (namestring midi)))
                     " --output " (list->string-fun (list (namestring (outfile sound-out))))
-                    " --plugin " (string+ (list->string-fun (list (namestring plugin-path))) "," (list->string-fun (list (namestring fxp-path)))))))
+                    " --plugin " (string+ (list->string-fun (list (namestring (vts2-path plugin-path)))) "," (list->string-fun (list (namestring fxp-path)))))))
 
 (if verbose (om-shell action2) (ckn-cmd-line action2))
 
 (make-value-from-model 'sound (loop-until-probe-file (outfile sound-out)) nil)))
 
-
 ;  ========================
 
-(defmethod! ckn-VST2 ((sound sound) (sound-out pathname) (plugin-path string) (fxp-path string))
+(defmethod! ckn-VST2 ((sound sound) (sound-out pathname) (plugin-path vst2) (fxp-path string))
 :initvals '(nil nil nil nil)
 :indoc '("Use VST2 plugins in your sounds") 
 :icon '17359
@@ -112,7 +105,7 @@
   (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
     " --input " (list->string-fun (list (namestring (file-pathname sound))))
     " --output " (list->string-fun (list (namestring sound-out)))
-    " --plugin " (list->string-fun (list (namestring (define-VST2-plugin plugin-path)))) "," 
+    " --plugin " (list->string-fun (list (namestring (define-VST2-plugin (vts2-path plugin-path))))) "," 
                  (list->string-fun (list (namestring (define-fxp-presets fxp-path))))))
 
 (ckn-clear-temp-files)
@@ -121,7 +114,7 @@
 
 ;  ========================
 
-(defmethod! ckn-VST2 ((sound pathname) (sound-out string) (plugin-path string) (fxp-path string))
+(defmethod! ckn-VST2 ((sound pathname) (sound-out string) (plugin-path vst2) (fxp-path string))
 :initvals '(nil)
 :indoc '("Use VST2 plugins in your sounds") 
 :icon '17359
@@ -134,7 +127,7 @@
   (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
     " --input " (list->string-fun (list (namestring sound)))
     " --output " (list->string-fun (list (namestring (outfile sound-out))))
-    " --plugin " (list->string-fun (list (namestring (define-VST2-plugin plugin-path)))) "," 
+    " --plugin " (list->string-fun (list (namestring (define-VST2-plugin (vts2-path plugin-path))))) "," 
                  (list->string-fun (list (namestring (define-fxp-presets fxp-path)))))))))
 
 (make-value-from-model 'sound (outfile sound-out) nil)))
@@ -181,37 +174,13 @@ Returns a list of file pathnames of the fxp Presets. Connect it to a LIST-SELECT
                                              :resolve-aliases resolve-aliases :hidden-files hidden-files)))
             (mapcar (lambda (x) (get-filename x)) thefilelist)))
 
-;  ========================
 
-(defun name-of-the-sound (p)
-  (let ((path (and p (pathname p))))
-  (when (pathnamep path)
-    (string+ (pathname-name path) 
-             (if (and (pathname-type path) (stringp (pathname-type path)))
-                 (string+ "." (pathname-type path)) 
-               "")))))
-
-;  ========================
-
-(defun ckn-string-name (list-name)
-
-(let*  (
-    (action1 (string+ (first list-name) (second list-name)))
-    (action2 (if 
-                (>  (length (x-append action1 list-name)) 2)
-                (x-append action1 (last-n list-name (- (length list-name) 2)))
-                action1)))
-    
-    (if (< (length action2) 2)
-            (first action2)
-            (setf list-name (ckn-string-name action2)))))
-
-;  ========================
+;  ======================== SOX controls ================================
 
 (defun ckn-transpose-a-sound (instrumentos desvio) 
 
 (let* (
-(action1 (string-to-list (name-of-the-sound instrumentos) "-"))
+(action1 (string-to-list (name-of-file instrumentos) "-"))
 (action2 (1- (length action1)))
 (action3 (loop :for x :in action1 :collect (string+ x "-")))
 (action4 (ckn-string-name (first-n action3 action2)))
