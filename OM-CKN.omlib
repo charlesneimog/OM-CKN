@@ -15,13 +15,12 @@
       "Sources/om-methods" 
       "Sources/utilities"
       "Sources/Sapa-FFT/utilities" 
-      "Sources/Samples/ircam-instruments"
       "Sources/Samples/samples-control"
       "Sources/sinusoidal-modeling"
       "Sources/stolen-functions"
       "Sources/Score/score"
       "Sources/Samples/OrchideaSOL2020"
-;      "Sources/Samples/test"
+      "Sources/Samples/FULLSOL"
       )
 
 (:symbols 
