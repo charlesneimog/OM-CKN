@@ -3,12 +3,10 @@
 ;  ========================
 
 (defclass! vst2 ()
-((vst2-path :initform nil :initarg :vst2-path :accessor vst2-path)))
-
+    ((vst2-path :initform nil :initarg :vst2-path :accessor vst2-path)))
 ; ====
-
 (defclass! vst3 ()
-((vst3-path :initform nil :initarg :vst3-path :accessor vst3-path)))
+    ((vst3-path :initform nil :initarg :vst3-path :accessor vst3-path)))
 ; ===========================
 
 (defmethod! define-fxp-presets ((fxp-presets string))
@@ -39,23 +37,55 @@
             (make-value 'vst3 (list (list :vst3-path action2))))))
 
 ;  ========================
-(defmethod! plugins-parameter-index ((plugin-path string))
+
+(defmethod! plugins-parameter-index ((plugin-path vst2))
+:initvals '(nil)
+:indoc '("With this object you can see the index parameters of some VST2 plugin.") 
+:icon '17359
+:doc "With this object you can see the index parameters of some VST2 plugin."
+(let* (
+    (action1 
+        (ckn-cmd-line 
+            (string+ 
+                (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
+                " --plugin " (list->string-fun (list (namestring (vst2-path plugin-path)))) " --display-info " "2>" (list->string-fun (list (namestring (outfile "mrsWatson-out.txt" :subdirs "\om-ckn")))))))
+    (action2 (if (equal "It could not open the library. Probably it is a 32bits plugin." (read-mrs-watson (outfile "mrsWatson-out.txt" :subdirs "\om-ckn"))) (abort))))
+    (ckn-clear-temp-files)
+    "Done! Check the listener"))
+    
+;  ========================
+
+(defmethod! plugins-parameter-index ((plugin-path vst3))
 :initvals '(nil)
 :indoc '("With this object you can see the index parameters of some VST2 plugin.") 
 :icon '17359
 :doc "With this object you can see the index parameters of some VST2 plugin."
 
-(om-shell 
- (string+ 
-  (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
-" --plugin " (list->string-fun (list (namestring plugin-path))) " --display-info")))
+(let* (
+      (python-code (format nil
+                    "
+from pedalboard import load_plugin
+
+plugin = load_plugin(r'~d')
+Todos_parametros = (plugin.parameters.keys())
+list_of_numbers = list(range(len(Todos_parametros)))
+print(' ==================================  ')
+print('VST3 Index of Parameters')
+for (x,y) in zip(Todos_parametros, list_of_numbers):
+    print (str(y) + ' : ' + x )
+"                               
+                                    (vst3-path plugin-path)))
+      (save-python-code (om::save-as-text python-code (om::outfile "parameters-vst3-sound.py")))
+      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
+      (om::om-cmd-line (string+ "python " prepare-cmd-code))
+      "Done! Check the listener"))
 
 ;  ========================
-(defmethod! ckn-parameters ((sound sound) (sound-out string) (plugin-path vst2) (parameter_index list) &optional (verbose nil)) 
+(defmethod! plugins-process ((sound sound) (sound-out string) (plugin-path vst2) (parameter_index list) &optional (verbose nil)) 
 :initvals '(nil)
-:indoc '("With this object you can see the index parameters of some VST2 plugin.") 
+:indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
 :icon '17359
-:doc "With this object you can see the index parameters of some VST2 plugin."
+:doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
 
 (let* (
         (action1 (concatString (loop :for x :in parameter_index 
@@ -72,6 +102,32 @@
 (if verbose (om-shell action2) (ckn-cmd-line action2))
 
 (make-value-from-model 'sound (loop-until-probe-file (outfile sound-out)) nil)))
+
+
+;; ================================
+
+;; =========================================
+
+(defun vst3-python-fun (sound_path sound_out plugin_path parameter_name parameter_value)
+(let* (
+      (python-code (format nil
+                    "
+import soundfile as sf
+from pedalboard import load_plugin
+
+plugin = load_plugin(r'~d')
+plugin.parameters['~d'] = ~d
+audio, sample_rate = sf.read('~d')
+final_audio = plugin.process(audio, sample_rate)
+sf.write('~d', final_audio, sample_rate)
+"                                   
+                                    plugin_path parameter_name parameter_value sound_path sound_out))
+      (save-python-code (om::save-as-text python-code (om::outfile "vst3-sound.py")))
+      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
+      (om::om-cmd-line (string+ "python " prepare-cmd-code))))
+      
+;; =========================================
+
 
 ;  ========================
 (defmethod! midi->audio ((midi string) (sound-out string) (plugin-path vst2) (fxp-path string) &optional (verbose nil))
@@ -144,7 +200,7 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
                   (thefilelist (om-directory thepath 
                                              :type "dll" :directories directories :files files 
                                              :resolve-aliases resolve-aliases :hidden-files hidden-files)))
-              (mapcar (lambda (x) (get-filename x)) thefilelist)))  
+              (mapcar (lambda (x) (name-of-file x)) thefilelist)))  
 
 ;; ======================================
 
@@ -158,7 +214,7 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
                   (thefilelist (om-directory thepath 
                                              :type "vst3" :directories directories :files files 
                                              :resolve-aliases resolve-aliases :hidden-files hidden-files)))
-              (mapcar (lambda (x) (get-filename x)) thefilelist)))         
+              (mapcar (lambda (x) (name-of-file x)) thefilelist)))         
 
 ;; ======================================
 
@@ -172,7 +228,7 @@ Returns a list of file pathnames of the fxp Presets. Connect it to a LIST-SELECT
                   (thefilelist (om-directory thepath 
                                              :type "fxp" :directories directories :files files 
                                              :resolve-aliases resolve-aliases :hidden-files hidden-files)))
-            (mapcar (lambda (x) (get-filename x)) thefilelist)))
+            (mapcar (lambda (x) (name-of-file x)) thefilelist)))
 
 
 ;  ======================== SOX controls ================================
@@ -210,34 +266,6 @@ action6))
         :while (setf ckn-loop (equal (probe-file (ckn-transpose-a-sound action1 cents)) nil))
         :do (let* () ckn-loop))
   (probe-file (ckn-transpose-a-sound action1 cents)))))
-
-;; ===============================================================================
-
-(defun om6-true-durations (ckn)
-
- (let* ((newchrdseq (if (typep ckn 'note) 
-                           (om::Objfromobjs (om::Objfromobjs ckn (make-instance 'chord)) (make-instance 'chord-seq))
-                           (om::Objfromobjs ckn (make-instance 'chord-seq))))
-
-         (newcs (normalize-chord-seq newchrdseq))
-         (onsets (om::Lonset newcs))
-         (dur (om::Ldur newcs))
-         (newonsets (if (= 2 (length onsets)) (om::x->dx  onsets) (butlast (om::x->dx onsets))))
-         (newdurs (mapcar 'first dur))
-         (resultat1 
-          (om::x-append 
-          (flat
-           (list (mapcar #'(lambda (x y) (if (= 0 (- x y)) x 
-                                             (list x (- x y))))
-                         newdurs newonsets)
-                 (last newdurs)))
-          (last-elem newdurs)))
-         (resultat2 (butlast
-                     (if (= 0 (first onsets)) resultat1 (cons (om::om* -1 (first onsets)) resultat1)))))
-    
-   (let ((result (remove nil (mapcar #'(lambda (x) (if (not (or (= x 1) (= x -1))) x ))
-          resultat2))))
-         (if (= 2 (length onsets)) (list (car result) (second result)) result))))
 
 ;====================================================================================
 
@@ -345,12 +373,12 @@ action6))
                 (sound-cut 
                     (samples-menores (om-abs (ms->sec ckn-LOOP2)) (make-value-from-model 'sound 
                                 (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2))) 
-                                    (ircam-instruments
+                                    (FULL-SOL-instruments
                                         (first (approx-m box-choose1 2))
                                         (first box-choose2)
                                         box-first1)
-                                    (ckn-sound-transpose 
-                                        (ircam-instruments
+                                    (sound-transpose-sox 
+                                        (FULL-SOL-instruments
                                             (first (approx-m box-choose1 2))
                                             (first box-choose2)
                                             box-first1)
@@ -403,12 +431,12 @@ action1))
                 (om-abs (ms->sec ckn-LOOP2)) 
                     (make-instance 'sound nil
                             (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2))) 
-                                (ircam-instruments
+                                (FULL-SOL-instruments
                                     (first (approx-m box-choose1 2))
                                     (first box-choose2)
                                     box-first1)
-                                (ckn-sound-transpose 
-                                    (ircam-instruments
+                                (sound-transpose-sox 
+                                    (FULL-SOL-instruments
                                         (first (approx-m box-choose1 2))
                                         (first box-choose2)
                                         box-first1)
@@ -465,9 +493,9 @@ action1))
                                     (sound-cut (samples-menores (om-abs (ms->sec ckn-LOOP2)) 
                                         (make-value-from-model 'sound
                                                 (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2)))
-                                                    (ircam-instruments (first (approx-m box-choose1 2)) (first box-choose2) box-first1)
-                                                    (ckn-sound-transpose 
-                                                                (ircam-instruments 
+                                                    (FULL-SOL-instruments (first (approx-m box-choose1 2)) (first box-choose2) box-first1)
+                                                    (sound-transpose-sox 
+                                                                (FULL-SOL-instruments 
                                                                         (first (approx-m box-choose1 2)) 
                                                                         (first box-choose2) box-first1)
                                         (first (om- box-choose1 (approx-m box-choose1 2))))) nil))
@@ -510,12 +538,12 @@ action1))
                             (if 
                                 (equal 0 (om- ckn-LOOP1 (approx-m ckn-LOOP1 2)))
                                 
-                                    (ircam-instruments 
+                                    (FULL-SOL-instruments 
                                                 (approx-m ckn-LOOP1 2)
                                                 ckn-LOOP2
                                                 ckn-LOOP3)
-                                    (ckn-sound-transpose
-                                            (ircam-instruments
+                                    (sound-transpose-sox
+                                            (FULL-SOL-instruments
                                                 (approx-m ckn-LOOP1 2)
                                                 ckn-LOOP2
                                                 ckn-LOOP3)
@@ -538,8 +566,8 @@ action1))
     (if *first-time-load*
         (let* () 
             (save-as-text '(((defvar *first-time-load* nil))) (merge-pathnames "first-load.txt" (lib-resources-folder (find-library "OM-CKN"))))
-            (hqn-web:browse "https://www.charlesneimog.com/")))
-    (print (format nil "
+            (hqn-web:browse "https://www.charlesneimog.com/"))
+            (print (format nil "
 If you want to work with python you need:
       1. Download python 3.
       2. Download the pip for python 3.
@@ -551,7 +579,7 @@ If you want to work with python you need:
             pip install pedalboard
             pip install soundfile
       And vo ala. 
-")))
+"))))
 
 ;;; ================================================================================
 
@@ -608,7 +636,7 @@ action5))
   (sound-in-path sounds)
   (sound-in-out 
       (list (namestring (merge-pathnames "om-ckn/" 
-        (outfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-" (ckn-int2string (om-random 1000 9999)) "-vol-correction" ".wav"))))))
+        (outfile (string+ (first (om::string-to-list (name-of-file sound-in-path) ".")) "-" (ckn-int2string (om-random 1000 9999)) "-vol-correction" ".wav"))))))
   (action-sound-vol (format nil " -v ~d " volume))
   (line-command 
     (string+ sox-path " " action-sound-vol " " (list->string-fun (list (namestring sound-in-path))) " " (list->string-fun sound-in-out)))
@@ -626,12 +654,12 @@ action5))
                 (list (namestring (merge-pathnames "om-ckn/" 
                     (outfile (string+ name "-" (ckn-int2string (om-random 1000 9999)) "-mix-sound" ".wav"))))))
             (line-command 
-                (string+ sox-path " " " --combine mix " " "  sound-in-path " " (list->string-fun sound-in-out)))
-            (the-command (ckn-cmd-line line-command))
-            (loading (loop-until-probe-file (car sound-in-out))))
-                (print (car (om::list! sound-in-out)))))
+                (string+ sox-path " " " --combine mix " " "  sound-in-path " " (list->string-fun sound-in-out))))
+            (ckn-cmd-line line-command)
+            (loop-until-probe-file (car sound-in-out))
+            (car (om::list! sound-in-out))))
 
-(compile 'sound-mix-sox)
+(compile 'sound-mix-sox-fun)
 ;;; ================================================================================
 
 (defun sound-mix-sox-responsive (sounds nomes number)
@@ -673,7 +701,7 @@ action5))
   (sound-in-path sounds)
   (sound-in-out 
       (list (namestring (merge-pathnames "om-ckn/" 
-        (outfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-" (ckn-int2string (om-random 1000 9999)) "-with-fade" ".wav"))))))
+        (outfile (string+ (first (om::string-to-list (name-of-file sound-in-path) ".")) "-" (ckn-int2string (om-random 1000 9999)) "-with-fade" ".wav"))))))
   (action-sound-fade (format nil " fade p ~d ~d" (first fade) (second fade)))
   (line-command 
     (string+ sox-path " " (list->string-fun (list (namestring sound-in-path))) " " (list->string-fun sound-in-out) " " action-sound-fade))
@@ -684,7 +712,7 @@ action5))
 
 ;;; ================================================================================
 
-(defun sound-mono-to-stereo-sox (x)
+(defun sound-mono-to-stereo-sox-fun (x)
 
         (ckn-cmd-line (string+ 
                 (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))
@@ -705,7 +733,6 @@ action5))
 (compile 'build-sound-sequence-fun)
 (compile 'normalize-chord-seq)
 (compile 'ckn-transpose-a-sound) 
-(compile 'name-of-the-sound)
 (compile 'ckn-string-name)
 (compile 'build-seq-of-sounds)
 (compile 'sound-seq-list-multi-threading)

@@ -14,15 +14,6 @@
         
       ;; https://stackoverflow.com/questions/5457346/lisp-function-to-concatenate-a-list-of-string
 
-;; ======================================
-
-(defun get-filename (p)
-  (let ((path (and p (pathname p))))
-  (when (pathnamep path)
-    (string+ (pathname-name path) 
-             (if (and (pathname-type path) (stringp (pathname-type path)))
-                 (string+ "." (pathname-type path)) 
-               "")))))
 
 ;; ======================================
 

@@ -751,7 +751,7 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
       (thefilelist (om-directory thepath 
                               :type "aif" :directories nil :files t 
                               :resolve-aliases nil :hidden-files nil))
-      (name-of-all-notes (mapcar (lambda (x) (get-filename x)) thefilelist))
+      (name-of-all-notes (mapcar (lambda (x) (name-of-file x)) thefilelist))
       (multifonico-mais-parecido (ckn-multiphonics-notes name-of-all-notes notes)))
       (probe-file (string+ (namestring *IRCAM-PATH*) "01 Flute\\multiphonics\\" multifonico-mais-parecido))))
 
@@ -808,7 +808,7 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
       (thefilelist (om-directory thepath 
                               :type "aif" :directories nil :files t 
                               :resolve-aliases nil :hidden-files nil))
-      (name-of-all-notes (mapcar (lambda (x) (get-filename x)) thefilelist))
+      (name-of-all-notes (mapcar (lambda (x) (name-of-file x)) thefilelist))
       (multifonico-mais-parecido (ckn-multiphonics-notes name-of-all-notes notes)))
       (probe-file (string+ (namestring *IRCAM-PATH*) "02 Oboe\\multiphonics\\" multifonico-mais-parecido))))
 
@@ -848,7 +848,7 @@ If you have some error you need to rename these two multiphonics, BbCl-mul-D3-mf
       (thefilelist (om-directory thepath 
                               :type "aif" :directories nil :files t 
                               :resolve-aliases nil :hidden-files nil))
-      (name-of-all-notes (mapcar (lambda (x) (get-filename x)) thefilelist))
+      (name-of-all-notes (mapcar (lambda (x) (name-of-file x)) thefilelist))
       (multifonico-mais-parecido (ckn-multiphonics-notes name-of-all-notes notes)))
       (probe-file (string+ (namestring *IRCAM-PATH*) "03 Clarinet in Bb\\multiphonics\\" multifonico-mais-parecido))))
 
