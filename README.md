@@ -11,7 +11,7 @@ ____________________________________________
 
 ### The Use of VST2 and VST3 in OpenMusic and OM#
 
-I implemented the possibility of using VST2 and VST3 within OM-Sharp and OM. For that, I am using **[MrsWatson](https://github.com/teragonaudio/MrsWatson)** for VST2 and the work of **[Pedal Board](https://github.com/teragonaudio/MrsWatson)**. 
+I implemented the possibility of using VST2 and VST3 within OM-Sharp and OM. For that, I am using **[MrsWatson](https://github.com/teragonaudio/MrsWatson)** for VST2 and the work of **[Pedal Board](https://github.com/teragonaudio/MrsWatson)** to work with VST3. 
 
 ![VST2 use](https://github.com/charlesneimog/OM-CKN/blob/master/Wiki/VST2%20examples.png)
 
