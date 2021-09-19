@@ -432,7 +432,7 @@ action3-2)))))
 ;; ====================================================
 
 
-(defmethod! ckn-sound-transpose ((sound sound) (cents number))
+(defmethod! sound-transpose-sox ((sound sound) (cents number))
 :initvals ' (NIL)
 :indoc ' ("Pathname of a sound-file" "Tranposition in cents")
 :icon '17359
@@ -443,7 +443,7 @@ action3-2)))))
 ;; ====================================================
 
 
-(defmethod! ckn-sound-transpose ((sound string) (cents number))
+(defmethod! sound-transpose-sox ((sound string) (cents number))
 :initvals ' (NIL)
 :indoc ' ("Pathname of a sound-file" "Tranposition in cents")
 :icon '17359
@@ -453,7 +453,7 @@ action3-2)))))
 
 ;; ====================================================
 
-(defmethod! ckn-sound-transpose ((sound pathname) (cents number))
+(defmethod! sound-transpose-sox ((sound pathname) (cents number))
 :initvals ' (NIL)
 :indoc ' ("Pathname of a sound-file" "Tranposition in cents")
 :icon '17359
@@ -462,6 +462,33 @@ action3-2)))))
 (if (equal 0 cents) (namestring sound) (ckn-transpose-a-sound (namestring sound) cents)))
 
 ;; ====================================================
+
+(defmethod! sound-mono-to-stereo-sox ((sound sound))
+:initvals ' ("NIL")
+:indoc ' ("One mono sound")
+:icon '17359
+:doc ""
+(sound-mono-to-stereo-sox-fun (namestring (file-pathname sound))))
+
+;; ===============
+
+(defmethod! sound-mono-to-stereo-sox ((sound string))
+:initvals ' ("NIL")
+:indoc ' ("One mono sound")
+:icon '17359
+:doc ""
+(sound-mono-to-stereo-sox-fun sound))
+
+;; ===============
+
+(defmethod! sound-mono-to-stereo-sox ((sound pathname))
+:initvals ' ("NIL")
+:indoc ' ("One mono sound")
+:icon '17359
+:doc ""
+(sound-mono-to-stereo-sox-fun (namestring sound)))
+
+;; ===============
 
 (om::defmethod! choose ((notelist list) (chord-n list))
 :initvals ' ((1 2 3 4 5 6 7 8 9 10) 2)
@@ -583,21 +610,6 @@ Result: (7 9 458)."
             
 ;; ====================================================
 
-#| 
-(defmethod! om6-true-durations ((voice voice))
-:initvals '(nil)
-:indoc '("a voice" ) 
-:icon 'tree
-:doc "Imported from OM6."
-
-(om6-true-durations voice))
-
-|#
-
-
-
-;; ====================================================
-
 (defmethod! voice->samples ((voice voice) &optional (pan nil) (temp-files t))
 :initvals '(nil nil t)
 :indoc '("a voice" "panoramic information - see the object sound-stereo-pan" "Clear temp files") 
@@ -715,7 +727,7 @@ Result: (7 9 458)."
       (list (namestring (merge-pathnames "om-ckn/" 
         (outfile (string+ "silence-" (format nil "~d" sounds)   ".wav"))))))
   (line-command 
-    (string+ sox-path " " "-n " (format nil "~d " channels) " -r 44100 " " " (list->string-fun sound-in-out) " trim 0 " (format nil "~d" sounds)))
+    (string+ sox-path " " "-n " (format nil " -c ~d " channels) " -r 44100 " " " (list->string-fun sound-in-out) " trim 0 " (format nil "~d" sounds)))
   (the-command (ckn-cmd-line line-command))
   (loading (loop-until-probe-file (car sound-in-out))))
     (car sound-in-out)))
@@ -895,9 +907,6 @@ Converts a (list of) freq pitch(es) to names of notes."
                        (make-instance 'chord :lmidic (first second-matrix-transformation) :lvel (second second-matrix-transformation))))))
   (make-chords (mapcar filter fft->chords)))
   (make-instance 'chord-seq :lmidic make-chords :lonset (list 0 (om::om-round (sec->ms (samples->sec (ckn-hop-size (first ckn-fft-instance)) (sound-sample-rate (first ckn-fft-instance)))))))))
-
-
-    
 
 ; ===========================================================================
 

@@ -126,42 +126,6 @@ plt.show()
 
 ;; =========================================
 
-(defun vst3-python-fun (sound_path sound_out plugin_path parameter_name parameter_value)
-(let* (
-      (python-code (format nil
-                    "
-import soundfile as sf
-from pedalboard import load_plugin
-
-plugin = load_plugin(r'~d')
-plugin.parameters['~d'] = ~d
-audio, sample_rate = sf.read('~d')
-final_audio = plugin.process(audio, sample_rate)
-sf.write('~d', final_audio, sample_rate)
-"                                   
-                                    plugin_path parameter_name parameter_value sound_path sound_out))
-      (save-python-code (om::save-as-text python-code (om::outfile "vst3-sound.py")))
-      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
-      (om::om-cmd-line (string+ "python " prepare-cmd-code))))
-      
-;; =========================================
-
-(defun vst3-plugin-parameter (plugin_path)
-(let* (
-      (python-code (format nil
-                    "
-from pedalboard import load_plugin
-
-plugin = load_plugin(r'~d')
-print(plugin.parameters.keys())
-"                               
-                                    plugin_path))
-      (save-python-code (om::save-as-text python-code (om::outfile "parameters-vst3-sound.py")))
-      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
-      (om::om-cmd-line (string+ "python " prepare-cmd-code))))
-
-;; =========================================
-
 (defmethod* ckn-save-as-text ((self t) &optional (path "data") (type "txt"))
   :icon 908
   :initvals '(nil "data")
@@ -808,10 +772,10 @@ be used for urlmapping."
 (defun ckn-clear-temp-files ()
 
 (let* ()
-(om::om-cmd-line (string+ "powershell -command " 
+(ckn-cmd-line (string+ "powershell -command " 
                           (list->string-fun (list (string+ "del " 
                                             (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.aif" (outfile ""))))))))))
-(om::om-cmd-line (string+ "powershell -command " 
+(ckn-cmd-line (string+ "powershell -command " 
                           (list->string-fun (list (string+ "del " 
                                             (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.wav" (outfile ""))))))))))))
 
@@ -822,7 +786,7 @@ be used for urlmapping."
       (action1 (string+ "copy " (list->string-fun (list x)) " " (list->string-fun (list (namestring (outfile "")))))))
       (ckn-cmd-line action1)
       (ckn-clear-temp-files)
-      (outfile (name-of-path x))))
+      (outfile (name-of-file x))))
 ;=====================================================================
 
 (defun ckn-list-to-string (lst)
@@ -956,6 +920,60 @@ be used for urlmapping."
 (ensure-directories-exist (outfile " " :subdirs "\om-ckn"))
 
 
+;; ===================================== Information =========================== 
+(defun read-mrs-watson (filename)
+      (let* (  
+            (action1 
+            (with-open-file (stream filename)
+                  (loop :for line := (read-line stream nil)
+                        :while line 
+                        :collect line)))
+            (action2 (length action1)))
+            (print (format nil " ==================================  "))
+            (print (format nil "VST2 Index of Parameters"))
+            (loop :for x :in (om::arithm-ser 1 action2 1)
+                  :for y :in action1 
+                  :while (not (equal "Programs" (fourth (om::string-to-list y))))
+                  :do (let* (
+                        (action2-1 (cdddr (om::string-to-list y)))
+                        (action2-2 (length action2-1))
+                        (action2-3 (first-n action2-1 (1- action2-2))))
+                              (if (> x 12) 
+                                    (if 
+                                          (equal "Parameters" (fourth (om::string-to-list y)))
+                                          nil
+                                          (print (format nil (reduce (lambda (a b) (string+ a " " b)) action2-3)))))
+                  :collect (if (equal "Could" (fourth (om::string-to-list y))) (print "It could not open the library. Probably it is a 32bits plugin."))))))
+                  
+;; ========================
+;; ===============================================================================
+
+(defun om6-true-durations (ckn)
+
+ (let* ((newchrdseq (if (typep ckn 'note) 
+                           (om::Objfromobjs (om::Objfromobjs ckn (make-instance 'chord)) (make-instance 'chord-seq))
+                           (om::Objfromobjs ckn (make-instance 'chord-seq))))
+
+         (newcs (normalize-chord-seq newchrdseq))
+         (onsets (om::Lonset newcs))
+         (dur (om::Ldur newcs))
+         (newonsets (if (= 2 (length onsets)) (om::x->dx  onsets) (butlast (om::x->dx onsets))))
+         (newdurs (mapcar 'first dur))
+         (resultat1 
+          (om::x-append 
+          (flat
+           (list (mapcar #'(lambda (x y) (if (= 0 (- x y)) x 
+                                             (list x (- x y))))
+                         newdurs newonsets)
+                 (last newdurs)))
+          (last-elem newdurs)))
+         (resultat2 (butlast
+                     (if (= 0 (first onsets)) resultat1 (cons (om::om* -1 (first onsets)) resultat1)))))
+    
+   (let ((result (remove nil (mapcar #'(lambda (x) (if (not (or (= x 1) (= x -1))) x ))
+          resultat2))))
+         (if (= 2 (length onsets)) (list (car result) (second result)) result))))
+
 ;===================================================================== Compile in OM-SHARP =================================
 
 (compile 'ckn-gc-all)
@@ -963,6 +981,7 @@ be used for urlmapping."
 (compile 'sound-window-list)
 (compile 'sound-window)
 (compile 'real-samplify)
+(compile 'name-of-file)
 (compile 'energy)
 (compile 'fft->amplitude-fun)
 (compile 'fft->phrase-fun)

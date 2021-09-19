@@ -328,7 +328,7 @@
                                     (first (approx-m box-choose1 2))
                                     (first box-choose2)
                                     box-first1)
-                                (ckn-sound-transpose 
+                                (sound-transpose-sox 
                                     (print (ircam-instruments
                                         (first (om::approx-m box-choose1 2))
                                         (first box-choose2)
@@ -384,7 +384,7 @@ action1))
                                                 (approx-m ckn-LOOP1 2)
                                                 ckn-LOOP2
                                                 ckn-LOOP3)
-                                (ckn-sound-transpose
+                                (sound-transpose-sox
                                             (ircam-instruments
                                                 (approx-m ckn-LOOP1 2)
                                                 ckn-LOOP2
