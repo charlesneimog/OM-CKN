@@ -4,5 +4,5 @@ numpy
 mplot3d
 mpl_toolkits
 pedalboard
-soundfile
-teragonaudio/MrsWatson
+soundfile 
+MrsWatson = https://github.com/teragonaudio/MrsWatson
