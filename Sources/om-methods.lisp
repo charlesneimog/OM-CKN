@@ -593,6 +593,25 @@ Result: (7 9 458)."
 
 (list->string-fun list))
 
+;; ====================================================
+(defmethod! copy2outfile ((path string))
+:initvals '(nil)
+:indoc '("one string") 
+:icon '17359
+:doc "Copy some file to outfiles."
+
+(ckn-copy2outfile path))
+
+
+;; ====================================================
+(defmethod! copy2outfile ((path pathname))
+:initvals '(nil)
+:indoc '("one pathname") 
+:icon '17359
+:doc "Copy some file to outfiles."
+
+(ckn-copy2outfile (namestring path)))
+
 ;; ==============================================
 
 (defmethod! remove-nth-element ((lists list) (numbers list))

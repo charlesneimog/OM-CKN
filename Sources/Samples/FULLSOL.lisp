@@ -85,12 +85,12 @@
 
 (test 
  (loop :for loop-notas :in notas
-      :for loop-canais :in canais
-      :for loop-vel :in vel
-      :collect 
-      (equal nil (FULL-SOL-instruments loop-notas loop-canais loop-vel)))))
+       :for loop-canais :in canais
+       :for loop-vel :in vel
+       :collect 
+      (equal nil (print (FULL-SOL-instruments loop-notas loop-canais loop-vel))))))
 
-(if (equal nil (remove nil test)) "Todas as alturas possuem samples correspondentes" 
+(if (print (equal nil (remove nil test))) "Todas as alturas possuem samples correspondentes" 
 (format nil "A nota ~d nao possuem sample correspondente! :( " (1+ (position t test))))))
 
 ;; ====================================================
@@ -163,11 +163,11 @@ _______________________________________________________________________
                   (7 (ckn-dinamics   (ckn-find-the-samples 3 note *IRCAM-PATH* "01 Flute/decrescendo/" 'wav) velocity))
                   (8 (ckn-dinamics   (ckn-find-the-samples 4 note *IRCAM-PATH* "01 Flute/discolored-fingering/" 'wav) velocity))
                   (9 (ckn-dinamics   (ckn-find-the-samples 3 note *IRCAM-PATH* "01 Flute/flatterzunge/" 'wav) velocity))
-                  (10 (ckn-dinamics   (ckn-find-the-samples 3 note *IRCAM-PATH* "01 Flute/flatterzunge-to-ordinario/" 'wav) velocity))
+                  (10 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "01 Flute/flatterzunge-to-ordinario/" 'wav) velocity))
                   (11 (ckn-dinamics  (ckn-find-the-samples 4 note *IRCAM-PATH* "01 Flute/harmonic-fingering/" 'wav) velocity))
-                  (12 (1-samples-without-notes "01 Flute/harmonic-fingering/"))
+                  (12 (1-samples-without-notes "01 Flute/jet-whistle/"))
                   (13 (ckn-dinamics  (ckn-find-the-samples 4 note *IRCAM-PATH* "01 Flute/key-click/" 'wav) velocity))
-                  (14 (multiphonics-notes "01 Flute/multiphonics/" note))
+                  (14 (merge-pathnames (string+ "01 Flute/multiphonics/" (multiphonics-notes "01 Flute/multiphonics/" 6400)) *IRCAM-PATH*))
                   (15 (ckn-dinamics  (ckn-find-the-samples 4 note *IRCAM-PATH* "01 Flute/note-lasting/" 'wav) velocity))
                   (16 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "01 Flute/ordinario/" 'wav) velocity))
                   (17 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "01 Flute/ordinario-1q/" 'wav) velocity))
@@ -178,7 +178,7 @@ _______________________________________________________________________
                   (22 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "01 Flute/play-and-sing-unison/" 'wav) velocity))
                   (23 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "01 Flute/sforzando/" 'wav) velocity))
                   (24 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "01 Flute/staccato/" 'wav) velocity))
-                  (25 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "01 Flute/togue-ram/" 'wav) velocity))
+                  (25 (ckn-dinamics  (ckn-find-the-samples 4 note *IRCAM-PATH* "01 Flute/tongue-ram/" 'wav) velocity))
                   (26 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "01 Flute/trill-major-second-up/" 'wav) velocity))
                   (27 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "01 Flute/trill-minor-second-up/" 'wav) velocity))
                   (28 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "01 Flute/whistle-tones/" 'wav) velocity))
@@ -661,4 +661,4 @@ _______________________________________________________________________
                   (475 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "16 Contrabass/tremolo-to-ordinario/" 'wav) velocity))
                   (476 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "16 Contrabass/trill-major-second-up/" 'wav) velocity))
                   (477 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "16 Contrabass/trill-minor-second-up/" 'wav) velocity)))))
-(namestring action1)))
+(if (not action1) nil (namestring action1))))

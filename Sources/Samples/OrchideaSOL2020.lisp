@@ -56,9 +56,11 @@
 
 (defun ckn-dinamics (list-of-samples velocity)
 
-(if (equal (length list-of-samples) 3)
-      (if (> velocity 87) (car (last list-of-samples)) (if (>= velocity 56) (second list-of-samples) (first list-of-samples)))
-      (first list-of-samples)))
+(if (not list-of-samples)
+    nil
+    (if (equal (length list-of-samples) 3)
+        (if (> velocity 87) (car (last list-of-samples)) (if (>= velocity 56) (second list-of-samples) (first list-of-samples)))
+        (first list-of-samples))))
 
 ;; ==================================================== 
 

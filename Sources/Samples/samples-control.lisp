@@ -366,17 +366,17 @@ action6))
 (if (plusp ckn-LOOP2) ;;silencio ou nao 
 ;; SE FOR NOTA 
     (om::sound-fade 
-        (om::sound-stereo-pan (sound-mono-to-stereo 
+        (om::sound-stereo-pan (sound-mono-to-stereo
                                 (if (om< (length box-choose1) 2) ;; MONOFONICO OU POLIFONICO
             ;;;;; MONOFONICO
             (sound-vol 
                 (sound-cut 
                     (samples-menores (om-abs (ms->sec ckn-LOOP2)) (make-value-from-model 'sound 
                                 (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2))) 
-                                    (FULL-SOL-instruments
+                                    (print (FULL-SOL-instruments
                                         (first (approx-m box-choose1 2))
                                         (first box-choose2)
-                                        box-first1)
+                                        box-first1))
                                     (sound-transpose-sox 
                                         (FULL-SOL-instruments
                                             (first (approx-m box-choose1 2))
