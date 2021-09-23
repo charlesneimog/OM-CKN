@@ -7,6 +7,43 @@
 ; ====
 (defclass! vst3 ()
     ((vst3-path :initform nil :initarg :vst3-path :accessor vst3-path)))
+
+;; ======================================
+
+(defmethod! list-my-plugins ((modo number))
+:icon '17359
+:menuins '((0 (("vst2" 1) ("vst3" 2) ("vts2 and vst3" 3))))
+:doc "
+From OM-Sox
+Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECTION object."
+
+(if (= modo 3)
+    (let* (
+            (thepath (get-pref-value :externals :plugins))
+            (thefile-vst2 (om-directory thepath 
+                                                :type "dll"
+                                                :directories nil
+                                                :files t 
+                                                :resolve-aliases t
+                                                :hidden-files nil))
+            (thefile-vst3 (om-directory thepath 
+                                                :type "vst3"
+                                                :directories nil 
+                                                :files t 
+                                                :resolve-aliases t
+                                                :hidden-files nil)))
+            (mapcar (lambda (x) (name-of-file x)) (x-append thefile-vst2 thefile-vst3)))
+
+    (let* (
+            (thepath (get-pref-value :externals :plugins))
+            (thefilelist (om-directory thepath 
+                                                :type (if (= modo 1) "dll" "vst3") 
+                                                :directories nil 
+                                                :files t 
+                                                :resolve-aliases nil 
+                                                :hidden-files nil)))
+            (mapcar (lambda (x) (name-of-file x)) thefilelist))))        
+
 ; ===========================
 
 (defmethod! define-fxp-presets ((fxp-presets string))
@@ -187,34 +224,6 @@ sf.write('~d', final_audio, sample_rate)
                  (list->string-fun (list (namestring (define-fxp-presets fxp-path)))))))))
 
 (make-value-from-model 'sound (outfile sound-out) nil)))
-
-;; ======================================
-
-(defmethod! list-vst2-plugins (&key (type nil) (unix nil) (directories nil) (files t) (resolve-aliases nil) (hidden-files nil) (path nil))
-:icon '17359
-:doc "
-From OM-Sox
-Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECTION object."
-
-            (let* ((thepath (get-pref-value :externals :plugins))
-                  (thefilelist (om-directory thepath 
-                                             :type "dll" :directories directories :files files 
-                                             :resolve-aliases resolve-aliases :hidden-files hidden-files)))
-              (mapcar (lambda (x) (name-of-file x)) thefilelist)))  
-
-;; ======================================
-
-(defmethod! list-vst3-plugins (&key (type nil) (unix nil) (directories nil) (files t) (resolve-aliases nil) (hidden-files nil) (path nil))
-:icon '17359
-:doc "
-From OM-Sox
-Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECTION object."
-
-            (let* ((thepath (get-pref-value :externals :plugins))
-                  (thefilelist (om-directory thepath 
-                                             :type "vst3" :directories directories :files files 
-                                             :resolve-aliases resolve-aliases :hidden-files hidden-files)))
-              (mapcar (lambda (x) (name-of-file x)) thefilelist)))         
 
 ;; ======================================
 

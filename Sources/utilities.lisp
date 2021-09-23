@@ -613,7 +613,7 @@ be used for urlmapping."
   (let* (
         (sound (sound->bytes-fun sound-self))
         (zero-padding (om::x-append sound 
-                                (loop :for i :from 1 :to (om::om- (om::om* (ceiling (om/ (length sound) fft-size)) fft-size) (length sound))
+                                (loop :for i :from 1 :to (om::om- (om::om* (ceiling (om::om/ (length sound) fft-size)) fft-size) (length sound))
                                       :collect 0)))
         (sound-windows (sound-window zero-padding fft-size hop-size windows-type))
         (sound-windows-parts (loop-in-parts sound-windows 128 128))
