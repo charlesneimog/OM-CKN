@@ -32,7 +32,7 @@
 ; ================================ Python Methods ==================================
 
 (defmethod! bpf-python ((X list) (Y list) &optional (thickness 1) (color 'black))
-:initvals '('(1 2 3) '(3 2 1) 0.2 black)
+:initvals '(nil nil 0.2 black)
 :indoc ' ("X points" "Y points" "Thickness" "The color (for example black)")
 :icon '17359
 :doc "This is a BPF like the BPF of OM-Sharp. But you can you more numbers.
@@ -924,7 +924,14 @@ Converts a (list of) freq pitch(es) to names of notes."
                             (remove-nil (remove nil lambda-filter))
                             (second-matrix-transformation (mat-trans remove-nil)))
                        (make-instance 'chord :lmidic (first second-matrix-transformation) :lvel (second second-matrix-transformation))))))
-  (make-chords (mapcar filter fft->chords)))
+  (make-chords 
+                (let* (
+                    (action1 (mapcar filter fft->chords))
+                    (action2 (- (length action1) 2)))
+                    (om::first-n action1 action2))))
+
+
+
   (make-instance 'chord-seq :lmidic make-chords :lonset (list 0 (om::om-round (sec->ms (samples->sec (ckn-hop-size (first ckn-fft-instance)) (sound-sample-rate (first ckn-fft-instance)))))))))
 
 ; ===========================================================================
