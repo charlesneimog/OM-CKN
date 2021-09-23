@@ -167,7 +167,7 @@ _______________________________________________________________________
                   (11 (ckn-dinamics  (ckn-find-the-samples 4 note *IRCAM-PATH* "01 Flute/harmonic-fingering/" 'wav) velocity))
                   (12 (1-samples-without-notes "01 Flute/jet-whistle/"))
                   (13 (ckn-dinamics  (ckn-find-the-samples 4 note *IRCAM-PATH* "01 Flute/key-click/" 'wav) velocity))
-                  (14 (merge-pathnames (string+ "01 Flute/multiphonics/" (multiphonics-notes "01 Flute/multiphonics/" 6400)) *IRCAM-PATH*))
+                  (14 (merge-pathnames (string+ "01 Flute/multiphonics/" (multiphonics-notes "01 Flute/multiphonics/" note)) *IRCAM-PATH*))
                   (15 (ckn-dinamics  (ckn-find-the-samples 4 note *IRCAM-PATH* "01 Flute/note-lasting/" 'wav) velocity))
                   (16 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "01 Flute/ordinario/" 'wav) velocity))
                   (17 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "01 Flute/ordinario-1q/" 'wav) velocity))
