@@ -33,6 +33,21 @@
     (o-voice->samples-sharp voice pan temp-files)
     (o-voice->samples-fun voice pan temp-files)))
 
+
+;; ====================================================
+
+(defmethod! o-voice->samples ((voice chord-seq) &optional (pan nil) (temp-files t))
+:initvals '(nil nil t)
+:indoc '("Name of the composer" "Name of the piece") 
+:icon '17360
+:doc "This object define the name of the composer and the name of the piece."
+
+(if (equal *app-name* "om-sharp")
+    (o-chord-seq->samples-sharp voice pan temp-files)
+    nil))
+
+
+
 ;; ====================================================
 
 (defun ckn-in-files (path type)
@@ -93,6 +108,32 @@
 
 (if (equal nil (remove nil test)) "Todas as alturas possuem samples correspondentes" 
 (format nil "A nota ~d nao possuem sample correspondente! :( " (1+ (position t test))))))
+
+;; ====================================================
+
+(defmethod! o-check-samples-in-voice ((voice chord-seq))
+:initvals '(nil)
+:indoc '("Sound class") 
+:icon '17360
+:doc "It create the patch of a sound."
+
+(let* (
+(midis-no-om6 (make-instance 'chord-seq :lmidic (chords voice)))
+(notas (approx-m (flat (lmidic midis-no-om6)) 2))
+(canais (flat (lchan midis-no-om6)))
+(vel (flat (lvel midis-no-om6)))
+
+(test 
+ (loop :for loop-notas :in notas
+      :for loop-canais :in canais
+      :for loop-vel :in vel
+      :collect 
+      (equal nil (orchidea-instruments loop-notas loop-canais loop-vel)))))
+
+(if (equal nil (remove nil test)) "Todas as alturas possuem samples correspondentes" 
+(format nil "A nota ~d nao possuem sample correspondente! :( " (1+ (position t test))))))
+
+
 ;; ====================================================
 
 (defun o-voice->samples-fun (voice1 pan temp-files) 
@@ -201,6 +242,77 @@ action1))
 (action1
     (loop :for ckn-LOOP1 :in (choose-to-rest voice1)
         :for ckn-LOOP2 :in (om6-true-durations voice1)
+        :collect
+        (let*
+            ((box-choose1 (choose (lmidic voice1) ckn-LOOP1))
+                (box-choose2 (choose (lchan voice1) ckn-LOOP1))
+                (box-choose3 (choose (lvel voice1) ckn-LOOP1))
+                (box-first1 (car box-choose3))
+                (box-choose4 (if (equal nil (choose pan ckn-LOOP1)) '(-50 50)  (choose pan ckn-LOOP1))))
+
+(if (plusp ckn-LOOP2) ;;silencio ou nÃƒÂ£o 
+
+;; NOTA 
+(sound-fade 
+
+        (sound-stereo-pan (sound-mono-to-stereo 
+            (if (om< (length box-choose1) 2) ;; MONOFONICO OU POLIFÃƒâ€NICO
+
+            ;;;;; MONOFONICO
+
+;;;; COLOCAR MEIO PARA APAGAR ARQUIVOS TEMPORÃƒÂRIOS
+
+(sound-vol 
+    (sound-cut 
+            (samples-menores 
+                (om-abs (ms->sec ckn-LOOP2)) 
+                    (make-value-from-model 'sound
+                            (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2)))
+                                (orchidea-instruments
+                                    (first (approx-m box-choose1 2))
+                                    (first box-choose2)
+                                    box-first1)
+                                (sound-transpose-sox 
+                                    (orchidea-instruments
+                                               (first (approx-m box-choose1 2))
+                                               (first box-choose2)
+                                               box-first1)
+                                (first (om- box-choose1 (approx-m box-choose1 2))))) nil))
+        0.0 
+        (om-abs (ms->sec ckn-LOOP2)))
+    
+    (om-scale box-first1 0.001 0.999 1 110))  ;;;;; FIMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+
+;;;;; Com acorde
+
+(sound-mix-list 
+            (o-acordes-de-samples-sharp (om::om-abs (ms->sec ckn-LOOP2)) box-choose1 box-choose2 box-choose3))))
+            (first box-choose4)
+            (second box-choose4)) 0.01 0.01)
+
+;;silencio 
+
+            (sound-fade (sound-silence (om-abs (ms->sec ckn-LOOP2)) 2) 0.01 0.01))))))
+
+;;; ================= Apagar temp files
+
+
+(if temp-files 
+        (ckn-clear-temp-files))
+
+;;; ================= Finalizar
+                                            
+
+action1))
+
+;; ====================================================
+(defun o-chord-seq->samples-sharp (voice1 pan temp-files) 
+ 
+(let* (
+
+(action1
+    (loop :for ckn-LOOP1 :in (choose-to-rest (om::x->dx (lonset voice1)))
+        :for ckn-LOOP2 :in (om::x->dx (lonset voice1))
         :collect
         (let*
             ((box-choose1 (choose (lmidic voice1) ckn-LOOP1))
