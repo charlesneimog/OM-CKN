@@ -14,5 +14,3 @@
 	   #:nunioning #:unioning #:reducing #:accumulate #:accumulating))
 
 (in-package om-ckn)
-
-(print "MY-PACKAGE")

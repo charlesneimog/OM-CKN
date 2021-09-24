@@ -575,7 +575,7 @@ action1))
     (if *first-time-load*
         (let* () 
             (save-as-text '(((defvar *first-time-load* nil))) (merge-pathnames "first-load.txt" (lib-resources-folder (find-library "OM-CKN"))))
-            (hqn-web:browse "https://www.charlesneimog.com/"))
+            (hqn-web:browse "https://www.charlesneimog.com/")
             (print (format nil "
 If you want to work with python you need:
       1. Download python 3.
@@ -588,7 +588,7 @@ If you want to work with python you need:
             pip install pedalboard
             pip install soundfile
       And vo ala. 
-"))))
+")))))
 
 ;;; ================================================================================
 
