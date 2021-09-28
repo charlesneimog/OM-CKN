@@ -1,5 +1,73 @@
 (in-package :om)
 
+
+
+;==================================== IMPORT NUMBERS ===================
+
+(defconstant CKN-euler-number (exp 1))
+
+
+(defconstant CKN-pi  (coerce pi 'single-float))
+
+;; TEST AREA =================
+
+(defun search-inside-some-folder (folder extension)                                                                         
+      (let* (
+            (thepath folder)
+            (thefilelist (om-directory thepath 
+                              :type extension
+                              :directories t 
+                              :files t 
+                              :resolve-aliases nil 
+                              :hidden-files nil))
+            (more-folders? (mapcar (lambda (x) (if 
+                                                      (system::directory-pathname-p x)
+                                                      (search-inside-some-folder x extension)
+                                                      x)) thefilelist)))
+            more-folders?))
+
+
+; =============
+
+(defun search-plugins (extension)
+
+      (let* (
+            (thepath (get-pref-value :externals :plugins))
+            (thefilelist (om-directory thepath 
+                                                :type extension
+                                                :directories t 
+                                                :files t 
+                                                :resolve-aliases nil 
+                                                :hidden-files nil))
+
+            (action1 
+                  (loop :for loop-files :in thefilelist 
+                        :collect (if 
+                                          (system::directory-pathname-p loop-files)
+                                          (search-inside-some-folder loop-files extension)
+                                          loop-files))))
+            (remove nil (flat action1))))
+
+
+#|
+
+Passo 2: conectar nomes com pathnames.
+
+
+|#
+
+                              
+
+
+
+
+            
+
+
+
+; =============
+
+
 ;==================================== FUNCTIONS ===================
 
 
@@ -282,21 +350,44 @@ be used for urlmapping."
 (defun sound-window (sound-bytes-window window hop-size windows-type &optional result)
 
 (let* (
-      (action1 (if (equal nil windows-type)
+      (action1 (if (equal nil windows-type) ;; checa se o(a) usuario selecionou ou nao um tipo de janela para a analise.
 
-                (list-to-array (first-n sound-bytes-window window) 1) 
-                #|
-                ;; First-n seleciona os primeiros n bytes de todos os bytes do sample em análise. 
-                ;; Sendo que n é o hop size.
+                (list-to-array (first-n sound-bytes-window window) 1) ; se nao selecionou, o algoritmo simpleste 
+                                                                      ; organiza os samples de acordo com a hop-size e
+                                                                      ; os transforma em arrays (estruturas de dados que 
+                                                                      ; agilizam o processamento).
+
+                ;; First-n seleciona os primeiros n bytes de todos os bytes do sample em analise. 
+                ;; Sendo que n e o hopsize.
                 ;; O trecho acima transforma os bytes de um sample em arrays em list (list-to-array).
-                |#
-                (om-ckn::apply-window (list-to-array (first-n sound-bytes-window window) 1) windows-type))) 
+
+                (om-ckn::apply-window (list-to-array (first-n sound-bytes-window window) 1) windows-type)))  
+                                                           ; se o(a) usuario(a) selecionou, organizamos os samples
+                                                           ; e entao aplicamos o calculo da janela atraves da funcao 
+                                                           ; om-ckn::apply-window
+
+;; ================================================================================================
 
       (action2 (last-n sound-bytes-window (let* ((number (- (length sound-bytes-window) hop-size)))
                                             (if (plusp number) number 1)))))
-(if (< (length (remove nil action2)) window) 
-    (reverse (om::x-append (list action1) result))
+
+                ;; Esta acao exclui os samples que ja passaram pelo organizacao e a transformacao para arrays.
+                ;; Em seguida checa se ha samples suficientes para fazer o calculo da ACTION1 novamente.
+
+;; ================================================================================================
+
+
+(if (< (length (remove nil action2)) window) ;; Esta acao checa o resultado da ACTION2 e ve se o algoritmo deve finalizar o calculo
+                                             ;; ou fazer a ACTION1 e ACTION2 novamente. 
+
+;; ============
+    (reverse (om::x-append (list action1) result)) ;; Caso nao ha mais samples para organizar e fazer os calculos, aqui recolhemos todos
+                                                   ;; os resultados e direcionamos para o output. 
+;; ============
+
     (setf sound-bytes-window (sound-window action2 window hop-size windows-type (push action1 result))))))
+                                                   ;; Caso seja necessario fazer o calculo novamente aqui salvamos os resultados na 
+                                                   ;; na variavel RESULT e entao fazemos o calculo novamente. 
 
 
 ;=====================================
