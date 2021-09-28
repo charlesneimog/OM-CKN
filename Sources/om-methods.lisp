@@ -45,8 +45,8 @@ For this work you need:
 (let* (
       (x_if (if (not x) (om::arithm-ser 1 (length y) 1) x))
       (y_if (if (not y) (om::arithm-ser 1 (length x) 1) y))
-      (X-PYTHON (lisp-list_2_python-list x_if))
-      (Y-PYTHON (lisp-list_2_python-list y_if)))
+      (X-PYTHON (lisp-list_2_python-list (om::om-round x_if 10)))
+      (Y-PYTHON (lisp-list_2_python-list (om::om-round y_if 10))))
 (mp:process-run-function (string+ "BPF-PYTHON" (ckn-int2string (om::om-random 1 1000)))
       () 
                   (lambda (x-axis y-axis) (if
