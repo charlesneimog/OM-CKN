@@ -7,10 +7,22 @@
 ; ====
 (defclass! vst3 ()
     ((vst3-path :initform nil :initarg :vst3-path :accessor vst3-path)))
+; ====
+
+(defclass! vst3-code ()
+    (
+        (plugin-path :initform nil :initarg :plugin-path :accessor plugin-path)
+        (py :initform nil :initarg :py :accessor py)
+        (out-sound :initform nil :initarg :out-sound :accessor out-sound)))
+; ====
+
+(defclass! vst3-main-code ()
+    (
+        (main-code :initform nil :initarg :main-code :accessor main-code)))
 
 ;; ======================================
 
-(defmethod! list-my-plugins ((modo number))
+(defmethod! plugins-list ((modo number))
 :icon '17359
 :menuins '((0 (("vst2" 1) ("vst3" 2) ("vts2 and vst3" 3))))
 :doc "
@@ -20,33 +32,18 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
 (if (= modo 3)
     (let* (
             (thepath (get-pref-value :externals :plugins))
-            (thefile-vst2 (om-directory thepath 
-                                                :type "dll"
-                                                :directories nil
-                                                :files t 
-                                                :resolve-aliases t
-                                                :hidden-files nil))
-            (thefile-vst3 (om-directory thepath 
-                                                :type "vst3"
-                                                :directories nil 
-                                                :files t 
-                                                :resolve-aliases t
-                                                :hidden-files nil)))
+            (thefile-vst2 (search-plugins "dll"))
+            (thefile-vst3 (search-plugins "vst3")))
             (mapcar (lambda (x) (name-of-file x)) (x-append thefile-vst2 thefile-vst3)))
 
     (let* (
             (thepath (get-pref-value :externals :plugins))
-            (thefilelist (om-directory thepath 
-                                                :type (if (= modo 1) "dll" "vst3") 
-                                                :directories nil 
-                                                :files t 
-                                                :resolve-aliases nil 
-                                                :hidden-files nil)))
-            (mapcar (lambda (x) (name-of-file x)) thefilelist))))        
+            (thefilelist (search-plugins (if (= modo 1) "dll" "vst3"))))
+            (mapcar (lambda (x) (name-of-file x)) thefilelist))))   
 
 ; ===========================
 
-(defmethod! define-fxp-presets ((fxp-presets string))
+(defmethod! plugins-define-fxp ((fxp-presets string))
 :initvals '(nil)
 :indoc '("Define the fxp-presets to use in your sound.") 
 :icon '17359
@@ -58,20 +55,24 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
 
 ;  ========================
 
-(defmethod! define-plugin ((plugin-name string))
+(defmethod! plugins-define ((plugin-name string))
 :initvals '("My awesome plugin.vst3")
 :indoc '("Define the plugin-name to use in your sound, it need to be vst2 or vst3.") 
 :icon '17359
 :doc "It defines the plugin-name to use in your sound with the object ckn-VST2."
 
-(let* (
-        (action1 (probe-file (merge-pathnames plugin-name (namestring (get-pref-value :externals :plugins)))))
+(let* ( 
+        (all-plugins (x-append (search-plugins "dll") (search-plugins "vst3")))
+        (name-of-all-plugins (mapcar (lambda (x) (name-of-file x)) all-plugins))
+        (position-of-plugin (position plugin-name name-of-all-plugins :from-end nil :test (lambda (x y) (equal x y))))
+        (action1 (probe-file (nth position-of-plugin all-plugins)))
         (action2 (if (equal nil action1) (let* () (om-print "Plugin not found" "Abort ::") (abort)) action1))
         (action3 (cdr (om::string-to-list (name-of-file action2) "."))))
         (if 
             (equal '("dll") action3)
             (make-value 'vst2 (list (list :vst2-path action2)))
             (make-value 'vst3 (list (list :vst3-path action2))))))
+
 
 ;  ========================
 
@@ -80,17 +81,32 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
 :indoc '("With this object you can see the index parameters of some VST2 plugin.") 
 :icon '17359
 :doc "With this object you can see the index parameters of some VST2 plugin."
+
 (let* (
-    (action1 
-        (ckn-cmd-line 
-            (string+ 
-                (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
-                " --plugin " (list->string-fun (list (namestring (vst2-path plugin-path)))) " --display-info " "2>" (list->string-fun (list (namestring (outfile "mrsWatson-out.txt" :subdirs "\om-ckn")))))))
-    (action2 (if (equal "It could not open the library. Probably it is a 32bits plugin." (read-mrs-watson (outfile "mrsWatson-out.txt" :subdirs "\om-ckn"))) (abort))))
-    (ckn-clear-temp-files)
-    "Done! Check the listener"))
-    
-;  ========================
+      (python-code (format nil
+                    "
+import dawdreamer as daw
+
+SAMPLE_RATE = 44100
+BUFFER_SIZE = 128 
+SYNTH_PLUGIN = r'~d'
+print('==================================')
+print('VST2 Index of Parameters')
+engine = daw.RenderEngine(SAMPLE_RATE, BUFFER_SIZE)
+synth = engine.make_plugin_processor('my_synth', SYNTH_PLUGIN)
+all = list(synth.get_plugin_parameters_description())
+
+for x in range(len(all)):
+    name = synth.get_parameter_name(x)
+    print (str(x) + ' : ' + str(name))
+"                               
+                                    (vst2-path plugin-path)))
+      (save-python-code (om::save-as-text python-code (om::outfile "parameters-vst2-sound.py")))
+      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
+      (om::om-cmd-line (string+ "python " prepare-cmd-code))
+      "Done! Check the listener"))
+
+;  ==========================================
 
 (defmethod! plugins-parameter-index ((plugin-path vst3))
 :initvals '(nil)
@@ -102,7 +118,6 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
       (python-code (format nil
                     "
 from pedalboard import load_plugin
-
 plugin = load_plugin(r'~d')
 Todos_parametros = (plugin.parameters.keys())
 list_of_numbers = list(range(len(Todos_parametros)))
@@ -117,6 +132,50 @@ for (x,y) in zip(Todos_parametros, list_of_numbers):
       (om::om-cmd-line (string+ "python " prepare-cmd-code))
       "Done! Check the listener"))
 
+;  ==========================================
+
+(defmethod! plugins-valid-parameters ((plugin-path vst3) (parameter-index integer))
+:initvals '(nil)
+:indoc '("With this object you can see the index parameters of some VST2 plugin.") 
+:icon '17359
+:doc "With this object you can see the index parameters of some VST2 plugin."
+
+(let* (
+      (python-code (format nil
+                    "
+from pedalboard import load_plugin
+plugin = load_plugin(r'~d')
+all_parameters = list(plugin.parameters.keys())
+choosed_parameter = all_parameters[~d]
+print('================ OM-CKN ==============')
+print(f'Showing the good values for the {choosed_parameter}.')
+parameter = getattr(plugin, choosed_parameter)
+goodvalues = parameter.valid_values
+
+mynewlist = []
+for item in goodvalues:
+    try:
+        int_value = int(item)
+    except ValueError:
+        pass
+    else:
+        mynewlist.append(item)
+
+first_number = goodvalues[0]
+last_number = goodvalues[-1]
+
+if (goodvalues == mynewlist):
+    print (f'The good values are one range starting from {first_number} and finished in {last_number}.')
+else:
+    print (f'The good values are {goodvalues}.')
+"                               
+                                    (vst3-path plugin-path) parameter-index))
+      (save-python-code (om::save-as-text python-code (om::outfile "valid-vst3-parameter.py")))
+      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
+      (om::om-cmd-line (string+ "python " prepare-cmd-code))
+      "Done! Check the listener"))
+
+
 ;  ========================
 (defmethod! plugins-process ((sound sound) (sound-out string) (plugin-path vst2) (parameter_index list) &optional (verbose nil)) 
 :initvals '(nil)
@@ -127,8 +186,6 @@ for (x,y) in zip(Todos_parametros, list_of_numbers):
 (let* (
         (action1 (concatString (loop :for x :in parameter_index 
                                     :collect (string+ " --parameter " (string+ (ckn-int2string (first x)) "," (ckn-int2string (second x)))))))
-
-
         (action2  
             (string+ 
                 (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
@@ -140,90 +197,186 @@ for (x,y) in zip(Todos_parametros, list_of_numbers):
 
 (make-value-from-model 'sound (loop-until-probe-file (outfile sound-out)) nil)))
 
+;; ================================
+(defmethod! plugins-process ((sound pathname) (sound-out string) (plugin-path vst2) (parameter_index list) &optional (verbose nil)) 
+:initvals '(nil)
+:indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
+:icon '17359
+:doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
+(plugins-process (make-value-from-model 'sound sound nil) sound-out plugin-path parameter_index verbose))
 
 ;; ================================
+(defmethod! plugins-process ((sound pathname) (sound-out pathname) (plugin-path vst2) (parameter_index list) &optional (verbose nil)) 
+:initvals '(nil)
+:indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
+:icon '17359
+:doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
+(plugins-process (make-value-from-model 'sound sound nil) (namestring sound-out) plugin-path parameter_index verbose))
 
-;; =========================================
+;; ================================
+(defmethod! plugins-process ((sound string) (sound-out pathname) (plugin-path vst2) (parameter_index list) &optional (verbose nil)) 
+:initvals '(nil)
+:indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
+:icon '17359
+:doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
+(plugins-process (make-value-from-model 'sound sound nil) (namestring sound-out) plugin-path parameter_index verbose))
 
-(defun vst3-python-fun (sound_path sound_out plugin_path parameter_name parameter_value)
+;  ========================
+(defmethod! plugins-process ((sound sound) (sound-out pathname) (plugin-path vst2) (parameter_index list) &optional (verbose nil)) 
+:initvals '(nil)
+:indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
+:icon '17359
+:doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
+(plugins-process sound (namestring sound-out) plugin-path parameter_index verbose))
+
+;; ========================================= VST3
+(defmethod! plugins-process ((sound string) (sound-out string) (plugin-path VST3) (parameter_index list) &optional (verbose nil)) 
+:initvals '(nil)
+:indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
+:icon '17359
+:doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
+
 (let* (
-      (python-code (format nil
+        (action1 
+            (concatString (loop :for parameters_values :in parameter_index
+                            :collect 
+                            (string+ "
+setattr(" "plugin, " "all_parameters" 
+                                                (format nil "[~d], " (first parameters_values)) 
+                                                                (if (numberp (second parameters_values)) 
+                                                                    (ckn-int2string (second parameters_values)) 
+                                                                    (list->string-fun (list (second parameters_values)))) ")"))))
+        (python-code (format nil
                     "
 import soundfile as sf
 from pedalboard import load_plugin
 
 plugin = load_plugin(r'~d')
-plugin.parameters['~d'] = ~d
-audio, sample_rate = sf.read('~d')
+all_parameters = list(plugin.parameters.keys())
+~d
+audio, sample_rate = sf.read(r'~d')
 final_audio = plugin.process(audio, sample_rate)
-sf.write('~d', final_audio, sample_rate)
-"                                   
-                                    plugin_path parameter_name parameter_value sound_path sound_out))
-      (save-python-code (om::save-as-text python-code (om::outfile "vst3-sound.py")))
-      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
-      (om::om-cmd-line (string+ "python " prepare-cmd-code))))
-      
-;; =========================================
+sf.write(r'~d', final_audio, sample_rate)
+"                               
+                                    (namestring (vst3-path plugin-path)) action1 sound sound-out))
 
+        (save-python-code (om::save-as-text python-code (om::outfile "process-vst3.py")))
+        (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
+        (om::om-cmd-line (string+ "python " prepare-cmd-code))
+      "Done! Check the listener"))
 
-;  ========================
-(defmethod! midi->audio ((midi string) (sound-out string) (plugin-path vst2) (fxp-path string) &optional (verbose nil))
+;; ========================================= VST3
+(defmethod! plugins-multi-processes ((sound string) (sound-out string) (plugin-path VST3) (parameter_index list) &optional (verbose nil)) 
 :initvals '(nil)
-:indoc '("With this object you can see the index parameters of some VST2 plugin.") 
+:indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
 :icon '17359
-:doc "With this object you can see the index parameters of some VST2 plugin."
+:doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
 
 (let* (
-        (action2  
-            (string+ 
-                (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
-                    " --input " (list->string-fun (list (namestring midi)))
-                    " --output " (list->string-fun (list (namestring (outfile sound-out))))
-                    " --plugin " (string+ (list->string-fun (list (namestring (vts2-path plugin-path)))) "," (list->string-fun (list (namestring fxp-path)))))))
+        (action1 
+            (concatString (loop :for parameters_values :in parameter_index
+                            :collect 
+                            (string+ "
+setattr(" "plugin, " "all_parameters" 
+                                                (format nil "[~d], " (first parameters_values)) 
+                                                                (if (numberp (second parameters_values)) 
+                                                                    (ckn-int2string (second parameters_values)) 
+                                                                    (list->string-fun (list (second parameters_values)))) ")"))))
+        (python-code (format nil
+                    "
+~d
+audio, sample_rate = sf.read(r'~d')
+final_audio = plugin.process(audio, sample_rate)
+sf.write(r'~d', final_audio, sample_rate)
+"                               
+                action1 sound sound-out)))                              
+(make-value 'vst3-code (list (list :plugin-path (namestring (vst3-path plugin-path))) (list :py python-code) (list :out-sound sound-out)))))
 
-(if verbose (om-shell action2) (ckn-cmd-line action2))
-
-(make-value-from-model 'sound (loop-until-probe-file (outfile sound-out)) nil)))
-
-;  ========================
-
-(defmethod! ckn-VST2 ((sound sound) (sound-out pathname) (plugin-path vst2) (fxp-path string))
-:initvals '(nil nil nil nil)
-:indoc '("Use VST2 plugins in your sounds") 
-:icon '17359
-:doc "It allows to use VST2 plugins in your sounds."
-
-(ckn-cmd-line 
- (string+ 
-  (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
-    " --input " (list->string-fun (list (namestring (file-pathname sound))))
-    " --output " (list->string-fun (list (namestring sound-out)))
-    " --plugin " (list->string-fun (list (namestring (define-VST2-plugin (vts2-path plugin-path))))) "," 
-                 (list->string-fun (list (namestring (define-fxp-presets fxp-path))))))
-
-(ckn-clear-temp-files)
-
-(make-value-from-model 'sound sound-out nil))
-
-;  ========================
-
-(defmethod! ckn-VST2 ((sound pathname) (sound-out string) (plugin-path vst2) (fxp-path string))
+;  =====================================================
+(defmethod! plugins-process-code ((code vst3-main-code))
 :initvals '(nil)
-:indoc '("Use VST2 plugins in your sounds") 
+:indoc '("Process vst3 plugin code in Python") 
 :icon '17359
-:doc "It allows to use VST2 plugins in your sounds."
+:doc ""
+(om-print "This can take some time" "OM-CKN ::")
+(let* (
+        (plugin-name (plugin-path (car (main-code code))))
+        (load-plugin-once (format nil "
+import soundfile as sf
+from pedalboard import load_plugin
+print('Wait!')
+plugin = load_plugin(r'~d')
+print('Plugin loaded!')
+all_parameters = list(plugin.parameters.keys())
+        " (namestring plugin-name)))
+        (concat-parameters-codes 
+            (concatString (loop :for y :in (main-code code) 
+                                :collect (py y))))
+        (concat-all-the-code (concatString (list load-plugin-once concat-parameters-codes)))
+        (save-python-code (om::save-as-text concat-all-the-code (om::outfile "all-code-vst3.py")))
+        (sleep 1)
+        (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
+        (om::om-shell (string+ "python " prepare-cmd-code))
+        (loop-until-probe-file (out-sound (car (last (main-code code)))))
+        (loop :for y :in (main-code code) :collect (out-sound y))))
+
+;; ======================================
+(defmethod! voice->audio ((voice voice) (plugin_path vst2))
+:initvals '(nil)
+:indoc '("Process one voice to audio.") 
+:icon '17359
+:doc "It will genereta one audio using voices and vst2-plugins."
 
 (let* (
-(action1 
-(ckn-cmd-line 
- (print (string+ 
-  (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
-    " --input " (list->string-fun (list (namestring sound)))
-    " --output " (list->string-fun (list (namestring (outfile sound-out))))
-    " --plugin " (list->string-fun (list (namestring (define-VST2-plugin (vts2-path plugin-path))))) "," 
-                 (list->string-fun (list (namestring (define-fxp-presets fxp-path)))))))))
+        (true-durations (om6-true-durations voice))
+        (to-seconds (om::ms->sec true-durations))
+        (start_notes (om::dx->x 0 to-seconds))
+        (all_notes (om-round (om/ (flat (lmidic voice)) 100)))
+        (all_velocities (flat (lvel voice)))
+        (all_python_code 
+            (concatString 
+                (loop   :for note_loop :in all_notes
+                        :for velocity_loop :in all_velocities
+                        :for start_loop :in start_notes
+                        :for duration_loop :in true-durations
+                        :collect 
+(string+    
 
-(make-value-from-model 'sound (outfile sound-out) nil)))
+"synth.add_midi_note(" (ckn-int2string note_loop) "," 
+                                            (ckn-int2string velocity_loop) "," 
+                                            (ckn-int2string start_loop) "," 
+                                            (ckn-int2string duration_loop) ")
+                                            
+"))))     
+
+        (durations (om+ 2 (reduce (lambda  (x y) (om+ x y)) to-seconds)))
+        (python-code (format nil "
+import dawdreamer as daw
+from scipy.io import wavfile
+
+SAMPLE_RATE = 44100
+BUFFER_SIZE = 128 
+SYNTH_PLUGIN = r'~d'
+engine = daw.RenderEngine(SAMPLE_RATE, BUFFER_SIZE)
+engine.set_bpm(~d) 
+
+synth = engine.make_plugin_processor('my_synth', SYNTH_PLUGIN)
+~d
+graph = [
+  (synth, [])  
+]
+DURATION = ~d 
+engine.load_graph(graph)
+engine.render(DURATION)  
+audio = engine.get_audio()  
+wavfile.write(r'~d', SAMPLE_RATE, audio.transpose()) 
+"
+        (vst2-path plugin_path) (tempo voice) all_python_code durations (namestring (om::outfile  "voice2midi.wav" :subdirs "om-ckn"))))
+        (save-python-code (om::save-as-text python-code (om::outfile "voice2midi.py")))
+        (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
+        (om::om-cmd-line (string+ "python " prepare-cmd-code))
+        (om::outfile  "voice2midi.wav" :subdirs "om-ckn")))
+
 
 ;; ======================================
 
@@ -249,7 +402,7 @@ Returns a list of file pathnames of the fxp Presets. Connect it to a LIST-SELECT
 (action2 (1- (length action1)))
 (action3 (loop :for x :in action1 :collect (string+ x "-")))
 (action4 (ckn-string-name (first-n action3 action2)))
-(action5 (string+ action4 (format nil "~d-cents" desvio) ".aif"))
+(action5 (string+ action4 (format nil "~d-cents" desvio) ".wav"))
 (action6 (merge-pathnames (string+ "om-ckn/" action5) (outfile "")))
 (action7 (namestring action6)))
 (ckn-cmd-line (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))
@@ -355,6 +508,25 @@ action6))
     (action4 (loop :for fim :in action3 :collect (make-value-from-model 'sound fim nil))))
     (gc-all)
     (sound-seq-list action4 0.001)))
+
+;====================================================================================
+(defun sound-mix-multi (sounds)
+(let* (
+    (action1 
+          (mapcar (lambda (x) (string+ "Sound-mix-" x)) (mapcar (lambda (x) (list->string-fun (list x))) (om::arithm-ser 1 (length sounds) 1))))
+    (action2 (ckn-make-mail-box action1))
+    (action3 (let* ()
+                    (loop 
+                            :for sound-loop :in sounds
+                            :for names-loop :in action1
+                            :for mail-box-loop :in action2 
+                        :do 
+                        (mp:process-run-function names-loop () (lambda (x w) (mp:mailbox-send w (build-sound-mix-fun x))) sound-loop mail-box-loop)) 
+                    (loop-until-finish-process action2) ;; espera todos os processos terminarem
+                    (mapcar (lambda (x) (mp:mailbox-peek x)) action2))) ;; coleta os dados
+    (action4 (loop :for fim :in action3 :collect (make-value-from-model 'sound fim nil))))
+    (gc-all)
+    (build-sound-mix-fun action4)))
 
 ;====================================================================================
 
@@ -664,7 +836,7 @@ action5))
                     (outfile (string+ name "-" (ckn-int2string (om-random 1000 9999)) "-mix-sound" ".wav"))))))
             (line-command 
                 (string+ sox-path " " " --combine mix " " "  sound-in-path " " (list->string-fun sound-in-out))))
-            (ckn-cmd-line line-command)
+            (om-cmd-line line-command)
             (loop-until-probe-file (car sound-in-out))
             (car (om::list! sound-in-out))))
 
@@ -677,7 +849,6 @@ action5))
        (names (arithm-ser 1 (length (flat action1)) 1))
        (after-number (+ number 1))
        (action2 (mapcar (lambda (x y) (sound-mix-sox (flat x) (string+ (ckn-int2string (om-random 1000 9999)) (ckn-int2string y) "-inside"))) action1 names)))
-  (PRINT after-number)
        (if (om::om= (length (flat action2)) 1)
            (car (flat action2))
          (if (om::om< (length (flat action2)) 20)
@@ -728,11 +899,11 @@ action5))
                 " "
                 (list->string-fun (list (namestring x)))
                 " "
-                (list->string-fun (list (namestring (outfile "sox-stereo.wav"))))
+                (list->string-fun (list (namestring (outfile (string+ (name-of-file x) "-v-stereo.wav") :subdirs "om-ckn"))))
                 " "
                 " channels 2 "))
-        (loop-until-probe-file (outfile "sox-stereo.wav"))
-(outfile "sox-stereo.wav"))
+        (loop-until-probe-file (outfile (string+ (name-of-file x) "-v-stereo.wav") :subdirs "om-ckn"))
+(outfile (string+ (name-of-file x) "-v-stereo.wav") :subdirs "om-ckn"))
 
 ;;; ================================================================================
 (compile 'voice->samples-sound-fun)

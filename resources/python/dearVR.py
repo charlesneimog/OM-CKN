@@ -1,8 +1,9 @@
 import soundfile as sf
 from pedalboard import load_plugin
 
-plugin = load_plugin("C:\\USERS\\NEIMOG\\ONEDRIVE - DESIGN.UFJF.BR\\DOCUMENTOS\\REAPER MEDIA\\PLUGINS\\ATMOS 2 VST WIN x64\\Atmos 2.vst3")
-
-midi_messages = ((0.0, (60, 127)), (1.0, (62, 127)), (3.0, (64, 127)))
-output = plugin.process(sample_rate=44100, midi_messages=midi_messages)
-sf.write('C:/Users/neimog/OneDrive/Documentos/OM - Workspace/out-files/MIDI-TEST.wav', output, sample_rate)
+plugin = load_plugin("C:/Users/neimog/OneDrive_usp.br/Documents/REAPER Media/Plugins/VST3/dearVR MICRO.vst3")
+all_parameters = list(plugin.parameters.keys())
+setattr(plugin, all_parameters[0], 300.0) 
+audio, sample_rate = sf.read("C:/USERS/NEIMOG/ONEDRIVE_USP.BR/DOCUMENTS/OpenMusic/OUT-FILES/sox-stereo.wav")
+final_audio = plugin.process(audio, sample_rate)
+sf.write("C:/USERS/NEIMOG/ONEDRIVE_USP.BR/DOCUMENTS/OpenMusic/OUT-FILES/DEAR-90.wav", final_audio, sample_rate)

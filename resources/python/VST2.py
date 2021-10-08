@@ -2,7 +2,6 @@ from cython_vst_loader.vst_host import VstHost
 from cython_vst_loader.vst_plugin import VstPlugin
 from cython_vst_loader.vst_loader_wrapper import allocate_float_buffer
 
-
 sample_rate = 44100
 buffer_size = 512
 

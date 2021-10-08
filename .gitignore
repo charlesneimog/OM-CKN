@@ -2,3 +2,6 @@
 *.html
 *.lisp~
 *.vst3
+*.wav
+*.aif
+*.aiff

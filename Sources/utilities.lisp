@@ -48,28 +48,7 @@
                                           loop-files))))
             (remove nil (flat action1))))
 
-
-#|
-
-Passo 2: conectar nomes com pathnames.
-
-
-|#
-
-                              
-
-
-
-
-            
-
-
-
-; =============
-
-
 ;==================================== FUNCTIONS ===================
-
 
 (defun remove-nth-element-fun (n list)
   "Remove the nth element of a list."
@@ -455,11 +434,12 @@ be used for urlmapping."
       took-the-peak))
 
 ;=====================================
+
 (defun tracking-partial-from-spectro (individual-partial-tranking spectro-total index)
-"Remove os parciais que já foram rastreados."                  
+"Remove os parciais que ja foram rastreados."                  
 (let* (
       (organize (mapcar (lambda (x y) (choose x y)) spectro-total individual-partial-tranking))
-      (add-index-to-partial (mapcar (lambda (x) (if (not x) nil (om::flat (om::x-append index x)))) organize)))
+      (add-index-to-partial (mapcar (lambda (x y) (if (not x) nil (om::flat (om::x-append y x)))) organize index)))
       add-index-to-partial))
 
 ;=====================================
@@ -467,17 +447,39 @@ be used for urlmapping."
 (mapcar (lambda (x y) (remove-nth-element-fun x y)) (om::flat index-of-individual-partial-tranking) prepare-fft))
 
 ;=====================================
+
+#|
 (defun freq-cents-wrong (prepare-fft2sdif)
 
 (mapcar (lambda (x) (frequencias x)) prepare-fft2sdif))
-;;(mc->f (f->mc (mapcar (lambda (x) (frequencias x)) prepare-fft2sdif))))
+
+|#
+
+;=====================================
+(defun fft-freqs (fft-list)
+
+(mapcar (lambda (x) (frequencias x)) fft-list))
+
+;=====================================
+
+(defun frobnicate (list)
+  (loop with counter = 1
+        for (prev next) on list
+        when (and next (null prev))
+          do (incf counter)
+        when prev
+          collect counter
+        else
+          collect prev))
+
 ;=====================================
 (defun freq-cents-wrong-inside (list-fft-instance)
 (mapcar (lambda (x) (mapcar (lambda (y) (first y)) x)) list-fft-instance))
 
 ;;(mc->f (f->mc (mapcar (lambda (x) (mapcar (lambda (y) (first y)) x)) list-fft-instance))))
 ;======================================
-(defun ckn-partial-tracking (prepare-fft todas-frequencias cents-threshold index-inicial &optional result)
+
+(defun partial-tracking-fun (prepare-fft todas-frequencias cents-threshold index-inicial &optional result)
 
 (let* (
       (frequencia-da-vez  (first todas-frequencias))
@@ -485,12 +487,33 @@ be used for urlmapping."
       (partial-tracking   (index-of-individual-partial-tranking frequencia-da-vez cents-threshold (freq-cents-wrong-inside prepare-fft)))
       (remocao-do-parcial (remove-tracking-partial-from-spectro partial-tracking prepare-fft))
       (como-farei-o-index (1+ index-inicial))
-      (parcial-rastreado (tracking-partial-from-spectro partial-tracking prepare-fft como-farei-o-index))) ;;salvar
-(if 
- (not sem-a-da-vez)
- (om::x-append (list parcial-rastreado) result)
- (setf prepare-fft 
-      (ckn-partial-tracking remocao-do-parcial sem-a-da-vez cents-threshold como-farei-o-index (push parcial-rastreado result))))))
+      (traking (tracking-partial-from-spectro partial-tracking prepare-fft 
+                                              (mapcar (lambda (x) (list x)) (om::om+ como-farei-o-index (frobnicate (flat partial-tracking))))))
+      (last-index (let* (
+                              (action1 (caar (last (remove nil traking)))))
+                              (if (not action1) como-farei-o-index action1))))
+      (if 
+            (not sem-a-da-vez)
+            (om::x-append (list traking) result)
+            (setf prepare-fft 
+                  (partial-tracking-fun remocao-do-parcial sem-a-da-vez cents-threshold last-index (push traking result))))))
+
+;======================================
+(defun fft->sdif (fft-instances-list freq-threshold db)
+(let* (
+      (sin-model (fft->sin-model fft-instances-list db))
+      (tempo (ms->sec (mapcar (lambda (x) (ckn-tempo x)) sin-model)))
+      (all-freqs (sort-list (remove-dup (om::om-round (remove nil (flat (fft-freqs sin-model)))) 'eq 1)))
+      (freqs2sdif (prepare-fft2sdif sin-model))
+      (partial-tracking (mapcar (lambda (x) (remove nil x)) (mat-trans (partial-tracking-fun freqs2sdif all-freqs freq-threshold 0))))
+      (2matrix (mapcar (lambda (x) (make-value 'sdifmatrix (list (list :matrixtype "1TRC") (list :data (mat-trans x))))) partial-tracking))
+      (make-sdif 
+            (loop :for tempo-loop :in tempo    
+                  :for matrix-loop :in 2matrix
+                  :collect 
+            (make-value 'sdifframe (list (list :frametype "1TRC") (list :ftime tempo-loop) (list :streamid 0) (list :lmatrix matrix-loop))))))
+      (make-value 'ckn-sdif (list (list :ckn-matrix make-sdif)))))
+      
 
 ;=====================================
 (defun ckn-cmd-line (str)
@@ -598,16 +621,17 @@ be used for urlmapping."
          (sr 44100)
          (nbsamples (round (* dur sr)))
          (freqs (list! freq))
-         (steps (loop :for f :in freqs :collect (/ f sr)))
-         (sampled-envelope (om::om-scale (nth 2 (multiple-value-list (om::om-sample envelope nbsamples))) 0.0 1.0)))
+         (steps (loop :for f :in (list (car freqs)) :collect (/ f sr)))
+         (glissando (loop :for z :in (nth 2 (multiple-value-list (om::om-sample freqs nbsamples))) :collect (/ z sr)))
+         (sampled-envelope envelope))
 
    (loop :for x :from 0 :to (1- nbsamples)
-         :for y-list := (make-list (length steps) :initial-element 0) :then (om+ y-list steps)
+         :for y-list := (make-list (length steps) :initial-element 0) :then (om+ y-list (nth x glissando))
          :for amp :in sampled-envelope
          :collect
             (om::om* 
              (om::om* gain amp)
-             (apply '+ (loop :for y :in y-list :collect (sin (* 2 (coerce pi 'single-float) (cadr (multiple-value-list (floor y)))))))))))
+             (sin (* 2 (coerce pi 'single-float) (cadr (multiple-value-list (floor (car y-list))))))))))
 
 ;=========================
 
@@ -619,13 +643,13 @@ be used for urlmapping."
          (steps (loop for f in freqs collect (/ f sr)))
          (sampled-envelope (om::om-scale (nth 2 (multiple-value-list (om::om-sample envelope nbsamples))) 0.0 1.0)))
 
-    (with-sound-output (mysound :nch 2 :size nbsamples :sr 44100 :type :float)
+    (with-sound-output  (mysound :nch 1 :size nbsamples :sr 44100 :type :float)
 
       (loop for x from 0 to (1- nbsamples)
             for y-list = (make-list (length steps) :initial-element 0) :then (om::om+ y-list steps)
             for amp in sampled-envelope
             do
-            (write-in-sound mysound 1 x
+            (write-in-sound mysound 0 x
                             (om::om* (om::om* gain amp)
                                (apply '+ (loop for y in y-list collect (sin (* 2 (coerce pi 'single-float) (cadr (multiple-value-list (floor y))))))
 
@@ -888,7 +912,7 @@ be used for urlmapping."
 (defun names-to-mix (in1)
 (reduce (lambda (z y) (string+ z y))
           (flat (loop for x :in in1 :collect  
-                      (flat (om::x-append (list->string-fun (list (string+ (namestring x) " "))) " "))))))
+                      (flat (om::x-append " -v 1 "(list->string-fun (list (string+ (namestring x) " "))) " "))))))
 
 ;=====================================================================
 (defun loop-until-probe-file (my-file)
