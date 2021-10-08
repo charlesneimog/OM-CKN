@@ -16,6 +16,11 @@
                 (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN")))))
                                         )
 
+; ==================================
+
+(defclass! ckn-sdif ()
+    ((ckn-matrix :initform nil :initarg :ckn-matrix :accessor ckn-matrix)))
+
 ; ======================================== Methods and Functions ==================================================
 
 (defmethod! complex-numbers-parts ((list list))
@@ -189,6 +194,15 @@ For this work you need:
       (sampling (nth 2 (om::multiple-value-list (om::om-sample durations sec-samples)))))
   (create-pure-tone-h freq sampling)))
 
+;==================================================
+
+(defmethod! partial-tracking ((ffts list) (db-limiter number) (cents_limiter number))
+:initvals '(nil)
+:indoc '("List of ckn-fft")
+:icon '17359
+:doc "It does the partial-tracking of some FFT."
+
+(fft->sdif ffts cents_limiter db-limiter))
 
 ;==================================================
 
@@ -268,8 +282,8 @@ For this work you need:
 
 ;=====================================
 
-(defmethod! bytes->sound ((self list) (quantos-canais number) (qual-canal number))
-:initvals '(nil)
+(defmethod! bytes->sound ((self list) &optional (quantos-canais 1) (qual-canal 1))
+:initvals '(nil 1 1)
 :indoc '("bytes 0 until 1 list" "number of channels" "where write?")
 :icon '17359
 :doc "It create a sound from list of bytes (0 until 1)."
@@ -387,17 +401,27 @@ action3-2)))))
 
 ;; ====================================================
 
-(defmethod! save-spear-sdif ((sdif-frames list) (name symbol))
+(defmethod! save-spear-sdif ((sdif-frames list) (name string))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File." "Name")
 :icon '17359
 :doc ""
 
 (write-sdif-file sdif-frames :outpath
-  (outfile (list->string-fun (x-append name '.sdif)))
+  (outfile (string+ name ".sdif"))
   :types
   (list (make-value 'sdiftype (list (list :struct 'f) (list :signature "1TRC")
      (list :description (list (list "XNFO" "InfoMat") (list "XMAT" "datamat"))))))))
+
+;; ====================================================
+
+(defmethod! save-spear-sdif ((sdif-frames ckn-sdif) (name string))
+:initvals ' (NIL)
+:indoc ' ("Sdif-File." "Name")
+:icon '17359
+:doc ""
+(save-spear-sdif (ckn-matrix sdif-frames) name))
+
 
 ;; ====================================================
 
@@ -469,6 +493,16 @@ action3-2)))))
 :icon '17359
 :doc ""
 (sound-mono-to-stereo-sox-fun (namestring (file-pathname sound))))
+
+;; ===============
+
+
+(defmethod! sound-mono-to-stereo-sox ((sound list))
+:initvals ' ("NIL")
+:indoc ' ("One mono sound")
+:icon '17359
+:doc ""
+(loop :for x :in sound :collect (sound-mono-to-stereo-sox x)))
 
 ;; ===============
 
@@ -706,7 +740,9 @@ Result: (7 9 458)."
 :icon '17359
 :doc "It does the same that sound-mix and sound-mix-list."
 
-(sound-mix-sox-fun sounds name))
+(if (< (length sounds) 21)
+    (sound-mix-sox-fun sounds name)
+    (sound-mix-sox-responsive sounds (string+ name "responsive") 00001)))
 
 ;; ====================================================
 (defmethod! sound-seq-sox ((sounds list) (name string))
@@ -965,4 +1001,26 @@ Converts a (list of) freq pitch(es) to names of notes."
                 (om-abort))))
 
 
-;; ====================================================
+;; Multithreading ====================================================
+
+(defmethod! ckn-multi-1 ((lambda function) (list list))
+:initvals ' ((nil) '-60)       
+:indoc ' ("one function" "one list")
+:outdoc ' ("result")
+:icon '17360
+:doc "It does multithreading loops, do not use it if you REALLY do not need :) ."
+
+(let* (
+      (list-of-something (mapcar (lambda (x) (list x) list)))
+      (action1 (ckn-mailbox-name list-of-something))
+      (action2 (ckn-make-mail-box action1)))
+(loop 
+    :for list-of-something-loop :in list-of-something 
+    :for create-mailbox :in action2
+    :for names-process :in action1
+    :do 
+        (mp:process-run-function names-process
+                 () 
+                  (lambda (x y) (mp:mailbox-send x (mapcar lambda y))) create-mailbox (list list-of-something-loop)))
+(loop-until-finish-process action2)
+(ckn-mailbox-peek action2)))

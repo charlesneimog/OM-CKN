@@ -1,14 +1,25 @@
-import soundfile as sf
 from pedalboard import load_plugin
+plugin = load_plugin("C:/Users/neimog/OneDrive_usp.br/Documents/REAPER Media/Plugins/VST3/dearVR MICRO.vst3")
+all_parameters = list(plugin.parameters.keys())
+choosed_parameter = all_parameters[5]
+print('================ OM-CKN ==============')
+print(f'Showing the good values for the {choosed_parameter}.')
+parameter = getattr(plugin, choosed_parameter)
+goodvalues = parameter.valid_values
 
+mynewlist = []
+for item in goodvalues:
+    try:
+        int_value = int(item)
+    except ValueError:
+        pass
+    else:
+        mynewlist.append(item)
 
-dearVR = load_plugin("C:/Users/neimog/OneDrive - design.ufjf.br/Documentos/REAPER Media/Plugins/anaglyph-win-v0.9.4/Anaglyph.vst3")
-print(dearVR.parameters.keys())
-dearVR.hrtf = 'dearVR'
-setattr(dearVR, 'azimuth_ￂﾰ', '-90.0ￂﾰ') ### wait for the developer fix one bug
+first_number = goodvalues[0]
+last_number = goodvalues[-1]
 
-audio, sample_rate = sf.read('C:/Users/neimog/OneDrive - design.ufjf.br/Documentos/REAPER Media/untitled.wav')
-
-final_audio = dearVR.process(audio, sample_rate)
-
-sf.write('C:/Users/neimog/OneDrive - design.ufjf.br/Documentos/OM - Workspace/out-files/dearVR-1.wav', final_audio, sample_rate)
+if (goodvalues == mynewlist):
+    print (f'The good values are one range starting from {first_number} and finished in {last_number}.')
+else:
+    print (f'The good values are {goodvalues}.')
