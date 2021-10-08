@@ -9,7 +9,7 @@ This library is part of my Ph.D. at the University of São Paulo. I hope to unde
 ____________________________________________
 
 
-### The Use of VST2 in OpenMusic and OM#
+## The Use of VST2 in OpenMusic and OM#
 
 
 I implemented the possibility of using VST2 within OM-Sharp and OM (not all ready yet). For that, I am using **[MrsWatson](https://github.com/teragonaudio/MrsWatson)**. 
@@ -17,6 +17,10 @@ I implemented the possibility of using VST2 within OM-Sharp and OM (not all read
 
 ![VST2 use](https://github.com/charlesneimog/OM-CKN/blob/master/Wiki/VST2%20examples.png)
 
-### Some examples
+## FFT using lisp!
 
 ![FFT working](https://github.com/charlesneimog/OM-CKN/blob/master/Wiki/FFT%20working.png)
+
+## Using VST2 to synthesize one voice!
+
+![Voice to Audio](https://github.com/charlesneimog/OM-CKN/blob/master/Wiki/VOICE%20to%20Audio%20using%20VST2.png)
