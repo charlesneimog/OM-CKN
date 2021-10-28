@@ -26,22 +26,22 @@
 (:symbols 
       (:packages
             (:package (:name "My Compositional Tools") (:functions voice->samples o-voice->samples voice->samples-ITD))
-            (:package (:name "SDIF") (:functions sdif->list sdif-envelope))
+            (:package (:name "SDIF") (:functions sdif->list sdif-envelope )) ;sdif->ckn-fft-instance
             (:package (:name "Sound SOX Functions") (:functions sound-seq-sox sound-seq-multi sound-vol-sox sound-transpose-sox))
             (:package (:name "Sound LISP Functions") (:functions sound->bytes sound-seq-list sound-seq-multi sound-mix-list sound-markers-cut sound-mix-list))
-            (:package (:name "VST2 and VST3") (:functions plugins-list plugins-define plugins-define-fxp plugins-parameter-index plugins-multi-processes plugins-process))
+            (:package (:name "VST2 and VST3") (:functions plugins-list plugins-define plugins-define-fxp plugins-parameter-index plugins-valid-parameters plugins-multi-processes plugins-process))
             (:package (:name "FFT") (:classes ckn-fft-instance) 
                         (:functions ckn-fft fft->amplitude fft->phrase fft->sin-model fft->chord-seq fft->dB ))
             (:package (:name "Python") (:functions bpf-python 3dc-python))
             (:package (:name "Math and Music") (:functions complex-senoide))
             (:package (:name "Instruments") (:functions ))
             (:package (:name "Orchidea-SOL") (:functions FULL-SOL-instruments orchidea-instruments o-check-samples-in-voice OrchideaSOL-folder ))
-            (:package (:name "Multithreading") (:functions ckn-make-mail-box ckn-mailbox-name ckn-mailbox-peek ckn-multi-1))
+            (:package (:name "Multithreading") (:functions ckn-make-mail-box ckn-mailbox-name ckn-mailbox-peek ckn-multi-1-var))
             (:package (:name "Utilities")
                   (:packages
                         (:package (:name "List and arrays") (:functions list-to-array array-to-list by-N half))
+                        (:package (:name "Make me live easy") (:functions nth-repeated-random))
                         (:package (:name "Work with strings") (:functions ckn-list->string ckn-int2string))
-                        (:package (:name "Work with object voice") (:functions ckn-add-extras ckn-voice osc-play))
-
+                        (:package (:name "Work with object voice") (:functions ckn-add-extras ckn-voice ckn-voice->text osc-play))
                         (:package (:name "Geral") (:functions copy2outfile choose-to-rest ckn-position ckn-list->string remove-nth-element f->n ms->samples))
                         )))))

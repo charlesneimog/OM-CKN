@@ -294,12 +294,6 @@ action1))
 
             (sound-fade (sound-silence (om-abs (ms->sec ckn-LOOP2)) 2) 0.01 0.01))))))
 
-;;; ================= Apagar temp files
-
-
-(if temp-files 
-        (ckn-clear-temp-files))
-
 ;;; ================= Finalizar
                                             
 
@@ -365,17 +359,102 @@ action1))
 
             (sound-fade (sound-silence (om-abs (ms->sec ckn-LOOP2)) 2) 0.01 0.01))))))
 
-;;; ================= Apagar temp files
-
-
-(if temp-files 
-        (ckn-clear-temp-files))
 
 ;;; ================= Finalizar
                                             
 
 action1))
 
+;; ====================================================
+(defun o-voice->samples-sharp-sox (voice1 pan) 
+ 
+(let* (
+
+(action1
+    (loop :for ckn-LOOP1 :in (choose-to-rest voice1)
+        :for ckn-LOOP2 :in (om6-true-durations voice1)
+        :collect
+        (let*
+            ((box-choose1 (choose (lmidic voice1) ckn-LOOP1))
+                (box-choose2 (choose (lchan voice1) ckn-LOOP1))
+                (box-choose3 (choose (lvel voice1) ckn-LOOP1))
+                (box-first1 (car box-choose3))
+                (box-choose4 (if (equal nil (choose pan ckn-LOOP1)) '(-50 50)  (choose pan ckn-LOOP1))))
+
+(if (plusp ckn-LOOP2) ;;silencio ou nÃƒÂ£o 
+
+;; NOTA 
+(sound-fade-sox 
+            (if (om< (length box-choose1) 2) ;; MONOFONICO OU POLIFÃƒâ€NICO
+
+            ;;;;; MONOFONICO
+
+;;;; COLOCAR MEIO PARA APAGAR ARQUIVOS TEMPORÃƒÂRIOS
+
+(sound-vol-sox  
+    (save-temp-sounds 
+     (sound-cut 
+                (make-value-from-model 'sound (samples-menores 
+                                               (om-abs (ms->sec ckn-LOOP2))
+ 
+                            (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2)))
+                                (orchidea-instruments
+                                    (first (approx-m box-choose1 2))
+                                    (first box-choose2)
+                                    box-first1)
+                                (sound-transpose-sox 
+                                    (orchidea-instruments
+                                               (first (approx-m box-choose1 2))
+                                               (first box-choose2)
+                                               box-first1)
+                                (first (om- box-choose1 (approx-m box-choose1 2)))))) nil)
+        0.0 
+        (om-abs (ms->sec ckn-LOOP2))) 
+
+    (ckn-int2string (random 9999)))
+        (om-scale box-first1 0.001 0.999 1 110))  ;;;;; FIMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
+
+;;;;; Com acorde
+
+(sound-mix-sox  
+            (o-acordes-de-samples-sharp-sox (om::om-abs (ms->sec ckn-LOOP2)) box-choose1 box-choose2 box-choose3)))
+            (list 0.01 0.01))
+
+;;silencio 
+
+            (sound-fade-sox (sound-silence-sox (om-abs (ms->sec ckn-LOOP2)) 2) (list 0.01 0.01)))))))
+
+;;; ================= Finalizar
+                                            
+
+action1))
+
+
+
+;; ====================================================
+
+(defun o-acordes-de-samples-sharp-sox (ckn-time midic channel velocity)
+
+    (loop :for ckn-LOOP1 :in midic
+        :for ckn-LOOP2 :in channel
+        :for ckn-LOOP3 :in velocity
+        :collect (let* (
+                    (action1 
+                            (if 
+                                (equal 0 (om- ckn-LOOP1 (approx-m ckn-LOOP1 2)))
+                                
+                                    (orchidea-instruments 
+                                                (approx-m ckn-LOOP1 2)
+                                                ckn-LOOP2
+                                                ckn-LOOP3)
+                                    (sound-transpose-sox
+                                            (orchidea-instruments
+                                                (approx-m ckn-LOOP1 2)
+                                                ckn-LOOP2
+                                                ckn-LOOP3)
+                                            (om- ckn-LOOP1 (approx-m ckn-LOOP1 2))))))
+                                              
+                        (sound-vol-sox (save-temp-sounds (sound-cut (samples-menores ckn-time action1) 0.0 ckn-time) (ckn-int2string (random 90000))) (om-scale ckn-LOOP3 0.001 1 1 127)))))
 
 ;; ====================================================
 
@@ -403,6 +482,27 @@ action1))
                             nil)))
                                               
                         (sound-vol (sound-cut (samples-menores ckn-time action1) 0.0 ckn-time) (om-scale ckn-LOOP3 0.001 1 1 127)))))
+
+
+;; ====================================================
+
+(defmethod! orchidea-instruments ((note null) (number-of-the-instrument null) &optional (velocity null))
+:initvals '(6000 20 60)
+:indoc '("Sound class" "Number of the instrument (technique)") 
+:icon '17360
+:doc "It create the patch of a sound."
+
+(sound-silence-sox 1.0 1))
+
+;; ====================================================
+
+(defmethod! orchidea-instruments ((note number) (number-of-the-instrument null) &optional (velocity number))
+:initvals '(6000 20 60)
+:indoc '("Sound class" "Number of the instrument (technique)") 
+:icon '17360
+:doc "It create the patch of a sound."
+
+(sound-silence-sox 1.0 2))
 
 ;; ====================================================
 

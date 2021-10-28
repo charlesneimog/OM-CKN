@@ -176,27 +176,6 @@ else:
       "Done! Check the listener"))
 
 
-;  ========================
-(defmethod! plugins-process ((sound sound) (sound-out string) (plugin-path vst2) (parameter_index list) &optional (verbose nil)) 
-:initvals '(nil)
-:indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
-:icon '17359
-:doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
-
-(let* (
-        (action1 (concatString (loop :for x :in parameter_index 
-                                    :collect (string+ " --parameter " (string+ (ckn-int2string (first x)) "," (ckn-int2string (second x)))))))
-        (action2  
-            (string+ 
-                (list->string-fun (list (namestring (get-pref-value :externals :MrsWatson-exe))))
-                    " --input " (list->string-fun (list (namestring (file-pathname sound))))
-                    " --output " (list->string-fun (list (namestring (outfile sound-out))))
-                    " --plugin " (list->string-fun (list (namestring (vst2-path plugin-path))))
-                    action1)))
-(if verbose (om-shell action2) (ckn-cmd-line action2))
-
-(make-value-from-model 'sound (loop-until-probe-file (outfile sound-out)) nil)))
-
 ;; ================================
 (defmethod! plugins-process ((sound pathname) (sound-out string) (plugin-path vst2) (parameter_index list) &optional (verbose nil)) 
 :initvals '(nil)
@@ -298,21 +277,28 @@ sf.write(r'~d', final_audio, sample_rate)
 :indoc '("Process vst3 plugin code in Python") 
 :icon '17359
 :doc ""
+(om-print "================================")
 (om-print "This can take some time" "OM-CKN ::")
+(om-print "================================")
 (let* (
         (plugin-name (plugin-path (car (main-code code))))
         (load-plugin-once (format nil "
 import soundfile as sf
+import time
+start_time = time.time()
 from pedalboard import load_plugin
-print('Wait!')
 plugin = load_plugin(r'~d')
-print('Plugin loaded!')
 all_parameters = list(plugin.parameters.keys())
         " (namestring plugin-name)))
+        (time_execution (format nil "
+end_time = time.time()
+time_elapsed = round((end_time - start_time), 2)
+print(f'O tempo gasto foi de {time_elapsed} segundos')
+"))
         (concat-parameters-codes 
             (concatString (loop :for y :in (main-code code) 
                                 :collect (py y))))
-        (concat-all-the-code (concatString (list load-plugin-once concat-parameters-codes)))
+        (concat-all-the-code (concatString (list load-plugin-once concat-parameters-codes time_execution)))
         (save-python-code (om::save-as-text concat-all-the-code (om::outfile "all-code-vst3.py")))
         (sleep 1)
         (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
@@ -331,14 +317,22 @@ all_parameters = list(plugin.parameters.keys())
         (true-durations (om6-true-durations voice))
         (to-seconds (om::ms->sec true-durations))
         (start_notes (om::dx->x 0 to-seconds))
+        (to-chords (mapcar (lambda (x) (length x)) (lmidic voice)))
         (all_notes (om-round (om/ (flat (lmidic voice)) 100)))
         (all_velocities (flat (lvel voice)))
+        (true-durations-with-chords (flat (loop :for to-chords-loop :in to-chords
+                                                :for start_notes-loop :in true-durations
+                                                :collect (om::repeat-n start_notes-loop to-chords-loop))))
+
+        (chords-and-durations (flat (loop :for to-chords-loop :in to-chords
+                                          :for start_notes-loop :in start_notes
+                                          :collect (om::repeat-n start_notes-loop to-chords-loop))))
         (all_python_code 
             (concatString 
-                (loop   :for note_loop :in all_notes
-                        :for velocity_loop :in all_velocities
-                        :for start_loop :in start_notes
-                        :for duration_loop :in true-durations
+                (loop   :for note_loop :in (flat all_notes)
+                        :for velocity_loop :in (flat all_velocities)
+                        :for start_loop :in (flat chords-and-durations)
+                        :for duration_loop :in (flat true-durations-with-chords)
                         :collect 
 (string+    
 
@@ -359,7 +353,7 @@ BUFFER_SIZE = 128
 SYNTH_PLUGIN = r'~d'
 engine = daw.RenderEngine(SAMPLE_RATE, BUFFER_SIZE)
 engine.set_bpm(~d) 
-
+# here the code
 synth = engine.make_plugin_processor('my_synth', SYNTH_PLUGIN)
 ~d
 graph = [
@@ -375,7 +369,7 @@ wavfile.write(r'~d', SAMPLE_RATE, audio.transpose())
         (save-python-code (om::save-as-text python-code (om::outfile "voice2midi.py")))
         (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
         (om::om-cmd-line (string+ "python " prepare-cmd-code))
-        (om::outfile  "voice2midi.wav" :subdirs "om-ckn")))
+        (namestring (om::outfile  "voice2midi.wav" :subdirs "om-ckn"))))
 
 
 ;; ======================================
@@ -399,9 +393,9 @@ Returns a list of file pathnames of the fxp Presets. Connect it to a LIST-SELECT
 
 (let* (
 (action1 (string-to-list (name-of-file instrumentos) "-"))
-(action2 (1- (length action1)))
+(action2 (1- (length (om::list! action1))))
 (action3 (loop :for x :in action1 :collect (string+ x "-")))
-(action4 (ckn-string-name (first-n action3 action2)))
+(action4 (ckn-string-name (list! (first-n action3 action2))))
 (action5 (string+ action4 (format nil "~d-cents" desvio) ".wav"))
 (action6 (merge-pathnames (string+ "om-ckn/" action5) (outfile "")))
 (action7 (namestring action6)))
@@ -411,7 +405,7 @@ Returns a list of file pathnames of the fxp Presets. Connect it to a LIST-SELECT
           " "
           (list->string-fun (list action7))
           (format nil " pitch ~d" desvio)))
-(print (format nil "Transpondo em ~d cents" desvio))
+; (print (format nil "Transpondo em ~d cents" desvio))
 action6))
 
 ;; Fazer um código mais bonito
@@ -702,7 +696,7 @@ action1))
 
 (defun samples-menores (ckn-time ckn-sound)
 
-(if (om::om> ckn-time (om::sound-dur ckn-sound)) 
+(if (om::om> ckn-time (om::sound-dur (make-value-from-model 'sound ckn-sound nil))) 
     (om::sound-seq ckn-sound (sound-silence (om::om+ (om::om- ckn-time (sound-dur ckn-sound)) 0.03)) 0.01)
     ckn-sound))
 
@@ -764,11 +758,11 @@ If you want to work with python you need:
 
 ;;; ================================================================================
 
-(defun save-temp-sounds (sounds) 
+(defun save-temp-sounds (sounds &optional if-needed) 
     (let* (
             (first-action1 
                 (mapcar 
-                    (lambda (x) (string+ "Sound-" x))
+                    (lambda (x) (string+ "Sound-" if-needed x))
                         (mapcar (lambda (x) (format nil "~6,'0D" x)) (om::arithm-ser 1 (length sounds) 1)))))
       
             (loop :for loop-sound :in sounds
@@ -823,6 +817,7 @@ action5))
     (string+ sox-path " " action-sound-vol " " (list->string-fun (list (namestring sound-in-path))) " " (list->string-fun sound-in-out)))
   (the-command (ckn-cmd-line line-command))
   (loading (loop-until-probe-file (car sound-in-out))))
+  ;(ckn-clear-the-file sounds)
     (car sound-in-out)))
 
 ;;; ================================================================================
@@ -836,7 +831,8 @@ action5))
                     (outfile (string+ name "-" (ckn-int2string (om-random 1000 9999)) "-mix-sound" ".wav"))))))
             (line-command 
                 (string+ sox-path " " " --combine mix " " "  sound-in-path " " (list->string-fun sound-in-out))))
-            (om-cmd-line line-command)
+            (ckn-cmd-line line-command)
+            ;(ckn-clear-the-file sounds)
             (loop-until-probe-file (car sound-in-out))
             (car (om::list! sound-in-out))))
 
@@ -859,6 +855,22 @@ action5))
 
 ;;; ================================================================================
 
+(defun sound-seq-sox-responsive (sounds nomes number)
+(let*  (
+       (action1 (loop-in-parts (flat sounds) 20 20))
+       (names (arithm-ser 1 (length (flat action1)) 1))
+       (after-number (+ number 1))
+       (action2 (mapcar (lambda (x y) (sound-seq-sox (flat x) (string+ (ckn-int2string (om-random 1000 9999)) (ckn-int2string y) "-seq-inside"))) action1 names)))
+       (if (om::om= (length (flat action2)) 1)
+           (car (flat action2))
+         (if (om::om< (length (flat action2)) 20)
+         (sound-seq-sox (flat action2) (string+ nomes "-seq-finish"))
+         (setf sounds (sound-seq-sox-responsive action2 nomes after-number))))))
+
+(compile 'sound-seq-sox-responsive)
+
+;;; ================================================================================
+
 (defun sound-seq-sox-fun (sounds name)
     (let* (
             (sox-path (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))))
@@ -870,6 +882,7 @@ action5))
                 (string+ sox-path " " " --combine sequence " " "  sound-in-path " " (list->string-fun sound-in-out)))
             (the-command (ckn-cmd-line line-command))
             (loading (loop-until-probe-file (car sound-in-out))))
+            ;(ckn-clear-the-file sounds)
                 (car sound-in-out)))
 
 ;;; ================================================================================
@@ -889,6 +902,23 @@ action5))
   (loading (loop-until-probe-file (car sound-in-out))))
     (car sound-in-out)))
 
+;;; ================================================================================
+
+(defun sound-cut-sox-fun (sounds in out)
+
+(let* (
+  (sox-path (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))))
+  (sound-in-path sounds)
+  (sound-in-out 
+      (list (namestring (merge-pathnames "om-ckn/" 
+        (outfile (string+ (first (om::string-to-list (name-of-file sound-in-path) ".")) "-" (ckn-int2string (om-random 1000 9999)) "-vol-correction" ".wav"))))))
+  (action-sound-vol (format nil " trim ~d ~d " in out))
+  (line-command 
+    (string+ sox-path " " (list->string-fun (list (namestring sound-in-path))) " " (list->string-fun sound-in-out) " " action-sound-vol))
+  (the-command (ckn-cmd-line line-command))
+  (loading (loop-until-probe-file (car sound-in-out))))
+  ;(ckn-clear-the-file sounds)
+    (car sound-in-out)))
 
 ;;; ================================================================================
 
@@ -905,6 +935,7 @@ action5))
         (loop-until-probe-file (outfile (string+ (name-of-file x) "-v-stereo.wav") :subdirs "om-ckn"))
 (outfile (string+ (name-of-file x) "-v-stereo.wav") :subdirs "om-ckn"))
 
+(compile 'sound-mono-to-stereo-sox-fun)
 ;;; ================================================================================
 (compile 'voice->samples-sound-fun)
 (compile 'samples-menores)

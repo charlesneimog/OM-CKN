@@ -9,7 +9,7 @@
 
 (defconstant CKN-pi  (coerce pi 'single-float))
 
-;; TEST AREA =================
+;; SAMPLES AND DAW =================
 
 (defun search-inside-some-folder (folder extension)                                                                         
       (let* (
@@ -48,6 +48,18 @@
                                           loop-files))))
             (remove nil (flat action1))))
 
+;==============================================================
+
+(defun names-to-mix (in1)
+(reduce (lambda (z y) (string+ z y))
+          (flat (loop for x :in in1 :collect  
+                      (flat (om::x-append " -v 1 "(list->string-fun (list (string+ (namestring x) " "))) " "))))))
+
+
+
+;==============================================================
+
+
 ;==================================== FUNCTIONS ===================
 
 (defun remove-nth-element-fun (n list)
@@ -68,12 +80,6 @@ list
       (cos-angle (mapcar (lambda (X) (cos x)) angle))
       (sin-angle (mapcar (lambda (X) (sin x)) angle)))
   (om::om+ cos-angle (om::om* (sqrt -1) sin-angle))))
-
-;; ============
-
-(defun ckn-int2string (int)
-      "Number to string."
-  (write-to-string int))
 
 
 ;==================================== Python Functions ===========
@@ -153,6 +159,7 @@ from mpl_toolkits import mplot3d
 import numpy as np
 import matplotlib.pyplot as plt
 plt.rcParams['agg.path.chunksize'] = 10000
+plt.figure(figsize=(20, 10), dpi=300)
 ax = plt.axes(projection='3d')
 ax.xaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))
 ax.yaxis.set_pane_color((1.0, 1.0, 1.0, 1.0))
@@ -304,26 +311,13 @@ plt.show()
   (integer-length (1- n)))
 
 ; ============================
-#| 
-(defun get-function-discriminators (function-name)
-  "Get the discriminators of a function and sort them appropriately to
-be used for urlmapping."
-  (let ((discriminators
-	 (mapcar (fn (method)
-		   (mapcar (compose #'^symbol #'class-name)
-			   (method-specializers method)))
-		 (generic-function-methods (symbol-function
-					    function-name)))))
-    (sort-function-discriminators discriminators)))
-
-|#
-; ============================
 
 (defun half-fun (in-array)
   (make-array (/ (length in-array) 2)
 	      :element-type (array-element-type in-array)
 	      :displaced-to in-array))
 
+(compile 'half-fun)
 ; ============================
 
 (defun sound-window (sound-bytes-window window hop-size windows-type &optional result)
@@ -368,7 +362,7 @@ be used for urlmapping."
                                                    ;; Caso seja necessario fazer o calculo novamente aqui salvamos os resultados na 
                                                    ;; na variavel RESULT e entao fazemos o calculo novamente. 
 
-
+(compile 'sound-window)
 ;=====================================
 
 (defun sound-window-list (sound-bytes-window window hop-size &optional result)
@@ -381,9 +375,13 @@ be used for urlmapping."
     (om::x-append result (list action1)) 
   (setf sound-bytes-window (sound-window-list action2 window hop-size (push action1 result))))))
 
+(compile 'sound-window-list)
 ;=====================================
 
 (defun loop-in-parts (sound-bytes-window window hop-size &optional result)
+
+(if (< (length sound-bytes-window) hop-size)
+(list sound-bytes-window)
 
 (let* (
       (action1 (first-n sound-bytes-window window))
@@ -395,9 +393,9 @@ be used for urlmapping."
     (if (equal action1 action2) 
         (reverse (om::x-append (list action2) (list action1) result)) 
         (reverse (om::x-append (list action1) result)))
-  (setf sound-bytes-window (loop-in-parts action2 window hop-size (push action1 result))))))
+  (setf sound-bytes-window (loop-in-parts action2 window hop-size (push action1 result)))))))
 
-
+(compile 'loop-in-parts)
 ;===================================== SDIF TRACKING ============
 (defun prepare-fft2sdif (list-fft-instance)
 (let* (
@@ -408,6 +406,7 @@ be used for urlmapping."
             (all-peaks (mapcar (lambda (a b c) (list a b c)) all-frequencias all-amplitudes all-phrase)))
             (mapcar (lambda (x) (om::mat-trans x)) all-peaks)))
 
+(compile 'prepare-fft2sdif)
 ;=====================================
 
 (defun index-of-individual-partial-tranking (frequencia cents spectro)
@@ -433,6 +432,7 @@ be used for urlmapping."
             (took-the-peak (mapcar (lambda (x y) (ckn-position x y)) spectro (flat filtro))))
       took-the-peak))
 
+(compile 'index-of-individual-partial-tranking)
 ;=====================================
 
 (defun tracking-partial-from-spectro (individual-partial-tranking spectro-total index)
@@ -442,24 +442,18 @@ be used for urlmapping."
       (add-index-to-partial (mapcar (lambda (x y) (if (not x) nil (om::flat (om::x-append y x)))) organize index)))
       add-index-to-partial))
 
+(compile 'tracking-partial-from-spectro)
 ;=====================================
 (defun remove-tracking-partial-from-spectro (index-of-individual-partial-tranking prepare-fft)
 (mapcar (lambda (x y) (remove-nth-element-fun x y)) (om::flat index-of-individual-partial-tranking) prepare-fft))
 
-;=====================================
-
-#|
-(defun freq-cents-wrong (prepare-fft2sdif)
-
-(mapcar (lambda (x) (frequencias x)) prepare-fft2sdif))
-
-|#
-
+(compile 'remove-tracking-partial-from-spectro)
 ;=====================================
 (defun fft-freqs (fft-list)
 
 (mapcar (lambda (x) (frequencias x)) fft-list))
 
+(compile 'fft-freqs)
 ;=====================================
 
 (defun frobnicate (list)
@@ -472,10 +466,12 @@ be used for urlmapping."
         else
           collect prev))
 
+(compile 'frobnicate)
 ;=====================================
 (defun freq-cents-wrong-inside (list-fft-instance)
 (mapcar (lambda (x) (mapcar (lambda (y) (first y)) x)) list-fft-instance))
 
+(compile 'freq-cents-wrong-inside)
 ;;(mc->f (f->mc (mapcar (lambda (x) (mapcar (lambda (y) (first y)) x)) list-fft-instance))))
 ;======================================
 
@@ -498,8 +494,9 @@ be used for urlmapping."
             (setf prepare-fft 
                   (partial-tracking-fun remocao-do-parcial sem-a-da-vez cents-threshold last-index (push traking result))))))
 
+(compile 'partial-tracking-fun)
 ;======================================
-(defun fft->sdif (fft-instances-list freq-threshold db)
+(defun fft->sdif-fun (fft-instances-list freq-threshold db)
 (let* (
       (sin-model (fft->sin-model fft-instances-list db))
       (tempo (ms->sec (mapcar (lambda (x) (ckn-tempo x)) sin-model)))
@@ -514,37 +511,10 @@ be used for urlmapping."
             (make-value 'sdifframe (list (list :frametype "1TRC") (list :ftime tempo-loop) (list :streamid 0) (list :lmatrix matrix-loop))))))
       (make-value 'ckn-sdif (list (list :ckn-matrix make-sdif)))))
       
-
+(compile 'fft->sdif-fun)
 ;=====================================
 (defun ckn-cmd-line (str)
   (oa::om-command-line str))
-
-;=====================================
-
-(defun name-of-file (p)
-  (let ((path (and p (pathname p))))
-  (when (pathnamep path)
-    (string+ (pathname-name path) 
-             (if (and (pathname-type path) (stringp (pathname-type path)))
-                 (string+ "." (pathname-type path)) 
-               "")))))
-               
-;  ========================
-
-(defun ckn-string-name (list-name)
-
-(let*  (
-    (action1 (string+ (first list-name) (second list-name)))
-    (action2 (if 
-                (>  (length (x-append action1 list-name)) 2)
-                (x-append action1 (last-n list-name (- (length list-name) 2)))
-                action1)))
-    
-    (if (< (length action2) 2)
-            (first action2)
-            (setf list-name (ckn-string-name action2)))))
-
-
 
 ;=====================================
 
@@ -613,8 +583,6 @@ be used for urlmapping."
 
  ; ============================ OM-SYNTH ========================================================
 
-;; This is a code stolen from Jean Bresson OM-Sharp
-
 (defun do-senoide (dur freq gain envelope)
 
   (let* (
@@ -634,6 +602,7 @@ be used for urlmapping."
              (sin (* 2 (coerce pi 'single-float) (cadr (multiple-value-list (floor (car y-list))))))))))
 
 ;=========================
+;; This is a code stolen from Jean Bresson OM-Sharp
 
 (defun synth (dur freq gain envelope)
 
@@ -641,23 +610,24 @@ be used for urlmapping."
          (nbsamples (round (* dur sr)))
          (freqs (list! freq))
          (steps (loop for f in freqs collect (/ f sr)))
-         (sampled-envelope (om::om-scale (nth 2 (multiple-value-list (om::om-sample envelope nbsamples))) 0.0 1.0)))
+         (sampled-envelope (om-scale (nth 2 (multiple-value-list (om-sample envelope nbsamples))) 0.0 1.0)))
 
-    (with-sound-output  (mysound :nch 1 :size nbsamples :sr 44100 :type :float)
+    (with-sound-output (mysound :nch 1 :size nbsamples :sr 44100 :type :float)
 
       (loop for x from 0 to (1- nbsamples)
-            for y-list = (make-list (length steps) :initial-element 0) :then (om::om+ y-list steps)
+            for y-list = (make-list (length steps) :initial-element 0) then (om+ y-list steps)
             for amp in sampled-envelope
             do
             (write-in-sound mysound 0 x
-                            (om::om* (om::om* gain amp)
-                               (apply '+ (loop for y in y-list collect (sin (* 2 (coerce pi 'single-float) (cadr (multiple-value-list (floor y))))))
+                            (* gain amp
+                               (apply '+
+                                      (loop for y in y-list collect
+                                            (sin (* 2 (coerce pi 'single-float) (cadr (multiple-value-list (floor y))))))
 
                                       ))
                             )
             )
       )))
-
 ;=========================
 
 
@@ -734,17 +704,18 @@ be used for urlmapping."
         (sound-windows-parts (loop-in-parts sound-windows 128 128))
         (sound-windows-length (length sound-windows))
         (fft-chunk-to-ms (om::arithm-ser 1 sound-windows-length 1))
-        (fft-chunk-to-ms-parts (loop-in-parts fft-chunk-to-ms 300 300))
-        (boolean-window-size (om::om> sound-windows-length 300)))
+        (fft-chunk-to-ms-parts (loop-in-parts fft-chunk-to-ms 128 128))
+        (boolean-window-size (om::om> sound-windows-length 128)))
 
 (if boolean-window-size
-    (flat (loop :for loop-sound-windows-parts :in sound-windows-parts 
+        (flat (loop :for loop-sound-windows-parts :in sound-windows-parts 
           :for loop-fft-chunk-to-ms-parts :in fft-chunk-to-ms-parts
           :collect (let* (
                          (action1 (do-fft-chunks loop-sound-windows-parts))
                          (action2 (ckn-make-mail-box action1)))
                      (fft-multiple-thread loop-sound-windows-parts action2 action1 loop-fft-chunk-to-ms-parts (sample-rate sound-self) hop-size))) 1)
-  
+
+   
   (let* (
                          
                          (action1 sound-windows)
@@ -752,7 +723,9 @@ be used for urlmapping."
                          (action3 (do-fft-chunks sound-windows))
                          (action4 (ckn-make-mail-box action3)))
                      (fft-multiple-thread action1 action4 action3 action2 (sample-rate sound-self) hop-size)))))
+ 
 
+(compile 'fft-ckn)
 ;=====================================================================
 
 (defun fft-ckn-om (sound-self fft-size hop-size windows-type)
@@ -883,6 +856,41 @@ be used for urlmapping."
 
 ;===================================================================== Files control =====================================
 
+;=====================================
+
+(defun name-of-file (p)
+  (let ((path (and p (pathname p))))
+  (when (pathnamep path)
+    (string+ (pathname-name path) 
+             (if (and (pathname-type path) (stringp (pathname-type path)))
+                 (string+ "." (pathname-type path)) 
+               "")))))
+               
+;  ========================
+
+(defun ckn-string-name (list-name)
+
+(if (< (length list-name) 2)
+    (car list-name)
+(let*  (
+    (action1 (string+ (first list-name) (second list-name)))
+    (action2 (if 
+                (>  (length (x-append action1 list-name)) 2)
+                (x-append action1 (last-n list-name (- (length list-name) 2)))
+                action1)))
+    
+    (if (< (length action2) 2)
+            (first action2)
+            (setf list-name (ckn-string-name action2))))))
+            
+(compile 'ckn-string-name)
+;; ============
+
+(defun ckn-int2string (int)
+      "Number to string."
+  (write-to-string int))
+
+;; ============
 
 (defun ckn-clear-temp-files ()
 
@@ -893,8 +901,20 @@ be used for urlmapping."
 (ckn-cmd-line (string+ "powershell -command " 
                           (list->string-fun (list (string+ "del " 
                                             (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.wav" (outfile ""))))))))))))
+;; ================================
 
-;=====================================================================
+(defun ckn-clear-the-file (x)
+
+(if (atom x) 
+    (ckn-cmd-line (string+ "powershell -command " 
+                          (list->string-fun (list (string+ "del " 
+                                            (list->string-fun (list (namestring x))))))))
+    (loop :for x-file :in x
+          :do (ckn-cmd-line (string+ "powershell -command " 
+                          (list->string-fun (list (string+ "del " 
+                                            (list->string-fun (list (namestring x-file)))))))))))
+
+;; ================================
 
 (defun ckn-copy2outfile (x)
 (let* (
@@ -902,19 +922,36 @@ be used for urlmapping."
       (ckn-cmd-line action1)
       (ckn-clear-temp-files)
       (outfile (name-of-file x))))
-;=====================================================================
+
+;; ================================
+
+(defun ckn-rename-file (x)
+(let* (
+      (action1 (string+ "copy " (list->string-fun (list x)) " " (list->string-fun (list (namestring (outfile "")))))))
+      (ckn-cmd-line action1)
+      (ckn-clear-temp-files)
+      (outfile (name-of-file x))))
+
+;; ================================
 
 (defun ckn-list-to-string (lst)
     (format nil "~{~A ~}" lst))
 
-;=====================================================================
+;; ================================
 
-(defun names-to-mix (in1)
-(reduce (lambda (z y) (string+ z y))
-          (flat (loop for x :in in1 :collect  
-                      (flat (om::x-append " -v 1 "(list->string-fun (list (string+ (namestring x) " "))) " "))))))
+(defmethod! ckn-temp-folder ((string string))
+:initvals '(nil)
+:indoc '("Temp folder") 
+:icon '17359
+:doc "Temp folder, not in OneDrive Folder."
 
-;=====================================================================
+(merge-pathnames (def-temp-folder) string))
+
+;; ================================
+
+(ensure-directories-exist (outfile " " :subdirs "\om-ckn"))
+
+;================================== WAIT PROCESS =================
 (defun loop-until-probe-file (my-file)
         (loop :with file = nil 
               :while (equal nil (setf file (probe-file my-file)))
@@ -922,14 +959,16 @@ be used for urlmapping."
         
 (probe-file my-file))
 
-;=====================================================================
+;==========================
 
 (defun loop-until-finish-process (mailbox)
       (loop :with mailbox-empty = nil :while 
             (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mailbox)))
             :do (let* ()
             mailbox-empty)))
-;=====================================================================
+
+
+;================================== Antescofo =================
 
 (defun ckn-antescofo-score (voice variance local)
 (let* (
@@ -1030,38 +1069,19 @@ be used for urlmapping."
 (nth 1 (om::multiple-value-list (om::seq (om::gc-all) x))))
 
 
-;; ===================================== Folder organization =========================== 
-
-(ensure-directories-exist (outfile " " :subdirs "\om-ckn"))
-
-
 ;; ===================================== Information =========================== 
-(defun read-mrs-watson (filename)
+
+(defun read-dur-informations (filename)
       (let* (  
             (action1 
             (with-open-file (stream filename)
                   (loop :for line := (read-line stream nil)
                         :while line 
                         :collect line)))
-            (action2 (length action1)))
-            (print (format nil " ==================================  "))
-            (print (format nil "VST2 Index of Parameters"))
-            (loop :for x :in (om::arithm-ser 1 action2 1)
-                  :for y :in action1 
-                  :while (not (equal "Programs" (fourth (om::string-to-list y))))
-                  :do (let* (
-                        (action2-1 (cdddr (om::string-to-list y)))
-                        (action2-2 (length action2-1))
-                        (action2-3 (first-n action2-1 (1- action2-2))))
-                              (if (> x 12) 
-                                    (if 
-                                          (equal "Parameters" (fourth (om::string-to-list y)))
-                                          nil
-                                          (print (format nil (reduce (lambda (a b) (string+ a " " b)) action2-3)))))
-                  :collect (if (equal "Could" (fourth (om::string-to-list y))) (print "It could not open the library. Probably it is a 32bits plugin."))))))
-                  
-;; ========================
-;; ===============================================================================
+            (action2 (second action1)))
+       (read-from-string (car (last (string-to-list action2))))))
+
+;; =================================================== OM6 functions
 
 (defun om6-true-durations (ckn)
 
@@ -1108,7 +1128,6 @@ be used for urlmapping."
 (compile 'fft-multiple-thread)
 (compile 'do-fft-chunks)
 (compile 'ckn-make-mail-box)
-(compile 'fft-ckn)
 (compile 'ckn-clear-temp-files)
 (compile 'spear-approach )
 (compile 'fft->sin-model-fun)
