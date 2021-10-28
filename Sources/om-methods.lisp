@@ -16,6 +16,17 @@
                 (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN")))))
                                         )
 
+                                        
+; ============ Facilitar minha vida!!! =================
+
+(defmethod! nth-repeated-random ((list list) (times number))
+:initvals ' (NIL)
+:indoc ' ("one list")
+:icon 'combinatory
+:doc ""
+
+(om::repeat-n (om::nth-random list) times))
+
 ; ==================================
 
 (defclass! ckn-sdif ()
@@ -158,8 +169,37 @@ For this work you need:
 
 (if (compiled-function-p #'sapa-fft!) nil (compile 'sapa-fft!))
 
-(case window-type
-  (nil (om-message-dialog "You need to define which window-type (fourth inlet) will be used for the fft analysis.")))
+(if 
+    (equal *app-name* "om-sharp")
+        (fft-ckn sound fft-size hop-size (case window-type 
+            (1 :hanning)
+            (2 :blackman)
+            (3 :barlett)
+            (4 :hamming)
+            (5 :rectangular)
+            (6 nil)))
+
+        (fft-ckn-om sound fft-size hop-size (case window-type 
+            (1 :hanning)
+            (2 :blackman)
+            (3 :barlett)
+            (4 :hamming)
+            (5 :rectangular)
+            (6 nil)))))
+
+;==================================================
+
+(defmethod! ckn-fft ((sound sound) (fft-size number) (hop-size number) (window-type null))
+:initvals '(nil 2048 512 nil)
+:indoc '("Sound class" "FFT-size" "Hop-size" "Windows-type") 
+:menuins '((3 (("hann" 1) ("blackman" 2) ("barlett" 3) ("hamming" 4) ("rectangular" 5) ("nenhuma" 6))))
+:icon '17359
+:doc "It does the FFT in a sound."
+
+(if (compiled-function-p #'sapa-fft!) nil (compile 'sapa-fft!))
+
+(if (not window-type)
+  (om-message-dialog "You need to define which window-type (fourth inlet) will be used for the fft analysis."))
 
 (if 
     (equal *app-name* "om-sharp")
@@ -178,6 +218,7 @@ For this work you need:
             (4 :hamming)
             (5 :rectangular)
             (6 nil)))))
+
 
 
 ;==================================================
@@ -325,7 +366,7 @@ For this work you need:
 ;==================================================
 
 (defmethod! half ((fft-array array))
-:doc "Só é necessário metade do resultado do FFT."
+:doc "E necessaria somente metade do resultado do FFT."
 
 (half-fun half))
 
@@ -413,6 +454,7 @@ action3-2)))))
   (list (make-value 'sdiftype (list (list :struct 'f) (list :signature "1TRC")
      (list :description (list (list "XNFO" "InfoMat") (list "XMAT" "datamat"))))))))
 
+
 ;; ====================================================
 
 (defmethod! save-spear-sdif ((sdif-frames ckn-sdif) (name string))
@@ -422,6 +464,14 @@ action3-2)))))
 :doc ""
 (save-spear-sdif (ckn-matrix sdif-frames) name))
 
+;; ====================================================
+
+(defmethod! fft->sdif ((sdif-frames list) (freq-threshold number) (db-threshold number))
+:initvals ' (NIL)
+:indoc ' ("Sdif-File.")
+:icon '17359
+:doc ""
+(fft->sdif-fun sdif-frames freq-threshold db-threshold))
 
 ;; ====================================================
 
@@ -466,7 +516,6 @@ action3-2)))))
 
 ;; ====================================================
 
-
 (defmethod! sound-transpose-sox ((sound string) (cents number))
 :initvals ' (NIL)
 :indoc ' ("Pathname of a sound-file" "Tranposition in cents")
@@ -474,6 +523,17 @@ action3-2)))))
 :doc ""
 
 (if (equal 0 cents) sound (ckn-transpose-a-sound sound cents)))
+
+;; ====================================================
+
+
+(defmethod! sound-transpose-sox ((sound string) (cents null))
+:initvals ' (NIL)
+:indoc ' ("Pathname of a sound-file" "Tranposition in cents")
+:icon '17359
+:doc ""
+
+sound)
 
 ;; ====================================================
 
@@ -733,6 +793,16 @@ Result: (7 9 458)."
 
 (sound-vol-sox-fun sounds volume))
 
+;; ====================
+
+(defmethod! sound-vol-sox ((sounds string) (volume null))
+:initvals '(nil)
+:indoc '("sound" "volume in this format 0.9 that means 90% of the original sound.") 
+:icon '17359
+:doc "It does the same that sound-vol, but it uses the SoX."
+
+(sound-vol-sox-fun sounds (if (equal nil volume) 1 1)))
+
 ;; ====================================================
 (defmethod! sound-mix-sox ((sounds list) (name string))
 :initvals '(nil)
@@ -740,7 +810,7 @@ Result: (7 9 458)."
 :icon '17359
 :doc "It does the same that sound-mix and sound-mix-list."
 
-(if (< (length sounds) 21)
+(if (< (length (om::list! sounds)) 21)
     (sound-mix-sox-fun sounds name)
     (sound-mix-sox-responsive sounds (string+ name "responsive") 00001)))
 
@@ -751,7 +821,36 @@ Result: (7 9 458)."
 :icon '17359
 :doc "It does the same that sound-seq and sound-seq-list."
 
-(sound-seq-sox-fun sounds name))
+(if (< (length sounds) 21)
+    (sound-seq-sox-fun sounds name)
+    (sound-seq-sox-responsive sounds (string+ name "seq-res-") 00001)))
+
+;; ====================================================
+(defmethod! sound-dur-sox ((sounds string))
+:initvals '(nil)
+:indoc '("sounds" "list with fade-in and fade-out") 
+:icon '17359
+:doc "It does the same that sound-fade."
+
+(let* (
+  (sox-path (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))))
+  (line-command (string+ sox-path " " (list->string-fun (list (namestring sounds))) " -n stat " " 2>" (list->string-fun (list (namestring (outfile "sound-dur.txt" :subdirs "om-ckn"))))))
+  (the-command (ckn-cmd-line line-command))
+  (loop-until-probe-file (outfile "sound-dur.txt" :subdirs "om-ckn")))
+  (let* (
+          (ckn-sound-dur (read-dur-informations (outfile "sound-dur.txt" :subdirs "om-ckn"))))
+          (ckn-clear-the-file (outfile "sound-dur.txt" :subdirs "om-ckn"))
+          ckn-sound-dur
+  )))
+
+;; ====================================================
+(defmethod! sound-dur-sox ((sounds pathname))
+:initvals '(nil)
+:indoc '("sounds" "list with fade-in and fade-out") 
+:icon '17359
+:doc "It does the same that sound-fade."
+
+(sound-dur-sox (namestring sounds)))
 
 ;; ====================================================
 (defmethod! sound-fade-sox ((sounds pathname) (fade list))
@@ -782,12 +881,32 @@ Result: (7 9 458)."
       (list (namestring (merge-pathnames "om-ckn/" 
         (outfile (string+ "silence-" (format nil "~d" sounds)   ".wav"))))))
   (line-command 
-    (string+ sox-path " " "-n " (format nil " -c ~d " channels) " -r 44100 " " " (list->string-fun sound-in-out) " trim 0 " (format nil "~d" sounds)))
+    (string+ sox-path " " "-n " (format nil " -c ~d " channels) " -r 44100 " " " (list->string-fun sound-in-out) " trim 0 " (format nil "~d" (abs sounds))))
   (the-command (ckn-cmd-line line-command))
   (loading (loop-until-probe-file (car sound-in-out))))
     (car sound-in-out)))
 
 ;; SOX -n "C:\Users\neimog\OneDrive - design.ufjf.br\Documentos\OM - Workspace\out-files\om-ckn\silence.wav" trim 0 10
+
+;; ====================================================
+
+(defmethod! sound-cut-sox ((sounds string) (in number) (out number))
+:initvals '(nil)
+:indoc '("float number") 
+:icon '17359
+:doc "It does the same that sound-silence but using sox."
+
+(sound-cut-sox-fun sounds in out))
+
+;; ====================================================
+
+(defmethod! sound-cut-sox ((sounds string) (in string) (out number))
+:initvals '(nil)
+:indoc '("float number") 
+:icon '17359
+:doc "It does the same that sound-silence but using sox."
+
+(sound-cut-sox-fun sounds in out))
 
 ; ===========================================================================
 
@@ -800,7 +919,7 @@ Result: (7 9 458)."
 
 (let* (
       (sound-markers (om::markers sound)))
-      (om::sound-cut sound (first sound-markers) (second sound-markers))))
+      (sound-fade (om::sound-cut sound (first sound-markers) (second sound-markers)) 0.1 0.1)))
 
 ;; ====================================================
 
@@ -839,6 +958,22 @@ Result: (7 9 458)."
 (make-instance 'voice :tree tree :lmidic chords :lvel lvel :lchan lchan :tempo tempo))
 
 ; ====================================================== MICROTONAL PLAYER =================
+
+(om::defmethod! ckn-voice->text ((voice voice))
+:initvals ' ((nil))       
+:indoc ' ("A player for OM#")
+:outdoc ' ("PLAY")
+:icon '17359
+:numouts 1
+:doc "It is a player for OM#. You can download the Max/MSP patch in:  <https://bit.ly/32K0och>.
+
+For the automatic work the folder out-files of OM# must be in the files preferences of the Max/MSP."
+
+(voice->coll voice 1))
+
+; (compile 'voice->coll)
+(compile 'ckn-voice->text)
+; ======================
 
 (om::defmethod! osc-play ((voice voice))
 :initvals ' ((nil))       
@@ -1003,15 +1138,16 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 ;; Multithreading ====================================================
 
-(defmethod! ckn-multi-1 ((lambda function) (list list))
-:initvals ' ((nil) '-60)       
-:indoc ' ("one function" "one list")
+(defmethod! ckn-multi-1-var ((ckn-lambda function) (list list) &optional (loop-inside 0))
+:initvals ' (nil nil)       
+:indoc ' ("one function" "one list" "loop inside function?")
+:menuins '((2 (("yes" 1) ("no" 0))))
 :outdoc ' ("result")
 :icon '17360
 :doc "It does multithreading loops, do not use it if you REALLY do not need :) ."
 
 (let* (
-      (list-of-something (mapcar (lambda (x) (list x) list)))
+      (list-of-something (if (equal loop-inside 0) list (mapcar (lambda (x) (list x)) list)))
       (action1 (ckn-mailbox-name list-of-something))
       (action2 (ckn-make-mail-box action1)))
 (loop 
@@ -1021,6 +1157,9 @@ Converts a (list of) freq pitch(es) to names of notes."
     :do 
         (mp:process-run-function names-process
                  () 
-                  (lambda (x y) (mp:mailbox-send x (mapcar lambda y))) create-mailbox (list list-of-something-loop)))
+                  (lambda (x y) (mp:mailbox-send x (mapcar ckn-lambda y))) create-mailbox (list list-of-something-loop)))
 (loop-until-finish-process action2)
 (ckn-mailbox-peek action2)))
+
+
+;; ====================================================
