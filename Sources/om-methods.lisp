@@ -50,7 +50,7 @@
 (defmethod! bpf-python ((X list) (Y list) &optional (thickness 1) (color 'black))
 :initvals '(nil nil 0.2 black)
 :indoc ' ("X points" "Y points" "Thickness" "The color (for example black)")
-:icon '17359
+:icon 'py-f
 :doc "This is a BPF like the BPF of OM-Sharp. But you can you more numbers.
 
 For this work you need:
@@ -76,7 +76,7 @@ For this work you need:
 (defmethod! save-bpf-python ((X list) (Y list) &optional (thickness 0.4) (outfile nil) (color 'black) (blackbackgroud nil) (dpi 300))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File.")
-:icon '17359
+:icon 'py-f
 :doc "This is a BPF like the BPF of OM-Sharp. But you can you more numbers.
 
 For this work you need:
@@ -103,7 +103,7 @@ For this work you need:
 (defmethod! 3dc-python ((X list) (Y list) (Z list) &optional (thickness 1) (color 'black))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File.")
-:icon '17359
+:icon 'py-f
 :doc "This is a BPF like the BPF of OM-Sharp. But you can you more numbers.
 
 For this work you need:

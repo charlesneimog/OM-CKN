@@ -21,6 +21,7 @@
       "Sources/stolen-functions"
       "Sources/Score/score"
       "Sources/Samples/OrchideaSOL2020"
+      "Sources/py"
       )
 
 (:symbols 

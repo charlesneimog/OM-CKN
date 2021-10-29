@@ -12,8 +12,9 @@
 (defclass! vst3-code ()
     (
         (plugin-path :initform nil :initarg :plugin-path :accessor plugin-path)
-        (py :initform nil :initarg :py :accessor py)
+        (vst3-py :initform nil :initarg :vst3-py :accessor vst3-py)
         (out-sound :initform nil :initarg :out-sound :accessor out-sound)))
+        
 ; ====
 
 (defclass! vst3-main-code ()
@@ -104,6 +105,7 @@ for x in range(len(all)):
       (save-python-code (om::save-as-text python-code (om::outfile "parameters-vst2-sound.py")))
       (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
       (om::om-cmd-line (string+ "python " prepare-cmd-code))
+      (ckn-clear-the-file (om::outfile "parameters-vst2-sound.py"))
       "Done! Check the listener"))
 
 ;  ==========================================
@@ -130,6 +132,7 @@ for (x,y) in zip(Todos_parametros, list_of_numbers):
       (save-python-code (om::save-as-text python-code (om::outfile "parameters-vst3-sound.py")))
       (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
       (om::om-cmd-line (string+ "python " prepare-cmd-code))
+      (ckn-clear-the-file (om::outfile "parameters-vst3-sound.py"))
       "Done! Check the listener"))
 
 ;  ==========================================
@@ -173,6 +176,7 @@ else:
       (save-python-code (om::save-as-text python-code (om::outfile "valid-vst3-parameter.py")))
       (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
       (om::om-cmd-line (string+ "python " prepare-cmd-code))
+      (ckn-clear-the-file (om::outfile "valid-vst3-parameter.py"))
       "Done! Check the listener"))
 
 
@@ -242,6 +246,7 @@ sf.write(r'~d', final_audio, sample_rate)
         (save-python-code (om::save-as-text python-code (om::outfile "process-vst3.py")))
         (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
         (om::om-cmd-line (string+ "python " prepare-cmd-code))
+        (ckn-clear-the-file (om::outfile "process-vst3.py"))
       "Done! Check the listener"))
 
 ;; ========================================= VST3
@@ -269,7 +274,7 @@ final_audio = plugin.process(audio, sample_rate)
 sf.write(r'~d', final_audio, sample_rate)
 "                               
                 action1 sound sound-out)))                              
-(make-value 'vst3-code (list (list :plugin-path (namestring (vst3-path plugin-path))) (list :py python-code) (list :out-sound sound-out)))))
+(make-value 'vst3-code (list (list :plugin-path (namestring (vst3-path plugin-path))) (list :vst3-py python-code) (list :out-sound sound-out)))))
 
 ;  =====================================================
 (defmethod! plugins-process-code ((code vst3-main-code))
@@ -297,13 +302,14 @@ print(f'O tempo gasto foi de {time_elapsed} segundos')
 "))
         (concat-parameters-codes 
             (concatString (loop :for y :in (main-code code) 
-                                :collect (py y))))
+                                :collect (vst3-py y))))
         (concat-all-the-code (concatString (list load-plugin-once concat-parameters-codes time_execution)))
         (save-python-code (om::save-as-text concat-all-the-code (om::outfile "all-code-vst3.py")))
         (sleep 1)
         (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
         (om::om-shell (string+ "python " prepare-cmd-code))
         (loop-until-probe-file (out-sound (car (last (main-code code)))))
+        (ckn-clear-the-file (om::outfile "all-code-vst3.py"))
         (loop :for y :in (main-code code) :collect (out-sound y))))
 
 ;; ======================================
@@ -369,8 +375,8 @@ wavfile.write(r'~d', SAMPLE_RATE, audio.transpose())
         (save-python-code (om::save-as-text python-code (om::outfile "voice2midi.py")))
         (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
         (om::om-cmd-line (string+ "python " prepare-cmd-code))
+        (ckn-clear-the-file (om::outfile "voice2midi.py"))
         (namestring (om::outfile  "voice2midi.wav" :subdirs "om-ckn"))))
-
 
 ;; ======================================
 
@@ -467,17 +473,13 @@ action6))
 (defun build-seq-of-sounds (sounds sounds-length &optional result)
 
 (let*  (
-
-
     (action1 (first-n sounds sounds-length))
     (action2  (if (plusp (om- (length sounds) sounds-length))
                   (last-n sounds (om::om- (length sounds) sounds-length))
                 action1)))
-
 (if 
     (plusp (om- (length sounds) sounds-length))
     (setf sounds (build-seq-of-sounds action2 sounds-length (push action1 result)))
-
   (x-append (cdr (reverse (x-append result (list action1)))) (list (flat
                                                               (let* (
                                                                    (action1 (last (x-append result (list action1))))
