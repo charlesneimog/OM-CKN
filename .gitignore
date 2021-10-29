@@ -4,5 +4,7 @@
 *.vst3
 *.wav
 *.aif
+*.py
 *.aiff
-*.vscode
+.vscode
+.vscode/*
