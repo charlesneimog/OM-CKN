@@ -24,3 +24,7 @@ I implemented the possibility of using VST2 within OM-Sharp and OM (not all read
 ## Using VST2 to synthesize one voice!
 
 ![Voice to Audio](https://github.com/charlesneimog/OM-CKN/blob/master/Wiki/VOICE%20to%20Audio%20using%20VST2.png)
+
+## Use Python inside OM
+
+![Py Code Inside OM](https://raw.githubusercontent.com/charlesneimog/OM-CKN/master/resources/imagens/py-in-om.png)
