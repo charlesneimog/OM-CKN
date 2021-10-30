@@ -1016,8 +1016,6 @@ list
 
 (compile 'ckn-gc-all)
 (compile 'loop-in-parts)
-(compile 'sound-window-list)
-(compile 'sound-window)
 (compile 'real-samplify)
 (compile 'name-of-file)
 (compile 'energy)
