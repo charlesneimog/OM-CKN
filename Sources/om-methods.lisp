@@ -1163,3 +1163,28 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 
 ;; ====================================================
+
+(defmethod! ckn-multi-2-var ((ckn-lambda function) (list list) (list2 list) &optional (loop-inside 0))
+:initvals ' (nil nil)       
+:indoc ' ("one function" "one list" "loop inside function?")
+:menuins '((2 (("yes" 1) ("no" 0))))
+:outdoc ' ("result")
+:icon '17360
+:doc "It does multithreading loops, do not use it if you REALLY do not need :) ."
+
+(let* (
+      (list-of-something (if (equal loop-inside 0) list (mapcar (lambda (x) (list x)) list)))
+      (list-of-something2 (if (equal loop-inside 0) list2 (mapcar (lambda (x) (list x)) list2)))
+      (action1 (ckn-mailbox-name list-of-something))
+      (action2 (ckn-make-mail-box action1)))
+(loop 
+    :for list-of-something-loop :in list-of-something
+    :for list-of-something-loop2 :in list-of-something2
+    :for create-mailbox :in action2
+    :for names-process :in action1
+    :do 
+        (mp:process-run-function names-process
+                 () 
+                  (lambda (x y z) (mp:mailbox-send x (mapcar ckn-lambda y z))) create-mailbox (list list-of-something-loop) (list list-of-something-loop2)))
+(loop-until-finish-process action2)
+(ckn-mailbox-peek action2)))
