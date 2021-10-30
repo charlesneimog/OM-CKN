@@ -393,8 +393,9 @@
 :indoc '("run py") 
 :icon 'py-f
 :doc ""
-
-(apply #'mapcar function rest))
+(let* (
+      (check-all-rest (loop :for type :in rest :collect (if (stringp type) (list type) type))))
+      (apply #'mapcar function check-all-rest)))
 
 
 ;; ========================
