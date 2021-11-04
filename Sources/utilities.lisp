@@ -808,14 +808,7 @@ list
 
 (defun ckn-clear-the-file (x)
 
-(if (atom x) 
-    (ckn-cmd-line (string+ "powershell -command " 
-                          (list->string-fun (list (string+ "del " 
-                                            (list->string-fun (list (namestring x))))))))
-    (loop :for x-file :in x
-          :do (ckn-cmd-line (string+ "powershell -command " 
-                          (list->string-fun (list (string+ "del " 
-                                            (list->string-fun (list (namestring x-file)))))))))))
+(om-cmd-line (string+ "del "(namestring x))))
 
 ;; ================================
 
