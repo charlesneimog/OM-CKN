@@ -132,7 +132,7 @@ for (x,y) in zip(Todos_parametros, list_of_numbers):
       (save-python-code (om::save-as-text python-code (om::outfile "parameters-vst3-sound.py")))
       (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
       (om::om-cmd-line (string+ "python " prepare-cmd-code))
-      (ckn-clear-the-file (om::outfile "parameters-vst3-sound.py"))
+      ;(ckn-clear-the-file (om::outfile "parameters-vst3-sound.py"))
       "Done! Check the listener"))
 
 ;  ==========================================
@@ -179,6 +179,53 @@ else:
       (ckn-clear-the-file (om::outfile "valid-vst3-parameter.py"))
       "Done! Check the listener"))
 
+;  ==========================================
+
+(defmethod! plugins-valid-parameters ((plugin-path vst3) (parameter-index list))
+:initvals '(nil)
+:indoc '("With this object you can see the index parameters of some VST2 plugin.") 
+:icon '17359
+:doc "With this object you can see the index parameters of some VST2 plugin."
+
+
+(let* (
+      (python-code (format nil
+                    "
+from pedalboard import load_plugin
+plugin = load_plugin(r'~d')
+all_parameters = list(plugin.parameters.keys())
+
+
+def valid_vst3_parameter(parameter):
+    choosed_parameter = all_parameters[parameter]
+    parameter = getattr(plugin, choosed_parameter)
+    goodvalues = parameter.valid_values
+    mynewlist = []
+    for item in goodvalues:
+        try:
+            int_value = int(item)
+        except ValueError:
+            pass
+        else:
+            mynewlist.append(item)
+    first_number = goodvalues[0]
+    last_number = goodvalues[-1]
+    if (goodvalues == mynewlist):
+        print (f'The good values are one range starting from {first_number} and finished in {last_number}.')
+    else:
+        print (f'The good values are {goodvalues}.')
+
+for parameter in (~d):
+    valid_vst3_parameter(parameter)
+
+"                      
+                                    (vst3-path plugin-path) (py-list parameter-index)))
+      (save-python-code (om::save-as-text python-code (om::outfile "valid-vst3-parameter.py")))
+      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
+      (om::om-cmd-line (string+ "python " prepare-cmd-code))
+      (ckn-clear-the-file (om::outfile "valid-vst3-parameter.py"))
+      "Done! Check the listener"))
+
 
 ;; ================================
 (defmethod! plugins-process ((sound pathname) (sound-out string) (plugin-path vst2) (parameter_index list) &optional (verbose nil)) 
@@ -213,6 +260,7 @@ else:
 (plugins-process sound (namestring sound-out) plugin-path parameter_index verbose))
 
 ;; ========================================= VST3
+
 (defmethod! plugins-process ((sound string) (sound-out string) (plugin-path VST3) (parameter_index list) &optional (verbose nil)) 
 :initvals '(nil)
 :indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
@@ -241,13 +289,24 @@ audio, sample_rate = sf.read(r'~d')
 final_audio = plugin.process(audio, sample_rate)
 sf.write(r'~d', final_audio, sample_rate)
 "                               
-                                    (namestring (vst3-path plugin-path)) action1 sound sound-out))
+                                    (namestring (vst3-path plugin-path)) action1 sound (namestring (outfile sound-out))))
 
         (save-python-code (om::save-as-text python-code (om::outfile "process-vst3.py")))
         (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
         (om::om-cmd-line (string+ "python " prepare-cmd-code))
         (ckn-clear-the-file (om::outfile "process-vst3.py"))
-      "Done! Check the listener"))
+        (outfile sound-out)))
+
+;; =======================================
+(defmethod! plugins-process ((sound pathname) (sound-out pathname) (plugin-path VST3) (parameter_index  list) &optional (verbose nil)) 
+:initvals '(nil)
+:indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
+:icon '17359
+:doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
+
+
+(plugins-process (namestring sound) (namestring sound-out) plugin-path parameter_index verbose))
+ 
 
 ;; ========================================= VST3
 (defmethod! plugins-multi-processes ((sound string) (sound-out string) (plugin-path VST3) (parameter_index list) &optional (verbose nil)) 
@@ -746,15 +805,16 @@ action1))
             (hqn-web:browse "https://www.charlesneimog.com/")
             (print (format nil "
 If you want to work with python you need:
-      1. Download python 3.
-      2. Download the pip for python 3.
-      3. Put this code in your terminal: 
+      1. Download python 3.9.
+      2. Put this code in your terminal: 
             pip install matplotlib 
             pip install numpy 
             pip install mplot3d
             pip install mpl_toolkits
             pip install pedalboard
+            pip install dawdreamer
             pip install soundfile
+            pip install sounddevice
       And vo ala. 
 ")))))
 
@@ -939,6 +999,7 @@ action5))
 
 (compile 'sound-mono-to-stereo-sox-fun)
 ;;; ================================================================================
+
 (compile 'voice->samples-sound-fun)
 (compile 'samples-menores)
 (compile 'acordes-de-samples)

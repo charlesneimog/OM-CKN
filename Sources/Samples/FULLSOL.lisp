@@ -43,11 +43,13 @@
 (defun ckn-multiphonics-notes (all-names notes)
       (let* (
             (action1 (mapcar (lambda (x) (ircam-n->mc x)) all-names))
+            (verbose (print "action2"))
             (action2 (mapcar (lambda (x) 
                               (loop :for loop-action2 :in action1 
                                     :collect (find-num loop-action2 x))) 
                                                                               (om::approx-m notes 4)))
             (action3 (mapcar (lambda (x) (remove nil x)) (om::mat-trans action2)))
+            
             (action4 (mapcar (lambda (x) (if (atom x) 0 (length x))) action3))
             (action5 (car (om::sort-list (om::remove-dup action4 'eq 1) :test '>)))
             (action6 (ckn-position action4 action5))
@@ -59,7 +61,7 @@
                         (if (om::om< (length action6) 2)
                               (let* ()  
                                     (om-print 
-                                          (string+ "O multifonico com mais notas em comum é esse" 
+                                          (string+ "O multifonico com mais notas em comum e esse" 
                                                             (first (choose all-names action6)))
                                           "Notice!")
                                     (first (choose all-names action6)))
@@ -113,8 +115,16 @@
 (defun multiphonics-notes (path note)
       (let* (
       (all-samples (ckn-in-files (merge-pathnames path *IRCAM-PATH*) 'wav))
-      (file-names (mapcar (lambda (x) (name-of-file x)) all-samples)))
-      (ckn-multiphonics-notes file-names (om::list! note))))
+      (file-names (mapcar (lambda (x) (name-of-file x)) all-samples))
+      (caution-names (let* (
+                            (extensions (mapcar (lambda (x) (cdr x)) (mapcar (lambda (y) (string-to-list y ".")) file-names))))
+                       (remove nil  
+                               (loop :for loop-ext :in extensions
+                                     :for loop-names :in file-names
+                                     :collect (if (or (equal '("aif") loop-ext) (equal '("wav") loop-ext) (equal '("aiff") loop-ext))
+                                                  loop-names
+                                                nil))))))
+      (ckn-multiphonics-notes caution-names (om::list! note))))
 
 ;; ==================================================== 
 

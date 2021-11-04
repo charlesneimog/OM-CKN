@@ -1,8 +1,9 @@
-
 matplotlib
 numpy
 mplot3d
 mpl_toolkits
 pedalboard
 soundfile 
-MrsWatson = https://github.com/teragonaudio/MrsWatson
+pip install sndscribe
+
+

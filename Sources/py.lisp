@@ -88,7 +88,7 @@
                 (progn (setf (compiled? self) t)
                   `(defun ,(intern (string (compiled-fun-name self)) :om)
                           ,.(cdr lambda-expression)))
-              (progn (om-beep-msg "ERROR IN PY CODE!!")
+              (progn (om-beep-msg "ERROR IN LISP FORMAT!!")
                 (setf (error-flag self) t)
                 `(defun ,(intern (string (compiled-fun-name self)) :om) () nil)))))
   (compile (eval function-def)))))

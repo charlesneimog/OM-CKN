@@ -237,6 +237,20 @@ For this work you need:
 
 ;==================================================
 
+(defmethod! split-complex-numbers ((complex-number list))
+:initvals '(nil)
+:indoc '("List of complex numbers")
+:icon '17359
+:numouts 2
+:out
+:doc "It does one senoide in the complex plan."
+(values 
+ (mapcar (lambda (x) (imagpart x)) complex-number)
+ (mapcar (lambda (x) (realpart x)) complex-number)))
+
+
+;==================================================
+
 (defmethod! partial-tracking ((ffts list) (db-limiter number) (cents_limiter number))
 :initvals '(nil)
 :indoc '("List of ckn-fft")
@@ -397,11 +411,22 @@ For this work you need:
 
 ;; =============================================
 
+(defmethod! sdif->list ((sdif-file pathname))
+:initvals ' (NIL)
+:indoc ' ("Sdif-File.")
+:icon '17359
+:doc ""
+
+(sdif->list (make-value-from-model 'sdiffile sdif-file nil)))
+
+;; =============================================
+
 (defun sdif->list-fun (sdif-file) 
 
 (let* (
+    (info (sdifinfo sdif-file nil))
     (action1 (second (multiple-value-list 
-                (om::getsdifdata sdif-file 0 "1TRC" "1TRC" '(0 1 2) nil nil nil nil))))
+                (om::getsdifdata sdif-file 0 (second (car info)) (third (car info)) '(0 1 2) nil nil nil nil))))
     (action2 (getsdifframes sdif-file)))
 
         (loop 
@@ -439,6 +464,41 @@ action3-2)))))
                   (lambda (xxx) (third xxx)) (last-n x (- (length x) 1))))) action1)))
 
 (make-value 'bpf (list (list :x-points nil) (list :y-points action2)))))
+
+;; ===================================
+
+(defmethod! sdif->ckn-fft-instance ((sdif-file sdiffile))
+:initvals ' (NIL)
+:indoc ' ("Sdif-File.")
+:icon '17359
+:doc "This will translate each frame of the SDIF file for the ckn-fft-instance class."
+
+(let* (
+    (action1 (sdif->list-fun sdif-file))
+    (partialtracking (mapcar (lambda (x) (cdr x)) action1))
+    (tempo (sec->ms (mapcar (lambda (x) (car x)) action1)))
+    (ckn-tempo (ms->samples (car (flat tempo)) 44100)))
+    (loop :for looptempo :in tempo 
+          :for looppartialtracking :in partialtracking
+                        :collect
+                    (make-value 'ckn-fft-instance 
+                                (list 
+                                    (list :ckn-tempo looptempo)
+                                    (list :ckn-hop-size ckn-tempo)
+                                    (list :frequencias (mapcar (lambda (x) (second x)) looppartialtracking))
+                                    (list :amplitudes (mapcar (lambda (x) (third x)) looppartialtracking))
+                                    (list :phrase (mapcar (lambda (x) (fourth x)) looppartialtracking))
+                                    (list :sound-sample-rate 44100))))))
+
+;; ===================================
+
+(defmethod! sdif->ckn-fft-instance ((sdif-file pathname))
+:initvals ' (NIL)
+:indoc ' ("Sdif-File.")
+:icon '17359
+:doc "This will translate each frame of the SDIF file for the ckn-fft-instance class."
+
+(sdif->ckn-fft-instance (make-value-from-model 'sdiffile sdif-file nil)))
 
 ;; ====================================================
 
@@ -987,16 +1047,10 @@ For the automatic work the folder out-files of OM# must be in the files preferen
 
 (let* (
         (ckn-action1 (remove nil (voice->coll voice 1))))
-          (let* (
-                (action1 
-                  (progn (om::osc-send (om::x-append '/reset 1) "127.0.0.1" 3003)
-                    (loop 
-                        :for cknloop 
-                        :in ckn-action1 
-                                :collect (om::osc-send (om::x-append '/note cknloop) "127.0.0.1" 3003))))
-
-                (action2 (om::osc-send (om::x-append '/note-pause 1) "127.0.0.1" 3003)))
-      '("play"))))
+  (loop :for tocando :in ckn-action1
+        :do (let* () (om::osc-send (om::x-append '/real-time (print (cdr tocando))) "127.0.0.1" 3000)
+                     (sleep (om::ms->sec (car tocando))))
+    '("done"))))
 
 ; ===========================================================================
 
@@ -1012,11 +1066,11 @@ For the automatic work the folder out-files of OM# must be in the files preferen
 
 
   (let* ( 
-        (durations-of-the-chors (om::om- 0 (om::om/ (om::x->dx (lonset self)) 1000)))
+        (durations-of-the-chors (om::omquantify (om::x->dx (lonset self)) 60 (list 1024 4) 64))
         (loop-notes (loop :for x :in (lmidic self) 
                           :for y :in durations-of-the-chors 
                           :collect (if (not x) y (abs y))))
-        (to-voice (make-instance 'voice :tree (mktree loop-notes '(4 4)) :lmidic (remove nil (lmidic self)))))
+        (to-voice (make-instance 'voice :tree durations-of-the-chors :tempo 1000 :lmidic (remove nil (lmidic self)))))
 (osc-play to-voice)))
        
 ; ===========================================================================
@@ -1062,7 +1116,7 @@ Converts a (list of) seconds to milisseconds.
 
 ;; ==================================================== FFT APPROACH LIKE SPEAR =====================================
 
-(defmethod! fft->chord-seq  ((ckn-fft-instance list) (down number) (up number))
+(defmethod! fft->chord-seq  ((ckn-fft-instance list) (down number) (up number) &optional (min-vel 10))
 :initvals '(nil 3600 8400)
 :indoc '("pitch or pitch list (midicents)" "frequency (Hz)")
 :icon '17359
@@ -1078,7 +1132,7 @@ Converts a (list of) freq pitch(es) to names of notes."
                         (amplitudes (amplitudes x))
                         (frequencias (frequencias x))
                         (freq-to-midicents (f->mc frequencias))
-                        (lin->vel (om::om-scale amplitudes 30 127 0.0 1.0)))
+                        (lin->vel (om::om/ (om::om-scale amplitudes 10 127000 0 1) 1000)))
                         (make-instance 'chord
                                           :lmidic freq-to-midicents
                                           :lvel lin->vel))))
@@ -1089,7 +1143,7 @@ Converts a (list of) freq pitch(es) to names of notes."
                                           :collect (let* (
                                                           (notas (first y))
                                                           (dinamicas (second y))
-                                                          (boolean-if (and (< notas up) (> notas down))))
+                                                          (boolean-if (and (om::om< notas up) (om::om> notas down) (om::om<= min-vel dinamicas))))
                                                      (if boolean-if (list notas dinamicas) nil)))))
                      (let* (
                             (remove-nil (remove nil lambda-filter))
@@ -1098,12 +1152,19 @@ Converts a (list of) freq pitch(es) to names of notes."
   (make-chords 
                 (let* (
                     (action1 (mapcar filter fft->chords))
-                    (action2 (- (length action1) 2)))
-                    (om::first-n action1 action2))))
+                    (action2 (om::om- (length action1) 2)))
+                    (om::first-n action1 action2)))
 
 
 
-  (make-instance 'chord-seq :lmidic make-chords :lonset (list 0 (om::om-round (sec->ms (samples->sec (ckn-hop-size (first ckn-fft-instance)) (sound-sample-rate (first ckn-fft-instance)))))))))
+  (make-chord-seq 
+             (make-instance 'chord-seq 
+                 :lmidic make-chords 
+                 :lonset (list 0 (om::om-round (sec->ms (samples->sec (ckn-hop-size (first ckn-fft-instance)) (sound-sample-rate (first ckn-fft-instance))))))))
+  (vel (flat (mapcar (lambda (x) (lvel x)) fft->chords))))
+  (print (format nil "minimun velocity ~d" (om::list-min vel)))
+  (print (format nil "maximum velocity ~d" (om::list-max vel)))
+  make-chord-seq))
 
 ; ===========================================================================
 
