@@ -228,20 +228,76 @@ for parameter in (~d):
 
 
 ;; ================================
-(defmethod! plugins-process ((sound pathname) (sound-out string) (plugin-path vst2) (parameter_index list) &optional (verbose nil)) 
-:initvals '(nil)
-:indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
-:icon '17359
-:doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
-(plugins-process (make-value-from-model 'sound sound nil) sound-out plugin-path parameter_index verbose))
-
-;; ================================
 (defmethod! plugins-process ((sound pathname) (sound-out pathname) (plugin-path vst2) (parameter_index list) &optional (verbose nil)) 
 :initvals '(nil)
 :indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
 :icon '17359
 :doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
-(plugins-process (make-value-from-model 'sound sound nil) (namestring sound-out) plugin-path parameter_index verbose))
+
+
+(let* (
+        (action1 
+            (concatString (loop :for parameters_values :in parameter_index
+                            :collect 
+                            (string+ "
+setattr(" "plugin, " "all_parameters" 
+                                                (format nil "[~d], " (first parameters_values)) 
+                                                                (if (numberp (second parameters_values)) 
+                                                                    (ckn-int2string (second parameters_values)) 
+                                                                    (list->string-fun (list (second parameters_values)))) ")"))))
+        (python-code (format nil
+                    "
+
+import dawdreamer as daw
+import numpy as np
+from scipy.io import wavfile
+import librosa
+
+SAMPLE_RATE = 44100
+BUFFER_SIZE = 512
+DURATION = 15
+
+def load_audio_file(file_path, duration=None):
+  sig, rate = librosa.load(file_path, duration=duration, mono=False, sr=SAMPLE_RATE)
+  assert(rate == SAMPLE_RATE)
+  return sig
+
+engine = daw.RenderEngine(SAMPLE_RATE, BUFFER_SIZE)
+meu_plugin = engine.make_plugin_processor('plugin', ~d)
+
+meu_plugin.set_parameter(0, 45) # override a specific parameter.
+print(meu_plugin.get_parameter(0))  # warning, is this actually 45? Probably not. VST parameters are normally between 0 and 1.
+print(meu_plugin.get_parameter_name(0))
+
+multi =  load_audio_file(~d)
+
+playback_processor = engine.make_playback_processor('playback', multi)
+
+graph = [
+  (playback_processor , []),  # playback takes no inputs
+  (meu_plugin, ['playback'])
+]
+
+## this also works
+#graph = [
+#  (playback_processor , []),  # playback takes no inputs
+#  (meu_plugin, [playback_processor.get_name()])
+#]
+
+engine.load_graph(graph)
+engine.render(DURATION)
+audio = engine.get_audio()  
+
+wavfile.write('my_song2.wav', SAMPLE_RATE, audio.transpose())
+
+"                               
+                                    (namestring (vst2-path plugin-path)) action1 sound (namestring (outfile sound-out))))
+
+        (save-python-code (om::save-as-text python-code (om::outfile "process-vst2.py")))
+        (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
+        (om::om-cmd-line (string+ "python " prepare-cmd-code))
+        (ckn-clear-the-file (om::outfile "process-vst2.py"))
+        (outfile sound-out)))
 
 ;; ================================
 (defmethod! plugins-process ((sound string) (sound-out pathname) (plugin-path vst2) (parameter_index list) &optional (verbose nil)) 
@@ -258,6 +314,8 @@ for parameter in (~d):
 :icon '17359
 :doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
 (plugins-process sound (namestring sound-out) plugin-path parameter_index verbose))
+
+
 
 ;; ========================================= VST3
 
@@ -294,7 +352,7 @@ sf.write(r'~d', final_audio, sample_rate)
         (save-python-code (om::save-as-text python-code (om::outfile "process-vst3.py")))
         (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
         (om::om-cmd-line (string+ "python " prepare-cmd-code))
-        (ckn-clear-the-file (om::outfile "process-vst3.py"))
+        ;(ckn-clear-the-file (om::outfile "process-vst3.py"))
         (outfile sound-out)))
 
 ;; =======================================
@@ -309,6 +367,7 @@ sf.write(r'~d', final_audio, sample_rate)
  
 
 ;; ========================================= VST3
+
 (defmethod! plugins-multi-processes ((sound string) (sound-out string) (plugin-path VST3) (parameter_index list) &optional (verbose nil)) 
 :initvals '(nil)
 :indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
@@ -328,11 +387,15 @@ setattr(" "plugin, " "all_parameters"
         (python-code (format nil
                     "
 ~d
-audio, sample_rate = sf.read(r'~d')
-final_audio = plugin.process(audio, sample_rate)
-sf.write(r'~d', final_audio, sample_rate)
+if os.path.exists(r'~d'):
+    audio, sample_rate = sf.read(r'~d')
+    final_audio = plugin.process(audio, sample_rate)
+    sf.write(r'~d', final_audio, sample_rate)
+    os.remove(r'~d')
+
+
 "                               
-                action1 sound sound-out)))                              
+                action1 sound sound sound-out sound)))                              
 (make-value 'vst3-code (list (list :plugin-path (namestring (vst3-path plugin-path))) (list :vst3-py python-code) (list :out-sound sound-out)))))
 
 ;  =====================================================
@@ -349,11 +412,15 @@ sf.write(r'~d', final_audio, sample_rate)
         (load-plugin-once (format nil "
 import soundfile as sf
 import time
+import os
+
 start_time = time.time()
 from pedalboard import load_plugin
 plugin = load_plugin(r'~d')
 all_parameters = list(plugin.parameters.keys())
-        " (namestring plugin-name)))
+"                                 (namestring plugin-name)))
+
+
         (time_execution (format nil "
 end_time = time.time()
 time_elapsed = round((end_time - start_time), 2)
@@ -462,22 +529,24 @@ Returns a list of file pathnames of the fxp Presets. Connect it to a LIST-SELECT
 (action3 (loop :for x :in action1 :collect (string+ x "-")))
 (action4 (ckn-string-name (list! (first-n action3 action2))))
 (action5 (string+ action4 (format nil "~d-cents" desvio) ".wav"))
-(action6 (merge-pathnames (string+ "om-ckn/" action5) (outfile "")))
+(action6 (tmpfile action5 :subdirs "om-ckn"))
+(probe (probe-file action6))
 (action7 (namestring action6)))
-(ckn-cmd-line (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))
+(if (not probe)
+    (ckn-cmd-line (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))
           " "
           (list->string-fun (list instrumentos))
           " "
           (list->string-fun (list action7))
           (format nil " pitch ~d" desvio)))
-; (print (format nil "Transpondo em ~d cents" desvio))
-action6))
+    action6)
+(loop-until-probe-file action6)))
 
 ;; Fazer um código mais bonito
 
 ;; ===============================================================================
 
-(defun ckn-transpose  (nome cents)
+(defun ckn-transpose (nome cents)
 
 (let* (
 (action1 (namestring nome)))
@@ -829,7 +898,7 @@ If you want to work with python you need:
       
             (loop :for loop-sound :in sounds
                 :for loop-names :in first-action1
-                :collect (ckn-gc-all (om:save-sound loop-sound (merge-pathnames "om-ckn/" (outfile (string+ loop-names ".wav"))))))))
+                :collect (ckn-gc-all (om:save-sound loop-sound (merge-pathnames "om-ckn/" (tmpfile (string+ loop-names ".wav"))))))))
 
 
 ;;; ================================================================================
@@ -841,7 +910,7 @@ If you want to work with python you need:
       
             (loop :for loop-sound :in (list sounds)
                 :for loop-names :in first-action1
-                :collect (om:save-sound loop-sound (print (merge-pathnames "om-ckn/" (outfile (string+ loop-names ".wav"))))))))
+                :collect (om:save-sound loop-sound (print (merge-pathnames "om-ckn/" (tmpfile (string+ loop-names ".wav"))))))))
 
 ;;; ================================================================================
 
@@ -849,18 +918,18 @@ If you want to work with python you need:
 
 (let* (
 (action1 (save-temp-sounds sounds))
-(action2 (om::save-sound (first sounds) (merge-pathnames "om-ckn/" (outfile (string+ "Sound-001" ".wav")))))
+(action2 (om::save-sound (first sounds) (merge-pathnames "om-ckn/" (tmpfile (string+ "Sound-001" ".wav")))))
 (action3 (x-append action2 (first-n action1 (1- (length sounds)))))
 (action4 (ckn-cmd-line 
           (string+ 
            (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))
            " "
            "--combine sequence " 
-           (list->string-fun (list (namestring (merge-pathnames "om-ckn/" (outfile "*.wav")))))
+           (list->string-fun (list (namestring (merge-pathnames "om-ckn/" (tmpfile "*.wav")))))
            " "
-           (list->string-fun (list (namestring (outfile sequence-name)))))))
-(action5 (loop-until-probe-file (outfile sequence-name))))
-(sleep 5)
+           (list->string-fun (list (namestring (tmpfile sequence-name)))))))
+(action5 (loop-until-probe-file (tmpfile sequence-name))))
+
 (ckn-clear-temp-files)
 action5))
 
@@ -873,7 +942,7 @@ action5))
   (sound-in-path sounds)
   (sound-in-out 
       (list (namestring (merge-pathnames "om-ckn/" 
-        (outfile (string+ (first (om::string-to-list (name-of-file sound-in-path) ".")) "-" (ckn-int2string (om-random 1000 9999)) "-vol-correction" ".wav"))))))
+        (tmpfile (string+ (first (om::string-to-list (name-of-file sound-in-path) ".")) "-" (ckn-int2string (om-random 1000 9999)) "-vol-correction" ".wav"))))))
   (action-sound-vol (format nil " -v ~d " volume))
   (line-command 
     (string+ sox-path " " action-sound-vol " " (list->string-fun (list (namestring sound-in-path))) " " (list->string-fun sound-in-out)))
@@ -890,11 +959,11 @@ action5))
             (sound-in-path (names-to-mix sounds))
             (sound-in-out 
                 (list (namestring (merge-pathnames "om-ckn/" 
-                    (outfile (string+ name "-" (ckn-int2string (om-random 1000 9999)) "-mix-sound" ".wav"))))))
+                    (tmpfile (string+ name "-" (ckn-int2string (om-random 1000 9999)) "-mix-sound" ".wav"))))))
             (line-command 
                 (string+ sox-path " " " --combine mix " " "  sound-in-path " " (list->string-fun sound-in-out))))
             (ckn-cmd-line line-command)
-            ;(ckn-clear-the-file sounds)
+            (om-print (format nil "processando ~d samples!" (length sounds)) "Aguarde")
             (loop-until-probe-file (car sound-in-out))
             (car (om::list! sound-in-out))))
 
@@ -939,7 +1008,7 @@ action5))
             (sound-in-path (names-to-mix sounds))
             (sound-in-out 
                 (list (namestring (merge-pathnames "om-ckn/" 
-                    (outfile (string+ name (ckn-int2string (om-random 1000 9999)) "-seq-sound" ".wav"))))))
+                    (tmpfile (string+ name (ckn-int2string (om-random 1000 9999)) "-seq-sound" ".wav"))))))
             (line-command 
                 (string+ sox-path " " " --combine sequence " " "  sound-in-path " " (list->string-fun sound-in-out)))
             (the-command (ckn-cmd-line line-command))
@@ -956,7 +1025,7 @@ action5))
   (sound-in-path sounds)
   (sound-in-out 
       (list (namestring (merge-pathnames "om-ckn/" 
-        (outfile (string+ (first (om::string-to-list (name-of-file sound-in-path) ".")) "-" (ckn-int2string (om-random 1000 9999)) "-with-fade" ".wav"))))))
+        (tmpfile (string+ (first (om::string-to-list (name-of-file sound-in-path) ".")) "-" (ckn-int2string (om-random 1000 9999)) "-with-fade" ".wav"))))))
   (action-sound-fade (format nil " fade p ~d ~d" (first fade) (second fade)))
   (line-command 
     (string+ sox-path " " (list->string-fun (list (namestring sound-in-path))) " " (list->string-fun sound-in-out) " " action-sound-fade))
@@ -973,7 +1042,7 @@ action5))
   (sound-in-path sounds)
   (sound-in-out 
       (list (namestring (merge-pathnames "om-ckn/" 
-        (outfile (string+ (first (om::string-to-list (name-of-file sound-in-path) ".")) "-" (ckn-int2string (om-random 1000 9999)) "-vol-correction" ".wav"))))))
+        (tmpfile (string+ (first (om::string-to-list (name-of-file sound-in-path) ".")) "-" (ckn-int2string (om-random 1000 9999)) "-cut" ".wav"))))))
   (action-sound-vol (format nil " trim ~d ~d " in out))
   (line-command 
     (string+ sox-path " " (list->string-fun (list (namestring sound-in-path))) " " (list->string-fun sound-in-out) " " action-sound-vol))
@@ -991,11 +1060,11 @@ action5))
                 " "
                 (list->string-fun (list (namestring x)))
                 " "
-                (list->string-fun (list (namestring (outfile (string+ (name-of-file x) "-v-stereo.wav") :subdirs "om-ckn"))))
+                (list->string-fun (list (namestring (tmpfile (string+ (name-of-file x) "-v-stereo.wav") :subdirs "om-ckn"))))
                 " "
                 " channels 2 "))
-        (loop-until-probe-file (outfile (string+ (name-of-file x) "-v-stereo.wav") :subdirs "om-ckn"))
-(outfile (string+ (name-of-file x) "-v-stereo.wav") :subdirs "om-ckn"))
+        (loop-until-probe-file (tmpfile (string+ (name-of-file x) "-v-stereo.wav") :subdirs "om-ckn"))
+(tmpfile (string+ (name-of-file x) "-v-stereo.wav") :subdirs "om-ckn"))
 
 (compile 'sound-mono-to-stereo-sox-fun)
 ;;; ================================================================================

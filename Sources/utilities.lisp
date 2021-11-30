@@ -4,10 +4,19 @@
 
 ;==================================== IMPORT NUMBERS ===================
 
-(defconstant CKN-euler-number (exp 1))
+(defconstant ckn-e (exp 1))
+
+(defun euler-number ()
+      (exp 1))
+
+(defconstant ckn-i (sqrt -1))
+
+(defun i-number ()
+      ckn-i)
 
 
-(defconstant CKN-pi  (coerce pi 'single-float))
+(defun pi-number ()
+      pi)
 
 ;; SAMPLES AND DAW =================
 
@@ -53,8 +62,8 @@
 (defun names-to-mix (in1)
 (reduce (lambda (z y) (string+ z y))
           (flat (loop for x :in in1 :collect  
-                      (flat (om::x-append " -v 1 "(list->string-fun (list (string+ (namestring x) " "))) " "))))))
-
+                      (flat (om::x-append " -v 1 " (list->string-fun (list (string+ (namestring x) " "))) " "))))))
+                       ; (flat (om::x-append (list->string-fun (list (string+ (namestring x) " "))) " "))))))
 
 
 ;==============================================================
@@ -283,9 +292,6 @@ list
 
 (defun loop-in-parts (sound-bytes-window window hop-size &optional result)
 
-(if (< (length sound-bytes-window) hop-size)
-(list sound-bytes-window)
-
 (let* (
       (action1 (first-n sound-bytes-window window))
       (action2 (let* ((number (- (length sound-bytes-window) hop-size)))
@@ -294,9 +300,9 @@ list
                         sound-bytes-window))))
 (if (or (< (length (remove nil action2)) window) (equal action1 action2))
     (if (equal action1 action2) 
-        (reverse (om::x-append (list action2) (list action1) result)) 
-        (reverse (om::x-append (list action1) result)))
-  (setf sound-bytes-window (loop-in-parts action2 window hop-size (push action1 result)))))))
+        (reverse (om::x-append (list action1) result))
+        (reverse (om::x-append (list action2) (list action1) result)))
+  (setf sound-bytes-window (loop-in-parts action2 window hop-size (push action1 result))))))
 
 (compile 'loop-in-parts)
 ;===================================== SDIF TRACKING ============
@@ -798,26 +804,40 @@ list
 (defun ckn-clear-temp-files ()
 
 (let* ()
+(print "clear temp files")
 (ckn-cmd-line (string+ "powershell -command " 
                           (list->string-fun (list (string+ "del " 
-                                            (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.aif" (outfile ""))))))))))
+                                            (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.aif" (tmpfile ""))))))))))
 (ckn-cmd-line (string+ "powershell -command " 
                           (list->string-fun (list (string+ "del " 
-                                            (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.wav" (outfile ""))))))))))))
+                                            (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.wav" (tmpfile ""))))))))))))
 ;; ================================
 
-(defun ckn-clear-the-file (x)
+(defun ckn-clear-the-file (thefile)
 
-(om-cmd-line (string+ "del "(namestring x))))
+
+(mp:process-run-function (string+ "del-" (ckn-int2string (om-random 1 1000)))
+                 () 
+                 (lambda (x) (alexandria::delete-file thefile)) thefile))
+ 
 
 ;; ================================
 
 (defun ckn-copy2outfile (x)
-(let* (
-      (action1 (string+ "copy " (list->string-fun (list x)) " " (list->string-fun (list (namestring (outfile "")))))))
-      (ckn-cmd-line action1)
+(let* ()
+      (alexandria::copy-file x (outfile (name-of-file x)))
       (ckn-clear-temp-files)
       (outfile (name-of-file x))))
+
+
+;; ================================
+
+(defun ckn-copy2folder (x y)
+(let* (
+      (action1 (string+ "copy " (list->string-fun (list x)) " " (list->string-fun (list (namestring y))))))
+      (ckn-cmd-line action1)
+      (ckn-clear-temp-files)
+      (merge-pathnames y (name-of-file x))))
 
 ;; ================================
 
@@ -844,8 +864,9 @@ list
 (merge-pathnames (def-temp-folder) string))
 
 ;; ================================
-
+(ensure-directories-exist (infile " " :subdirs "\om-ckn"))
 (ensure-directories-exist (outfile " " :subdirs "\om-ckn"))
+(ensure-directories-exist (tmpfile " " :subdirs "\om-ckn"))
 
 ;================================== WAIT PROCESS =================
 (defun loop-until-probe-file (my-file)
@@ -949,7 +970,8 @@ list
                     (if (plusp cknloop-3) cknloop-3 nil) 
                        ))))))
 
-;; ======================================================================
+;; =========================================
+
 
 (defun choose-ratio-of-note (voice note-number)
   (let* (
@@ -957,6 +979,72 @@ list
         (action2 (mktree (list (choose action1 note-number)) (list 4 4)))
         (action3 (make-instance 'voice :tree action2 :tempo (tempo voice))))
     (car (om6-true-durations action3))))
+
+
+;; ====================================================================== to musicxml
+
+(defun ckn-inside (x)
+
+(case  (type-of x)
+  (voice (ckn-inside (inside x)))
+  (measure (ckn-inside (inside x)))
+  (group (flat (ckn-inside (list (inside x))) 1))
+  (cons (loop for y in x collect (ckn-inside y)))
+  (chord x)
+  (continuation-chord x)
+  (r-rest x)))
+
+;; =================================
+
+(defun organization-of-ties (boolean numbers &optional result)
+(let* (
+      (action1 (list (first-n boolean (car numbers))))
+      (remove_primeiros (last-n boolean (- (length boolean) (car numbers))))
+      (cdr_numbers (cdr numbers)))
+      (if (null cdr_numbers)
+          (flat (reverse (x-append (list action1) result)) 1)
+          (setf boolean (organization-of-ties remove_primeiros cdr_numbers (push action1 result))))))
+
+
+;; =================================
+
+(defun ckn-find-chord-tie (x) 
+
+(case (type-of x)
+  (continuation-chord (ckn-find-chord-tie (previous-chord x)))
+  (chord x)))
+
+;; =================================
+
+(defun ckn-fix-tuplet-durations (first second 3-or-2)
+(expt 3-or-2 (floor (log first second))))
+  
+;; =================================
+
+(defun ckn-microtonal-messages (midi cents)
+
+(string+ "directions=[TextAnnotation('" "~B0," (write-to-string midi) (format nil "'), TextAnnotation('~d', '5.0')]" cents)))
+
+;; =================================
+
+(defun primep (n &optional (d (- n 1))) 
+  (if (/= n 1) (or (= d 1)
+      (and (/= (rem n d) 0)
+           (primep  n (- d 1)))) ()))
+
+;; =================================
+
+(defun ckn-factor (n)
+  "Return a list of factors of N."
+  (when (> n 1)
+    (loop with max-d = (isqrt n)
+	  for d = 2 then (if (evenp d) (+ d 1) (+ d 2)) do
+	  (cond ((> d max-d) (return (list n))) ; n is prime
+		((zerop (rem n d)) (return (cons d (ckn-factor (truncate n d)))))))))
+
+
+; ===========================
+
 
 ;================================================ ckn-gc-all ==================
 

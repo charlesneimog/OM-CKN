@@ -63,7 +63,7 @@ For this work you need:
       (y_if (if (not y) (om::arithm-ser 1 (length x) 1) y))
       (X-PYTHON (lisp-list_2_python-list (om::om-round x_if 10)))
       (Y-PYTHON (lisp-list_2_python-list (om::om-round y_if 10))))
-(mp:process-run-function (string+ "BPF-PYTHON" (ckn-int2string (om::om-random 1 1000)))
+(mp:process-run-function (string+ "BPF-PYTHON-" (ckn-int2string (om::om-random 1 1000)))
       () 
                   (lambda (x-axis y-axis) (if
                                               (equal *app-name* "om-sharp")
@@ -242,7 +242,7 @@ For this work you need:
 :indoc '("List of complex numbers")
 :icon '17359
 :numouts 2
-:out
+:outdoc '("Imag part" "Real Part")
 :doc "It does one senoide in the complex plan."
 (values 
  (mapcar (lambda (x) (imagpart x)) complex-number)
@@ -283,6 +283,16 @@ For this work you need:
 
 (fft->amplitude-fun fft))
 
+;==================================================
+
+(defmethod! fft->amplitude ((fft list))
+:initvals '(nil)
+:indoc '("Sound class") 
+:icon '17359
+:doc "It reads a wave file."
+
+(fft->amplitude (list-to-array fft 1)))
+
 ;=============================
 
 (defmethod! fft->phrase ((fft array))
@@ -292,6 +302,16 @@ For this work you need:
 :doc "It reads a wave file."
 
 (fft->phrase-fun fft))
+
+;=============================
+
+(defmethod! fft->phrase ((fft list))
+:initvals '(nil)
+:indoc '("Sound class") 
+:icon '17359
+:doc "It reads a wave file."
+
+(fft->phrase (list-to-array fft 1)))
 
 ;==================================== ARRAY UTILITIES =======
 
@@ -382,7 +402,7 @@ For this work you need:
 (defmethod! half ((fft-array array))
 :doc "E necessaria somente metade do resultado do FFT."
 
-(half-fun half))
+(half-fun fft-array))
 
 ; =================================================
 
@@ -576,6 +596,17 @@ action3-2)))))
 
 ;; ====================================================
 
+
+(defmethod! sound-transpose-sox ((sound null) (cents number))
+:initvals ' (NIL)
+:indoc ' ("Pathname of a sound-file" "Tranposition in cents")
+:icon '17359
+:doc ""
+
+(sound-silence-sox 1.0 1))
+
+;; ====================================================
+
 (defmethod! sound-transpose-sox ((sound string) (cents number))
 :initvals ' (NIL)
 :indoc ' ("Pathname of a sound-file" "Tranposition in cents")
@@ -747,6 +778,26 @@ Result: (7 9 458)."
 
 (list->string-fun list))
 
+
+;; ====================================================
+(defmethod! ckn-temp-sounds ((sounds sound) &optional (string string))
+:initvals '(nil)
+:indoc '("one string") 
+:icon '17359
+:doc "Copy some file to outfiles."
+
+(car (save-temp-sounds (list! sounds) string)))
+
+;; ====================================================
+(defmethod! ckn-temp-sounds ((sounds list) &optional (string string))
+:initvals '(nil)
+:indoc '("one string") 
+:icon '17359
+:doc "Copy some file to outfiles."
+
+(save-temp-sounds sounds string))
+
+
 ;; ====================================================
 (defmethod! copy2outfile ((path string))
 :initvals '(nil)
@@ -865,7 +916,7 @@ Result: (7 9 458)."
 
 ;; ====================================================
 (defmethod! sound-mix-sox ((sounds list) (name string))
-:initvals '(nil)
+:initvals '("sound-mix.wav")
 :indoc '("sounds") 
 :icon '17359
 :doc "It does the same that sound-mix and sound-mix-list."
@@ -929,7 +980,7 @@ Result: (7 9 458)."
 (sound-fade-sox-fun sounds fade))
 
 ;; ====================================================
-(defmethod! sound-silence-sox ((sounds single-float) &optional (channels 1))
+(defmethod! sound-silence-sox ((sounds number) &optional (channels 1))
 :initvals '(nil)
 :indoc '("float number") 
 :icon '17359
@@ -937,14 +988,16 @@ Result: (7 9 458)."
 
 (let* (
   (sox-path (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))))
-  (sound-in-out 
-      (list (namestring (merge-pathnames "om-ckn/" 
-        (outfile (string+ "silence-" (format nil "~d" sounds)   ".wav"))))))
+  (silence (tmpfile (string+ "silence-" (format nil "~d" sounds)   ".wav") :subdirs "om-ckn"))
+  (sound-in-out (list (namestring silence)))
   (line-command 
-    (string+ sox-path " " "-n " (format nil " -c ~d " channels) " -r 44100 " " " (list->string-fun sound-in-out) " trim 0 " (format nil "~d" (abs sounds))))
-  (the-command (ckn-cmd-line line-command))
-  (loading (loop-until-probe-file (car sound-in-out))))
-    (car sound-in-out)))
+    (string+ sox-path " " "-n " (format nil " -c ~d " channels) " -r 44100 " " " (list->string-fun sound-in-out) " trim 0 " (format nil "~d" (abs sounds)))))
+  
+(if (not (probe-file silence))
+    (ckn-cmd-line line-command)
+    silence)
+  (loop-until-probe-file silence)
+  (car sound-in-out)))
 
 ;; SOX -n "C:\Users\neimog\OneDrive - design.ufjf.br\Documentos\OM - Workspace\out-files\om-ckn\silence.wav" trim 0 10
 
@@ -1046,10 +1099,12 @@ For the automatic work the folder out-files of OM# must be in the files preferen
 For the automatic work the folder out-files of OM# must be in the files preferences of the Max/MSP."
 
 (let* (
-        (ckn-action1 (remove nil (voice->coll voice 1))))
+        (ckn-action1 (remove nil (voice->coll voice 1)))
+        (x->dx (x->dx (mapcar (lambda (x) (car x)) ckn-action1))))
   (loop :for tocando :in ckn-action1
+        :for x->dx_loop :in x->dx
         :do (let* () (om::osc-send (om::x-append '/real-time (print (cdr tocando))) "127.0.0.1" 3000)
-                     (sleep (om::ms->sec (car tocando))))
+                     (sleep (om::ms->sec x->dx_loop)))
     '("done"))))
 
 ; ===========================================================================
@@ -1066,9 +1121,9 @@ For the automatic work the folder out-files of OM# must be in the files preferen
 
 
   (let* ( 
-        (durations-of-the-chors (om::omquantify (om::x->dx (lonset self)) 60 (list 1024 4) 64))
+        (durations-of-the-chors (om::omquantify (om::x->dx (lonset self)) 1000 (list 4 4) 1024))
         (loop-notes (loop :for x :in (lmidic self) 
-                          :for y :in durations-of-the-chors 
+                          :for y :in (lonset self) 
                           :collect (if (not x) y (abs y))))
         (to-voice (make-instance 'voice :tree durations-of-the-chors :tempo 1000 :lmidic (remove nil (lmidic self)))))
 (osc-play to-voice)))
@@ -1198,6 +1253,30 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 
 ;; Multithreading ====================================================
+
+(defmethod! ckn-loop-multi-prepare ((list list) (how_many_threading list))
+:initvals ' (nil nil)       
+:indoc ' ("one list" "how much threading for time.")
+:outdoc ' ("result")
+:icon '17360
+:doc "It does multithreading loops, do not use it if you REALLY do not need :) ."
+
+
+(loop-in-parts list how_many_threading how_many_threading))
+
+;; =============================================
+
+(defmethod! ckn-loop-multi-prepare ((list list) (how_many_threading number))
+:initvals ' (nil nil)       
+:indoc ' ("one list" "how much threading for time.")
+:outdoc ' ("result")
+:icon '17360
+:doc "It does multithreading loops, do not use it if you REALLY do not need :) ."
+
+
+(loop-in-parts list how_many_threading how_many_threading))
+
+;; ====================================================
 
 (defmethod! ckn-multi-1-var ((ckn-lambda function) (list list) &optional (loop-inside 0))
 :initvals ' (nil nil)       
