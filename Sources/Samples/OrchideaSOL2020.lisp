@@ -502,7 +502,7 @@ action1))
 :icon '17360
 :doc "It create the patch of a sound."
 
-(sound-silence-sox 1.0 2))
+(sound-silence-sox 1.0 1))
 
 ;; ====================================================
 
@@ -513,136 +513,227 @@ action1))
 :doc "It create the patch of a sound.
 
 ============================  FLUTE ============================
-1 = Aeolian                                 6  = Jet_whistle
-2 = Aeolian-and-Ordinario                   7  = key_click
-3 = Discolored_fingering                    8  = ordinario
-4 = Flatterzunge                            9  = sforzato
-5 = Harmonic_fingering                      10 = whistle_tones
+1 = Aeolian                                 
+2 = Aeolian-and-Ordinario                   
+3 = Discolored_fingering                    
+4 = Flatterzunge                            
+5 = Harmonic_fingering                      
+6  = Jet_whistle
+7  = key_click
+8  = ordinario
+9  = sforzato
+10 = whistle_tones
 
 ============================= OBOE ===============================
-11 = Blow_without_reed                      16 = kiss
-12 = discolored_fingering                   17 = ordinario
-13 = flatterzunge                           18 = sforzato
-14 = harmonic_fingering                     19 = vibrato
-15 = key_click                              20 = ordinario+surdina
+11 = Blow_without_reed                      
+12 = discolored_fingering                   
+13 = flatterzunge                           
+14 = harmonic_fingering                     
+15 = key_click                             
+16 = kiss
+17 = ordinario
+18 = sforzato
+19 = vibrato
+20 = ordinario+surdina
 
 ============================= Clarinet Bb ===============================
-21 = aeolian_and_ordinario                  26 = ordinario_high_register
-22 = flatterzunge                           27 = sforzato
+21 = aeolian_and_ordinario                  
+22 = flatterzunge                           
 23 = flatterzunge_high_register     
 24 = key_click                      
 25 = ordinario
+26 = ordinario_high_register
+27 = sforzato
 
 ============================= Bassoon ===============================
-28 = blow_without_reed                      29 = flatterzunge
-30 = harmonic_fingering                     31 = key_click
-32 = ordinario                              33 = sforzato
-34 = vibrato                                35 = ordinario+sordina
+28 = blow_without_reed                      
+29 = flatterzunge
+30 = harmonic_fingering                     
+31 = key_click
+32 = ordinario                              
+33 = sforzato
+34 = vibrato                                
+35 = ordinario+sordina
 
 ============================= Sax-Alto ===============================
-36 = aeolian                                37 = bisbigliando
-38 = blow_without_reed                      39 = discolor_fingering
-40 = double_tonguing                        41 = flatterzunge
-42 = harmonic_fingering                     43 = key_click
-44 = kiss                                   45 = ordinario
-46 = ordinario_high_register                47 = sforzato
-48 = slap_pitched                           49 = slap_unpitched
+36 = aeolian                                
+37 = bisbigliando
+38 = blow_without_reed                      
+39 = discolor_fingering
+40 = double_tonguing                        
+41 = flatterzunge
+42 = harmonic_fingering                     
+43 = key_click
+44 = kiss                                   
+45 = ordinario
+46 = ordinario_high_register                
+47 = sforzato
+48 = slap_pitched                           
+49 = slap_unpitched
 
 ============================= Trumpet_C ===============================
-50 = brassy                                 51 = flatterzunge
-52 = ordinario                              53 = pedal_tone
-54 = sforzato                               55 = slap_pitched
-56 = flatterzunge_open+sordina_wah          57 = ordinario_closed+sordina_wah
-58 = ordinario_open+sordina_wah             59 = flatterzunge+sordina_straight
-60 = ordinario+sordina_straight             61 = flatterzunge+sordina_harmon
-62 = ordinario+sordina_harmon               63 = flatterzunge+sordina_cup
+50 = brassy                                 
+51 = flatterzunge
+52 = ordinario                              
+53 = pedal_tone
+54 = sforzato                               
+55 = slap_pitched
+56 = flatterzunge_open+sordina_wah          
+57 = ordinario_closed+sordina_wah
+58 = ordinario_open+sordina_wah             
+59 = flatterzunge+sordina_straight
+60 = ordinario+sordina_straight             
+61 = flatterzunge+sordina_harmon
+62 = ordinario+sordina_harmon               
+63 = flatterzunge+sordina_cup
 64 = ordinario+sordina_cup          
 
 ============================= Horn ===============================
-65 = brassy                                 66 = flatterzunge
-67 = flatterzunge_stopped                   68 = ordinario
-69 = sforzato                               70 = slap_pitched
-71 = stopped                                72 = flatterzunge+sordina
+65 = brassy                                 
+66 = flatterzunge
+67 = flatterzunge_stopped                   
+68 = ordinario
+69 = sforzato                               
+70 = slap_pitched
+71 = stopped                                
+72 = flatterzunge+sordina
 73 = ordinario+sordina
 
 ============================= Trombone ===============================
-74 = brassy                                 75 = flatterzunge
-76 = flatterzunge_no_mouthpiece             77 = ordinario
-78 = pedal_tone                             79 = sforzato
-80 = slap_pitched                           81 = flatterzunge_closed+sordina_wah
-82 = flatterzunge_open+sordina_wah          83 = ordinario_closed+sordina_wah
-84 = ordinario_open+sordina_wah             85 = flatterzunge+sordina_straight
-86 = ordinario+sordina_straight             87 = flatterzunge+sordina_harmon
-88 = ordinario+sordina_harmon               89 = flatterzunge+sordina_cup
+74 = brassy                                 
+75 = flatterzunge
+76 = flatterzunge_no_mouthpiece             
+77 = ordinario
+78 = pedal_tone                             
+79 = sforzato
+80 = slap_pitched                           
+81 = flatterzunge_closed+sordina_wah
+82 = flatterzunge_open+sordina_wah          
+83 = ordinario_closed+sordina_wah
+84 = ordinario_open+sordina_wah             
+85 = flatterzunge+sordina_straight
+86 = ordinario+sordina_straight             
+87 = flatterzunge+sordina_harmon
+88 = ordinario+sordina_harmon               
+89 = flatterzunge+sordina_cup
 90 = ordinario+sordina_cup
 
 ============================= Bass_Tuba ===============================
-91 = bisbigliando                           92 = blow
-93 = brassy                                 94 = breath
-95 = discolored_fingering                   96 = flatterzunge
-97 = growl                                  98 = kiss
-99 = ordinario                              100 = ordinario_high_register
-101 = pedal_tone                            102 = sforzato
-103 = slap_pitched                          104 = slap_unpitched
+91 = bisbigliando                           
+92 = blow
+93 = brassy                                 
+94 = breath
+95 = discolored_fingering                   
+96 = flatterzunge
+97 = growl                                  
+98 = kiss
+99 = ordinario                              
+100 = ordinario_high_register
+101 = pedal_tone                            
+102 = sforzato
+103 = slap_pitched                          
+104 = slap_unpitched
 
 ============================= Violin =================================
-105 = artificial_harmonic                   106 = harmonic_tremolo
-107 = behind_the_bridge                     108 = behind_the_fingerboard
-109 = col_legno_battuto                     110 = col_legno_tratto
-111 = ordinario                             112 = pizzicato_bartok
-113 = pizzicato_l_vib                       114 = pizzicato_secco
-115 = sforzato                              116 = sul_ponticello
-117 = sul_ponticello_tremolo                118 = tremolo
-119 = ordinario+sordina                     120 = tremolo+sordina
-121 = ordinario+Violin+sordina_piombo       122 = tremolo+sordina_piombo
+105 = artificial_harmonic                   
+106 = harmonic_tremolo
+107 = behind_the_bridge                     
+108 = behind_the_fingerboard
+109 = col_legno_battuto                     
+110 = col_legno_tratto
+111 = ordinario                             
+112 = pizzicato_bartok
+113 = pizzicato_l_vib                       
+114 = pizzicato_secco
+115 = sforzato                              
+116 = sul_ponticello
+117 = sul_ponticello_tremolo                
+118 = tremolo
+119 = ordinario+sordina                     
+120 = tremolo+sordina
+121 = ordinario+Violin+sordina_piombo       
+122 = tremolo+sordina_piombo
 
 ============================= Viola =================================
-123 = artificial_harmonic                   124 = artificial_harmonic_tremolo
-125 = behind_the_bridge                     126 = behind_the_fingerboard
-127 = col_legno_battuto                     128 = col_legno_tratto
-129 = ordinario                             130 = pizzicato_bartok
-131 = pizzicato_l_vib                       132 = pizzicato_secco
-133 = sforzato                              134 = sul_ponticello
-135 = sul_ponticello_tremolo                136 = tremolo
-137 = ordinario+sordina                     138 = tremolo+sordina
-139 = ordinario+sordina_piombo              140 = tremolo+sordina_piombo
+123 = artificial_harmonic                   
+124 = artificial_harmonic_tremolo
+125 = behind_the_bridge                     
+126 = behind_the_fingerboard
+127 = col_legno_battuto                     
+128 = col_legno_tratto
+129 = ordinario                             
+130 = pizzicato_bartok
+131 = pizzicato_l_vib                       
+132 = pizzicato_secco
+133 = sforzato                              
+134 = sul_ponticello
+135 = sul_ponticello_tremolo                
+136 = tremolo
+137 = ordinario+sordina                     
+138 = tremolo+sordina
+139 = ordinario+sordina_piombo              
+140 = tremolo+sordina_piombo
 
 ============================= Violoncello =================================
-141 = artificial_harmonic                   142 = artifical_harmonic_tremolo
-143 = behind_the_bridge                     144 = col_legno_battuto
-145 = col_legno_tratto                      146 = ordinario
-147 = pizzicato_bartok                      148 = pizzicato_l_vib
-149 = pizzicato_secco                       150 = sforzato
-151 = sul_ponticello                        152 = sul_ponticello_tremolo
-153 = tremolo                               154 = ordinario+sordina
-155 = tremolo+sordina                       156 = ordinario+sordina_piombo
+141 = artificial_harmonic                   
+142 = artifical_harmonic_tremolo
+143 = behind_the_bridge                     
+144 = col_legno_battuto
+145 = col_legno_tratto                      
+146 = ordinario
+147 = pizzicato_bartok                      
+148 = pizzicato_l_vib
+149 = pizzicato_secco                       
+150 = sforzato
+151 = sul_ponticello                        
+152 = sul_ponticello_tremolo
+153 = tremolo                               
+154 = ordinario+sordina
+155 = tremolo+sordina                       
+156 = ordinario+sordina_piombo
 157 = tremolo+sordina_piombo             
 
 ============================= Contrabass =================================
-158 = artificial_harmonic                   159 = artificial_harmonic_tremolo
-160 = behind_the_bridge                     161 = col_legno_battuto
-162 = col_legno_tratto                      163 = ordinario
-164 = pizzicato_bartok                      165 = pizzicato_l_vib
-166 = pizzicato_secco                       167 = sforzato
-168 = sul_ponticello                        169 = sul_ponticello_tremolo
-170 = tremolo                               171 = ordinario+sordina
+158 = artificial_harmonic                  
+159 = artificial_harmonic_tremolo
+160 = behind_the_bridge                     
+161 = col_legno_battuto
+162 = col_legno_tratto                      
+163 = ordinario
+164 = pizzicato_bartok                      
+165 = pizzicato_l_vib
+166 = pizzicato_secco                       
+167 = sforzato
+168 = sul_ponticello                        
+169 = sul_ponticello_tremolo
+170 = tremolo                               
+171 = ordinario+sordina
 172 = tremolo+sordina                    
 
 ============================= Guitar =================================
-173 = behing_the_frog                       174 = harmonic_fingering
-175 = ordinario                             176 = ordinario_high_register
-177 = pizzicato_bartok                      178 = sul_ponticello
+173 = behing_the_frog                       
+174 = harmonic_fingering
+175 = ordinario                             
+176 = ordinario_high_register
+177 = pizzicato_bartok                      
+178 = sul_ponticello
 
 ============================= Harp ===================================
-179 = bisbigliando                          180 = bisbigliando_with_stick
-181 = cluster                               182 = cluster_with_nail
-183 = damped                                184 = harmonic_fingering
-185 = ordinario                             186 = pizzicato_bartok
+179 = bisbigliando                          
+180 = bisbigliando_with_stick
+181 = cluster                               
+182 = cluster_with_nail
+183 = damped                                
+184 = harmonic_fingering
+185 = ordinario                             
+186 = pizzicato_bartok
 187 = tremolo_with-fingertips
 
 ============================= Accordion ===============================
-188 = breath                                189 = combination_of_registers
-190 = key_click                             191 = ordinario
+188 = breath                                
+189 = combination_of_registers
+190 = key_click                             
+191 = ordinario
 192 = sforzato
 
 "

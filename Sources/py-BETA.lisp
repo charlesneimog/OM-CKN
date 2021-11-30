@@ -49,16 +49,7 @@
   '(";;; edit a valid python code,"
     ";;; changing the variables you want to use "
     ";;; inside om-sharp to {til}d."
-    "(lambda () (format nil
-\"
-# Here you are work with Python code.
-# PUT_YOUR_CODE_HERE (leave the quotes). For example
-
-sum = 2 + 2 
-print(sum) # If you want to use something inside OM, you need to print it.
-\"  
-
-     ))"))
+    ";;;         \"PUT_ALL_YOUR_CODE_HERE_INSIDE_QUOTES\"              "))
 
 (defmethod omNG-make-special-box ((reference (eql 'py)) pos &optional init-args)
   (omNG-make-new-boxcall
@@ -81,7 +72,7 @@ print(sum) # If you want to use something inside OM, you need to print it.
 
 ;; HERE IS WHERE IS DEFINED A FUNCTION!
 
-#|
+;#|
 (defmethod compile-patch ((self OMPYFunction))
   "Compilation of a py function"
 
@@ -103,29 +94,34 @@ print(sum) # If you want to use something inside OM, you need to print it.
                               (setf (error-flag self) t)
                               `(defun ,(intern (string (compiled-fun-name self)) :om ) () nil)))))                              
     (compile (eval function-def))))
-|#
+;|#
 
+#|
 (defmethod compile-patch ((self OMPYFunction))
   "Compilation of a py function"
+  (handler-bind
+      ((error #'(lambda (err)
+                  (om-beep-msg "An error of type ~a occurred: ~a" (type-of err) (format nil "~A" err))
+                  (setf (compiled? self) nil)
+                  (setf (error-flag self) t)
+                  (abort err)
+                  )))
     (setf (error-flag self) nil)
     (let* (
-      (lambda-expression (read-from-string (reduce #'(lambda (s1 s2) (concatenate 'string s1 (string #\Newline) s2)) (text self)) nil))
-      (function-def
-            (if (and lambda-expression (lambda-expression-p lambda-expression))
-                  (progn (setf (compiled? self) t)
-                        (let* (
-                              (code (list (second (cdr lambda-expression))))
-                              (py-code `(make-value (quote py) (list (list :py-om ,@code))))
-                              (var (car (cdr lambda-expression))))
-                              `(defun ,(intern (string (compiled-fun-name self)) :om) 
-                                              ,var ;;variaveis 
-                                              ,py-code)))                                                          
+      
+            (lambda-expression (read-from-string (reduce #'(lambda (s1 s2) (concatenate 'string s1 (string #\Newline) s2)) (text self)) nil))
+            (function-def
+                      (if (and lambda-expression (lambda-expression-p lambda-expression))
+                          (progn (setf (compiled? self) t)
+                              `(defun ,(intern (string (compiled-fun-name (print self))) :om) ,.(cdr lambda-expression)))
+
                           (progn (om-beep-msg "ERROR IN LISP FORMAT!!")
                               (setf (error-flag self) t)
-                              `(defun ,(intern (string (compiled-fun-name self)) :om) () nil)))))     
-    (compile (eval function-def))))
+                              `(defun ,(intern (string (compiled-fun-name self)) :om) () nil)))))
+                              
+    (compile (eval function-def)))))
 
-
+|#
 ;;;===================
 ;;; py FUNCTION BOX
 ;;;===================
@@ -327,16 +323,6 @@ print(sum) # If you want to use something inside OM, you need to print it.
 
 ;; ================================================
 
-(defmethod! run-py ((code py) &optional (cabecario nil))
-:initvals '(nil)
-:indoc '("run py") 
-:icon 'py-f
-:doc "With this object you can see the index parameters of some VST2 plugin."
-
-(run-py (make-value 'to-om (list (list :py-inside-om (py-om code)))) cabecario))
-
-;; ================================================
-
 (defmethod! run-py ((code list) &optional (cabecario nil))
 :initvals '(nil)
 :indoc '("run py") 
@@ -366,10 +352,8 @@ print(sum) # If you want to use something inside OM, you need to print it.
 :icon 'py-f
 :doc ""
 (let* (
-      (check-all-rest (loop :for type :in (om::list! rest) :collect (format2python type)))
-      (py (apply 'mapcar function check-all-rest)))
-      (make-value 'py (list (list :py-om (concatstring (mapcar (lambda (x) (py-om x)) py)))))))
-
+      (check-all-rest (loop :for type :in (om::list! rest) :collect (format2python type))))
+      (apply 'mapcar function check-all-rest)))
 
 
 ;; ========================
