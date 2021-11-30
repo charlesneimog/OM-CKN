@@ -13,15 +13,16 @@
       "Sources/quicklisp-packages/iterate"
       "Sources/Cloud/FFT-window"
       "Sources/om-methods" 
-      "Sources/utilities"
+      "Sources/Utilities/utilities"
       "Sources/Samples/FULLSOL"
       "Sources/Sapa-FFT/utilities" 
       "Sources/Samples/samples-control"
-      "Sources/sinusoidal-modeling"
-      "Sources/stolen-functions"
+      "Sources/Utilities/sinusoidal-modeling"
+      "Sources/Utilities/stolen-functions"
       "Sources/Score/score"
       "Sources/Samples/OrchideaSOL2020"
-      "Sources/py"
+      "Sources/Python/py"
+      "Sources/Python/py-run"
       "Sources/loristrck/loristrck"
       )
 
@@ -35,10 +36,10 @@
             (:package (:name "VST2 and VST3") (:functions plugins-list plugins-define plugins-define-fxp plugins-parameter-index plugins-valid-parameters plugins-multi-processes plugins-process))
             (:package (:name "FFT") (:classes ckn-fft-instance) 
                         (:functions ckn-fft fft->amplitude fft->phrase fft->sin-model fft->chord-seq fft->dB ))
-            (:package (:name "Python") 
-                        (:packages 
-                               (:package (:name "Run py in OM") (:special-boxes py) (:functions py-add-var run-py bring-to-om py->lisp))
-                               (:package (:name "Visual") (:functions bpf-python 3dc-python))))
+;            (:package (:name "Python") (:special-symbols py py-run)
+;                        (:packages 
+;                               (:package (:name "Run py in OM") (:functions py-add-var run-py bring-to-om py->lisp))
+;                               (:package (:name "Visual") (:functions bpf-python 3dc-python))))
             (:package (:name "Math and Music") (:functions complex-senoide))
             (:package (:name "Instruments") 
                         (:packages 
