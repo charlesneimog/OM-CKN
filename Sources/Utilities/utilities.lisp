@@ -304,7 +304,7 @@ list
         (reverse (om::x-append (list action2) (list action1) result)))
   (setf sound-bytes-window (loop-in-parts action2 window hop-size (push action1 result))))))
 
-(compile 'loop-in-parts)
+;(compile 'loop-in-parts)
 ;===================================== SDIF TRACKING ============
 (defun prepare-fft2sdif (list-fft-instance)
 (let* (
