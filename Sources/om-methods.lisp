@@ -1085,7 +1085,7 @@ For the automatic work the folder out-files of OM# must be in the files preferen
 (voice->coll voice 1))
 
 ; (compile 'voice->coll)
-(compile 'ckn-voice->text)
+;(compile 'ckn-voice->text)
 ; ======================
 
 (om::defmethod! osc-play ((voice voice))

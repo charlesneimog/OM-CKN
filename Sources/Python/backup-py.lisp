@@ -104,12 +104,12 @@ print(sum) # If you want to use something inside OM, you need to print it.
                   (progn (setf (compiled? self) t)
                         (let* (
                               (var (car (cdr lambda-expression)))
-                              (code (list (flat (x-append (list (second (cdr lambda-expression))) var))))
-                              (py-code (list `(make-value (quote py) (list (list :py-om ,@code))))))
-                              (print `(defun ,(intern (string (compiled-fun-name self)) :om) 
+                              (code (print (x-append (list (second (cdr lambda-expression))) var)))
+                              (py-code `(make-value (quote py) (list (list :py-om ,@code)))))
+                              `(defun ,(intern (string (compiled-fun-name self)) :om) 
                                               ,var ;;variaveis 
-                                              ,@py-code
-                                              ))))                                                      
+                                              ,py-code
+                                              )))                                                         
                           (progn (om-beep-msg "ERROR IN LISP FORMAT!!")
                               (setf (error-flag self) t)
                               `(defun ,(intern (string (compiled-fun-name self)) :om) () nil)))))     
@@ -417,8 +417,8 @@ print(sum) # If you want to use something inside OM, you need to print it.
       (om-cmd-line (string+ "python " prepare-cmd-code " > " (list->string-fun (list (namestring (tmpfile data-name :subdirs "om-ckn"))))))
       (let* (
             (data (make-value-from-model 'textbuffer (tmpfile data-name :subdirs "om-ckn") nil)))
-            ;(mp:process-run-function "del-py-code" () (lambda (x) (ckn-clear-the-file x)) (om::tmpfile python-name :subdirs "om-ckn"))
-            ;(mp:process-run-function "del-data-code" () (lambda (x) (ckn-clear-the-file x)) (om::tmpfile data-name :subdirs "om-ckn"))
+            (mp:process-run-function "del-py-code" () (lambda (x) (ckn-clear-the-file x)) (om::tmpfile python-name :subdirs "om-ckn"))
+            (mp:process-run-function "del-data-code" () (lambda (x) (ckn-clear-the-file x)) (om::tmpfile data-name :subdirs "om-ckn"))
             (contents data))))
 
 ;; ========================

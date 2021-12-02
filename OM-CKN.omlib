@@ -36,10 +36,6 @@
             (:package (:name "VST2 and VST3") (:functions plugins-list plugins-define plugins-define-fxp plugins-parameter-index plugins-valid-parameters plugins-multi-processes plugins-process))
             (:package (:name "FFT") (:classes ckn-fft-instance) 
                         (:functions ckn-fft fft->amplitude fft->phrase fft->sin-model fft->chord-seq fft->dB ))
-;            (:package (:name "Python") (:special-symbols py py-run)
-;                        (:packages 
-;                               (:package (:name "Run py in OM") (:functions py-add-var run-py bring-to-om py->lisp))
-;                               (:package (:name "Visual") (:functions bpf-python 3dc-python))))
             (:package (:name "Math and Music") (:functions complex-senoide))
             (:package (:name "Instruments") 
                         (:packages 

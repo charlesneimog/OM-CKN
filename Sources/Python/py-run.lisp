@@ -10,10 +10,14 @@
 ;   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ;
 ;============================================================================
-; File author: J. Bresson
+; File author: J. Bresson , Python functions for om by Charles K. Neimog
 ;============================================================================
 
 (in-package :om)
+
+;; ==========================================================================
+
+(defvar *alphabet* (list 'a 'b 'c 'd 'e 'f 'g 'h 'i 'j 'k 'l 'm 'n 'o 'p 'q 'r 's 't 'u 'v 'w 'x 'y 'z))
 
 ;; ================ Python Code Editor Inside OM =================
 
@@ -86,20 +90,26 @@ print(sum) # If you want to use something inside OM, you need to print it.
     (setf (error-flag self) nil)
     (let* (
       (lambda-expression (read-from-string (reduce #'(lambda (s1 s2) (concatenate 'string s1 (string #\Newline) s2)) (text self)) nil))
+      (var (car (cdr lambda-expression)))
+      (length-var (length var))
+      (code (list (flat (x-append (list (second (cdr lambda-expression))) var))))
+      (py-code `(run-py (make-value (quote py) (list (list :py-om ,@code)))))
       (function-def
             (if (and lambda-expression (lambda-expression-p lambda-expression))
+
                   (progn (setf (compiled? self) t)
-                        (let* (
-                              (code (list (second (cdr lambda-expression))))
-                              (py-code `(run-py (make-value (quote py) (list (list :py-om ,@code)))))
-                              (var (car (cdr lambda-expression))))
-                              `(defun ,(intern (string (compiled-fun-name self)) :om) 
+                        `(defun ,(intern (string (compiled-fun-name self)) :om) 
                                               ,var ;;variaveis 
-                                              ,py-code)))                                                          
-                          (progn (om-beep-msg "ERROR IN LISP FORMAT!!")
-                              (setf (error-flag self) t)
-                              `(defun ,(intern (string (compiled-fun-name self)) :om) () nil)))))     
-    (compile (eval function-def))))
+                                              ,py-code))                                                        
+
+                  (progn (om-beep-msg "ERROR IN LISP FORMAT!!")
+                        (setf (error-flag self) t)
+                       `(defun ,(intern (string (compiled-fun-name self)) :om) () nil)))))
+
+
+; (py-add-var (lambda (#:g24586 #:g24587) (funcall '|pyfun-18529| #:g24586 #:g24587)) (list 2 3 4 65) (list 2 3 4 65))
+    
+(compile (eval function-def))))
 
 
 ;;;===================
@@ -307,6 +317,12 @@ print(sum) # If you want to use something inside OM, you need to print it.
                             "Visual Functions"
                             :doc "Visual Functions with Python"
                             :functions '(bpf-python 3dc-python))
+                      (omNG-make-package
+                            "Work with py Special Box"
+                            :doc "Functions to organize and run python code efficiently."
+                            :functions '(run-py py-add-var bring-to-om py->lisp))
                                     ))
 
-; ====================== Add the functions in OM-Menu =======================
+; ====================== Update-Menu if the library will be loaded with the opened patches  =======================
+
+(update-preference-window-module :libraries)
