@@ -4,8 +4,10 @@
 *.vst3
 *.wav
 *.aif
-*.py
 *.aiff
+*.tar.gz
+*.whl
+*.pyc
 .vscode
 .vscode/*
 rotating_cube.mp4
