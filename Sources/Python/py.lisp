@@ -737,8 +737,8 @@ to_om(list_of_numbers)
       (om-cmd-line (string+ "python " prepare-cmd-code " > " (list->string-fun (list (namestring (tmpfile data-name :subdirs "om-ckn"))))))
       (let* (
             (data (make-value-from-model 'textbuffer (tmpfile data-name :subdirs "om-ckn") nil)))
-            ;(mp:process-run-function "del-py-code" () (lambda (x) (ckn-clear-the-file x)) (om::tmpfile python-name :subdirs "om-ckn"))
-            ;(mp:process-run-function "del-data-code" () (lambda (x) (ckn-clear-the-file x)) (om::tmpfile data-name :subdirs "om-ckn"))
+            (mp:process-run-function "del-py-code" () (lambda (x) (ckn-clear-the-file x)) (om::tmpfile python-name :subdirs "om-ckn"))
+            (mp:process-run-function "del-data-code" () (lambda (x) (ckn-clear-the-file x)) (om::tmpfile data-name :subdirs "om-ckn"))
             (contents data))))
 
 ;; ========================
@@ -884,6 +884,47 @@ to_om(vamp.list_plugins())"
 ))
       (run (read_from_python (run-py (make-value (quote py) (list (list :py-om python-code)))))))
       (flat run 1)))
+
+;; ================================================
+
+(defmethod! vamp-process ((sound string) (vamp_key string))
+(let* (
+      (python-code (format nil
+                    "
+import vamp
+import librosa
+from om_ckn import to_om
+
+# from om_ckn import to_om
+
+data, rate = librosa.load(r'~d')
+output = vamp.collect(data, rate, '~d')
+to_om(output)
+
+" sound vamp_key))
+      (run (read_from_python (run-py (make-value (quote py) (list (list :py-om python-code)))))))
+      run))
+      
+;; ================================================
+(defmethod! vamp-process ((sound pathname) (vamp_key string))
+:icon 'py-f
+:doc "
+This object will process some audio using Vamp plugins.
+"
+(vamp-process (namestring sound) vamp_key))
+
+
+;; ================================================
+
+(defmethod! vamp-filter-by-prefix ((vamp_plugins list) (vamp_prefix string))
+:icon 'py-f
+:doc "
+Filters plugins using the prefix."
+
+(let* (
+      (filter-function (lambda (x) (if (equal vamp_prefix (first (string-to-list x ":"))) x nil))))
+      (remove nil (mapcar filter-function vamp_plugins))))
+
       
 ; ====================== Add the functions in OM-Menu =======================
 
@@ -901,12 +942,11 @@ to_om(vamp.list_plugins())"
                             "Work with py Special Box"
                             :doc "Functions to organize and run python code efficiently."
                             :functions '(run-py py-add-var bring-to-om py->lisp))
-                                    )
                       (omNG-make-package
                             "Implementation of vamp plugins in OM"
                             :doc "Functions to use vamp plugins inside OM."
-                            :functions '(vamp-list-plugins))
-                                    ))
+                            :functions '(vamp-list-plugins vamp-process vamp-filter-by-prefix)
+                                    )))
 
 ; ====================== Update-Menu if the library will be loaded with the opened patches  =======================
 
