@@ -19,6 +19,12 @@
 
 (defvar *alphabet* (list 'a 'b 'c 'd 'e 'f 'g 'h 'i 'j 'k 'l 'm 'n 'o 'p 'q 'r 's 't 'u 'v 'w 'x 'y 'z))
 
+
+;; ========================================================================== 
+
+(defun read_from_python (x) 
+    (loop :for y :in (list! x) :collect (read-from-string y)))
+
 ;; ================ Python Code Editor Inside OM =================
 
 (defclass run-py-f (OMProgrammingObject)
@@ -47,13 +53,18 @@
   '(";;; edit a valid python code, It will just run it."
     ";;; changing the variables you want to use "
     ";;; inside om-sharp to {til}d."
+    ";;; The name 'LIST' CANNOT be used as a variable name."
     "(lambda () (format nil
 \"
-# Here you are work with Python code.
-# PUT_YOUR_CODE_HERE (leave the quotes). For example
+from om_ckn import to_om
 
-sum = 2 + 2 
-print(sum) # If you want to use something inside OM, you need to print it.
+list_of_numbers = []
+
+for x in range(10):
+    list_of_numbers.append(x)
+
+to_om(list_of_numbers)
+
 \"  
 
      ))"))
@@ -93,7 +104,7 @@ print(sum) # If you want to use something inside OM, you need to print it.
       (var (car (cdr lambda-expression)))
       (length-var (length var))
       (code (list (flat (x-append (list (second (cdr lambda-expression))) var))))
-      (py-code `(run-py (make-value (quote py) (list (list :py-om ,@code)))))
+      (py-code `(read_from_python (run-py (make-value (quote py) (list (list :py-om ,@code))))))
       (function-def
             (if (and lambda-expression (lambda-expression-p lambda-expression))
 
@@ -109,7 +120,7 @@ print(sum) # If you want to use something inside OM, you need to print it.
 
 ; (py-add-var (lambda (#:g24586 #:g24587) (funcall '|pyfun-18529| #:g24586 #:g24587)) (list 2 3 4 65) (list 2 3 4 65))
     
-(compile (eval function-def))))
+(compile (eval (print function-def)))))
 
 
 ;;;===================
