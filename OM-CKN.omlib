@@ -22,7 +22,6 @@
       "Sources/Score/score"
       "Sources/Samples/OrchideaSOL2020"
       "Sources/Python/py"
-      "Sources/Python/py-run"
       "Sources/loristrck/loristrck"
       )
 
