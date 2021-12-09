@@ -1,5 +1,5 @@
 [submodule "MrsWatson"]
-	path = resources/executables/MrsWatson
+	path = resources/executables/MrsWatson_git
 	url = https://github.com/teragonaudio/MrsWatson.git
 	ignore = dirty
 
