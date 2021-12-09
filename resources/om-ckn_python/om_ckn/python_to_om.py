@@ -11,7 +11,6 @@ _get_dict = c.pythonapi._PyObject_GetDictPtr
 _get_dict.restype = c.POINTER(c.py_object)
 _get_dict.argtypes = [c.py_object]
 
-
 # This is how we convert simple types to lisp. Strings go in quotes, and numbers
 # basically self-evaluate. These never contain other types.
 
@@ -50,7 +49,7 @@ def lispify(L):
         return lispify(to_om_dict(L))
     else:
         not_supported_type = type(L)
-        Warning = (f'Type not supported, please report that {not_supported_type} is not supported to charlesneimog@outlook.com')
+        Warning = (f'ERROR: Type not supported, please report that {not_supported_type} is not supported to charlesneimog@outlook.com')
         return Warning
 
 # Supported Types: ============================================================
@@ -71,4 +70,6 @@ get_dict(numpy.ndarray)['lisp'] = property(lispify)
 # Supported Types: ============================================================
 
 def to_om (L):
+    """It will print the objects formatted to Lisp."""
     print(lispify(L))
+
