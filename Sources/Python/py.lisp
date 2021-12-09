@@ -23,6 +23,12 @@
       (list2string (mapcar (lambda (x) (ckn-int2string x)) list)))
       (loop :for x :in list2string :collect (string+ x ", "))))
 
+;; ========================
+
+(defun lisp->list-py-run (list)
+      "Transform a list in lisp to a list in Python."
+      (flat (loop :for x :in list :collect (x-append x ", "))))
+
 
 ;; ================ Python Code Editor Inside OM =================
 
@@ -366,7 +372,7 @@ print(sum) # If you want to use something inside OM, you need to print it.
     ";;; changing the variables you want to use "
     ";;; inside om-sharp to {til}d."
     ";;; The name 'LIST' CANNOT be used as a variable name."
-    "(lambda () (format nil
+    "(py_var () 
 \"
 from om_ckn import to_om
 
@@ -379,7 +385,7 @@ to_om(list_of_numbers)
 
 \"  
 
-     ))"))
+     )"))
 
 ;; ======
 
@@ -407,6 +413,13 @@ to_om(list_of_numbers)
   (setf (text to) (text from)) to)
 
 ;; ======
+(defun python-expression-p (form)
+  (and (consp form)
+       (eq (%car form) 'py_var)
+       (consp (%cdr form))
+       (listp (%cadr form))))
+
+;; ======
 
 (defmethod compile-patch ((self run-py-f))
   "Compilation of a py function"
@@ -414,26 +427,19 @@ to_om(list_of_numbers)
     (let* (
       (lambda-expression (read-from-string (reduce #'(lambda (s1 s2) (concatenate 'string s1 (string #\Newline) s2)) (text self)) nil))
       (var (car (cdr lambda-expression)))
-      (length-var (length var))
-      (code (list (flat (x-append (list (second (cdr lambda-expression))) var))))
-      (py-code `(read_from_python (run-py (make-value (quote py) (list (list :py-om ,@code))))))
+      (format2python (mapcar (lambda (x) `(format2python ,x)) var))
+      (code (flat (x-append (list (second (cdr lambda-expression))) (list format2python)) 1))
+      (py-code (list `(read_from_python (run-py (make-value (quote py) (list (list :py-om (format nil ,@code))))))))
       (function-def
-            (if (and lambda-expression (lambda-expression-p lambda-expression))
-
+            (if (and lambda-expression (python-expression-p lambda-expression))
                   (progn (setf (compiled? self) t)
-                        `(defun ,(intern (string (compiled-fun-name self)) :om) 
-                                              ,var ;;variaveis 
-                                              ,py-code))                                                        
-
-                  (progn (om-beep-msg "ERROR IN LISP FORMAT!!")
+                          `(defun ,(intern (string (compiled-fun-name self)) :om) 
+                                              ,var  
+                                              ,@py-code))                                                       
+                  (progn (om-beep-msg "ERROR ON PY FORMAT!!")
                         (setf (error-flag self) t)
                        `(defun ,(intern (string (compiled-fun-name self)) :om) () nil)))))
-
-
-; (py-add-var (lambda (#:g24586 #:g24587) (funcall '|pyfun-18529| #:g24586 #:g24587)) (list 2 3 4 65) (list 2 3 4 65))
-    
-(compile (eval (print function-def)))))
-
+(compile (eval function-def))))
 
 ;;;===================
 ;;; py FUNCTION BOX
@@ -767,12 +773,12 @@ to_om(list_of_numbers)
 
 (case (type-of type)
         (lispworks:simple-text-string (list type))
-        (sound (if (not (file-pathname type)) 
+        (sound (namestring (car (if (not (file-pathname type)) 
                     (list (ckn-temp-sounds type (string+ "format-" (format nil "~7,'0D" (om-random 0 999999)) "-")))
-                    (list (file-pathname type))))
+                    (list (file-pathname type))))))
         (fixnum (list (ckn-int2string type)))
         (float (ckn-int2string type))
-        (cons (flat (mapcar (lambda (x) (list (format2python x))) type))) 
+        (cons (lisp->list-py-run (flat (mapcar (lambda (x) (list (format2python x))) type))))
         (single-float (list (ckn-int2string type)))
         (pathname   (list (namestring type)))))
 
@@ -912,6 +918,20 @@ to_om(output)
 This object will process some audio using Vamp plugins.
 "
 (vamp-process (namestring sound) vamp_key))
+
+
+;; ================================================
+(defmethod! vamp-process ((sound sound) (vamp_key string))
+:icon 'py-f
+:doc "
+This object will process some audio using Vamp plugins.
+"
+(let* (
+(sound-path (if (null (file-pathname sound))
+                      (save-temp-sounds sound)
+                      (file-pathname sound))))
+(vamp-process (namestring sound-path) vamp_key)))
+
 
 
 ;; ================================================
