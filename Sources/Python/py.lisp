@@ -30,6 +30,17 @@
       (flat (loop :for x :in list :collect (x-append x ", "))))
 
 
+;; ================================================ BRING TO OM ===========
+
+(defclass! to-om ()
+    ((py-inside-om :initform nil :initarg :py-inside-om :accessor py-inside-om)))
+
+;; ================================================ PY CODE INSIDE OM ===========
+
+(defclass! py-code ()
+    ((code :initform nil :initarg :code :accessor code)))
+
+
 ;; ================ Python Code Editor Inside OM =================
 
 (defclass! py ()
@@ -62,7 +73,7 @@
   '(";;; edit a valid python code,"
     ";;; changing the variables you want to use "
     ";;; inside om-sharp to {til}d."
-    "(lambda () (format nil
+    "(py_var () 
 \"
 # Here you are work with Python code.
 # PUT_YOUR_CODE_HERE (leave the quotes). For example
@@ -71,8 +82,7 @@ sum = 2 + 2
 print(sum) # If you want to use something inside OM, you need to print it.
 
 \"  
-
-     ))"))
+     )"))
 
 ;; ======
 
@@ -107,20 +117,24 @@ print(sum) # If you want to use something inside OM, you need to print it.
     (let* (
       (lambda-expression (read-from-string (reduce #'(lambda (s1 s2) (concatenate 'string s1 (string #\Newline) s2)) (text self)) nil))
       (function-def
-            (if (and lambda-expression (lambda-expression-p lambda-expression))
+            (if (and (python-expression-p lambda-expression) lambda-expression)
                   (progn (setf (compiled? self) t)
                         (let* (
                               (var (car (cdr lambda-expression)))
-                              (code (list (flat (x-append (list (second (cdr lambda-expression))) var))))
-                              (py-code (list `(make-value (quote py) (list (list :py-om ,@code))))))
-                              (print `(defun ,(intern (string (compiled-fun-name self)) :om) 
+                              (code (flat (x-append (list (second (cdr lambda-expression))) (list var)) 1))
+                              (py-code (list `(make-value (quote py) (list (list :py-om (format nil ,@code)))))))
+                              `(defun ,(intern (string (compiled-fun-name self)) :om) 
                                               ,var ;;variaveis 
                                               ,@py-code
-                                              ))))                                                      
+                                              )))                                             
                           (progn (om-beep-msg "ERROR IN LISP FORMAT!!")
                               (setf (error-flag self) t)
-                              `(defun ,(intern (string (compiled-fun-name self)) :om) () nil)))))     
-    (compile (eval function-def))))
+                              `(defun ,(intern (string (compiled-fun-name self)) :om) () nil)))))
+    (compile (eval (print function-def)))))
+
+
+     ; (format2python (mapcar (lambda (x) `(format2python ,x)) var))
+     ; (code (flat (x-append (list (second (cdr lambda-expression))) (list format2python)) 1))
 
 
 ;;;===================
@@ -413,6 +427,7 @@ to_om(list_of_numbers)
   (setf (text to) (text from)) to)
 
 ;; ======
+
 (defun python-expression-p (form)
   (and (consp form)
        (eq (%car form) 'py_var)
@@ -638,26 +653,6 @@ to_om(list_of_numbers)
 ; Functions to be used in the patches
 ; =======================================================
 
-
-(defmethod! run-py ((code string) &optional (cabecario nil))
-:initvals '(nil)
-:indoc '("run py") 
-:icon 'py-f
-:doc "With this object you can see the index parameters of some VST2 plugin."
-
-(let* (
-      (python-code (x-append cabecario " 
-
-" code))
-      (python-name (string+ "om-ckn-code" (ckn-int2string (om-random 10000 999999)) ".py"))
-      (save-python-code (om::save-as-text python-code (om::tmpfile python-name :subdirs "om-ckn")))
-      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
-      (om-cmd-line (string+ "python " prepare-cmd-code))
-      (mp:process-run-function "del-py-code" () (lambda (x) (ckn-clear-the-file x)) (om::tmpfile python-name :subdirs "om-ckn"))
-      'end))
-
-;; ================================================
-
 (defmethod! run-py ((code py) &optional (cabecario nil))
 :initvals '(nil)
 :indoc '("run py") 
@@ -668,26 +663,36 @@ to_om(list_of_numbers)
 
 ;; ================================================
 
-(defmethod! run-py ((code list) &optional (cabecario nil))
+(defmethod! run-py ((code py-code) &optional (cabecario nil))
 :initvals '(nil)
 :indoc '("run py") 
 :icon 'py-f
 :doc "With this object you can see the index parameters of some VST2 plugin."
 
+(read_from_python (run-py (make-value 'to-om (list (list :py-inside-om (code code)))) cabecario)))
+
+;; ========================
+
+(defmethod! run-py ((code to-om) &optional (cabecario nil))
+:initvals '(nil)
+:indoc '("run py") 
+:icon 'py-f
+:doc ""
+
 (let* (
       (python-code (x-append cabecario " 
 
-" (concatstring code)))
-      (save-python-code (om::save-as-text python-code (om::tmpfile (string+ "om-ckn-code" (ckn-int2string (om-random 10000 999999)) ".py") :subdirs "om-ckn")))
+" (py-inside-om code)))
+      (python-name (string+ "om-ckn-code" (ckn-int2string (om-random 10000 999999)) ".py"))
+      (data-name (string+ "data" (ckn-int2string (om-random 10000 999999)) ".txt"))
+      (save-python-code (om::save-as-text python-code (om::tmpfile python-name :subdirs "om-ckn")))
       (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
       (om-cmd-line (string+ "python " prepare-cmd-code))
-      (mp:process-run-function "del-py-code" () (lambda (x) (ckn-clear-the-file x)) (om::tmpfile "om-ckn-code.py"))
-      'end))
-
-;; ================================================ BRING TO OM ===========
-
-(defclass! to-om ()
-    ((py-inside-om :initform nil :initarg :py-inside-om :accessor py-inside-om)))
+      (let* (
+            (data (make-value-from-model 'textbuffer (merge-pathnames (user-homedir-pathname) "py_values.txt") nil)))
+            (mp:process-run-function "del-py-code" () (lambda (x) (ckn-clear-the-file x)) (om::tmpfile python-name :subdirs "om-ckn"))
+            (mp:process-run-function "del-data-code" () (lambda (x) (ckn-clear-the-file x)) (merge-pathnames (user-homedir-pathname) "py_values.txt"))
+            (read_from_python (contents data)))))
 
 ;; ========================
 
@@ -697,11 +702,9 @@ to_om(list_of_numbers)
 :icon 'py-f
 :doc ""
 (let* (
-      (check-all-rest (loop :for type :in (om::list! rest) :collect (format2python type)))
+      (check-all-rest (loop :for type :in (om::list! rest) :collect (py-format2python type)))
       (py (apply 'mapcar function check-all-rest)))
-      (make-value 'py (list (list :py-om (concatstring (mapcar (lambda (x) (py-om x)) py)))))))
-
-
+      (make-value 'py-code (list (list :code (concatstring (mapcar (lambda (x) (py-om x)) py)))))))
 
 ;; ========================
 
@@ -722,30 +725,6 @@ to_om(list_of_numbers)
 :doc ""
 
 (make-value 'to-om (list (list :py-inside-om code))))
-
-
-;; ========================
-
-(defmethod! run-py ((code to-om) &optional (cabecario nil))
-:initvals '(nil)
-:indoc '("run py") 
-:icon 'py-f
-:doc ""
-
-(let* (
-      (python-code (x-append cabecario " 
-
-" (py-inside-om code)))
-      (python-name (string+ "om-ckn-code" (ckn-int2string (om-random 10000 999999)) ".py"))
-      (data-name (string+ "data" (ckn-int2string (om-random 10000 999999)) ".txt"))
-      (save-python-code (om::save-as-text python-code (om::tmpfile python-name :subdirs "om-ckn")))
-      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
-      (om-cmd-line (string+ "python " prepare-cmd-code " > " (list->string-fun (list (namestring (tmpfile data-name :subdirs "om-ckn"))))))
-      (let* (
-            (data (make-value-from-model 'textbuffer (tmpfile data-name :subdirs "om-ckn") nil)))
-            (mp:process-run-function "del-py-code" () (lambda (x) (ckn-clear-the-file x)) (om::tmpfile python-name :subdirs "om-ckn"))
-            (mp:process-run-function "del-data-code" () (lambda (x) (ckn-clear-the-file x)) (om::tmpfile data-name :subdirs "om-ckn"))
-            (contents data))))
 
 ;; ========================
 
@@ -769,16 +748,34 @@ to_om(list_of_numbers)
 (list (lisp-list_2_python-list result)))
 
 ;==================================
-(defun format2python (type)
 
-(case (type-of type)
+(defun format2python (type)
+    (case (type-of type)
         (lispworks:simple-text-string (list type))
-        (sound (namestring (car (if (not (file-pathname type)) 
-                    (list (ckn-temp-sounds type (string+ "format-" (format nil "~7,'0D" (om-random 0 999999)) "-")))
-                    (list (file-pathname type))))))
+        (sound (let* (
+                      (filepathname (namestring (car (if (not (file-pathname type)) 
+                                                         (list (ckn-temp-sounds type (string+ "format-" (format nil "~7,'0D" (om-random 0 999999)) "-")))
+                                                         (list (file-pathname type)))))))
+                                    (string+ "r" "'" filepathname "'")))
         (fixnum (list (ckn-int2string type)))
         (float (ckn-int2string type))
         (cons (lisp->list-py-run (flat (mapcar (lambda (x) (list (format2python x))) type))))
+        (single-float (list (ckn-int2string type)))
+        (pathname   (list (namestring type)))))
+
+;==================================
+
+(defun py-format2python (type)
+    (case (type-of type)
+        (lispworks:simple-text-string (list type))
+        (sound (let* (
+                      (filepathname (namestring (car (if (not (file-pathname type)) 
+                                                         (list (ckn-temp-sounds type (string+ "format-" (format nil "~7,'0D" (om-random 0 999999)) "-")))
+                                                         (list (file-pathname type)))))))
+                                    (string+ "r" "'" filepathname "'")))
+        (fixnum (list (ckn-int2string type)))
+        (float (ckn-int2string type))
+        (cons (flat (mapcar (lambda (x) (list (format2python x))) type)))
         (single-float (list (ckn-int2string type)))
         (pathname   (list (namestring type)))))
 
@@ -888,7 +885,7 @@ from om_ckn import to_om
 import vamp
 to_om(vamp.list_plugins())"
 ))
-      (run (read_from_python (run-py (make-value (quote py) (list (list :py-om python-code)))))))
+      (run (run-py (make-value (quote py) (list (list :py-om python-code))))))
       (flat run 1)))
 
 ;; ================================================
@@ -908,7 +905,7 @@ output = vamp.collect(data, rate, '~d')
 to_om(output)
 
 " sound vamp_key))
-      (run (read_from_python (run-py (make-value (quote py) (list (list :py-om python-code)))))))
+      (run (run-py (make-value (quote py) (list (list :py-om python-code))))))
       run))
       
 ;; ================================================
@@ -945,7 +942,10 @@ Filters plugins using the prefix."
       (filter-function (lambda (x) (if (equal vamp_prefix (first (string-to-list x ":"))) x nil))))
       (remove nil (mapcar filter-function vamp_plugins))))
 
-      
+;; =================================================  receive values ===============================
+
+
+
 ; ====================== Add the functions in OM-Menu =======================
 
 (omNG-make-package
@@ -959,13 +959,21 @@ Filters plugins using the prefix."
                             :doc "Visual Functions with Python"
                             :functions '(bpf-python 3dc-python))
                       (omNG-make-package
+                            "Loristrck - Partial Tracking"
+                            :doc "Partial Tracking"
+                            :functions '(loristrck-analysis loristrck-synth))
+                      (omNG-make-package
                             "Work with py Special Box"
                             :doc "Functions to organize and run python code efficiently."
                             :functions '(run-py py-add-var bring-to-om py->lisp))
                       (omNG-make-package
                             "Implementation of vamp plugins in OM"
                             :doc "Functions to use vamp plugins inside OM."
-                            :functions '(vamp-list-plugins vamp-process vamp-filter-by-prefix)
+                            :functions '(vamp-list-plugins vamp-process vamp-filter-by-prefix))
+                      (omNG-make-package
+                            "Implementation of VST2 and VST3 plugins in OM"
+                            :doc "Functions to use VST2 and VST3 plugins inside OM."
+                            :functions '(plugins-list plugins-define plugins-define-fxp plugins-parameter-index plugins-valid-parameters plugins-multi-processes plugins-process)
                                     )))
 
 ; ====================== Update-Menu if the library will be loaded with the opened patches  =======================

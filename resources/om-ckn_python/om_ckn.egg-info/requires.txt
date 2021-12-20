@@ -1,0 +1,4 @@
+librosa
+pedalboard
+dawdreamer
+numpy

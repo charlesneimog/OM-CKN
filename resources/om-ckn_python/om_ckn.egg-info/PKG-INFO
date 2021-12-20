@@ -1,0 +1,23 @@
+Metadata-Version: 2.1
+Name: om-ckn
+Version: 0.0.0.6
+Summary: This is a simple package to help musicians that do not use a lot of code. 
+Home-page: UNKNOWN
+Author: Charles K. Neimog
+Author-email: <charlesneimog@outlook.com>
+License: UNKNOWN
+Keywords: python,music,OpenMusic
+Platform: UNKNOWN
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+
+# charlesneimog
+
+This is a simple package to help musicians that do not use a lot of code. 
+
+
+
