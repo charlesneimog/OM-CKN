@@ -28,18 +28,17 @@
 (:symbols 
       (:packages
             (:package (:name "My Compositional Tools") (:functions voice->samples o-voice->samples voice->samples-ITD))
-            (:package (:name "SDIF") (:functions sdif->list sdif-envelope )) ;sdif->ckn-fft-instance
-            (:package (:name "Loristrck") (:functions loristrck-analysis loristrck-synth))
+            (:package (:name "SDIF") (:functions sdif->list sdif-envelope sdif->ckn-fft-instance)) 
             (:package (:name "Sound SOX Functions") (:functions sound-seq-sox sound-seq-multi sound-vol-sox sound-transpose-sox))
             (:package (:name "Sound LISP Functions") (:functions sound->bytes sound-seq-list sound-seq-multi sound-mix-list sound-markers-cut sound-mix-list))
-            (:package (:name "VST2 and VST3") (:functions plugins-list plugins-define plugins-define-fxp plugins-parameter-index plugins-valid-parameters plugins-multi-processes plugins-process))
-            (:package (:name "FFT") (:classes ckn-fft-instance) 
-                        (:functions ckn-fft fft->amplitude fft->phrase fft->sin-model fft->chord-seq fft->dB ))
+            (:package (:name "FFT") 
+                        (:classes ckn-fft-instance)             
+                        (:functions ckn-fft fft->amplitude fft->phrase fft->sin-model fft->chord-seq fft->dB))
             (:package (:name "Math and Music") (:functions complex-senoide))
             (:package (:name "Instruments") 
                         (:packages 
                               (:package (:name "Orchidea-SOL") (:functions FULL-SOL-instruments orchidea-instruments o-check-samples-in-voice OrchideaSOL-folder))))
-            (:package (:name "OM Multithreading") (:functions ckn-make-mail-box ckn-mailbox-name ckn-mailbox-peek ckn-multi-1-var ckn-multi-2-var))
+            (:package (:name "Multithreading") (:functions ckn-make-mail-box ckn-mailbox-name ckn-mailbox-peek ckn-multi-1-var ckn-multi-2-var))
             (:package (:name "Utilities")
                   (:packages
                         (:package (:name "List and arrays") (:functions list-to-array array-to-list by-N half))
