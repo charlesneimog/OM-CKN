@@ -52,7 +52,7 @@
    (error-flag :initform nil :accessor error-flag)
    ))
 
-;; ======
+;; ============================= PY Special Boxes ===========================
 
 (defmethod get-object-type-name ((self OMPYFunction)) "Py")
 
@@ -77,9 +77,9 @@
 \"
 # Here you are work with Python code.
 # PUT_YOUR_CODE_HERE (leave the quotes). For example
-
+from om_ckn import to_om
 sum = 2 + 2 
-print(sum) # If you want to use something inside OM, you need to print it.
+to_om(sum) # If you want to use something inside OM, you need to print it.
 
 \"  
      )"))
@@ -330,24 +330,7 @@ print(sum) # If you want to use something inside OM, you need to print it.
 (defmethod font-command ((self py-function-editor))
   #'(lambda () (om-lisp::change-text-edit-font (window self))))
 
-;============================================================================
-; om#: visual programming language for computer-assisted music composition
-;============================================================================
-;
-;   This program is free software. For information on usage
-;   and redistribution, see the "LICENSE" file in this distribution.
-;
-;   This program is distributed in the hope that it will be useful,
-;   but WITHOUT ANY WARRANTY; without even the implied warranty of
-;   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-;
-;============================================================================
-; File author: J. Bresson , Python functions for om by Charles K. Neimog
-;============================================================================
-
-(in-package :om)
-
-;; ==========================================================================
+;; ========================= PY-RUN Special Boxes =================================================
 
 (defvar *alphabet* (list 'a 'b 'c 'd 'e 'f 'g 'h 'i 'j 'k 'l 'm 'n 'o 'p 'q 'r 's 't 'u 'v 'w 'x 'y 'z))
 
@@ -942,9 +925,6 @@ Filters plugins using the prefix."
       (filter-function (lambda (x) (if (equal vamp_prefix (first (string-to-list x ":"))) x nil))))
       (remove nil (mapcar filter-function vamp_plugins))))
 
-;; =================================================  receive values ===============================
-
-
 
 ; ====================== Add the functions in OM-Menu =======================
 
@@ -953,28 +933,6 @@ Filters plugins using the prefix."
         :doc "Visual program manipulation"
         :container-pack *om-package-tree*
         :special-symbols '(py py-run)
-        :subpackages
-                (list (omNG-make-package
-                            "Visual Functions"
-                            :doc "Visual Functions with Python"
-                            :functions '(bpf-python 3dc-python))
-                      (omNG-make-package
-                            "Loristrck - Partial Tracking"
-                            :doc "Partial Tracking"
-                            :functions '(loristrck-analysis loristrck-synth))
-                      (omNG-make-package
-                            "Work with py Special Box"
-                            :doc "Functions to organize and run python code efficiently."
-                            :functions '(run-py py-add-var bring-to-om py->lisp))
-                      (omNG-make-package
-                            "Implementation of vamp plugins in OM"
-                            :doc "Functions to use vamp plugins inside OM."
-                            :functions '(vamp-list-plugins vamp-process vamp-filter-by-prefix))
-                      (omNG-make-package
-                            "Implementation of VST2 and VST3 plugins in OM"
-                            :doc "Functions to use VST2 and VST3 plugins inside OM."
-                            :functions '(plugins-list plugins-define plugins-define-fxp plugins-parameter-index plugins-valid-parameters plugins-multi-processes plugins-process)
-                                    )))
 
 ; ====================== Update-Menu if the library will be loaded with the opened patches  =======================
 

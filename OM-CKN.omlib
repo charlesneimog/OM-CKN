@@ -28,6 +28,13 @@
 (:symbols 
       (:packages
             (:package (:name "My Compositional Tools") (:functions voice->samples o-voice->samples voice->samples-ITD))
+            (:package (:name "Python") 
+                        (:packages 
+                              (:package (:name "Visual Functions") (:functions bpf-python 3dc-python))
+                              (:package (:name "Loristrck - Partial Tracking") (:functions loristrck-analysis loristrck-synth))
+                              (:package (:name "Work with PY Special Box") (:functions (run-py py-add-var bring-to-om py->lisp))
+                              (:package (:name "Vamp Plugins") (:functions vamp-list-plugins vamp-process vamp-filter-by-prefix))
+                              (:package (:name "VST2 and VST3") (:functions plugins-list plugins-define plugins-define-fxp plugins-parameter-index plugins-valid-parameters plugins-multi-processes plugins-process)))))
             (:package (:name "SDIF") (:functions sdif->list sdif-envelope sdif->ckn-fft-instance)) 
             (:package (:name "Sound SOX Functions") (:functions sound-seq-sox sound-seq-multi sound-vol-sox sound-transpose-sox))
             (:package (:name "Sound LISP Functions") (:functions sound->bytes sound-seq-list sound-seq-multi sound-mix-list sound-markers-cut sound-mix-list))

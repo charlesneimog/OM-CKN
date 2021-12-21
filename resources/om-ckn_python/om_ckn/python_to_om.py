@@ -2,8 +2,6 @@
 
 This code is based on the following: https://github.com/jkitchin/pycse/blob/master/pycse/lisp.py. I just added the ability to send the objects to OM to facilitate the communication between Python and OM. This documentation was writing by Github co-pilot. 
 
-
-
 """
 
 
