@@ -427,7 +427,7 @@ to_om(list_of_numbers)
       (var (car (cdr lambda-expression)))
       (format2python (mapcar (lambda (x) `(format2python ,x)) var))
       (code (flat (x-append (list (second (cdr lambda-expression))) (list format2python)) 1))
-      (py-code (list `(read_from_python (run-py (make-value (quote py) (list (list :py-om (format nil ,@code))))))))
+      (py-code (list `(run-py (make-value (quote py) (list (list :py-om (format nil ,@code)))))))
       (function-def
             (if (and lambda-expression (python-expression-p lambda-expression))
                   (progn (setf (compiled? self) t)
@@ -932,7 +932,7 @@ Filters plugins using the prefix."
         "Python"
         :doc "Visual program manipulation"
         :container-pack *om-package-tree*
-        :special-symbols '(py py-run)
+        :special-symbols '(py py-run))
 
 ; ====================== Update-Menu if the library will be loaded with the opened patches  =======================
 
