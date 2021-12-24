@@ -1,9 +1,6 @@
 matplotlib
 numpy
-mplot3d
-mpl_toolkits
 pedalboard
 soundfile 
-pip install sndscribe
 
 

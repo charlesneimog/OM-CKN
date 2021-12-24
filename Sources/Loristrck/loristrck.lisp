@@ -75,7 +75,7 @@ r w ht hop-o amp fd sl rbw sdif-type minbps minamp fade-time))
     (minamp (format nil " --minamp ~d " minamp))
     (fadetime (format nil " --fadetime ~d " fade-time))
     (cmd (string+ "python " py-script " " sndfile " " sdif-out resolution winsize h-time hop-overlap ampfloor freqdrift sidelobe residuebw croptime sdiftype minbps minamp fadetime)))
-    (ckn-cmd-line cmd)
+    (om-cmd-line cmd)
     (loop-until-probe-file (outfile outfile))
     (outfile outfile)))
 
