@@ -399,6 +399,18 @@ if os.path.exists(r'~d'):
 (make-value 'vst3-code (list (list :plugin-path (namestring (vst3-path plugin-path))) (list :vst3-py python-code) (list :out-sound sound-out)))))
 
 ;  =====================================================
+
+(defmethod! plugins-multi-processes ((sound pathname) (sound-out pathname) (plugin-path VST3) (parameter_index list) &optional (verbose nil)) 
+:initvals '(nil)
+:indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
+:icon '17359
+:doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
+
+
+(plugins-multi-processes (namestring sound) (namestring sound-out) plugin-path parameter_index verbose))
+
+
+;  =====================================================
 (defmethod! plugins-process-code ((code vst3-main-code))
 :initvals '(nil)
 :indoc '("Process vst3 plugin code in Python") 
