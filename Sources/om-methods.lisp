@@ -16,7 +16,44 @@
                 (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN")))))
                                         )
 
-                                        
+;; =======================================================================
+;; ================= CLASSES =============================================
+;; =======================================================================
+
+; ================================================== Sdif-Class =====================
+
+(defclass! ckn-sdif ()
+    ((ckn-matrix :initform nil :initarg :ckn-matrix :accessor ckn-matrix)))
+
+; ================================================== FFT-Class =====================
+
+(defclass! ckn-fft-instance ()
+( 
+  (ckn-complex-numbers :initform '#(-6.1035157E-5 0.0) :initarg :ckn-complex-numbers :accessor ckn-complex-numbers)
+  (sound-sample-rate :initform nil :initarg :sound-sample-rate :accessor sound-sample-rate)
+  (fft-window :initform nil :initarg :fft-window :accessor fft-window)
+  (ckn-hop-size :initform nil :initarg :ckn-hop-size :accessor ckn-hop-size)
+  (fft-chunks :initform nil :initarg :fft-chunks :accessor fft-chunks)
+  (ckn-tempo :initform nil :initarg :ckn-tempo :accessor ckn-tempo)
+  (frequencias :initform nil :initarg :frequencias :accessor frequencias)
+  (amplitudes :initform nil :initarg :amplitudes :accessor amplitudes)
+  (phrase :initform nil :initarg :phrase :accessor phrase)
+                                    )
+  (:icon 17359))
+
+;==================================================================================
+
+(defclass! fft-complex-numbers ()
+((complex-numbers :initform '#(-6.1035157E-5 0.0) :initarg :complex-numbers :accessor complex-numbers))
+(:icon 17359))
+
+; ================================================== Bytes-Class =====================
+
+(defclass! sound-bytes ()
+((bytes :initform nil :initarg :bytes :accessor bytes))
+(:icon 17359))
+                              
+
 ; ============ Facilitar minha vida!!! =================
 
 (defmethod! nth-repeated-random ((list list) (times number))
@@ -26,11 +63,6 @@
 :doc ""
 
 (om::repeat-n (om::nth-random list) times))
-
-; ==================================
-
-(defclass! ckn-sdif ()
-    ((ckn-matrix :initform nil :initarg :ckn-matrix :accessor ckn-matrix)))
 
 ; ======================================== Methods and Functions ==================================================
 
@@ -75,7 +107,7 @@ For this work you need:
 
 (defmethod! save-bpf-python ((X list) (Y list) &optional (thickness 0.4) (outfile nil) (color 'black) (blackbackgroud nil) (dpi 300))
 :initvals ' (NIL)
-:indoc ' ("Sdif-File.")
+:indoc ' ("Build a BPF in Python and save it.")
 :icon 'py-f
 :doc "This is a BPF like the BPF of OM-Sharp. But you can you more numbers.
 
@@ -102,7 +134,7 @@ For this work you need:
 
 (defmethod! 3dc-python ((X list) (Y list) (Z list) &optional (thickness 1) (color 'black))
 :initvals ' (NIL)
-:indoc ' ("Sdif-File.")
+:indoc ' ("Build a 3DC in Python and save it.")
 :icon 'py-f
 :doc "This is a BPF like the BPF of OM-Sharp. But you can you more numbers.
 
@@ -118,35 +150,6 @@ For this work you need:
 (mp:process-run-function (string+ "3DC-PYTHON" (ckn-int2string (om::om-random 1 1000)))
                  () 
                   (lambda (x-axis w-axis z-axis) (3dc-python-fun x-axis w-axis z-axis thickness color)) X-PYTHON Y-PYTHON Z-PYTHON)))
-
-
-; ================================================== FFT-Class =====================
-
-(defclass! ckn-fft-instance ()
-( 
-  (ckn-complex-numbers :initform '#(-6.1035157E-5 0.0) :initarg :ckn-complex-numbers :accessor ckn-complex-numbers)
-  (sound-sample-rate :initform nil :initarg :sound-sample-rate :accessor sound-sample-rate)
-  (fft-window :initform nil :initarg :fft-window :accessor fft-window)
-  (ckn-hop-size :initform nil :initarg :ckn-hop-size :accessor ckn-hop-size)
-  (fft-chunks :initform nil :initarg :fft-chunks :accessor fft-chunks)
-  (ckn-tempo :initform nil :initarg :ckn-tempo :accessor ckn-tempo)
-  (frequencias :initform nil :initarg :frequencias :accessor frequencias)
-  (amplitudes :initform nil :initarg :amplitudes :accessor amplitudes)
-  (phrase :initform nil :initarg :phrase :accessor phrase)
-                                    )
-  (:icon 17359))
-
-;==================================================================================
-
-(defclass! fft-complex-numbers ()
-((complex-numbers :initform '#(-6.1035157E-5 0.0) :initarg :complex-numbers :accessor complex-numbers))
-(:icon 17359))
-
-;==================================================================================
-
-(defclass! sound-bytes ()
-((bytes :initform nil :initarg :bytes :accessor bytes))
-(:icon 17359))
                                     
 ;==================================================
 

@@ -12,3 +12,5 @@
 .vscode/*
 rotating_cube.mp4
 *.ofasl
+*.txt
+resources/executables/Spat/*
