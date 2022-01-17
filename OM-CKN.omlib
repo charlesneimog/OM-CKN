@@ -17,12 +17,14 @@
       "Sources/Samples/FULLSOL"
       "Sources/Sapa-FFT/utilities" 
       "Sources/Samples/samples-control"
+      "Sources/Samples/VST2 and VST3"
       "Sources/Utilities/sinusoidal-modeling"
       "Sources/Utilities/stolen-functions"
       "Sources/Score/score"
       "Sources/Samples/OrchideaSOL2020"
       "Sources/Python/py"
       "Sources/loristrck/loristrck"
+      "Sources/Spat/spat_omsharp"
       )
 
 (:symbols 

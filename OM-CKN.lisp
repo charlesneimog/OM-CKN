@@ -23,6 +23,7 @@
       "Sources/om-methods"
       "Sources/stolen-functions"
       "Sources/Samples/OrchideaSOL2020"
+      "Sources/Python/py"
             ))
 
 
