@@ -540,7 +540,7 @@ list
 ;=========================
 
 
-(defun fft-multiple-thread (fft-chunks mail-box nomes chunks sample-rate hop-size)
+(defun fft-multiple-thread (fft-chunks mail-box nomes chunks sample-rate hop-size fft-size)
 
 (let* ()
 
@@ -555,11 +555,11 @@ list
                   (lambda (x w z) (mp:mailbox-send w 
                       (let* (
                               (fft (half-fun (sapa-fft! x)))
-                              (amp (fft->amplitude fft))
-                              (phrase (fft->phrase fft)))
-                             ;(length-amp (length amp))) ;; colocar a sequencia fft                                                               
+                              (polar-amp-correction (loop :for bin :across fft :collect (om/ bin fft-size)))
+                              (amp (fft->amplitude polar-amp-correction))
+                              (phrase (fft->phrase polar-amp-correction)))                                                              
                               (make-instance 'ckn-fft-instance 
-                                 :ckn-complex-numbers (make-instance 'fft-complex-numbers :complex-numbers fft)
+                                 :ckn-complex-numbers (make-instance 'fft-complex-numbers :complex-numbers polar-amp-correction)
                                  :fft-window (* 2 (length amp))
                                  :fft-chunks z
                                  :ckn-hop-size hop-size
@@ -622,7 +622,7 @@ list
           :collect (let* (
                          (action1 (do-fft-chunks loop-sound-windows-parts))
                          (action2 (ckn-make-mail-box action1)))
-                     (fft-multiple-thread loop-sound-windows-parts action2 action1 loop-fft-chunk-to-ms-parts (sample-rate sound-self) hop-size))) 1)
+                     (fft-multiple-thread loop-sound-windows-parts action2 action1 loop-fft-chunk-to-ms-parts (sample-rate sound-self) hop-size fft-size))) 1)
 
    
   (let* (
@@ -631,7 +631,7 @@ list
                          (action2 fft-chunk-to-ms)                         
                          (action3 (do-fft-chunks sound-windows))
                          (action4 (ckn-make-mail-box action3)))
-                     (fft-multiple-thread action1 action4 action3 action2 (sample-rate sound-self) hop-size)))))
+                     (fft-multiple-thread action1 action4 action3 action2 (sample-rate sound-self) hop-size fft-size)))))
  
 
 (compile 'fft-ckn)
@@ -679,15 +679,9 @@ list
                   (TEMPO (ckn-tempo x))
                   (AMPLITUDES (amplitudes x))
                   (PHRASE (phrase x))
-                  (CORRECTION-FOR-DB (case FFT-SIZE 
-                                          (512 124.53343)
-                                          (1024 250.19278749034922D0)
-                                          (2048 501.4303903221932D0)
-                                          (4096 1026.685)))
                   (MAG->DB 
                         (let* (
-                                (action1 (om::om/ AMPLITUDES CORRECTION-FOR-DB))
-                                (action2 (mapcar (lambda (x) (if (plusp x) (log x 10) -150.0)) action1)))
+                                (action2 (mapcar (lambda (x) (if (plusp x) (log x 10) -150.0)) AMPLITUDES)))
                           (om::om* 20 action2)))
 
                   (SPEAR-CORRECTION 
@@ -1023,7 +1017,13 @@ list
 
 (defun ckn-microtonal-messages (midi cents)
 
-(string+ "directions=[TextAnnotation('" "~B0," (write-to-string midi) (format nil "'), TextAnnotation('~d', '5.0')]" cents)))
+(let* (
+      (microtonal-notation (if (null cents) 
+                               (format nil "')]" cents) 
+                               (format nil "'), TextAnnotation('~d', '5.0')]" cents))))
+
+
+(string+ "directions=[TextAnnotation('" "~B0," (write-to-string midi) microtonal-notation)))
 
 ;; =================================
 
