@@ -2,6 +2,8 @@
 
 (require-library "om-py")
 
+(sleep 1)
+
 ;; ============== VISUAL THINGS =================
 
 (defun bpf-python-fun (X Y Z color)
@@ -59,9 +61,8 @@ plt.plot(X, Y, lw=~d, color='black')
 plt.subplots_adjust(left=0.02, right=0.986, top=0.986, bottom=0.029)
 plt.show()
 " x y z))
-      (save-python-code (ckn-save-as-text python-code (om::outfile "bpf.py")))
-      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
-      (om::om-cmd-line (string+ "python " prepare-cmd-code))))
+      (run (om-py::run-py (make-value (quote om-py::om2py) (list (list :py-om python-code))))))
+      (flat run 1)))
 
 ;; ============
 (defun 3dc-python-fun (X Y Z A color)
@@ -87,9 +88,9 @@ plt.subplots_adjust(left=0.0, right=1, top=1, bottom=0.0)
 ax.plot3D(xline, yline, zline,  lw=~d, color='~d')
 plt.show()
 " x y z a color))
-      (save-python-code (om::save-as-text python-code (om::outfile "3dc.py")))
-      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
-      (om::om-cmd-line (string+ "python " prepare-cmd-code))))
+      (run (om-py::run-py (make-value (quote om-py::om2py) (list (list :py-om python-code))))))
+      (flat run 1)))
+
 
 ;; ================================================
 ;;;; Working with Vamp Plugins        =============
@@ -108,8 +109,8 @@ from om_py import to_om
 import vamp
 to_om(vamp.list_plugins())"
 ))
-      (run (om-py::run-py (make-value (quote py) (list (list :py-om python-code))))))
-      (flat run 1)))
+      (run (om-py::run-py (make-value (quote om-py::om2py) (list (list :py-om python-code))))))
+      run))
 
 ;; ================================================
 
@@ -124,7 +125,7 @@ data, rate = librosa.load(r'~d')
 output = vamp.collect(data, rate, '~d')
 to_om(output)
 " sound vamp_key))
-      (run (om::run-py (make-value (quote py) (list (list :py-om python-code))))))
+      (run (om::run-py (make-value (quote om-py::om2py) (list (list :py-om python-code))))))
       run))
       
 ;; ================================================
