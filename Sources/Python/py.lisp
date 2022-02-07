@@ -1,9 +1,5 @@
 (in-package :om)
 
-(require-library "om-py")
-
-(sleep 1)
-
 ;; ============== VISUAL THINGS =================
 
 (defun bpf-python-fun (X Y Z color)
