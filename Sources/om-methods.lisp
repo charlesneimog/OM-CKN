@@ -1,6 +1,10 @@
 
 (in-package :om)
 
+
+(require-library "om-py")
+(load-om-library "om-py")
+
 ;; Preferencias ========================
 
 (if (equal *app-name* "om-sharp")
@@ -160,9 +164,9 @@ For this work you need:
   3. Install the matplotlib.pyplot with 'pip install matplotlib.pyplot'."
 
 (let* (
-      (X-PYTHON (lisp-list_2_python-list X))
-      (Y-PYTHON (lisp-list_2_python-list Y))
-      (Z-PYTHON (lisp-list_2_python-list Z)))
+      (X-PYTHON (om-py::lisp-list_2_python-list X))
+      (Y-PYTHON (om-py::lisp-list_2_python-list Y))
+      (Z-PYTHON (om-py::lisp-list_2_python-list Z)))
 (mp:process-run-function (string+ "3DC-PYTHON" (ckn-int2string (om::om-random 1 1000)))
                  () 
                   (lambda (x-axis w-axis z-axis) (3dc-python-fun x-axis w-axis z-axis thickness color)) X-PYTHON Y-PYTHON Z-PYTHON)))
@@ -966,10 +970,11 @@ Result: (7 9 458)."
   (sox-path (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))))
   (line-command (string+ sox-path " " (list->string-fun (list (namestring sounds))) " -n stat " " 2>" (list->string-fun (list (namestring (outfile "sound-dur.txt" :subdirs "om-ckn"))))))
   (the-command (ckn-cmd-line line-command))
-  (loop-until-probe-file (outfile "sound-dur.txt" :subdirs "om-ckn")))
+  (file-out-name (om::string+ "sound-dur-" (ckn-int2string (om::om-random 0 10000)) ".txt"))  
+  (loop-until-probe-file (outfile file-out-name :subdirs "om-ckn")))
   (let* (
           (ckn-sound-dur (read-dur-informations (outfile "sound-dur.txt" :subdirs "om-ckn"))))
-          (ckn-clear-the-file (outfile "sound-dur.txt" :subdirs "om-ckn"))
+          (ckn-clear-the-file (outfile file-out-name :subdirs "om-ckn"))
           ckn-sound-dur
   )))
 
