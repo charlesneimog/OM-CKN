@@ -32,7 +32,7 @@ Read the data from musicxml2om function in Python.
 "
 
 (let* (
-    (file (or path (om-choose-file-dialog)))      
+    (file (or path (om-api:om-choose-file-dialog :types '("Musicxml File" "*.musicxml;*.xml"))))      
     (python_code (format nil "
 from om_py import musicxml2om
 
