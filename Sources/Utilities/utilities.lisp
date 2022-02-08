@@ -1090,7 +1090,6 @@ list
       (todas_as_anotacoes (if (or (equal ties "ties='start'") (equal ties "ties=None"))                                                          
                               (concatstring (om::x-append sibelius_pitch_bend cents dynamics))
                               sibelius_pitch_bend)))
-(om::om-print ties "TIES :: ")
 (string+ "directions=[" todas_as_anotacoes "]")))
 
 ;; =================================
