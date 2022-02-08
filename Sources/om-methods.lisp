@@ -1282,7 +1282,7 @@ Converts a (list of) freq pitch(es) to names of notes."
 :initvals ' (nil nil)       
 :indoc ' ("one list" "how much threading for time.")
 :outdoc ' ("result")
-:icon '17360
+:icon 'multithreading 
 :doc "It does multithreading loops, do not use it if you REALLY do not need :) ."
 
 
@@ -1294,7 +1294,7 @@ Converts a (list of) freq pitch(es) to names of notes."
 :initvals ' (nil nil)       
 :indoc ' ("one list" "how much threading for time.")
 :outdoc ' ("result")
-:icon '17360
+:icon 'multithreading 
 :doc "It does multithreading loops, do not use it if you REALLY do not need :) ."
 
 
@@ -1307,7 +1307,7 @@ Converts a (list of) freq pitch(es) to names of notes."
 :indoc ' ("one function" "one list" "loop inside function?")
 :menuins '((2 (("yes" 1) ("no" 0))))
 :outdoc ' ("result")
-:icon '17360
+:icon 'multithreading 
 :doc "It does multithreading loops, do not use it if you REALLY do not need :) ."
 
 (let* (
@@ -1333,7 +1333,7 @@ Converts a (list of) freq pitch(es) to names of notes."
 :indoc ' ("one function" "one list" "loop inside function?")
 :menuins '((2 (("yes" 1) ("no" 0))))
 :outdoc ' ("result")
-:icon '17360
+:icon 'multithreading 
 :doc "It does multithreading loops, do not use it if you REALLY do not need :) ."
 
 (let* (
