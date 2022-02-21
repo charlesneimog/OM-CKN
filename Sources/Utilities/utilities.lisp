@@ -866,7 +866,7 @@ list
 (defun loop-until-probe-file (my-file)
         (loop :with file = nil 
               :while (equal nil (setf file (probe-file my-file)))
-        :collect file)
+              :collect file)
         
 (probe-file my-file))
 
@@ -1056,6 +1056,45 @@ list
 
 
 ;; =================================
+
+(defun TextAnnotation-v3 (&key sibelius_microtons cents om_velocity ties)
+(let* (
+      (sibelius_pitch_bend (om::string+ "TextAnnotation('~B0,"  (format nil "~d')," sibelius_microtons)))
+      (cents (if (null cents) 
+                nil
+               (format nil " TextAnnotation('~dc', '5.0')," (car (om::list! cents)))))
+      (dynamics  (if (null om_velocity) ; fix my laziness
+                     nil
+                 (let* (
+                        (velocity (car (om::list! om_velocity)))
+                        (dinamic_string  
+                                (cond  
+                                    ((and (om< 1 velocity) (om<= velocity 10)) "pppppp")
+                                    ((and (om< 10 velocity) (om<= velocity 19)) "ppppp")
+                                    ((and (om< 19 velocity) (om<= velocity 28)) "pppp")
+                                    ((and (om< 28 velocity) (om<= velocity 37)) "ppp")
+                                    ((and (om< 37 velocity) (om<= velocity 46)) "pp")
+                                    ((and (om< 46 velocity) (om<= velocity 55)) "p")
+                                    ((and (om< 55 velocity) (om<= velocity 64)) "mp")
+                                    ((and (om< 64 velocity) (om<= velocity 73)) "mf")
+                                    ((and (om< 73 velocity) (om<= velocity 82)) "f")
+                                    ((and (om< 82 velocity) (om<= velocity 91)) "ff")
+                                    ((and (om< 91 velocity) (om<= velocity 100)) "fff")
+                                    ((and (om< 100 velocity) (om<= velocity 109)) "ffff")
+                                    ((and (om< 109 velocity) (om<= velocity 118)) "fffff")
+                                    ((and (om< 118 velocity) (om<= velocity 127)) "ffffff"))))
+                        (if (null dinamic_string)
+                            nil
+                        (format nil " Dynamic('~d')," dinamic_string)))))
+
+      (todas_as_anotacoes (if (or (equal ties "ties='start'") (equal ties "ties=None"))                                                          
+                              (concatstring (om::x-append sibelius_pitch_bend cents dynamics))
+                              sibelius_pitch_bend)))
+(string+ "directions=[" todas_as_anotacoes "]")))
+
+;; ========================================================================================
+
+
 
 (defun TextAnnotation-v2 (&key sibelius_microtons cents om_velocity ties)
 (let* (
