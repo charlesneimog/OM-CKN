@@ -16,9 +16,14 @@ plt.plot(X, Y, lw=~d, color='~d')
 plt.subplots_adjust(left=0.02, right=0.986, top=0.986, bottom=0.029)
 plt.show()
 " x y z color))
-      (save-python-code (om::save-as-text python-code (om::outfile "bpf.py")))
-      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
-      (om::om-cmd-line (string+ "python " prepare-cmd-code))))
+      (save-python-code (om::save-as-text python-code (om::tmpfile "bpf.py" :subdirs "om-py")))
+      (prepare-cmd-code (list->string-fun (list (namestring save-python-code))))
+      (where-i-am-running 
+                     #+macosx (om::string+ om-py::*activate-virtual-enviroment* " && python3 ")
+                     #+windows (om::string+ om-py::*activate-virtual-enviroment* " && python ")
+                     #+linux (om::string+ om-py::*activate-virtual-enviroment* " && python3.8 ")))
+      (oa::om-command-line (om::string+ where-i-am-running prepare-cmd-code) t)))
+
 
 ;; ============
 (defun save-bpf-python-fun (X Y thickness color outfile blackback dpi)
