@@ -944,7 +944,7 @@ Result: (7 9 458)."
 :icon '17359
 :doc "It does the same that sound-mix and sound-mix-list."
 
-(if (< (length (om::list! sounds)) 21)
+(if (< (length (om::list! sounds)) 23)
     (sound-mix-sox-fun sounds name)
     (sound-mix-sox-responsive sounds (string+ name "responsive") 00001)))
 
@@ -968,15 +968,14 @@ Result: (7 9 458)."
 
 (let* (
   (sox-path (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))))
-  (line-command (string+ sox-path " " (list->string-fun (list (namestring sounds))) " -n stat " " 2>" (list->string-fun (list (namestring (outfile "sound-dur.txt" :subdirs "om-ckn"))))))
+  (file-out-name (om::string+ "sound-dur-" (ckn-int2string (om::om-random 0 10000)) ".txt"))
+  (line-command (string+ sox-path " " (list->string-fun (list (namestring sounds))) " -n stat " " 2>" (list->string-fun (list (namestring (tmpfile file-out-name :subdirs "om-ckn"))))))
   (the-command (ckn-cmd-line line-command))
-  (file-out-name (om::string+ "sound-dur-" (ckn-int2string (om::om-random 0 10000)) ".txt"))  
-  (loop-until-probe-file (outfile file-out-name :subdirs "om-ckn")))
+  (loop-until-probe-file (tmpfile file-out-name :subdirs "om-ckn")))
   (let* (
-          (ckn-sound-dur (read-dur-informations (outfile "sound-dur.txt" :subdirs "om-ckn"))))
-          (ckn-clear-the-file (outfile file-out-name :subdirs "om-ckn"))
-          ckn-sound-dur
-  )))
+          (ckn-sound-dur (read-dur-informations (tmpfile file-out-name :subdirs "om-ckn"))))
+          (ckn-clear-the-file (tmpfile file-out-name :subdirs "om-ckn"))
+          ckn-sound-dur)))
 
 ;; ====================================================
 (defmethod! sound-dur-sox ((sounds pathname))
@@ -1045,6 +1044,17 @@ Result: (7 9 458)."
 
 (sound-cut-sox-fun sounds in out))
 
+;; ====================================================
+
+(defmethod! sound-denoise-sox ((sound sound))
+:initvals '(nil)
+:indoc '("Sound") 
+:icon '17359
+:doc "It will denoise the sound using sox. You need to put two markers in the sound because sox need to do a probile of the noise. So mark the noise part of the sound."
+
+(sound-denoise-sox-fun sound))
+
+
 ; ===========================================================================
 
 (defmethod! sound-markers-cut ((sound sound))
@@ -1056,7 +1066,7 @@ Result: (7 9 458)."
 
 (let* (
       (sound-markers (om::markers sound)))
-      (sound-fade (om::sound-cut sound (first sound-markers) (second sound-markers)) 0.1 0.1)))
+      (sound-fade (om::sound-cut sound (first sound-markers) (second sound-markers)) 0.01 0.01)))
 
 ;; ====================================================
 
