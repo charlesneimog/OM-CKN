@@ -376,9 +376,9 @@ If you want to work with python you need:
             (first-action1 
                 (mapcar 
                     (lambda (x) (string+ "Sound-" if-needed x))
-                        (mapcar (lambda (x) (format nil "~6,'0D" x)) (om::arithm-ser 1 (length sounds) 1)))))
+                        (mapcar (lambda (x) (format nil "~6,'0D" x)) (om::arithm-ser 1 (length (om::list! sounds)) 1)))))
       
-            (loop :for loop-sound :in sounds
+            (loop :for loop-sound :in (om::list! sounds)
                 :for loop-names :in first-action1
                 :collect (ckn-gc-all (om:save-sound loop-sound (merge-pathnames "om-ckn/" (tmpfile (string+ loop-names ".wav"))))))))
 
@@ -452,9 +452,22 @@ action5))
 (compile 'sound-mix-sox-fun)
 ;;; ================================================================================
 
+(defun prevent-mix-error (loop-in-parts actual-division)
+
+(let* (
+    (tamanhos (mapcar (lambda (x) (length x)) loop-in-parts))
+    (if-length-equal-1 (remove nil (mapcar (lambda (x) (equal x 1)) tamanhos))))
+    (if (null if-length-equal-1)
+        loop-in-parts
+        (setf loop-in-parts (prevent-mix-error (loop-in-parts (flat loop-in-parts) (- actual-division 1) (- actual-division 1)) (- actual-division 1))))))
+        
+        
+
+
+;;; ================================================================================
 (defun sound-mix-sox-responsive (sounds nomes number)
 (let*  (
-       (action1 (loop-in-parts (flat sounds) 20 20))
+       (action1 (prevent-mix-error (loop-in-parts (flat sounds) 20 20) 20))
        (names (arithm-ser 1 (length (flat action1)) 1))
        (after-number (+ number 1))
        (action2 (mapcar (lambda (x y) (sound-mix-sox (flat x) (string+ (ckn-int2string (om-random 1000 9999)) (ckn-int2string y) "-inside"))) action1 names)))
@@ -549,6 +562,28 @@ action5))
 (tmpfile (string+ (name-of-file x) "-v-stereo.wav") :subdirs "om-ckn"))
 
 (compile 'sound-mono-to-stereo-sox-fun)
+
+
+;;; ================================================================================
+
+(defun sound-denoise-sox-fun (sound)
+
+(let* (
+        (sox-path (list->string-fun (list (namestring (get-pref-value :externals :sox-exe)))))
+        (sound-markers (om::markers sound))
+        (saved-tmp-sound (save-temp-sounds (om::list! sound) "with-Noise"))
+        (saved-tmp-sound-formated (string+ (car (string-to-list (namestring (car saved-tmp-sound)) ".")) "-denoise.wav"))
+        (cut-noise (save-temp-sounds (om::list! (sound-fade (om::sound-cut sound (first sound-markers) (second sound-markers)) 0.005 0.005))))
+        (text-of-noise (tmpfile (string+ "Noise" ".prof") :subdirs "om-ckn"))
+        (first-cmd-line (om-cmd-line (string+ sox-path " " (list->string-fun (list (namestring (car cut-noise)))) " -n noiseprof " (list->string-fun (list (namestring text-of-noise))))))
+        (second-cmd-line (om-cmd-line (string+ sox-path " " (list->string-fun (list (namestring (car saved-tmp-sound)))) " " (list->string-fun (list (namestring saved-tmp-sound-formated))) " noisered " (list->string-fun (list (namestring  text-of-noise))) " 0.21 "))))
+        (let* ()
+            (ckn-clear-the-file (car saved-tmp-sound))
+            (ckn-clear-the-file (car cut-noise))
+            (ckn-clear-the-file text-of-noise)
+           saved-tmp-sound-formated)))
+
+
 ;;; ================================================================================
 
 (compile 'voice->samples-sound-fun)
