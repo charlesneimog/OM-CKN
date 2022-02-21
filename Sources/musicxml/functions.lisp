@@ -3,7 +3,6 @@
 
 ;; ===========================================================================
 (defun txt-vel2int-vel (txt-vel)
-
   (cond  
         ((equal txt-vel "pppppp") 5)
         ((equal txt-vel "ppppp") 14)
@@ -34,25 +33,26 @@ Read the data from musicxml2om function in Python.
 (let* (
     (file (or path (om-api:om-choose-file-dialog :types '("Musicxml File" "*.musicxml;*.xml"))))      
     (python_code (format nil "
-from om_py import musicxml2om
-
+from om_py.musicxml2om import musicxml2om
 musicxml2om(r'~d')
 
 " (namestring file)))
-    (run-code (om-py::run-py (om::make-value 'om-py::to-om (list (list :py-inside-om python_code))) nil))
+    (run-code (om-py::run-py (om::make-value 'om-py::python (list (list :code python_code)))))
     (ritmos (first run-code))
     (alturas (second run-code))
     (velocity (third run-code))
-
     (voices
         (loop :for alturas-por-voz :in alturas 
         :for ritmos-por-voz :in ritmos
         :for velocity-por-voz :in velocity
         :collect (let* (
-                        (format-alturas (om::n->mc (remove nil (om::flat alturas-por-voz)) 4))
+                        (format-alturas (remove nil (om::flat alturas-por-voz)))
+                        (alturas->midicents (if (null format-alturas)
+                                                nil 
+                                              (om::n->mc format-alturas 4)))
                         (format-velocity (mapcar (lambda (x) (txt-vel2int-vel x)) (remove nil (om::flat velocity-por-voz))))
                         (format-ritmos (om::mktree (mapcar (lambda (x) (read-from-string x)) (remove nil (om::flat ritmos-por-voz))) '(4 4))))      
-                        (make-value 'om::voice (list (list :tree format-ritmos) (list :lmidic format-alturas) (list :lvel format-velocity)))))))
+                        (make-value 'om::voice (list (list :tree format-ritmos) (list :lmidic alturas->midicents) (list :lvel format-velocity)))))))
     
     (make-value 'om::poly (list (list :obj-list voices)))))
 
