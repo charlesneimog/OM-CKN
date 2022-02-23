@@ -455,14 +455,14 @@ print(f'O tempo gasto foi de {time_elapsed} segundos')
 :initvals '(nil)
 :indoc '("Process one voice to audio.") 
 :icon '17359
-:doc "It will genereta one audio using voices and vst2-plugins."
+:doc "It will generete one audio using voices and vst2-plugins."
 
 (let* (
         (true-durations (om6-true-durations voice))
         (to-seconds (om::ms->sec true-durations))
         (start_notes (om::dx->x 0 to-seconds))
         (to-chords (mapcar (lambda (x) (length x)) (lmidic voice)))
-        (all_notes (om-round (om/ (flat (lmidic voice)) 100)))
+        (all_notes (om+ (om-round (om/ (flat (lmidic voice)) 100)) 12)) ;; nao ha microtonalidade aqui
         (all_velocities (flat (lvel voice)))
         (true-durations-with-chords (flat (loop :for to-chords-loop :in to-chords
                                                 :for start_notes-loop :in true-durations
@@ -489,8 +489,10 @@ print(f'O tempo gasto foi de {time_elapsed} segundos')
 
         (durations (om+ 2 (reduce (lambda  (x y) (om+ x y)) to-seconds)))
         (python-code (format nil "
+
 import dawdreamer as daw
 from scipy.io import wavfile
+from om_py import to_om
 
 SAMPLE_RATE = 44100
 BUFFER_SIZE = 128 
@@ -508,13 +510,13 @@ engine.load_graph(graph)
 engine.render(DURATION)  
 audio = engine.get_audio()  
 wavfile.write(r'~d', SAMPLE_RATE, audio.transpose()) 
+to_om(r'~d')
 "
-        (vst2-path plugin_path) (tempo voice) all_python_code durations (namestring (om::outfile  "voice2midi.wav" :subdirs "om-ckn"))))
-        (save-python-code (om::save-as-text python-code (om::outfile "voice2midi.py")))
-        (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
-        (om::om-cmd-line (string+ "python " prepare-cmd-code))
-        (ckn-clear-the-file (om::outfile "voice2midi.py"))
-        (namestring (om::outfile  "voice2midi.wav" :subdirs "om-ckn"))))
+        (vst2-path plugin_path) (tempo voice) all_python_code durations (namestring (om::outfile  "voice2midi.wav" :subdirs "om-ckn")) (namestring (om::outfile  "voice2midi.wav" :subdirs "om-ckn")))))
+        (om-py::run-py (om::make-value '|om-python|::python (list (list :code python-code))))))
+        
+
+
 
 ;; ======================================
 
