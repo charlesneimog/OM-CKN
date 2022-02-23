@@ -884,8 +884,10 @@ list
 (defun ckn-antescofo-score (voice variance local)
 (let* (
     (voice-tempo (tempo voice))
-    (voice-tree (om::om-abs (ms->sec (om6-true-durations (make-value 'voice (list (list :tree (mktree (tree2ratio (tree voice)) '(4 4))) (list :tempo voice-tempo)))))))
+    ;(test (print "ok"))
+    (voice-tree (om* (om::om-abs (tree2ratio (om::tree (make-value 'voice (list (list :tree (mktree (tree2ratio (tree voice)) '(4 4))) (list :tempo voice-tempo)))))) 4))
     (voice-midi (lmidic voice))
+    
     (voice-to-rest (choose-to-rest voice))
     (SCORE
             (loop :for voice-tree-loop :in voice-tree 
@@ -899,10 +901,12 @@ list
                             (if (equal (choose voice-midi rest-loop) nil) (list 0) (choose voice-midi rest-loop))
                             (list (if (equal (choose voice-midi rest-loop) nil) (list 0) (choose voice-midi rest-loop))))
 
-                        voice-tree-loop
+                        (om::string+ " " (om::write-to-string voice-tree-loop) " ")
+                        
                         (if (equal (if (equal (choose voice-midi rest-loop) nil) (list 0) (choose voice-midi rest-loop)) (list 0))
                             nil
-                            "@pizz"))))
+                            ;"@pizz"
+                                              ))))
 
     (Score-acabada (om::x-append (list (om::x-append "BPM" voice-tempo) (om::x-append "Variance" variance)) SCORE)))
 (save-as-text Score-acabada local)))

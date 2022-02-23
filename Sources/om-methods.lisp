@@ -14,6 +14,7 @@
           (add-preference :externals :plugins "Plugins DLL" :folder "Your Plugins VTS2 Folder")
           (add-preference :externals :fxp-presets  "FXP Presets" :folder "Your FPX Presets Folder")
           (add-preference :externals :OrchideaSOL "SOL Samples Library" :folder "SOL folder")
+          (add-preference :externals :PureData "Pure Data Patches" :folder "PureData Patches Folder")
           (add-preference :externals :MrsWatson-exe "MrsWatson Path" :path 
                 (merge-pathnames "executables/MrsWatson/mrswatson64.exe" (lib-resources-folder (find-library "OM-CKN"))))
           (add-preference :externals :sox-exe "Sox Path" :path 
