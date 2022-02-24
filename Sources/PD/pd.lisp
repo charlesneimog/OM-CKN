@@ -24,8 +24,9 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
 (defclass! pure-data ()
     (
         (pd :initform (list->string-fun (list (namestring (get-pref-value :externals :PureData)))) :initarg :pd :accessor pd)
-        (pd-path :initform nil :initarg :pd-path :accessor pd-path))
-                                                                                    )
+        (pd-path :initform nil :initarg :pd-path :accessor pd-path)
+        (command-line :initform nil :initarg :command-line :accessor command-line)
+        (pd-outfile :initform nil :initarg :pd-outfile :accessor pd-outfile)))
 
 ; ================================================================
 
@@ -60,6 +61,35 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
     (oa::om-command-line (om::string+ pd-executable gui offline " -open " pd-path " -send " variaveis) verbose)
     (if gui (om::om-print "Finish!" "PD") nil)
     sound-out))
+
+; =============================================== To Work with Multithreading
+
+(defmethod! pd-mk-line ((sound-in pathname) (sound-out pathname) (patch pure-data) (var list) &key (gui t) (offline t) (verbose nil))
+:initvals '(nil)
+:indoc ' ("Use PD patches inside OM-Sharp")
+:icon 'pd
+:doc ""
+
+(mk-cmd-pd~ sound-in sound-out patch var gui offline verbose))
+
+
+; ===============================================
+
+(defun mk-cmd-pd~ (sound-in sound-out patch var gui offline verbose)
+
+(let* (
+    (outfile (if (null sound-out) "" (om::string+ "outfile " (replace-all (namestring sound-out) "\\" "/") ", "))) 
+    (infile (if (null sound-in) "" (om::string+ "infile " (replace-all (namestring sound-in) "\\" "/") ", ")))
+    (make_var (concatstring (loop :for all_variables :in var :collect (om::string+ (car all_variables) " " (concatstring (mapcar (lambda (x) (om::string+ (write-to-string x) " ")) (cdr all_variables))) ", "))))
+    (variaveis (list->string-fun (list (string+ "from_om " outfile infile make_var))))
+    (pd-executable (pd patch))
+    (verbose (if verbose " " " -noverbose "))
+    (gui (if gui " " " -nogui"))
+    (offline (if offline " -batch " ""))
+    (pd-path (replace-all (namestring (pd-path patch)) "\\" "/"))
+    (line (om::string+ pd-executable gui offline " -open " pd-path " -send " variaveis)))
+  (om::make-value 'pure-data (list (list :command-line line) (list :pd-outfile sound-out)))))
+
 
 ; ================================================================
 
