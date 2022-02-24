@@ -145,3 +145,17 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
                                           (search-inside-some-folder loop-files extension)
                                           loop-files))))
             (remove nil (flat action1))))
+
+; ================================================================
+
+(defmethod! pd-run-patches ((patch-list list) (patches-by-thread number))
+:initvals '(nil)
+:indoc ' ("Use PD patches inside OM-Sharp")
+:icon 'pd
+:doc ""
+
+(let* (
+      (patches-by-thread (ckn-loop-multi-prepare patch-list patches-by-thread))
+      (thread (lambda (x) (loop :for patches :in x :collect (let* () (oa::om-command-line (om::command-line patches)) (pd-outfile patches))))))
+  (om::flat (ckn-multi-1-var thread patches-by-thread))))
+      
