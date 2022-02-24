@@ -817,7 +817,7 @@ list
 (defun ckn-copy2outfile (x)
 (let* ()
       (alexandria::copy-file x (outfile (name-of-file x)))
-      (ckn-clear-temp-files)
+      (clear-subdir-temp-files "om-ckn")
       (outfile (name-of-file x))))
 
 
@@ -827,7 +827,7 @@ list
 (let* (
       (action1 (string+ "copy " (list->string-fun (list x)) " " (list->string-fun (list (namestring y))))))
       (ckn-cmd-line action1)
-      (ckn-clear-temp-files)
+      (clear-subdir-temp-files "om-ckn")
       (merge-pathnames y (name-of-file x))))
 
 ;; ================================
@@ -836,7 +836,6 @@ list
 (let* (
       (action1 (string+ "copy " (list->string-fun (list x)) " " (list->string-fun (list (namestring (outfile "")))))))
       (ckn-cmd-line action1)
-      (ckn-clear-temp-files)
       (outfile (name-of-file x))))
 
 ;; ================================

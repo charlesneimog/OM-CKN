@@ -180,7 +180,7 @@
                         (second box-choose4)) 0.01 0.01)
 ;;silencio 
             (sound-fade (sound-silence (om-abs (ms->sec ckn-LOOP2)) 2) 0.01 0.01))))))
-(if temp-files (ckn-clear-temp-files)) ;;; ================= Apagar temp files
+(if temp-files (clear-subdir-temp-files "om-ckn")) ;;; ================= Apagar temp files
 action1))
 
 ;;; ===========================================================
@@ -247,7 +247,7 @@ action1))
 ;;; ================= Apagar temp files
 
 (if temp-files 
-        (ckn-clear-temp-files))
+        (clear-subdir-temp-files "om-ckn"))
 
 ;;; ================= Finalizar
                                             
@@ -299,7 +299,7 @@ action1))
 (sound-fade (sound-silence (om-abs (ms->sec ckn-LOOP2)) 2) 0.01 0.01))))))
 ;;; ================= Apagar temp files
 
-(if temp-files (ckn-clear-temp-files))
+(if temp-files (clear-subdir-temp-files "om-ckn"))
 
 ;;; ================= Finalizar                        
 action1))
@@ -392,7 +392,7 @@ If you want to work with python you need:
       
             (loop :for loop-sound :in (list sounds)
                 :for loop-names :in first-action1
-                :collect (om:save-sound loop-sound (print (merge-pathnames "om-ckn/" (tmpfile (string+ loop-names ".wav"))))))))
+                :collect (om:save-sound loop-sound (merge-pathnames "om-ckn/" (tmpfile (string+ loop-names ".wav"))))))))
 
 ;;; ================================================================================
 
@@ -412,7 +412,7 @@ If you want to work with python you need:
            (list->string-fun (list (namestring (tmpfile sequence-name)))))))
 (action5 (loop-until-probe-file (tmpfile sequence-name))))
 
-(ckn-clear-temp-files)
+(clear-subdir-temp-files "om-ckn")
 action5))
 
 ;;; ================================================================================
