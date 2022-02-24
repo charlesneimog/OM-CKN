@@ -111,7 +111,7 @@ For this work you need:
       (y_if (if (not y) (om::arithm-ser 1 (length x) 1) y))
       (X-PYTHON (om-py::lisp-list_2_python-list (om::om-round x_if 10)))
       (Y-PYTHON (om-py::lisp-list_2_python-list (om::om-round y_if 10))))
-(mp:process-run-function (string+ "BPF-PYTHON-" (ckn-int2string (om::om-random 1 1000)))
+(mp:process-run-function (string+ "BPF-PYTHON-" (write-to-string (om::om-random 1 1000)))
       () 
                   (lambda (x-axis y-axis) (if
                                               (equal *app-name* "om-sharp")
@@ -140,7 +140,7 @@ For this work you need:
       (y_if (if (not y) (om::arithm-ser 1 (length x) 1) y))
       (X-PYTHON (lisp-list_2_python-list x_if))
       (Y-PYTHON (lisp-list_2_python-list y_if)))
-(mp:process-run-function (string+ "Save-PYTHON-" (ckn-int2string (om::om-random 1 1000)))
+(mp:process-run-function (string+ "Save-PYTHON-" (write-to-string (om::om-random 1 1000)))
       () 
                   (lambda (x-axis y-axis) (if
                                               (equal *app-name* "om-sharp")
@@ -164,7 +164,7 @@ For this work you need:
       (X-PYTHON (om-py::lisp-list_2_python-list X))
       (Y-PYTHON (om-py::lisp-list_2_python-list Y))
       (Z-PYTHON (om-py::lisp-list_2_python-list Z)))
-(mp:process-run-function (string+ "3DC-PYTHON" (ckn-int2string (om::om-random 1 1000)))
+(mp:process-run-function (string+ "3DC-PYTHON" (write-to-string (om::om-random 1 1000)))
                  () 
                   (lambda (x-axis w-axis z-axis) (3dc-python-fun x-axis w-axis z-axis thickness color)) X-PYTHON Y-PYTHON Z-PYTHON)))
                                     
@@ -965,7 +965,7 @@ Result: (7 9 458)."
 
 (let* (
   (sox-path (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))))
-  (file-out-name (om::string+ "sound-dur-" (ckn-int2string (om::om-random 0 10000)) ".txt"))
+  (file-out-name (om::string+ "sound-dur-" (write-to-string (om::om-random 0 10000)) ".txt"))
   (line-command (string+ sox-path " " (list->string-fun (list (namestring sounds))) " -n stat " " 2>" (list->string-fun (list (namestring (tmpfile file-out-name :subdirs "om-ckn"))))))
   (the-command (ckn-cmd-line line-command))
   (loop-until-probe-file (tmpfile file-out-name :subdirs "om-ckn")))

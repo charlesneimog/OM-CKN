@@ -411,7 +411,7 @@ action1))
         0.0 
         (om-abs (ms->sec ckn-LOOP2))) 
 
-    (ckn-int2string (random 9999)))
+    (write-to-string (random 9999)))
         (om-scale box-first1 0.001 0.999 1 110))  ;;;;; FIMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 
 ;;;;; Com acorde
@@ -454,7 +454,7 @@ action1))
                                                 ckn-LOOP3)
                                             (om- ckn-LOOP1 (approx-m ckn-LOOP1 2))))))
                                               
-                        (sound-vol-sox (save-temp-sounds (sound-cut (samples-menores ckn-time action1) 0.0 ckn-time) (ckn-int2string (random 90000))) (om-scale ckn-LOOP3 0.001 1 1 127)))))
+                        (sound-vol-sox (save-temp-sounds (sound-cut (samples-menores ckn-time action1) 0.0 ckn-time) (write-to-string (random 90000))) (om-scale ckn-LOOP3 0.001 1 1 127)))))
 
 ;; ====================================================
 
