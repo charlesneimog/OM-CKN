@@ -862,7 +862,7 @@ Result: (7 9 458)."
 
 (om-print "Aguarde!" "Verbose")
 
-;; (ckn-clear-temp-files)
+;; (clear-subdir-temp-files "om-ckn")
 
 (if (equal (check-samples-in-voice voice) "Todas as alturas possuem samples correspondentes")
 
@@ -883,7 +883,7 @@ Result: (7 9 458)."
 
 (om-print "Aguarde!" "Verbose")
 
-(ckn-clear-temp-files)
+(clear-subdir-temp-files "om-ckn")
 
 (if (equal (check-samples-in-voice voice) "Todas as alturas possuem samples correspondentes")
 
@@ -1275,7 +1275,7 @@ Converts a (list of) freq pitch(es) to names of notes."
 :doc ""
 
 (om-print "Aguarde!" "Verbose")
-;; (ckn-clear-temp-files)
+;; (clear-subdir-temp-files "om-ckn")
 (if (equal (o-check-samples-in-voice voice) "Todas as alturas possuem samples correspondentes")
 (if (equal *app-name* "om-sharp")
     (o-voice->samples-sharp voice pan temp-files)

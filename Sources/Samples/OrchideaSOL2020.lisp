@@ -200,7 +200,7 @@
 ;;; ================= Apagar temp files
 
 (if temp-files 
-        (ckn-clear-temp-files))
+        (clear-subdir-temp-files "om-ckn"))
 
 ;;; ================= Finalizar
                                             
