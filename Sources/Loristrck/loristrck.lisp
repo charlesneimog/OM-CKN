@@ -127,11 +127,6 @@ FADETIME: fade time used when a partial does not end with a 0 amp breakpoint.
 (loristrck-analysis (car (list! (if (not (file-pathname sound)) (save-temp-sounds (list sound)) (file-pathname sound))))
                     outfile :r r :w w :ht ht :hop-o hop-o :amp amp :fd fd :sl sl :rbw rbw :sdif-type sdif-type :minbps minbps :minamp minamp :fade-time fade-time))
 
-
-
-
-
-
 ;; ======================== synth sdif ===========================
 
 (defmethod! loristrck-synth ((sdif sdiffile) (outfile string) &key (speed 1) (transposition_cents 0))
