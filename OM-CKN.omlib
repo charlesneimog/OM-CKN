@@ -32,24 +32,22 @@
 (:symbols 
       (:packages
             (:package (:name "My Compositional Tools") (:functions voice->samples o-voice->samples voice->samples-ITD))
-            (:package (:name "PD") (:functions pd~))
-            (:package (:name "Score") (:functions musicxml2om))
+            (:package (:name "PureData") (:functions pd~ pd-mk-line pd-list-patches pd-define-patch pd-run-patches))
             (:package (:name "Python") 
                         (:packages 
                               (:package (:name "Visual Functions") (:functions bpf-python 3dc-python))
                               (:package (:name "Loristrck - Partial Tracking") (:functions loristrck-analysis loristrck-synth))
                               (:package (:name "Vamp Plugins") (:functions vamp-list-plugins vamp-process vamp-filter-by-prefix))
                               (:package (:name "VST2 and VST3") (:functions plugins-list plugins-define plugins-define-fxp plugins-parameter-index plugins-valid-parameters plugins-multi-processes plugins-process))))
+            (:package (:name "Score") (:functions musicxml2om))
             (:package (:name "SDIF") (:functions sdif->list sdif-envelope sdif->ckn-fft-instance)) 
             (:package (:name "Sound SOX Functions") (:functions sound-seq-sox sound-seq-multi sound-vol-sox sound-transpose-sox sound-denoise-sox))
             (:package (:name "Sound LISP Functions") (:functions sound->bytes sound-seq-list sound-seq-multi sound-mix-list sound-markers-cut sound-mix-list))
-            (:package (:name "FFT") 
+            (:package (:name "FFT e Partial Tracking") 
                         (:classes ckn-fft-instance)             
                         (:functions ckn-fft fft->amplitude fft->phrase fft->sin-model fft->chord-seq fft->dB))
             (:package (:name "Math and Music") (:functions complex-senoide))
-            (:package (:name "Instruments") 
-                        (:packages 
-                              (:package (:name "Orchidea-SOL") (:functions FULL-SOL-instruments orchidea-instruments o-check-samples-in-voice OrchideaSOL-folder))))
+            (:package (:name "Instruments") (:functions FULL-SOL-instruments orchidea-instruments o-check-samples-in-voice OrchideaSOL-folder))
             (:package (:name "Multithreading") (:functions ckn-make-mail-box ckn-mailbox-name ckn-mailbox-peek ckn-multi-1-var loop-until-finish-process))
             (:package (:name "Utilities")
                   (:packages
