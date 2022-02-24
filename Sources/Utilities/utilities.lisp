@@ -760,15 +760,14 @@ list
 
 ;===================================================================== Files control =====================================
 
-;=====================================
-
 (defun name-of-file (p)
-  (let ((path (and p (pathname p))))
-  (when (pathnamep path)
-    (string+ (pathname-name path) 
-             (if (and (pathname-type path) (stringp (pathname-type path)))
-                 (string+ "." (pathname-type path)) 
-               "")))))
+  (let (
+            (path (and p (pathname p))))
+            (when (pathnamep path)
+                  (om::string+ 
+                              (pathname-name path) 
+                              (if (and (pathname-type path) (stringp (pathname-type path))) (om::string+ "." (pathname-type path)) 
+                              "")))))
                
 ;  ========================
 
@@ -788,11 +787,6 @@ list
             (setf list-name (ckn-string-name action2))))))
             
 (compile 'ckn-string-name)
-;; ============
-
-(defun ckn-int2string (int)
-      "Number to string."
-  (write-to-string int))
 
 ;; ============
 
@@ -807,7 +801,7 @@ list
 (defun ckn-clear-the-file (thefile)
 
 
-(mp:process-run-function (string+ "del-" (ckn-int2string (om-random 1 1000)))
+(mp:process-run-function (string+ "del-" (write-to-string (om-random 1 1000)))
                  () 
                  (lambda (x) (alexandria::delete-file thefile)) thefile))
  
@@ -843,15 +837,6 @@ list
 (defun ckn-list-to-string (lst)
     (format nil "~{~A ~}" lst))
 
-;; ================================
-
-(defmethod! ckn-temp-folder ((string string))
-:initvals '(nil)
-:indoc '("Temp folder") 
-:icon '17359
-:doc "Temp folder, not in OneDrive Folder."
-
-(merge-pathnames (def-temp-folder) string))
 
 ;; ================================
 (ensure-directories-exist (infile " " :subdirs "\om-ckn"))
@@ -859,6 +844,7 @@ list
 (ensure-directories-exist (tmpfile " " :subdirs "\om-ckn"))
 
 ;================================== WAIT PROCESS =================
+
 (defun loop-until-probe-file (my-file)
         (loop :with file = nil 
               :while (equal nil (setf file (probe-file my-file)))
@@ -1228,7 +1214,6 @@ list
 (compile 'fft-multiple-thread)
 (compile 'do-fft-chunks)
 (compile 'ckn-make-mail-box)
-(compile 'ckn-clear-temp-files)
 (compile 'spear-approach )
 (compile 'fft->sin-model-fun)
 (compile 'do-senoide)

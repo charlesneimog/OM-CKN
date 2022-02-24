@@ -243,7 +243,7 @@ for parameter in (~d):
 setattr(" "plugin, " "all_parameters" 
                                                 (format nil "[~d], " (first parameters_values)) 
                                                                 (if (numberp (second parameters_values)) 
-                                                                    (ckn-int2string (second parameters_values)) 
+                                                                    (write-to-string (second parameters_values)) 
                                                                     (list->string-fun (list (second parameters_values)))) ")"))))
         (python-code (format nil
                     "
@@ -333,7 +333,7 @@ wavfile.write('my_song2.wav', SAMPLE_RATE, audio.transpose())
 setattr(" "plugin, " "all_parameters" 
                                                 (format nil "[~d], " (first parameters_values)) 
                                                                 (if (numberp (second parameters_values)) 
-                                                                    (ckn-int2string (second parameters_values)) 
+                                                                    (write-to-string (second parameters_values)) 
                                                                     (list->string-fun (list (second parameters_values)))) ")"))))
         (python-code (format nil
                     "
@@ -382,7 +382,7 @@ sf.write(r'~d', final_audio, sample_rate)
 setattr(" "plugin, " "all_parameters" 
                                                 (format nil "[~d], " (first parameters_values)) 
                                                                 (if (numberp (second parameters_values)) 
-                                                                    (ckn-int2string (second parameters_values)) 
+                                                                    (write-to-string (second parameters_values)) 
                                                                     (list->string-fun (list (second parameters_values)))) ")"))))
         (python-code (format nil
                     "
@@ -480,10 +480,10 @@ print(f'O tempo gasto foi de {time_elapsed} segundos')
                         :collect 
 (string+    
 
-"synth.add_midi_note(" (ckn-int2string note_loop) "," 
-                                            (ckn-int2string velocity_loop) "," 
-                                            (ckn-int2string start_loop) "," 
-                                            (ckn-int2string duration_loop) ")
+"synth.add_midi_note(" (write-to-string note_loop) "," 
+                                            (write-to-string velocity_loop) "," 
+                                            (write-to-string start_loop) "," 
+                                            (write-to-string duration_loop) ")
                                             
 "))))     
 
