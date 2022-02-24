@@ -9,17 +9,13 @@
 
 (if (equal *app-name* "om-sharp")
   (let* ()
-          (add-preference-section :externals "OM-CKN" nil '(:sox-exe :MrsWatson-exe :ircam-instruments :OrchideaSOL :plugins :fxp-presets))
+          (add-preference-section :externals "OM-CKN" nil '(:sox-exe :PureData :Pd-Patches :ircam-instruments :OrchideaSOL :plugins))
+          (add-preference :externals :sox-exe "Sox Path" :file (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN"))))
+          (add-preference :externals :PureData "Pure Data executable" :file "C:/Program Files/Pd/bin/pd.exe")
+          (add-preference :externals :Pd-Patches "Pure Data Patches" :folder (merge-pathnames "Pd-Patches/" (lib-resources-folder (find-library "OM-CKN"))))
           (add-preference :externals :ircam-instruments "Ircam Instruments Path" :folder "Your Ircam Instruments Folder")
-          (add-preference :externals :plugins "Plugins DLL" :folder "Your Plugins VTS2 Folder")
-          (add-preference :externals :fxp-presets  "FXP Presets" :folder "Your FPX Presets Folder")
           (add-preference :externals :OrchideaSOL "SOL Samples Library" :folder "SOL folder")
-          (add-preference :externals :PureData "Pure Data Patches" :folder "PureData Patches Folder")
-          (add-preference :externals :MrsWatson-exe "MrsWatson Path" :path 
-                (merge-pathnames "executables/MrsWatson/mrswatson64.exe" (lib-resources-folder (find-library "OM-CKN"))))
-          (add-preference :externals :sox-exe "Sox Path" :path 
-                (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN")))))
-                                        )
+          (add-preference :externals :plugins "Plugins DLL" :folder "Your Plugins VTS2 Folder")))
 
 ;; =======================================================================
 ;; ================= CLASSES =============================================
@@ -1067,7 +1063,9 @@ Result: (7 9 458)."
 
 (let* (
       (sound-markers (om::markers sound)))
-      (sound-fade (om::sound-cut sound (first sound-markers) (second sound-markers)) 0.01 0.01)))
+  (if (null sound-markers)
+      sound 
+     (sound-fade (om::sound-cut sound (first sound-markers) (second sound-markers)) 0.01 0.01))))
 
 ;; ====================================================
 
@@ -1332,34 +1330,9 @@ Converts a (list of) freq pitch(es) to names of notes."
     :do 
         (mp:process-run-function names-process
                  () 
-                  (lambda (x y) (mp:mailbox-send x (mapcar ckn-lambda y))) create-mailbox (list list-of-something-loop)))
+                  (lambda (x y) (mp:mailbox-send x (mapcar ckn-lambda (om::list! y)))) create-mailbox (list list-of-something-loop)))
 (loop-until-finish-process action2)
 (ckn-mailbox-peek action2)))
 
 
-;; ====================================================
-
-(defmethod! ckn-multi-2-var ((ckn-lambda function) (list list) (list2 list) &optional (loop-inside 0))
-:initvals ' (nil nil)       
-:indoc ' ("one function" "one list" "loop inside function?")
-:menuins '((2 (("yes" 1) ("no" 0))))
-:outdoc ' ("result")
-:icon 'multithreading 
-:doc "It does multithreading loops, do not use it if you REALLY do not need :) ."
-
-(let* (
-      (list-of-something (if (equal loop-inside 0) list (mapcar (lambda (x) (list x)) list)))
-      (list-of-something2 (if (equal loop-inside 0) list2 (mapcar (lambda (x) (list x)) list2)))
-      (action1 (ckn-mailbox-name list-of-something))
-      (action2 (ckn-make-mail-box action1)))
-(loop 
-    :for list-of-something-loop :in list-of-something
-    :for list-of-something-loop2 :in list-of-something2
-    :for create-mailbox :in action2
-    :for names-process :in action1
-    :do 
-        (mp:process-run-function names-process
-                 () 
-                  (lambda (x y z) (mp:mailbox-send x (mapcar ckn-lambda y z))) create-mailbox (list list-of-something-loop) (list list-of-something-loop2)))
-(loop-until-finish-process action2)
-(ckn-mailbox-peek action2)))
+;; ==================================================

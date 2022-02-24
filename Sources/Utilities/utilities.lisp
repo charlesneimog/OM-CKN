@@ -423,6 +423,7 @@ list
 (compile 'fft->sdif-fun)
 ;=====================================
 (defun ckn-cmd-line (str)
+
   (oa::om-command-line str))
 
 ;=====================================
@@ -795,16 +796,12 @@ list
 
 ;; ============
 
-(defun ckn-clear-temp-files ()
+(defun clear-subdir-temp-files (subdiretorio)
 
 (let* ()
-(print "clear temp files")
-(ckn-cmd-line (string+ "powershell -command " 
-                          (list->string-fun (list (string+ "del " 
-                                            (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.aif" (tmpfile ""))))))))))
-(ckn-cmd-line (string+ "powershell -command " 
-                          (list->string-fun (list (string+ "del " 
-                                            (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.wav" (tmpfile ""))))))))))))
+            (oa::om-delete-directory (tmpfile "" :subdirs subdiretorio))
+            (ensure-directories-exist (tmpfile "" :subdirs subdiretorio))))
+
 ;; ================================
 
 (defun ckn-clear-the-file (thefile)
