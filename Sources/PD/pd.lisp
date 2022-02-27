@@ -30,13 +30,8 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
 
 ; ================================================================
 
-(defmethod! pd~ ((sound-in null) (sound-out pathname) (patch pure-data) (var list) &key (gui t) (offline t) (verbose nil))
-(ckn-pd~ sound-in sound-out patch var gui offline))
 
-; ================================================================
-
-
-(defmethod! pd~ ((sound-in pathname) (sound-out pathname) (patch pure-data) (var list) &key (gui t) (offline t) (verbose nil))
+(defmethod! pd~ ((patch pure-data) &key (sound-in nil) (sound-out nil) (var list) (gui t) (offline nil) (verbose nil))
 :initvals '(nil)
 :indoc ' ("Use PD patches inside OM-Sharp")
 :icon 'pd
@@ -48,18 +43,46 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
 
 (defun ckn-pd~ (sound-in sound-out patch var gui offline verbose)
 
+
+;; Check if outfile have some space;;;
 (let* (
-    (outfile (if (null sound-out) "" (om::string+ "outfile " (replace-all (namestring sound-out) "\\" "/") ", "))) 
-    (infile (if (null sound-in) "" (om::string+ "infile " (replace-all (namestring sound-in) "\\" "/") ", ")))
-    (make_var (concatstring (loop :for all_variables :in var :collect (om::string+ (car all_variables) " " (concatstring (mapcar (lambda (x) (om::string+ (write-to-string x) " ")) (cdr all_variables))) ", "))))
+        (pd-outfile (om::string-to-list (namestring sound-out) " "))
+        (length-of-path (length pd-outfile)))
+    (if (> length-of-path 1)
+        (let* ()
+                (om::om-message-dialog "The outfile pathname have spaces in it, it will not work")
+                (om::abort-eval))
+        nil))
+
+;; Here is the real work
+
+(let* (
+
+    (outfile (om::string+ "outfile " (replace-all (namestring sound-out) "\\" "/") ", "))
+    (tmp-infile-name (om::tmpfile (om::string+ (write-to-string (om::om-random 10000 99999)) "." (car (last (om::string-to-list (namestring sound-in) "."))))))
+    (int-copy-to-tmpfile (om::om-copy-file sound-in tmp-infile-name))
+    (infile (om::string+ "infile " (replace-all (namestring int-copy-to-tmpfile) "\\" "/") ", "))
+    (make_var 
+        (concatstring 
+            (loop :for all_variables :in var :collect 
+                (om::string+ 
+                    (write-to-string (car all_variables)) " " 
+                    (concatstring (mapcar   (lambda (x) (if 
+                                                            (equal (type-of x) 'pathname)
+                                                            (om::string+ (replace-all (namestring x) "\\" "/") " ")
+                                                            (om::string+ (write-to-string x) " ")))
+                                            (cdr all_variables))) ", "))))
     (variaveis (list->string-fun (list (string+ "from_om " outfile infile make_var))))
     (pd-executable (pd patch))
-    (verbose (if verbose " " " -noverbose "))
+    (verbose (if verbose " " " -noverbose -d 0 "))
     (gui (if gui " " " -nogui"))
     (offline (if offline " -batch " ""))
     (pd-path (replace-all (namestring (pd-path patch)) "\\" "/")))
     (oa::om-command-line (om::string+ pd-executable gui offline " -open " pd-path " -send " variaveis) verbose)
     (if gui (om::om-print "Finish!" "PD") nil)
+    (mp:process-run-function "Delete Files"
+                 () 
+                  (lambda () (system::delete-file tmp-infile-name)))
     sound-out))
 
 ; =============================================== To Work with Multithreading
@@ -93,7 +116,7 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
 
 ; ================================================================
 
-(defmethod! pd-list-patches ()
+(defmethod! pd-patches-list (&key (show-all-patches nil))
 :initvals '(nil)
 :indoc ' ("Use PD patches inside OM-Sharp")
 :icon 'pd
@@ -106,11 +129,20 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
                 :collect (let* (
                     (name-of-patch (name-of-file patches))
                     (check-if-is-children (car (string-to-list name-of-patch "_"))))
-                    (if (not (equal check-if-is-children "Children"))
-                        (name-of-file patches)))))))
+                    
+        (if show-all-patches                  
+            (name-of-file patches)
+
+            (if (not (equal check-if-is-children "Children"))
+                        (name-of-file patches))))))))
 
 
 ; ================================================================
+(defmethod! pd-define-patch ((names-of-patch list))
+
+(loop for strings in names-of-patch :collect (pd-define-patch strings)))
+
+
 (defmethod! pd-define-patch ((name-of-patch string))
 :initvals '(nil)
 :indoc '("Define the fxp-presets to use in your sound.") 
@@ -159,3 +191,16 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
       (thread (lambda (x) (loop :for patches :in x :collect (let* () (oa::om-command-line (om::command-line patches)) (pd-outfile patches))))))
   (om::flat (ckn-multi-1-var thread patches-by-thread))))
       
+
+
+;; ================================================================
+
+(defmethod! pd-open-patches ((patch pure-data))
+:initvals '(nil)
+:indoc ' ("Use PD patches inside OM-Sharp")
+:icon 'pd
+:doc ""
+
+(mp:process-run-function "Open PureData"
+                 () 
+                  (lambda () (om-cmd-line (om::string+ (pd patch) " -d 0 " (replace-all (namestring (pd-path patch)) "\\" "/"))))))
