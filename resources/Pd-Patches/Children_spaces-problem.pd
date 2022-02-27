@@ -1,0 +1,12 @@
+#N canvas 381 139 879 338 10;
+#X msg 34 30 set symbol \, add2 \$1;
+#X msg 34 55 symbol C:/Users/charl/OneDrive_usp.br/Documents/Samples/OrchideaSOL2020/Brass/Bass_Tuba/blow/BTb-blow-N-p-N-N.wav
+;
+#X obj 19 9 inlet;
+#X msg 18 108 \$1;
+#X obj 18 134 outlet;
+#X connect 0 0 1 0;
+#X connect 1 0 3 0;
+#X connect 2 0 0 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
