@@ -487,21 +487,11 @@ action1))
 ;; ====================================================
 
 (defmethod! orchidea-instruments ((note null) (number-of-the-instrument null) &optional (velocity null))
-:initvals '(6000 20 60)
-:indoc '("Sound class" "Number of the instrument (technique)") 
-:icon '17360
-:doc "It create the patch of a sound."
-
 (sound-silence-sox 1.0 1))
 
 ;; ====================================================
 
 (defmethod! orchidea-instruments ((note number) (number-of-the-instrument null) &optional (velocity number))
-:initvals '(6000 20 60)
-:indoc '("Sound class" "Number of the instrument (technique)") 
-:icon '17360
-:doc "It create the patch of a sound."
-
 (sound-silence-sox 1.0 1))
 
 ;; ====================================================
@@ -510,7 +500,7 @@ action1))
 :initvals '(6000 20 60)
 :indoc '("Sound class" "Number of the instrument (technique)") 
 :icon '17360
-:doc "It create the patch of a sound.
+:doc "It gives the path of the sound.
 
 ============================  FLUTE ============================
 1 = Aeolian                                 
