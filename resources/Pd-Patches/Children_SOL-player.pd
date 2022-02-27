@@ -1,0 +1,18 @@
+#N canvas 425 65 757 741 12;
+#X obj 7 7 inlet;
+#X obj 7 41 unpack s f f;
+#X obj 39 114 else/format open %s;
+#X obj 7 158 readsf~;
+#X obj 7 79 t 1 s;
+#X obj 53 192 bng 25 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 7 253 outlet~;
+#X obj 108 165 print;
+#X connect 0 0 1 0;
+#X connect 1 0 4 0;
+#X connect 2 0 3 0;
+#X connect 2 0 7 0;
+#X connect 3 0 6 0;
+#X connect 3 1 5 0;
+#X connect 4 0 3 0;
+#X connect 4 1 2 0;
