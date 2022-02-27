@@ -110,8 +110,8 @@ from om_py import to_om
 import vamp
 to_om(vamp.list_plugins())"
 ))
-      (run (om-py::run-py (make-value (quote om-py::om2py) (list (list :py-om python-code))))))
-      run))
+      (run (om-py::run-py (make-value (quote om-py::python) (list (list :code python-code))))))
+     (flat run)))
 
 ;; ================================================
 
@@ -126,7 +126,7 @@ data, rate = librosa.load(r'~d')
 output = vamp.collect(data, rate, '~d')
 to_om(output)
 " sound vamp_key))
-      (run (om::run-py (make-value (quote om-py::om2py) (list (list :py-om python-code))))))
+      (run (om-py::run-py (make-value (quote om-py::python) (list (list :code python-code))))))
       run))
       
 ;; ================================================
@@ -146,7 +146,7 @@ This object will process some audio using Vamp plugins.
 "
 (let* (
 (sound-path (if (null (file-pathname sound))
-                      (save-temp-sounds sound)
+                      (car (save-temp-sounds sound))
                       (file-pathname sound))))
 (vamp-process (namestring sound-path) vamp_key)))
 
