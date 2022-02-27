@@ -671,4 +671,4 @@ _______________________________________________________________________
                   (475 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "16 Contrabass/tremolo-to-ordinario/" 'wav) velocity))
                   (476 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "16 Contrabass/trill-major-second-up/" 'wav) velocity))
                   (477 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "16 Contrabass/trill-minor-second-up/" 'wav) velocity)))))
-(if (not action1) nil (namestring action1))))
+(if (not action1) nil action1)))
