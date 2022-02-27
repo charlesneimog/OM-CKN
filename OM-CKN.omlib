@@ -34,8 +34,8 @@
       (:packages
             (:package (:name "My Compositional Tools") (:functions voice->samples o-voice->samples voice->samples-ITD))
             (:package (:name "PureData") 
-                        (:functions pd~ pd-open-patches pd-mk-line pd-list-patches pd-define-patch pd-run-patches)
-                        (:special-items pd-patches-list))
+                        (:functions pd~ pd-open-patches pd-mk-line pd-patches-list pd-define-patch pd-run-patches)
+                        (:special-items pd-list-patches))
             
             (:package (:name "Python") 
                         (:packages 
