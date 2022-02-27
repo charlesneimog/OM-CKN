@@ -1327,6 +1327,8 @@ Converts a (list of) freq pitch(es) to names of notes."
     :for list-of-something-loop :in list-of-something 
     :for create-mailbox :in action2
     :for names-process :in action1
+    :for index :from 1 :to (length list) 
+    :do (om::om-print (format nil "Thread ~d of ~d" index (length list)) "OM-CKN")  
     :do 
         (mp:process-run-function names-process
                  () 
