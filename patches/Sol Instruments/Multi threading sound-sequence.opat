@@ -4,20 +4,20 @@
  (:doc "")
  (:info
   (:created "2021/05/31 15:06:35")
-  (:modified "2021/06/01 13:07:05")
+  (:modified "2022/02/28 9:34:13")
   (:by "om-sharp")
-  (:version 1.03))
- (:window (:size (1920 1026)) (:position (-9 -9)))
+  (:version 1.05))
+ (:window (:size (1942 1102)) (:position (-9 -9)))
  (:grid nil)
- (:lock nil)
+ (:lock t)
  (:boxes
   (:box
    (:type :object)
    (:reference voice)
    (:group-id 2)
    (:name nil)
-   (:x 80)
-   (:y 182)
+   (:x 72)
+   (:y 366)
    (:w 1784)
    (:h 143)
    (:color nil)
@@ -28,8 +28,9 @@
    (:display :mini-view)
    (:showname nil)
    (:show-markers t)
-   (:lock nil)
+   (:lock :locked)
    (:lambda nil)
+   (:reactive nil)
    (:inputs
     (:input
      (:type :standard)
@@ -249,7 +250,7 @@
       ((:onset 0)
        (:duration 51552)
        (:interpol (:number-or-nil (:number 50) (:t-or-nil nil)))
-       (:name nil)
+       (:name "VOICE")
        (:symbolic-date nil)
        (:symbolic-dur nil)
        (:symbolic-dur-extent 0)
@@ -1132,8 +1133,8 @@
    (:reference fixnum)
    (:group-id nil)
    (:name "value box")
-   (:x 728)
-   (:y 75)
+   (:x 738)
+   (:y 321)
    (:w 50)
    (:h 36)
    (:color
@@ -1145,15 +1146,16 @@
    (:text-font nil)
    (:align nil)
    (:lock nil)
+   (:reactive nil)
    (:inputs)
    (:outputs (:output (:name "value") (:reactive nil)))
    (:value 95)
    (:id 1))
   (:comment
-   (:x 1694)
-   (:y 66)
+   (:x 1686)
+   (:y 250)
    (:w 112)
-   (:h 28)
+   (:h 23)
    (:fgcolor nil)
    (:bgcolor nil)
    (:border nil)
@@ -1167,8 +1169,8 @@
    (:reference (:symbol "SIMPLE-TEXT-STRING" "LISPWORKS"))
    (:group-id nil)
    (:name "value box")
-   (:x 136)
-   (:y 49)
+   (:x 128)
+   (:y 233)
    (:w 85)
    (:h 36)
    (:color
@@ -1180,6 +1182,7 @@
    (:text-font nil)
    (:align nil)
    (:lock nil)
+   (:reactive nil)
    (:inputs)
    (:outputs (:output (:name "value") (:reactive nil)))
    (:value "ritmo.txt")
@@ -1189,8 +1192,8 @@
    (:reference (:symbol "SIMPLE-TEXT-STRING" "LISPWORKS"))
    (:group-id nil)
    (:name "value box")
-   (:x 379)
-   (:y 50)
+   (:x 371)
+   (:y 234)
    (:w 86)
    (:h 36)
    (:color
@@ -1202,6 +1205,7 @@
    (:text-font nil)
    (:align nil)
    (:lock nil)
+   (:reactive nil)
    (:inputs)
    (:outputs (:output (:name "value") (:reactive nil)))
    (:value "notas.txt")
@@ -1211,8 +1215,8 @@
    (:reference (:symbol "SIMPLE-TEXT-STRING" "LISPWORKS"))
    (:group-id nil)
    (:name "value box")
-   (:x 906)
-   (:y 70)
+   (:x 898)
+   (:y 254)
    (:w 100)
    (:h 36)
    (:color
@@ -1224,6 +1228,7 @@
    (:text-font nil)
    (:align nil)
    (:lock nil)
+   (:reactive nil)
    (:inputs)
    (:outputs (:output (:name "value") (:reactive nil)))
    (:value "velocity.txt")
@@ -1233,8 +1238,8 @@
    (:reference (:symbol "SIMPLE-TEXT-STRING" "LISPWORKS"))
    (:group-id nil)
    (:name "value box")
-   (:x 1066)
-   (:y 62)
+   (:x 1058)
+   (:y 246)
    (:w 143)
    (:h 36)
    (:color
@@ -1246,6 +1251,7 @@
    (:text-font nil)
    (:align nil)
    (:lock nil)
+   (:reactive nil)
    (:inputs)
    (:outputs (:output (:name "value") (:reactive nil)))
    (:value "channel.txt")
@@ -1255,8 +1261,8 @@
    (:reference (:symbol "SIMPLE-TEXT-STRING" "LISPWORKS"))
    (:group-id nil)
    (:name "value box")
-   (:x 1700)
-   (:y 82)
+   (:x 1692)
+   (:y 266)
    (:w 102)
    (:h 36)
    (:color
@@ -1268,6 +1274,7 @@
    (:text-font nil)
    (:align nil)
    (:lock nil)
+   (:reactive nil)
    (:inputs)
    (:outputs (:output (:name "value") (:reactive nil)))
    (:value "pan.txt")
@@ -1295,7 +1302,7 @@
        (:name "input 1")
        (:x 82)
        (:y 50)
-       (:w 68)
+       (:w 80)
        (:h 42)
        (:color
         (:color-or-nil
@@ -1306,6 +1313,7 @@
        (:text-font nil)
        (:align :center)
        (:icon :top)
+       (:reactive nil)
        (:inputs)
        (:outputs (:output (:name "out") (:reactive nil)))
        (:id 0))
@@ -1317,7 +1325,7 @@
        (:name "output 1")
        (:x 276)
        (:y 318)
-       (:w 78)
+       (:w 88)
        (:h 42)
        (:color
         (:color-or-nil
@@ -1328,6 +1336,7 @@
        (:text-font nil)
        (:align :center)
        (:icon :top)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -1354,6 +1363,7 @@
        (:showname t)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -1411,7 +1421,7 @@
        (:name "flat")
        (:x 276)
        (:y 257)
-       (:w 59)
+       (:w 71)
        (:h 36)
        (:color nil)
        (:border nil)
@@ -1421,6 +1431,7 @@
        (:icon :left)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -1452,6 +1463,7 @@
        (:text-font nil)
        (:align nil)
        (:lock nil)
+       (:reactive nil)
        (:inputs)
        (:outputs (:output (:name "value") (:reactive nil)))
        (:value 2)
@@ -1463,7 +1475,7 @@
        (:name "outfile")
        (:x 82)
        (:y 100)
-       (:w 80)
+       (:w 96)
        (:h 36)
        (:color nil)
        (:border nil)
@@ -1473,6 +1485,7 @@
        (:icon :left)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -1497,8 +1510,8 @@
       (:connection (:from (:box 5 :out 0)) (:to (:box 2 :in 0))))))
    (:group-id nil)
    (:name "my-patch")
-   (:x 104)
-   (:y 89)
+   (:x 96)
+   (:y 273)
    (:w 148)
    (:h 60)
    (:color nil)
@@ -1507,9 +1520,10 @@
    (:text-font nil)
    (:align :center)
    (:display :hidden)
+   (:pre-delay 0)
    (:lock nil)
    (:lambda nil)
-   (:pre-delay 0)
+   (:reactive nil)
    (:inputs
     (:input
      (:type :standard)
@@ -1541,7 +1555,7 @@
        (:name "input 1")
        (:x 96)
        (:y 50)
-       (:w 68)
+       (:w 80)
        (:h 42)
        (:color
         (:color-or-nil
@@ -1552,6 +1566,7 @@
        (:text-font nil)
        (:align :center)
        (:icon :top)
+       (:reactive nil)
        (:inputs)
        (:outputs (:output (:name "out") (:reactive nil)))
        (:id 0))
@@ -1563,7 +1578,7 @@
        (:name "output 1")
        (:x 122)
        (:y 380)
-       (:w 78)
+       (:w 88)
        (:h 42)
        (:color
         (:color-or-nil
@@ -1574,6 +1589,7 @@
        (:text-font nil)
        (:align :center)
        (:icon :top)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -1600,6 +1616,7 @@
        (:showname t)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -1665,6 +1682,7 @@
        (:icon :left)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -1696,6 +1714,7 @@
        (:text-font nil)
        (:align nil)
        (:lock nil)
+       (:reactive nil)
        (:inputs)
        (:outputs (:output (:name "value") (:reactive nil)))
        (:value 1)
@@ -1707,7 +1726,7 @@
        (:name "outfile")
        (:x 96)
        (:y 100)
-       (:w 80)
+       (:w 96)
        (:h 36)
        (:color nil)
        (:border nil)
@@ -1717,6 +1736,7 @@
        (:icon :left)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -1741,8 +1761,8 @@
       (:connection (:from (:box 5 :out 0)) (:to (:box 2 :in 0))))))
    (:group-id nil)
    (:name "my-patch")
-   (:x 341)
-   (:y 93)
+   (:x 333)
+   (:y 277)
    (:w 162)
    (:h 60)
    (:color nil)
@@ -1751,9 +1771,10 @@
    (:text-font nil)
    (:align :center)
    (:display :hidden)
+   (:pre-delay 0)
    (:lock nil)
    (:lambda nil)
-   (:pre-delay 0)
+   (:reactive nil)
    (:inputs
     (:input
      (:type :standard)
@@ -1785,7 +1806,7 @@
        (:name "input 1")
        (:x 94)
        (:y 50)
-       (:w 68)
+       (:w 80)
        (:h 42)
        (:color
         (:color-or-nil
@@ -1796,6 +1817,7 @@
        (:text-font nil)
        (:align :center)
        (:icon :top)
+       (:reactive nil)
        (:inputs)
        (:outputs (:output (:name "out") (:reactive nil)))
        (:id 0))
@@ -1807,7 +1829,7 @@
        (:name "output 1")
        (:x 175)
        (:y 341)
-       (:w 78)
+       (:w 88)
        (:h 42)
        (:color
         (:color-or-nil
@@ -1818,6 +1840,7 @@
        (:text-font nil)
        (:align :center)
        (:icon :top)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -1844,6 +1867,7 @@
        (:showname nil)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -1902,7 +1926,7 @@
        (:name "flat")
        (:x 175)
        (:y 280)
-       (:w 59)
+       (:w 71)
        (:h 36)
        (:color nil)
        (:border nil)
@@ -1912,6 +1936,7 @@
        (:icon :left)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -1932,7 +1957,7 @@
        (:name "outfile")
        (:x 94)
        (:y 100)
-       (:w 80)
+       (:w 96)
        (:h 36)
        (:color nil)
        (:border nil)
@@ -1942,6 +1967,7 @@
        (:icon :left)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -1968,6 +1994,7 @@
        (:text-font nil)
        (:align nil)
        (:lock nil)
+       (:reactive nil)
        (:inputs)
        (:outputs (:output (:name "value") (:reactive nil)))
        (:value 1)
@@ -1988,8 +2015,8 @@
       (:connection (:from (:box 5 :out 0)) (:to (:box 3 :in 1))))))
    (:group-id nil)
    (:name "my-patch")
-   (:x 867)
-   (:y 108)
+   (:x 859)
+   (:y 292)
    (:w 178)
    (:h 60)
    (:color nil)
@@ -1998,9 +2025,10 @@
    (:text-font nil)
    (:align :center)
    (:display :hidden)
+   (:pre-delay 0)
    (:lock nil)
    (:lambda nil)
-   (:pre-delay 0)
+   (:reactive nil)
    (:inputs
     (:input
      (:type :standard)
@@ -2032,7 +2060,7 @@
        (:name "input 1")
        (:x 94)
        (:y 50)
-       (:w 68)
+       (:w 80)
        (:h 42)
        (:color
         (:color-or-nil
@@ -2043,6 +2071,7 @@
        (:text-font nil)
        (:align :center)
        (:icon :top)
+       (:reactive nil)
        (:inputs)
        (:outputs (:output (:name "out") (:reactive nil)))
        (:id 0))
@@ -2054,7 +2083,7 @@
        (:name "output 1")
        (:x 275)
        (:y 330)
-       (:w 78)
+       (:w 88)
        (:h 42)
        (:color
         (:color-or-nil
@@ -2065,6 +2094,7 @@
        (:text-font nil)
        (:align :center)
        (:icon :top)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -2091,6 +2121,7 @@
        (:showname nil)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -2147,7 +2178,7 @@
        (:name "flat")
        (:x 275)
        (:y 269)
-       (:w 59)
+       (:w 71)
        (:h 36)
        (:color nil)
        (:border nil)
@@ -2157,6 +2188,7 @@
        (:icon :left)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -2188,6 +2220,7 @@
        (:text-font nil)
        (:align nil)
        (:lock nil)
+       (:reactive nil)
        (:inputs)
        (:outputs (:output (:name "value") (:reactive nil)))
        (:value 1)
@@ -2199,7 +2232,7 @@
        (:name "outfile")
        (:x 94)
        (:y 100)
-       (:w 80)
+       (:w 96)
        (:h 36)
        (:color nil)
        (:border nil)
@@ -2209,6 +2242,7 @@
        (:icon :left)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -2233,8 +2267,8 @@
       (:connection (:from (:box 5 :out 0)) (:to (:box 2 :in 0))))))
    (:group-id nil)
    (:name "my-patch")
-   (:x 1047)
-   (:y 108)
+   (:x 1039)
+   (:y 292)
    (:w 140)
    (:h 60)
    (:color nil)
@@ -2243,9 +2277,10 @@
    (:text-font nil)
    (:align :center)
    (:display :hidden)
+   (:pre-delay 0)
    (:lock nil)
    (:lambda nil)
-   (:pre-delay 0)
+   (:reactive nil)
    (:inputs
     (:input
      (:type :standard)
@@ -2277,7 +2312,7 @@
        (:name "input 1")
        (:x 261)
        (:y 50)
-       (:w 68)
+       (:w 80)
        (:h 42)
        (:color
         (:color-or-nil
@@ -2288,6 +2323,7 @@
        (:text-font nil)
        (:align :center)
        (:icon :top)
+       (:reactive nil)
        (:inputs)
        (:outputs (:output (:name "out") (:reactive nil)))
        (:id 0))
@@ -2299,7 +2335,7 @@
        (:name "output 1")
        (:x 252)
        (:y 369)
-       (:w 78)
+       (:w 88)
        (:h 42)
        (:color
         (:color-or-nil
@@ -2310,6 +2346,7 @@
        (:text-font nil)
        (:align :center)
        (:icon :top)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -2336,6 +2373,7 @@
        (:showname nil)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -2394,7 +2432,7 @@
        (:name "flat")
        (:x 252)
        (:y 308)
-       (:w 59)
+       (:w 71)
        (:h 36)
        (:color nil)
        (:border nil)
@@ -2404,6 +2442,7 @@
        (:icon :left)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -2435,6 +2474,7 @@
        (:text-font nil)
        (:align nil)
        (:lock nil)
+       (:reactive nil)
        (:inputs)
        (:outputs (:output (:name "value") (:reactive nil)))
        (:value 1)
@@ -2446,7 +2486,7 @@
        (:name "outfile")
        (:x 261)
        (:y 100)
-       (:w 80)
+       (:w 96)
        (:h 36)
        (:color nil)
        (:border nil)
@@ -2456,6 +2496,7 @@
        (:icon :left)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -2480,8 +2521,8 @@
       (:connection (:from (:box 5 :out 0)) (:to (:box 2 :in 0))))))
    (:group-id nil)
    (:name "my-patch")
-   (:x 1663)
-   (:y 121)
+   (:x 1655)
+   (:y 305)
    (:w 176)
    (:h 60)
    (:color nil)
@@ -2490,9 +2531,10 @@
    (:text-font nil)
    (:align :center)
    (:display :hidden)
+   (:pre-delay 0)
    (:lock nil)
    (:lambda nil)
-   (:pre-delay 0)
+   (:reactive nil)
    (:inputs
     (:input
      (:type :standard)
@@ -2506,8 +2548,8 @@
    (:reference (:symbol "SIMPLE-TEXT-STRING" "LISPWORKS"))
    (:group-id nil)
    (:name "value box")
-   (:x 1412)
-   (:y 53)
+   (:x 1404)
+   (:y 237)
    (:w 143)
    (:h 36)
    (:color
@@ -2519,6 +2561,7 @@
    (:text-font nil)
    (:align nil)
    (:lock nil)
+   (:reactive nil)
    (:inputs)
    (:outputs (:output (:name "value") (:reactive nil)))
    (:value "sustain.txt")
@@ -2546,7 +2589,7 @@
        (:name "input 1")
        (:x 94)
        (:y 50)
-       (:w 68)
+       (:w 80)
        (:h 42)
        (:color
         (:color-or-nil
@@ -2557,6 +2600,7 @@
        (:text-font nil)
        (:align :center)
        (:icon :top)
+       (:reactive nil)
        (:inputs)
        (:outputs (:output (:name "out") (:reactive nil)))
        (:id 0))
@@ -2568,7 +2612,7 @@
        (:name "output 1")
        (:x 275)
        (:y 330)
-       (:w 78)
+       (:w 88)
        (:h 42)
        (:color
         (:color-or-nil
@@ -2579,6 +2623,7 @@
        (:text-font nil)
        (:align :center)
        (:icon :top)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -2605,6 +2650,7 @@
        (:showname nil)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -2661,7 +2707,7 @@
        (:name "flat")
        (:x 275)
        (:y 269)
-       (:w 59)
+       (:w 71)
        (:h 36)
        (:color nil)
        (:border nil)
@@ -2671,6 +2717,7 @@
        (:icon :left)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -2702,6 +2749,7 @@
        (:text-font nil)
        (:align nil)
        (:lock nil)
+       (:reactive nil)
        (:inputs)
        (:outputs (:output (:name "value") (:reactive nil)))
        (:value 1)
@@ -2713,7 +2761,7 @@
        (:name "outfile")
        (:x 94)
        (:y 100)
-       (:w 80)
+       (:w 96)
        (:h 36)
        (:color nil)
        (:border nil)
@@ -2723,6 +2771,7 @@
        (:icon :left)
        (:lock nil)
        (:lambda nil)
+       (:reactive nil)
        (:inputs
         (:input
          (:type :standard)
@@ -2747,8 +2796,8 @@
       (:connection (:from (:box 5 :out 0)) (:to (:box 2 :in 0))))))
    (:group-id nil)
    (:name "my-patch")
-   (:x 1464)
-   (:y 105)
+   (:x 1456)
+   (:y 289)
    (:w 140)
    (:h 60)
    (:color nil)
@@ -2757,9 +2806,10 @@
    (:text-font nil)
    (:align :center)
    (:display :hidden)
+   (:pre-delay 0)
    (:lock nil)
    (:lambda nil)
-   (:pre-delay 0)
+   (:reactive nil)
    (:inputs
     (:input
      (:type :standard)
@@ -2769,118 +2819,14 @@
    (:outputs (:output (:name "output 1") (:reactive nil)))
    (:id 14))
   (:box
-   (:library "OM-CKN")
-   (:type :function)
-   (:reference voice->samples-sound)
-   (:group-id nil)
-   (:name "voice->samples-sound")
-   (:x 89)
-   (:y 366)
-   (:w 189)
-   (:h 36)
-   (:color nil)
-   (:border nil)
-   (:roundness nil)
-   (:text-font nil)
-   (:align nil)
-   (:icon :left)
-   (:lock :locked)
-   (:lambda nil)
-   (:inputs
-    (:input
-     (:type :standard)
-     (:name "VOICE")
-     (:value nil)
-     (:reactive nil)))
-   (:outputs (:output (:name "out") (:reactive nil)))
-   (:id 15))
-  (:box
-   (:type :abstraction)
-   (:reference
-    (:textfun
-     (:name "my-function")
-     (:doc "")
-     (:info
-      (:created nil)
-      (:modified nil)
-      (:by *app-name*)
-      (:version 0))
-     (:window (:size (1920 1026)) (:position (-9 -9)))
-     (:text
-      (:list
-       "(lambda (sounds)"
-       ""
-       "(let* ("
-       "        (first-action1 (mapcar (lambda (x) (string+ \"Sound-seq-\" x)) (mapcar (lambda (x) (list->string-fun (list x))) (om::arithm-ser 1 (length sounds) 1))))"
-       "        (second-action1 (ckn-make-mail-box first-action1))"
-       "        (action1 "
-       "            (loop "
-       "                :for sound-loop :in sounds"
-       "                :for names-loop :in first-action1"
-       "                :for mail-box-loop :in second-action1 "
-       "                :do "
-       "                        (mp:process-run-function names-loop () "
-       "                                (lambda (x w) (mp:mailbox-send w "
-       "                                                                (sound-seq-list x 0.001)))"
-       "                                (print sound-loop) mail-box-loop)))"
-       ""
-       ""
-       ""
-       ";; ======================================================"
-       ""
-       "(action2 "
-       "  (loop with mailbox-empty = nil :while "
-       "          (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) second-action1)))"
-       "            :do (let*"
-       "        ((box-remove (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) second-action1))))"
-       "            mailbox-empty)))"
-       ""
-       ";; ======================================================"
-       ""
-       "(action3 (mapcar (lambda (x) (mp:mailbox-peek x)) second-action1))"
-       ""
-       "(action4 (loop :for fim :in action3 :collect (make-value-from-model 'sound fim nil))))"
-       ""
-       "(sound-seq-list action4 0.001)))"
-       ""
-       ""
-       ""
-       ""
-       ""
-       ""
-       ""))))
-   (:group-id nil)
-   (:name "my-function")
-   (:x 249)
-   (:y 497)
-   (:w 169)
-   (:h 60)
-   (:color nil)
-   (:border nil)
-   (:roundness nil)
-   (:text-font nil)
-   (:align :center)
-   (:display :hidden)
-   (:lock nil)
-   (:lambda nil)
-   (:pre-delay 0)
-   (:inputs
-    (:input
-     (:type :standard)
-     (:name "SOUNDS")
-     (:value nil)
-     (:reactive nil)))
-   (:outputs (:output (:name "out") (:reactive nil)))
-   (:id 16))
-  (:box
    (:type :object)
    (:reference sound)
    (:group-id nil)
    (:name nil)
-   (:x 101)
-   (:y 572)
+   (:x 45)
+   (:y 647)
    (:w 464)
-   (:h 136)
+   (:h 100)
    (:color nil)
    (:border nil)
    (:roundness nil)
@@ -2891,6 +2837,7 @@
    (:show-markers t)
    (:lock nil)
    (:lambda nil)
+   (:reactive nil)
    (:inputs
     (:input
      (:type :standard)
@@ -2922,86 +2869,82 @@
          (:host "C")
          (:name "temp-sound3607954")
          (:type "wav")))))))
+   (:id 15))
+  (:box
+   (:library "OM-CKN")
+   (:type :function)
+   (:reference voice->samples)
+   (:group-id nil)
+   (:name "voice->samples")
+   (:x 99)
+   (:y 542)
+   (:w 153)
+   (:h 34)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "VOICE")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 16))
+  (:box
+   (:library "OM-CKN")
+   (:type :function)
+   (:reference sound-seq-list)
+   (:group-id nil)
+   (:name "sound-seq-list")
+   (:x 99)
+   (:y 580)
+   (:w 153)
+   (:h 34)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SOUND")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
    (:id 17))
-  (:box
-   (:type :value)
-   (:reference fixnum)
-   (:group-id nil)
-   (:name "value box")
-   (:x 243)
-   (:y 405)
-   (:w 34)
-   (:h 36)
-   (:color
+  (:comment
+   (:x 21)
+   (:y 30)
+   (:w 463)
+   (:h 38)
+   (:fgcolor
     (:color-or-nil
-     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:color (:color 0.0S0 0.0S0 0.0S0 1.0))
      (:t-or-nil t)))
-   (:border nil)
+   (:bgcolor nil)
+   (:border (:number-or-nil (:number 0.0) (:t-or-nil nil)))
    (:roundness nil)
-   (:text-font nil)
+   (:text-font
+    (:font-or-nil
+     (:font (:font (:face "Segoe UI") (:size 17) (:style :bold)))
+     (:t-or-nil t)))
    (:align nil)
-   (:lock nil)
-   (:inputs)
-   (:outputs (:output (:name "value") (:reactive nil)))
-   (:value 30)
-   (:id 18))
-  (:box
-   (:type :function)
-   (:reference length)
-   (:group-id nil)
-   (:name "length")
-   (:x 450)
-   (:y 447)
-   (:w 80)
-   (:h 36)
-   (:color nil)
-   (:border nil)
-   (:roundness nil)
-   (:text-font nil)
-   (:align nil)
-   (:icon :left)
-   (:lock nil)
-   (:lambda nil)
-   (:inputs
-    (:input
-     (:type :standard)
-     (:name "SEQUENCE")
-     (:value nil)
-     (:reactive nil)))
-   (:outputs (:output (:name "out") (:reactive nil)))
-   (:id 19))
-  (:box
-   (:type :function)
-   (:reference build-seq-of-sounds)
-   (:group-id nil)
-   (:name "build-seq-of-sounds")
-   (:x 140)
-   (:y 438)
-   (:w 173)
-   (:h 36)
-   (:color nil)
-   (:border nil)
-   (:roundness nil)
-   (:text-font nil)
-   (:align nil)
-   (:icon :left)
-   (:lock nil)
-   (:lambda nil)
-   (:inputs
-    (:input
-     (:type :standard)
-     (:name "SOUNDS")
-     (:value nil)
-     (:reactive nil))
-    (:input
-     (:type :standard)
-     (:name "SOUNDS-LENGTH")
-     (:value nil)
-     (:reactive nil)))
-   (:outputs (:output (:name "out") (:reactive nil)))
-   (:id 20)))
+   (:text "Ideias Roubadas II - Charles K. Neimog 2021")
+   (:id 18)))
  (:connections
-  (:connection (:from (:box 0 :out 0)) (:to (:box 15 :in 0)))
+  (:connection (:from (:box 0 :out 0)) (:to (:box 16 :in 0)))
   (:connection (:from (:box 1 :out 0)) (:to (:box 0 :in 3)))
   (:connection
    (:from (:box 3 :out 0))
@@ -3059,6 +3002,5 @@
    (:attributes
     (:color (:color 0.2 0.4 0.5 1.0) :style nil :modif nil)))
   (:connection (:from (:box 14 :out 0)) (:to (:box 0 :in 7)))
-  (:connection (:from (:box 15 :out 0)) (:to (:box 20 :in 0)))
   (:connection (:from (:box 16 :out 0)) (:to (:box 17 :in 0)))
-  (:connection (:from (:box 18 :out 0)) (:to (:box 20 :in 1)))))
+  (:connection (:from (:box 17 :out 0)) (:to (:box 15 :in 0)))))
