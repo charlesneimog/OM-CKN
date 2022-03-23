@@ -502,6 +502,8 @@ action1))
 :icon '17360
 :doc "It gives the path of the sound.
 
+============================  Silence ============================
+0 = Silence
 ============================  FLUTE ============================
 1 = Aeolian                                 
 2 = Aeolian-and-Ordinario                   
@@ -733,6 +735,7 @@ action1))
 ;; ============== Winds ===============
 ;; Flute 
 
+(0 (sound-silence-sox 1.0 1))
 (1  (ckn-dinamics   (ckn-find-the-samples 3 note *OrchideaSOL-PATH* "Winds/Flute/aeolian/" 'wav) velocity))
 (2  (ckn-dinamics   (ckn-find-the-samples 3 note *OrchideaSOL-PATH* "Winds/Flute/aeolian_and_ordinario/" 'wav) velocity))
 (3  (ckn-dinamics   (ckn-find-the-samples 3 note *OrchideaSOL-PATH* "Winds/Flute/discolored_fingering/" 'wav) velocity))

@@ -55,7 +55,7 @@ Can return a list of selected items if 'multiple selection' is enabled in the bo
 
                 (if (equal (output-mode self) :value) ;; multiselection false 
                     (and (selection self) (list (nth (car (selection self)) (items self))))
-                    (list (pd-define-patch (car (selection self)))))))))
+                    (list (car (selection self))))))))
 
 ; =================================================================
 

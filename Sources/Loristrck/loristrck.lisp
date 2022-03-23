@@ -159,8 +159,8 @@ QUALITY: Oscillator quality when playing a .mtx file.
     (sound-out (string+ " --out " (list->string-fun (list (namestring (outfile outfile))))))
     (sound-speed (format nil " --speed ~d " speed))
     (transposition (format nil " --transposition ~d " (/ transposition_cents 100)))
-    (cmd (string+ "python " py-script " " sdif-file " " sound-out " " sound-speed transposition)))
-    (ckn-cmd-line cmd)
+    (cmd (om::string+ om-py::*activate-virtual-enviroment* " && python " py-script " " sdif-file " " sound-out " " sound-speed transposition)))
+    (om-cmd-line cmd)
     (loop-until-probe-file (outfile outfile))
     (outfile outfile)))
 

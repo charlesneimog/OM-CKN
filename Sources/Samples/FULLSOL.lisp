@@ -454,8 +454,8 @@ _______________________________________________________________________
                   (268 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "11 Guitar/pizzicato/" 'wav) velocity))
                   (269 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "11 Guitar/pizzicato-bartok/" 'wav) velocity))
                   (270 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "11 Guitar/rasguado/" 'wav) velocity))
-                  (271 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "11 Guitar/scratch-with-nail/" 'wav) velocity))
-                  (272 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "11 Guitar/slide/" 'wav) velocity))
+                  (271 (first (ckn-in-files (merge-pathnames "11 Guitar/scratch-with-nail/" *IRCAM-PATH*) 'wav)))
+                  (272 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "11 Guitar/slide/" 'wav) velocity)) ;; need to fix!
                   (273 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "11 Guitar/sul-ponticello/" 'wav) velocity))
                   (274 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "11 Guitar/sul-tasto/" 'wav) velocity))
                   (275 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "11 Guitar/tap-on-body/" 'wav) velocity))

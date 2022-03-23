@@ -1,0 +1,18 @@
+#N canvas 80 161 1283 660 16;
+#X obj 66 30 loadbang;
+#X obj 66 141 oscparse;
+#X msg 66 60 listen 3000 127.0.0.1;
+#X obj 66 103 netreceive -u -b;
+#X obj 66 181 route path nota vel, f 86;
+#X obj 59 286 cyclone/counter 1 64;
+#X obj 66 219 t a b;
+#X obj 59 327 nbx 10 20 -1e+037 1e+037 0 0 empty empty empty 0 -8 0
+18 -262144 -1 -1 0 256;
+#X obj 512 418;
+#X connect 0 0 2 0;
+#X connect 1 0 4 0;
+#X connect 2 0 3 0;
+#X connect 3 0 1 0;
+#X connect 4 0 6 0;
+#X connect 5 0 7 0;
+#X connect 6 1 5 0;

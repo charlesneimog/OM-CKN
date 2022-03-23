@@ -101,12 +101,9 @@ for x in range(len(all)):
     name = synth.get_parameter_name(x)
     print (str(x) + ' : ' + str(name))
 "                               
-                                    (vst2-path plugin-path)))
-      (save-python-code (om::save-as-text python-code (om::outfile "parameters-vst2-sound.py")))
-      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
-      (om::om-cmd-line (string+ "python " prepare-cmd-code))
-      (ckn-clear-the-file (om::outfile "parameters-vst2-sound.py"))
-      "Done! Check the listener"))
+                                    (vst2-path plugin-path))))
+        (om-py::run-py (om::make-value '|om-python|::python (list (list :code python-code))))
+        (print "Done! Check the listener")))
 
 ;  ==========================================
 
@@ -128,12 +125,9 @@ print('VST3 Index of Parameters')
 for (x,y) in zip(Todos_parametros, list_of_numbers):
     print (str(y) + ' : ' + x )
 "                               
-                                    (vst3-path plugin-path)))
-      (save-python-code (om::save-as-text python-code (om::outfile "parameters-vst3-sound.py")))
-      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
-      (om::om-cmd-line (string+ "python " prepare-cmd-code))
-      ;(ckn-clear-the-file (om::outfile "parameters-vst3-sound.py"))
-      "Done! Check the listener"))
+                                    (vst3-path plugin-path))))
+        (om-py::run-py (om::make-value '|om-python|::python (list (list :code python-code))))
+        (print "Done! Check the listener")))
 
 ;  ==========================================
 
@@ -172,12 +166,9 @@ if (goodvalues == mynewlist):
 else:
     print (f'The good values are {goodvalues}.')
 "                               
-                                    (vst3-path plugin-path) parameter-index))
-      (save-python-code (om::save-as-text python-code (om::outfile "valid-vst3-parameter.py")))
-      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
-      (om::om-cmd-line (string+ "python " prepare-cmd-code))
-      (ckn-clear-the-file (om::outfile "valid-vst3-parameter.py"))
-      "Done! Check the listener"))
+                                    (vst3-path plugin-path) parameter-index)))
+        (om-py::run-py (om::make-value '|om-python|::python (list (list :code python-code))))
+        (print "Done! Check the listener")))
 
 ;  ==========================================
 
@@ -219,12 +210,9 @@ for parameter in (~d):
     valid_vst3_parameter(parameter)
 
 "                      
-                                    (vst3-path plugin-path) (py-list parameter-index)))
-      (save-python-code (om::save-as-text python-code (om::outfile "valid-vst3-parameter.py")))
-      (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
-      (om::om-cmd-line (string+ "python " prepare-cmd-code))
-      (ckn-clear-the-file (om::outfile "valid-vst3-parameter.py"))
-      "Done! Check the listener"))
+                                    (vst3-path plugin-path) (py-list parameter-index))))
+        (om-py::run-py (om::make-value '|om-python|::python (list (list :code python-code))))
+        (print "Done! Check the listener")))
 
 
 ;; ================================
@@ -291,12 +279,8 @@ audio = engine.get_audio()
 wavfile.write('my_song2.wav', SAMPLE_RATE, audio.transpose())
 
 "                               
-                                    (namestring (vst2-path plugin-path)) action1 sound (namestring (outfile sound-out))))
-
-        (save-python-code (om::save-as-text python-code (om::outfile "process-vst2.py")))
-        (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
-        (om::om-cmd-line (string+ "python " prepare-cmd-code))
-        (ckn-clear-the-file (om::outfile "process-vst2.py"))
+                                    (namestring (vst2-path plugin-path)) action1 sound (namestring (outfile sound-out)))))
+        (om-py::run-py (om::make-value '|om-python|::python (list (list :code python-code))))
         (outfile sound-out)))
 
 ;; ================================
@@ -347,12 +331,10 @@ audio, sample_rate = sf.read(r'~d')
 final_audio = plugin.process(audio, sample_rate)
 sf.write(r'~d', final_audio, sample_rate)
 "                               
-                                    (namestring (vst3-path plugin-path)) action1 sound (namestring (outfile sound-out))))
+                                    (namestring (vst3-path plugin-path)) action1 sound (namestring (outfile sound-out)))))
 
-        (save-python-code (om::save-as-text python-code (om::outfile "process-vst3.py")))
-        (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
-        (om::om-cmd-line (string+ "python " prepare-cmd-code))
-        ;(ckn-clear-the-file (om::outfile "process-vst3.py"))
+        (om-py::run-py (om::make-value '|om-python|::python (list (list :code python-code))))
+        (loop-until-probe-file sound-out)
         (outfile sound-out)))
 
 ;; =======================================
@@ -445,7 +427,7 @@ print(f'O tempo gasto foi de {time_elapsed} segundos')
         (save-python-code (om::save-as-text concat-all-the-code (om::outfile "all-code-vst3.py")))
         (sleep 1)
         (prepare-cmd-code (list->string-fun (list (namestring save-python-code)))))
-        (om::om-shell (string+ "python " prepare-cmd-code))
+        (om-py::run-py (om::make-value '|om-python|::python (list (list :code prepare-cmd-code))))
         (loop-until-probe-file (out-sound (car (last (main-code code)))))
         (ckn-clear-the-file (om::outfile "all-code-vst3.py"))
         (loop :for y :in (main-code code) :collect (out-sound y))))
