@@ -570,7 +570,7 @@ action5))
 
 (let* (
         (sox-path (list->string-fun (list (namestring (get-pref-value :externals :sox-exe)))))
-        (sound-markers (om::markers sound))
+        (sound-markers (if (om::markers sound) (om::markers sound)  '(0 200)))
         (saved-tmp-sound (save-temp-sounds (om::list! sound) "with-Noise"))
         (saved-tmp-sound-formated (string+ (car (string-to-list (namestring (car saved-tmp-sound)) ".")) "-denoise.wav"))
         (cut-noise (save-temp-sounds (om::list! (sound-fade (om::sound-cut sound (first sound-markers) (second sound-markers)) 0.005 0.005))))

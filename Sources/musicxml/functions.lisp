@@ -1,6 +1,37 @@
 
 (in-package :om)
 
+
+;; ===========================================================================
+
+(om::defclass! ckn-note ()
+    (
+     (midicents :initform nil :initarg :midicents :accessor midicents)
+     (cents :initform nil :initarg :cents :accessor cents)
+     (technique :initform nil :initarg :technique :accessor technique)
+     (dynamic_value :initform nil :initarg :dynamic_value :accessor dynamic_value)
+     (articulations :initform nil :initarg :articulations :accessor articulations)
+     (expressions :initform nil :initarg :expressions :accessor expressions)
+     (notehead :initform nil :initarg :notehead :accessor notehead)
+     (instrument :initform nil :initarg :instrument :accessor instrument)
+     (variables :initform nil :initarg :variables :accessor variables)))
+
+
+;; ===========================================================================
+
+(defun ckn-smulf-to-char (x)
+  (cond 
+	((equal x "normal")   nil)
+        ((equal x "x") 57513)
+	((equal x "arrow down")   57588)
+	((equal x "arrow up")   57584)
+	((equal x "back slashed")   57551)
+	((equal x "circle dot")   57573)
+	((equal x "circle-x")   57523)
+	((equal x "diamond")   57564)
+	((equal x "square")   57529)))
+
+
 ;; ===========================================================================
 (defun txt-vel2int-vel (txt-vel)
   (cond  
@@ -18,6 +49,22 @@
         ((equal txt-vel "ffff") 104)
         ((equal txt-vel "fffff") 113)
         ((equal txt-vel "ffffff") 122)))
+
+;; ===========================================================================
+(defun symbol2om-velocity (x)
+
+(loop :for symbol :in (om::list! x)
+      :collect (cond 
+                    ((equal symbol "ppp") 19)
+                    ((equal symbol "pp") 39)
+                    ((equal symbol "p") 54)
+                    ((equal symbol "mp") 59)
+                    ((equal symbol "mf") 84)
+                    ((equal symbol "f") 99)
+                    ((equal symbol "ff") 112)
+                    ((equal symbol "fff") 126))))
+                    
+
 
 ;; =============================================================================
 
@@ -60,4 +107,4 @@ musicxml2om(r'~d')
 
 
         
-   
+  
