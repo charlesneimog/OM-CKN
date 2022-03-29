@@ -36,6 +36,8 @@
             (:package (:name "PureData") 
                         (:functions pd~ pd-open-patches pd-mk-line pd-patches-list pd-define-patch pd-run-patches)
                         (:special-items pd-list-patches))
+            (:package (:name "Sonic Visualizer")
+                              (:functions sonic-visualizer))
             
             (:package (:name "Python") 
                         (:packages 

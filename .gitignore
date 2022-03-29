@@ -1,6 +1,8 @@
 *~
 *.html
 *.lisp~
+*.ofasl
+*.64ofasl
 *.vst3
 *.wav
 *.aif
