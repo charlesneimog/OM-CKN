@@ -9,9 +9,10 @@
 
 (if (equal *app-name* "om-sharp")
   (let* ()
-          (add-preference-section :externals "OM-CKN" nil '(:sox-exe :PureData :Pd-Patches :ircam-instruments :OrchideaSOL :plugins))
+          (add-preference-section :externals "OM-CKN" nil '(:sox-exe :PureData :Pd-Patches :ircam-instruments :OrchideaSOL :plugins :Sonic-visualizer))
           (add-preference :externals :sox-exe "Sox Path" :file (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN"))))
-          (add-preference :externals :PureData "Pure Data executable" :file "C:/Program Files/Pd/bin/pd.exe")
+          (add-preference :externals :PureData "Pure Data executable" :file " ")
+          (add-preference :externals :Sonic-visualizer "Sonic-Visualizer executable" :file " ")
           (add-preference :externals :Pd-Patches "Pure Data Patches" :folder (merge-pathnames "Pd-Patches/" (lib-resources-folder (find-library "OM-CKN"))))
           (add-preference :externals :ircam-instruments "Ircam Instruments Path" :folder "Your Ircam Instruments Folder")
           (add-preference :externals :OrchideaSOL "SOL Samples Library" :folder "SOL folder")
@@ -1338,3 +1339,37 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 
 ;; ==================================================
+
+; === 
+
+(defmethod! sonic-visualizer ((sound string))
+
+(sonic-visualizer (probe-file sound)))
+
+; === 
+
+(defmethod! sonic-visualizer ((sound sound))
+
+(sonic-visualizer (namestring (car (if (not (om::file-pathname sound)) 
+                                        (om::list! (save-temp-sounds sound (om::string+ "format-" (format nil "~7,'0D" (om-random 0 999999)) "-")))
+                                        (om::list! (om::file-pathname sound)))))))
+
+;; =============================================
+
+(defmethod! sonic-visualizer ((sound pathname))
+:initvals ' (nil nil)       
+:indoc ' ("Sound File")
+:outdoc ' ("result")
+:icon 'sonicvisualizer 
+:doc "Open audio files with Sonic Visualizer."
+
+
+(mp:process-run-function (string+ "Opening SonicVisualizer!") ;; Se não, a interface do OM trava
+                                   () 
+                                          (lambda () 
+                                              (let* ()
+                                                (om::om-cmd-line 
+                                                  (om::string+ 
+                                                      (list->string-fun (list (namestring (get-pref-value :externals :Sonic-visualizer)))) " " 
+                                                      (list->string-fun (list (namestring sound))))))
+                                              (print "Closing SonicVisualizer"))))

@@ -110,6 +110,13 @@ list
 
 ;; =========================================
 
+(defun ckn-list-depth (list)
+                (if (listp list)
+                    (+ 1 (reduce 'max (mapcar 'ckn-list-depth list)
+                                 :initial-value 0))
+                    0))
+;; =================================
+
 (defmethod write-data ((self t) out)
   (format out "~A~%" self))
 
