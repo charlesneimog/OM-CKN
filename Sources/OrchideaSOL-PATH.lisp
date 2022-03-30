@@ -1,1 +1,0 @@
-(defvar *orchideasol-path* x) 
