@@ -126,6 +126,19 @@
                                                 nil))))))
       (ckn-multiphonics-notes caution-names (om::list! note))))
 
+
+
+;; ==================================================== 
+
+(defmethod! ckn-instruments ((note integer) (number-of-the-instrument integer) &optional (velocity 60))
+:initvals '(6000 20 60)
+:indoc '("Sound class" "Number of the instrument (technique)") 
+:icon '17359
+
+(if (> number-of-the-instrument 1000)
+      (FULL-SOL-instruments note (- number-of-the-instrument 1000) velocity)
+      (orchidea-instruments note number-of-the-instrument velocity)))
+
 ;; ==================================================== 
 
 (defmethod! FULL-SOL-instruments ((note integer) (number-of-the-instrument integer) &optional (velocity 60))
