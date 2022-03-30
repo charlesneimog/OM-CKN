@@ -62,7 +62,7 @@
             (:package (:name "Utilities")
                   (:packages
                         (:package (:name "List and arrays") (:functions list-to-array array-to-list by-N half))
-                        (:package (:name "Files Control") (:functions copy2outfile clear-subdir-temp-files ckn-rename-file ckn-copy2folder ckn-clear-the-file name-of-file loop-until-probe-file ckn-list->string))
+                        (:package (:name "Files Control") (:functions copy2outfile clear-subdir-temp-files ckn-rename-file ckn-copy2folder ckn-clear-the-file get-filename loop-until-probe-file ckn-list->string))
                         (:package (:name "Make me live easy") (:functions nth-repeated-random))
                         (:package (:name "Work with object voice") (:functions ckn-add-extras ckn-voice ckn-voice->text osc-play))
                         (:package (:name "Geral") (:functions  choose-to-rest ckn-position remove-nth-element f->n ms->samples)))))))
