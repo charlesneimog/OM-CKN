@@ -6,7 +6,7 @@
 (defun ckn-transpose-a-sound (instrumentos desvio) 
 
 (let* (
-(action1 (string-to-list (name-of-file instrumentos) "-"))
+(action1 (string-to-list (get-filename instrumentos) "-"))
 (action2 (1- (length (om::list! action1))))
 (action3 (loop :for x :in action1 :collect (string+ x "-")))
 (action4 (ckn-string-name (list! (first-n action3 action2))))
@@ -424,7 +424,7 @@ action5))
   (sound-in-path sounds)
   (sound-in-out 
       (list (namestring (merge-pathnames "om-ckn/" 
-        (tmpfile (string+ (first (om::string-to-list (name-of-file sound-in-path) ".")) "-" (write-to-string (om-random 1000 9999)) "-vol-correction" ".wav"))))))
+        (tmpfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-" (write-to-string (om-random 1000 9999)) "-vol-correction" ".wav"))))))
   (action-sound-vol (format nil " -v ~d " volume))
   (line-command 
     (string+ sox-path " " action-sound-vol " " (format nil " -b ~d " (get-pref-value :audio :resolution)) (list->string-fun (list (namestring sound-in-path)))  " " (list->string-fun sound-in-out)))
@@ -520,7 +520,7 @@ action5))
   (sound-in-path sounds)
   (sound-in-out 
       (list (namestring (merge-pathnames "om-ckn/" 
-        (tmpfile (string+ (first (om::string-to-list (name-of-file sound-in-path) ".")) "-" (write-to-string (om-random 1000 9999)) "-with-fade" ".wav"))))))
+        (tmpfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-" (write-to-string (om-random 1000 9999)) "-with-fade" ".wav"))))))
   (action-sound-fade (format nil " fade p ~d ~d" (first fade) (second fade)))
   (line-command 
     (string+ sox-path " " (format nil " -b ~d " (get-pref-value :audio :resolution)) (list->string-fun (list (namestring sound-in-path))) " " (list->string-fun sound-in-out) " " action-sound-fade ))
@@ -537,7 +537,7 @@ action5))
   (sound-in-path sounds)
   (sound-in-out 
       (list (namestring (merge-pathnames "om-ckn/" 
-        (tmpfile (string+ (first (om::string-to-list (name-of-file sound-in-path) ".")) "-" (write-to-string (om-random 1000 9999)) "-cut" ".wav"))))))
+        (tmpfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-" (write-to-string (om-random 1000 9999)) "-cut" ".wav"))))))
   (action-sound-vol (format nil " trim ~d ~d " in out))
   (line-command 
     (string+ sox-path " " (format nil " -b ~d " (get-pref-value :audio :resolution)) (list->string-fun (list (namestring sound-in-path))) " " (list->string-fun sound-in-out) " " action-sound-vol))
@@ -556,11 +556,11 @@ action5))
                 (format nil " -b ~d " (get-pref-value :audio :resolution))
                 (list->string-fun (list (namestring x)))
                 " "
-                (list->string-fun (list (namestring (tmpfile (string+ (name-of-file x) "-v-stereo.wav") :subdirs "om-ckn"))))
+                (list->string-fun (list (namestring (tmpfile (string+ (get-filename x) "-v-stereo.wav") :subdirs "om-ckn"))))
                 " "
                 " channels 2 "))
-        (loop-until-probe-file (tmpfile (string+ (name-of-file x) "-v-stereo.wav") :subdirs "om-ckn"))
-(tmpfile (string+ (name-of-file x) "-v-stereo.wav") :subdirs "om-ckn"))
+        (loop-until-probe-file (tmpfile (string+ (get-filename x) "-v-stereo.wav") :subdirs "om-ckn"))
+(tmpfile (string+ (get-filename x) "-v-stereo.wav") :subdirs "om-ckn"))
 
 (compile 'sound-mono-to-stereo-sox-fun)
 

@@ -63,7 +63,7 @@
   (let* (
         (instrument-pathname (merge-pathnames path-of-the-instrument OrchideaSOL))
         (all-the-files (ckn-in-files (namestring instrument-pathname) type))
-        (all-the-notes (n->mc (mapcar (lambda (x) (choose (string-to-list (name-of-file x) "-") where-is-the-nome)) all-the-files) 4))
+        (all-the-notes (n->mc (mapcar (lambda (x) (choose (string-to-list (get-filename x) "-") where-is-the-nome)) all-the-files) 4))
         (position-of-the-note (ckn-position all-the-notes note)))
         (choose all-the-files position-of-the-note)))
 
@@ -1036,7 +1036,7 @@ action1))
   (let* (
         (instrument-pathname (merge-pathnames path-of-the-instrument OrchideaSOL))
         (all-the-files (ckn-in-files (namestring instrument-pathname) type))
-        (all-the-notes (n->mc (mapcar (lambda (x) (second (string-to-list (choose (string-to-list (name-of-file x) "-") where-is-the-nome) "_"))) all-the-files) 4))
+        (all-the-notes (n->mc (mapcar (lambda (x) (second (string-to-list (choose (string-to-list (get-filename x) "-") where-is-the-nome) "_"))) all-the-files) 4))
         (position-of-the-note (ckn-position all-the-notes note)))
         (om-print "This function will load the sample that correspond to the second note." "OM-CKN ::")
         (choose all-the-files position-of-the-note)))
@@ -1047,7 +1047,7 @@ action1))
   (let* (
         (instrument-pathname (merge-pathnames path-of-the-instrument OrchideaSOL))
         (all-the-files (ckn-in-files (namestring instrument-pathname) type))
-        (all-the-notes (n->mc (mapcar (lambda (x) (first (string-to-list (choose (string-to-list (name-of-file x) "-") where-is-the-nome) "_"))) all-the-files) 4))
+        (all-the-notes (n->mc (mapcar (lambda (x) (first (string-to-list (choose (string-to-list (get-filename x) "-") where-is-the-nome) "_"))) all-the-files) 4))
         (position-of-the-note (ckn-position all-the-notes note)))
         (om::nth-random (choose all-the-files position-of-the-note))))
 

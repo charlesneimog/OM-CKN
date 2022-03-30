@@ -115,7 +115,7 @@
 (defun multiphonics-notes (path note)
       (let* (
       (all-samples (ckn-in-files (merge-pathnames path *IRCAM-PATH*) 'wav))
-      (file-names (mapcar (lambda (x) (name-of-file x)) all-samples))
+      (file-names (mapcar (lambda (x) (get-filename x)) all-samples))
       (caution-names (let* (
                             (extensions (mapcar (lambda (x) (cdr x)) (mapcar (lambda (y) (string-to-list y ".")) file-names))))
                        (remove nil  

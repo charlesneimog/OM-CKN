@@ -35,12 +35,12 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
             (thepath (get-pref-value :externals :plugins))
             (thefile-vst2 (search-plugins "dll"))
             (thefile-vst3 (search-plugins "vst3")))
-            (mapcar (lambda (x) (name-of-file x)) (x-append thefile-vst2 thefile-vst3)))
+            (mapcar (lambda (x) (get-filename x)) (x-append thefile-vst2 thefile-vst3)))
 
     (let* (
             (thepath (get-pref-value :externals :plugins))
             (thefilelist (search-plugins (if (= modo 1) "dll" "vst3"))))
-            (mapcar (lambda (x) (name-of-file x)) thefilelist))))   
+            (mapcar (lambda (x) (get-filename x)) thefilelist))))   
 
 ; ===========================
 
@@ -64,11 +64,11 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
 
 (let* ( 
         (all-plugins (x-append (search-plugins "dll") (search-plugins "vst3")))
-        (name-of-all-plugins (mapcar (lambda (x) (name-of-file x)) all-plugins))
+        (name-of-all-plugins (mapcar (lambda (x) (get-filename x)) all-plugins))
         (position-of-plugin (position plugin-name name-of-all-plugins :from-end nil :test (lambda (x y) (equal x y))))
         (action1 (probe-file (nth position-of-plugin all-plugins)))
         (action2 (if (equal nil action1) (let* () (om-print "Plugin not found" "Abort ::") (abort)) action1))
-        (action3 (cdr (om::string-to-list (name-of-file action2) "."))))
+        (action3 (cdr (om::string-to-list (get-filename action2) "."))))
         (if 
             (equal '("dll") action3)
             (make-value 'vst2 (list (list :vst2-path action2)))
@@ -512,4 +512,4 @@ Returns a list of file pathnames of the fxp Presets. Connect it to a LIST-SELECT
                   (thefilelist (om-directory thepath 
                                              :type "fxp" :directories directories :files files 
                                              :resolve-aliases resolve-aliases :hidden-files hidden-files)))
-            (mapcar (lambda (x) (name-of-file x)) thefilelist)))
+            (mapcar (lambda (x) (get-filename x)) thefilelist)))
