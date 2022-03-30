@@ -159,14 +159,14 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
         (remove nil 
             (loop for patches in thefilelist 
                 :collect (let* (
-                    (name-of-patch (name-of-file patches))
+                    (name-of-patch (get-filename patches))
                     (check-if-is-children (car (string-to-list name-of-patch "_"))))
                     
         (if show-all-patches                  
-            (name-of-file patches)
+            (get-filename patches)
 
             (if (not (equal check-if-is-children "Children"))
-                        (name-of-file patches))))))))
+                        (get-filename patches))))))))
 
 
 ; ================================================================

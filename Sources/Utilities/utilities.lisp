@@ -767,15 +767,13 @@ list
 
 ;===================================================================== Files control =====================================
 
-(defun name-of-file (p)
-  (let (
-            (path (and p (pathname p))))
-            (when (pathnamep path)
-                  (om::string+ 
-                              (pathname-name path) 
-                              (if (and (pathname-type path) (stringp (pathname-type path))) (om::string+ "." (pathname-type path)) 
-                              "")))))
-               
+(defun get-filename (x)
+"I forgot the name of the function that I stolen somewhere."
+
+(let* (
+      (filename (namestring x))
+      (file (om::string-to-list filename "\\")))
+  (car (last file))))      
 ;  ========================
 
 (defun ckn-string-name (list-name)
@@ -817,9 +815,9 @@ list
 
 (defun ckn-copy2outfile (x)
 (let* ()
-      (alexandria::copy-file x (outfile (name-of-file x)))
+      (alexandria::copy-file x (outfile (get-filename x)))
       (clear-subdir-temp-files "om-ckn")
-      (outfile (name-of-file x))))
+      (outfile (get-filename x))))
 
 
 ;; ================================
@@ -829,7 +827,7 @@ list
       (action1 (string+ "copy " (list->string-fun (list x)) " " (list->string-fun (list (namestring y))))))
       (ckn-cmd-line action1)
       (clear-subdir-temp-files "om-ckn")
-      (merge-pathnames y (name-of-file x))))
+      (merge-pathnames y (get-filename x))))
 
 ;; ================================
 
@@ -837,7 +835,7 @@ list
 (let* (
       (action1 (string+ "copy " (list->string-fun (list x)) " " (list->string-fun (list (namestring (outfile "")))))))
       (ckn-cmd-line action1)
-      (outfile (name-of-file x))))
+      (outfile (get-filename x))))
 
 ;; ================================
 
@@ -1209,7 +1207,6 @@ list
 (compile 'ckn-gc-all)
 (compile 'loop-in-parts)
 (compile 'real-samplify)
-(compile 'name-of-file)
 (compile 'energy)
 (compile 'fft->amplitude-fun)
 (compile 'fft->phrase-fun)
