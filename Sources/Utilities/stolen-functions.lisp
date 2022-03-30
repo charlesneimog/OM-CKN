@@ -1,7 +1,6 @@
 (in-package :om)
 
 
-
 ;; ======================================
 (defun concatString (list)
   "A non-recursive function that concatenates a list of strings."
