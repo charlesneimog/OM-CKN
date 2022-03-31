@@ -127,6 +127,15 @@
       (ckn-multiphonics-notes caution-names (om::list! note))))
 
 
+;; ==================================================== 
+
+(defmethod! ckn-instruments ((note integer) (number-of-the-instrument pathname) &optional (velocity 60))
+:initvals '(6000 20 60)
+:indoc '("Sound class" "Number of the instrument (technique)") 
+:icon '17359
+
+(probe-file number-of-the-instrument))
+
 
 ;; ==================================================== 
 
@@ -140,6 +149,14 @@
       (orchidea-instruments note number-of-the-instrument velocity)))
 
 ;; ==================================================== 
+(defmethod! FULL-SOL-instruments ((note_list list) (number-of-the-instrument_list list) &optional (velocity 60))
+
+(let* (
+      (action1
+                (case (car number-of-the-instrument_list)
+                      (14 (merge-pathnames (string+ "01 Flute/multiphonics/" (multiphonics-notes "01 Flute/multiphonics/" note_list)) *IRCAM-PATH*)))))
+       (if (not action1) nil action1)))
+                 
 
 (defmethod! FULL-SOL-instruments ((note integer) (number-of-the-instrument integer) &optional (velocity 60))
 :initvals '(6000 20 60)
