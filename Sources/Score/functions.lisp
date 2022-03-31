@@ -67,42 +67,47 @@
 
 ;; =============================================================================
 
-;;; Edit a valid LAMBDA EXPRESSION
-;;; e.g. (lambda (arg1 arg2 ...) ( ... ))
-(defun notation->orchidea-instruments (x)
+(defun notation->ckn-instruments (x)
+
 (let* (
-       (instrument (instrument x))
-       (technique (technique x))
-       (articulations (articulations x))
-       (notehead (notehead x))
-       (key (om::x-append instrument technique articulations notehead)))
-
-(print key)
-(cond 
-    ((equal key '("Flauta" "ord." "normal")) 8)
-    ((equal key '("Flauta" "key click" "x")) 7)
-    ((and (equal (first key) "Flauta") (equal (third key) "arrow down")) (om::om-print 1025 "Arrow Down"))
-
-
-    ((equal key '("Clarinete em Sib" "ord." "x")) 24)
-    ((equal key '("Clarinete em Sib" "ord." "normal")) 25)
-    ((equal key '("Violino (solo)" "ord." "normal")) 111)
-    ((equal key '("Violino (solo)" "bartók" "normal")) 112)
-    ((equal key '("Violino (solo)" "pizz." "normal")) 113)
-  
-    ((equal key '("Viola (solo)" "ord." "normal")) 129)
-    ((equal key '("Viola (solo)" "pizz." "normal")) 131)
-    ((equal key '("Violoncelo (solo)" "ord." "normal")) 146)
-    ((equal key '("Violoncelo (solo)" "pizz." "normal")) 148)
-    ((equal key '("Contrabaixo (solo)" "ord." "normal")) 163)
-    ((equal key '("Contrabaixo (solo)" "pizz." "normal")) 165)
-    ((equal key '("Violão [notação]" "bartók" "normal")) 177)
-    ((equal key '("Violão [notação]" "ord." "normal")) 175)
-    ((equal key '("Violão [notação]" "ord." "diamond")) 174))))
+        (instrument (instrument x))
+        (technique (technique x))
+        (articulations (articulations x))
+        (notehead (notehead x))
+        (key (om::x-append instrument technique articulations notehead))
+        (instrument_channel 
+          (cond 
+              ((equal key '("Flute" "ord." "normal")) 8)
+              ((equal key '("Flute" "key click" "x")) 7)
+              ((and (equal (first key) "Flute") (equal (third key) "arrow down")) 1025)
+              ((equal key '("Flute" "multi." "normal")) 1014)
+              ((equal key '("Flute" "ord." "staccato" "normal")) 1024)
+              ((equal key '("Flute" "ord." "tremolo" "normal")) 1009)
 
 
+              ((equal key '("Clarinet in Bb" "ord." "x")) 24)
+              ((equal key '("Clarinet in Bb" "ord." "normal")) 25)
+              ((equal key '("Violin" "ord." "normal")) 111)
+              ((equal key '("Violin" "bartók" "normal")) 112)
+              ((equal key '("Violin" "pizz." "normal")) 113)
+            
+              ((equal key '("Viola" "ord." "normal")) 129)
+              ((equal key '("Viola" "pizz." "normal")) 131)
+              ((equal key '("Violoncello" "ord." "normal")) 146)
+              ((equal key '("Violoncello" "pizz." "normal")) 148)
+              ((equal key '("Contrabass" "ord." "normal")) 163)
+              ((equal key '("Contrabass" "pizz." "normal")) 165)
+              ((equal key '("Ac. Guitar" "bartók" "normal")) 177)
+              ((equal key '("Ac. Guitar" "ord." "normal")) 175)
+              ((equal key '("Ac. Guitar" "ord." "diamond")) 174)
+              ((equal (first key) "Sounds") (mapcar (eval 'f-ckn-sounds) (list (second key)))))))
 
 
+        (print (equal (first key) "Sounds"))
+        (print (x-append "Keys: " key "Instrument Result" instrument_channel))
+        
+instrument_channel))
+      
 
 ;; =============================================================================
 
