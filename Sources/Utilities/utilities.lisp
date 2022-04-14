@@ -773,7 +773,31 @@ list
 (let* (
       (filename (namestring x))
       (file (om::string-to-list filename "\\")))
-  (car (last file))))      
+  (car (last file))))   
+
+; ================================
+
+(defun get-file-extension (x)
+"I forgot the name of the function that I stolen somewhere."
+
+(let* (
+      (filename (namestring x))
+      (file (om::string-to-list filename ".")))
+  (car (last file))))  
+
+; ================================
+
+(defun remove-file-extension (x)
+"I forgot the name of the function that I stolen somewhere."
+
+(let* (
+      (filename (namestring x))
+      (file (om::string-to-list filename ".")))
+  (reverse (cdr (reverse file)))))
+
+
+
+   
 ;  ========================
 
 (defun ckn-string-name (list-name)
