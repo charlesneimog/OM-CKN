@@ -172,5 +172,12 @@
 
 ;; =======================================================
 
+(defclass ckn-extras ()
+  
+(ckn-instrument-number :initform nil :initarg :ckn-instrument-number :accessor ckn-instrument-number)
+(ckn-instrument-pathname :initform nil :initarg :ckn-instrument-pathname :accessor ckn-instrument-pathname)
+(ckn-amplitude-normalization :initform nil :initarg :ckn-amplitude-normalization :accessor ckn-amplitude-normalization)
+
+
 
 
