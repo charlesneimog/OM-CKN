@@ -31,7 +31,7 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
 ; ================================================================
 
 
-(defmethod! pd~ ((patch pure-data) &key (sound-in nil) (sound-out nil) (var list) (gui t) (offline nil) (verbose nil))
+(defmethod! pd~ ((patch pure-data) &key (sound-in nil) (sound-out nil) (var nil) (gui t) (offline nil) (verbose nil))
 :initvals '(nil)
 :indoc ' ("Use PD patches inside OM-Sharp")
 :icon 'pd
@@ -45,6 +45,7 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
                                  (car (om::list! (om::file-pathname sound-in)))))
                       (pathname sound-in)
                       (string (probe-file sound-in))
+                      (lispworks:simple-text-string (probe-file sound-in))
 
                       )))
 
@@ -56,7 +57,7 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
 
 (defun ckn-pd~ (sound-in sound-out patch var gui offline verbose)
 
-
+(om-print sound-in "PD SOUND-IN Pacth")
 ;; Check if outfile have some space;;;
 (let* (
         (pd-outfile (om::string-to-list (namestring sound-out) " "))
@@ -74,7 +75,7 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
 
     
     (check-if-some-var-have-spaces (loop :for all-var :in var 
-                                         :for var-index from 1 to (length var)
+                                         :for var-index :from 1 :to (length var)
                                          :collect (if (or (equal (type-of (car (cdr all-var))) 'pathname) (equal (type-of (car (cdr all-var))) 'string))
                                                         (let* (
                                                                 (path (probe-file (car (cdr all-var))))
@@ -83,7 +84,6 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
                                                                     (let* (
                                                                         (message (om::om-print (format nil "The pathname in the ~d spaces in it, coping to temp-files." (car all-var)) "OM-CKN"))
                                                                         (copy-to-tmp-files (om::tmpfile (om::string+ (write-to-string var-index) "." (car (last (om::string-to-list (namestring path) ".")))))))
-                                                                        (print copy-to-tmp-files)
                                                                         (system::copy-file path copy-to-tmp-files)
                                                                         (om::x-append (car all-var) copy-to-tmp-files))
                                                                     (om::x-append (car all-var) path)))
@@ -92,14 +92,13 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
     (tmp-infile-name (if sound-in (om::tmpfile (om::string+ (write-to-string (om::om-random 10000 99999)) "." (car (last (om::string-to-list (namestring sound-in) ".")))))))
     (int-copy-to-tmpfile (if sound-in (om::om-copy-file sound-in tmp-infile-name)))
     (infile (if sound-in (om::string+ "infile " (replace-all (namestring int-copy-to-tmpfile) "\\" "/") ", ")))
-    (var (print "amtes de make_var"))
     (make_var 
         (concatstring 
             (loop :for all_variables :in check-if-some-var-have-spaces :collect 
                 (om::string+ 
                     (write-to-string (car all_variables)) " " 
                     (concatstring (mapcar   (lambda (x) (if 
-                                                            (om::om-print (equal (type-of x) 'pathname) "IS pathname")
+                                                            (equal (type-of x) 'pathname)
                                                             (om::string+ (replace-all (namestring x) "\\" "/") " ")
                                                             (om::string+ (write-to-string x) " ")))
                                             (cdr all_variables))) ", "))))

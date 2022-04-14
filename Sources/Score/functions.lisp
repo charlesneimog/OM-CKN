@@ -22,7 +22,7 @@
 (defun ckn-smulf-to-char (x)
   (cond 
 	((equal x "normal")   nil)
-        ((equal x "x") 57513)
+  ((equal x "x") 57513)
 	((equal x "arrow down")   57588)
 	((equal x "arrow up")   57584)
 	((equal x "back slashed")   57551)
@@ -101,10 +101,9 @@
               ((equal key '("Ac. Guitar" "ord." "normal")) 175)
               ((equal key '("Ac. Guitar" "ord." "diamond")) 174)
               ((equal (first key) "Sounds") (mapcar (eval 'f-ckn-sounds) (list (second key)))))))
+     (print (x-append instrument_channel "|" key))
 
 
-        (print (equal (first key) "Sounds"))
-        (print (x-append "Keys: " key "Instrument Result" instrument_channel))
         
 instrument_channel))
       
