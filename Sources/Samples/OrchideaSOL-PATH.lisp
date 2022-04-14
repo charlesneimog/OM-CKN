@@ -1,1 +1,0 @@
-(defvar *OrchideaSOL-PATH* nil)
