@@ -136,6 +136,24 @@
 
 (probe-file number-of-the-instrument))
 
+;; ==================================================== 
+
+(defmethod! ckn-instruments ((note integer) (number-of-the-instrument list) &optional (velocity 60))
+:initvals '(6000 20 60)
+:indoc '("Sound class" "Number of the instrument (technique)") 
+:icon '17359
+
+(probe-file (car number-of-the-instrument)))
+
+;; ==================================================== 
+
+(defmethod! ckn-instruments ((note integer) (number-of-the-instrument null) &optional (velocity 60))
+:initvals '(6000 20 60)
+:indoc '("Sound class" "Number of the instrument (technique)") 
+:icon '17359
+
+nil)
+
 
 ;; ==================================================== 
 
