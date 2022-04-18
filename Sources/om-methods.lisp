@@ -16,7 +16,7 @@
           (add-preference :externals :Pd-Patches "Pure Data Patches" :folder (merge-pathnames "Pd-Patches/" (lib-resources-folder (find-library "OM-CKN"))))
           (add-preference :externals :ircam-instruments "Ircam Instruments Path" :folder "Your Ircam Instruments Folder")
           (add-preference :externals :OrchideaSOL "SOL Samples Library" :folder "SOL folder")
-          (add-preference :externals :plugins "Plugins DLL" :folder "Your Plugins VTS2 Folder")))
+          (add-preference :externals :plugins "Plugins VST2 and VST3" :folder "Your VST2 and VST3 Plugins Folder")))
 
 ;; =======================================================================
 ;; ================= CLASSES =============================================
@@ -1041,6 +1041,12 @@ Result: (7 9 458)."
 :doc "It does the same that sound-silence but using sox."
 
 (sound-cut-sox-fun sounds in out))
+
+;; ====================================================
+(defmethod! sound-denoise-sox ((sound pathname))
+
+
+(sound-denoise-sox (make-value-from-model 'sound sound nil)))
 
 ;; ====================================================
 
