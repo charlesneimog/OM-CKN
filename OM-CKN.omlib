@@ -23,6 +23,7 @@
 
       "Sources/Score/score"
       "Sources/Score/functions"
+      "Sources/Score/om2music21"
 
       "Sources/Samples/OrchideaSOL2020"
       "Sources/Python/py"
