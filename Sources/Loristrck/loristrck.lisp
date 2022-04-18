@@ -74,7 +74,14 @@ r w ht hop-o amp fd sl rbw sdif-type minbps minamp fade-time))
     (minbps (format nil " --minbps ~d " minbps))
     (minamp (format nil " --minamp ~d " minamp))
     (fadetime (format nil " --fadetime ~d " fade-time))
-    (cmd (string+ om-py::*activate-virtual-enviroment* " && python " py-script " " sndfile " " sdif-out resolution winsize h-time hop-overlap ampfloor freqdrift sidelobe residuebw croptime sdiftype minbps minamp fadetime)))
+    
+    (cmd    
+            #+windows(om::string+ (list->string-fun (list (namestring (merge-pathnames "sources/loristrck/Win-Bin/loristrck_analyze.exe" (mypathname (find-library "OM-CKN")))))) " " sndfile " " sdif-out resolution winsize h-time hop-overlap ampfloor freqdrift sidelobe residuebw croptime sdiftype minbps minamp fadetime)
+            #+linux(string+ om-py::*activate-virtual-enviroment* " && python " py-script " " sndfile " " sdif-out resolution winsize h-time hop-overlap ampfloor freqdrift sidelobe residuebw croptime sdiftype minbps minamp fadetime)
+            #+macosx(string+ om-py::*activate-virtual-enviroment* " && python " py-script " " sndfile " " sdif-out resolution winsize h-time hop-overlap ampfloor freqdrift sidelobe residuebw croptime sdiftype minbps minamp fadetime)
+                                ))
+    
+    
     (om-cmd-line cmd)
     (loop-until-probe-file (outfile outfile))
     (outfile outfile)))
@@ -159,7 +166,11 @@ QUALITY: Oscillator quality when playing a .mtx file.
     (sound-out (string+ " --out " (list->string-fun (list (namestring (outfile outfile))))))
     (sound-speed (format nil " --speed ~d " speed))
     (transposition (format nil " --transposition ~d " (/ transposition_cents 100)))
-    (cmd (om::string+ om-py::*activate-virtual-enviroment* " && python " py-script " " sdif-file " " sound-out " " sound-speed transposition)))
+    (cmd    
+            #+windows(om::string+ (list->string-fun (list (namestring (merge-pathnames "sources/loristrck/Win-Bin/loristrck_synth.exe" (mypathname (find-library "OM-CKN")))))) " " sdif-file " " sound-out " " sound-speed transposition)
+            #+linux(om::string+ om-py::*activate-virtual-enviroment* " && python " py-script " " sdif-file " " sound-out " " sound-speed transposition)
+            #+macosx(om::string+ om-py::*activate-virtual-enviroment* " && python " py-script " " sdif-file " " sound-out " " sound-speed transposition)
+                                ))
     (om-cmd-line cmd)
     (loop-until-probe-file (outfile outfile))
     (outfile outfile)))
