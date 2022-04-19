@@ -46,6 +46,7 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
                       (pathname sound-in)
                       (string (probe-file sound-in))
                       (lispworks:simple-text-string (probe-file sound-in))
+                      (null nil)
 
                       )))
 
