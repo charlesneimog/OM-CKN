@@ -1383,7 +1383,7 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 ;; ============================================= MICROTONAL PLAYER WITH PUREDATA ==========================
 
-(defmethod! puredata-player ((voice voice))
+(defun puredata-player (voice)
 
 (mp:process-run-function "Open PD"
                  () 
@@ -1394,9 +1394,11 @@ Converts a (list of) freq pitch(es) to names of notes."
                                               (lambda () (pd~ 
                                                             (pd-define-patch "Microtonal-player.pd") 
                                                                 :gui nil :offline nil :sound-out (tmpfile "casa.wav"))))
-                                (sleep (+ 1 (om::ms->sec (om::object-dur voice))))
+                                (sleep (+ 4 (om::ms->sec (om::object-dur voice))))
                                 (om::om-print "Closing PD" "OM-CKN")
                                 (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997))))
+
+(sleep 0.5)
 
 (let* (
       (score-lonset (lonset voice))
@@ -1416,4 +1418,59 @@ Converts a (list of) freq pitch(es) to names of notes."
                                                               (om::osc-send format-msg "127.0.0.1" 1997))) (first x) (second x) (third x) (fourth x))) the-notes)))))
 
 
+;; =====================================================================
+;; Redefinindo o metodo que toca a partitura
 
+(defmethod player-stop-object ((self scheduler) (object score-element))
+  (send-current-midi-key-offs object)
+  (when (and (equal :auto-bend (get-pref-value :score :microtone-bend))
+             *micro-channel-mode-on*)
+    (loop for p in (collec-ports-from-object object) do (micro-reset p)))
+  
+  (om::om-print "Closing PD" "OM-CKN")
+  (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997)
+  (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997) 
+  (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997)
+  (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997)
+  (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997)
+  
+  (call-next-method))
+
+;; =====================================================================
+
+(defmethod player-play-object ((self scheduler) (object score-element) (caller ScoreBoxEditCall) &key parent interval)
+  
+  (declare (ignore parent interval))
+
+  (let ((approx (/ 200 (step-from-scale (get-edit-param caller :scale)))))
+    (setf (pitch-approx object) approx)
+    (when (and (equal :auto-bend (get-pref-value :score :microtone-bend))
+               (micro-channel-on approx))
+      (loop for p in (collec-ports-from-object object) do (micro-bend p))
+      ))
+  
+  (mp:process-run-function "Open PD"
+                 () 
+                  (lambda () (puredata-player object)))
+  (call-next-method))
+
+
+
+;;; =======================
+(defmethod play/stop-boxes ((boxlist list))
+  (let ((play-boxes (remove-if-not 'play-box? boxlist)))
+    (if (find-if 'play-state play-boxes)
+        ;;; stop all
+        (mapc #'(lambda (box)
+                  (player-stop-object *general-player* (get-obj-to-play box))
+                  (box-player-stop box)
+                  )
+              play-boxes)
+      ;;; start all
+      (mapc #'(lambda (box)
+                (when (play-obj? (get-obj-to-play box))
+                  (player-play-object *general-player* (get-obj-to-play box) box)
+                  (box-player-start box)
+                  )
+                )
+            play-boxes))))
