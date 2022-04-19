@@ -1,0 +1,252 @@
+#N canvas 804 107 561 540 10;
+#X obj 306 4 cnv 15 250 40 empty empty empty 12 13 0 18 -128992 -233080
+0;
+#N canvas 382 141 749 319 (subpatch) 0;
+#X coords 0 -1 1 1 252 42 2 0 0;
+#X restore 305 3 pd;
+#X obj 345 11 cnv 10 10 10 empty empty ELSE 0 15 2 30 -128992 -233080
+0;
+#X obj 25 40 cnv 4 4 4 empty empty Soundfont 0 28 2 18 -233017 -1 0
+;
+#X obj 458 11 cnv 10 10 10 empty empty EL 0 6 2 13 -128992 -233080
+0;
+#X obj 478 11 cnv 10 10 10 empty empty Locus 0 6 2 13 -128992 -233080
+0;
+#X obj 515 11 cnv 10 10 10 empty empty Solus' 0 6 2 13 -128992 -233080
+0;
+#X obj 464 26 cnv 10 10 10 empty empty ELSE 0 6 2 13 -128992 -233080
+0;
+#X obj 502 26 cnv 10 10 10 empty empty library 0 6 2 13 -128992 -233080
+0;
+#X obj 3 3 cnv 15 301 42 empty empty fluidsynth~ 20 20 2 37 -233017
+-1 0;
+#N canvas 0 22 450 278 (subpatch) 0;
+#X coords 0 1 100 -1 302 42 1;
+#X restore 2 3 graph;
+#X obj 110 40 cnv 4 4 4 empty empty synthesizer 0 28 2 18 -233017 -1
+0;
+#X obj 2 257 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13
+-228856 -1 0;
+#X obj 2 438 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlets 8 12 0
+13 -228856 -1 0;
+#X obj 2 486 cnv 3 550 3 empty \$0-pddp.cnv.argument arguments 8 12
+0 13 -228856 -1 0;
+#X obj 85 263 cnv 17 3 170 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
+-162280 0;
+#X obj 100 445 cnv 17 3 17 empty \$0-pddp.cnv.let.n 0 5 9 0 16 -228856
+-162280 0;
+#X obj 100 465 cnv 17 3 17 empty \$0-pddp.cnv.let.r 1 5 9 0 16 -228856
+-162280 0;
+#X text 176 445 signal;
+#X text 176 464 signal;
+#X text 134 406 load <symbol> -;
+#X text 140 392 sysex <list> -;
+#X text 98 378 bank <float \, float> -;
+#X text 92 335 touch <float \, float> -;
+#N canvas 910 74 493 229 other-messages 0;
+#X msg 70 117 load \$1;
+#X obj 70 61 openpanel;
+#X obj 70 31 bng 18 250 50 0 empty empty empty 17 7 0 10 -228856 -1
+-1;
+#X text 96 33 load a different soundfont;
+#X obj 138 171 outlet;
+#X text 215 78 If no extension is given \, it searches for both ".sf2"
+and ".sf3" extensions. This is the same for the argument., f 38;
+#X msg 138 134 info;
+#X text 171 134 <= print information on terminal window;
+#X msg 89 86 symbol sf2/Theremin;
+#X connect 0 0 4 0;
+#X connect 1 0 0 0;
+#X connect 2 0 1 0;
+#X connect 6 0 4 0;
+#X connect 8 0 0 0;
+#X restore 249 134 pd other-messages;
+#X text 158 493 1) symbol;
+#X text 219 493 - soundfont file to load (default none);
+#X text 219 464 - right output signal os stereo output, f 39;
+#X text 219 444 - left output signal os stereo output, f 39;
+#X text 98 349 polytouch <f \, f \, f> -;
+#X text 232 406 loads soundfont file (.sf2/.sf3 extensions implied)
+;
+#X obj 4 512 cnv 15 552 21 empty empty empty 20 12 0 14 -233017 -33289
+0;
+#X text 188 420 info -;
+#X text 232 420 print information on terminal window, f 51;
+#X obj 232 191 else/out~;
+#N canvas 1151 160 389 229 more 0;
+#X obj 121 117 bng 20 250 50 0 empty empty empty 17 7 0 10 -228856
+-1 -1;
+#N canvas 632 283 328 159 musescore.org 0;
+#X obj 64 114 pdcontrol;
+#X obj 64 30 inlet;
+#X msg 64 58 browse https://musescore.org/en/handbook/soundfonts-and-sfz-files#list
+, f 34;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X restore 121 158 pd musescore.org;
+#X text 146 118 <= get more;
+#X text 165 130 soundfonts;
+#X text 25 32 You need SoundFont files to load into [fluidsynth~].
+SoundFont is a file format for sample-based instrument sounds. If you
+are not familiar with it \, check <https://freepats.zenvoid.org/sf2/SF2_Intro.txt>.
+;
+#X connect 0 0 1 0;
+#X restore 462 226 pd more info;
+#X text 35 84 [fluidsynth~] is a synth based on fluidsynth (see www.fluidsynth.org)
+that loads soundfont files., f 74;
+#X text 146 320 bend <f \, f> -;
+#X text 232 392 sets sysex messages, f 51;
+#X text 104 364 pgm <float \, float> -;
+#X text 134 306 ctl <f \, f \, f> -;
+#N canvas 928 284 755 630 Input 0;
+#X floatatom 65 225 0 0 127 0 - - -;
+#X obj 34 395 outlet;
+#X text 41 20 These are the basic messages for setting the sounds of
+the fluidsynth soundfont synthesizer. The MIDI input from Pd needs
+to be configured in Preferences => MIDI., f 54;
+#X text 94 225 <= change sound program directly;
+#X obj 34 78 else/keyboard 17 80 3 3 0 0 empty empty;
+#N canvas 1115 171 633 485 mts-tuning 0;
+#X msg 58 102 sysex 127 127 8 8 3 127 127 64 64 64 64 64 64 64 64 64
+64 64 64, f 33;
+#X msg 75 150 sysex 127 127 8 8 3 127 127 74 50 67 85 61 78 54 71 47
+64 81 57, f 33;
+#X text 266 106 12-tet (default tuning);
+#X text 296 151 quarter-comma meantone (has wolf fifth at Ab - Eb)
+, f 27;
+#X obj 58 202 outlet;
+#X text 61 33 Sysex messages are useful for advanced settings \, such
+as "mts-tuning" standards \, where you can retune MIDI pitches \, see
+below:;
+#X text 179 228 sysexin is also given by midiin;
+#X text 182 251 240 is start of sysex message;
+#X text 182 271 247 is end of sysex message;
+#X connect 0 0 4 0;
+#X connect 1 0 4 0;
+#X restore 92 349 pd mts-tuning;
+#X msg 65 249 pgm \$1;
+#N canvas 964 199 329 629 MIDI-input 0;
+#X obj 69 126 ctlin;
+#X obj 69 147 pack f f f;
+#X msg 69 168 ctl \$1 \$2 \$3;
+#X obj 93 216 pack f f f;
+#X obj 137 419 pack f f f;
+#X obj 93 195 notein;
+#X msg 93 237 note \$1 \$2 \$3;
+#X obj 137 398 polytouchin;
+#X msg 137 440 polytouch \$1 \$2 \$3;
+#X obj 41 27 pgmin;
+#X obj 41 78 pack f f;
+#X msg 41 99 pgm \$1 \$2;
+#X obj 111 284 pack f f;
+#X obj 125 353 pack f f;
+#X msg 111 305 bend \$1 \$2;
+#X obj 125 332 touchin;
+#X msg 125 374 touch \$1 \$2;
+#X obj 93 555 outlet;
+#X obj 155 488 sysexin;
+#X obj 111 263 bendin;
+#X obj 41 53 - 1;
+#X connect 0 0 1 0;
+#X connect 0 1 1 1;
+#X connect 0 2 1 2;
+#X connect 1 0 2 0;
+#X connect 2 0 17 0;
+#X connect 3 0 6 0;
+#X connect 4 0 8 0;
+#X connect 5 0 3 0;
+#X connect 5 1 3 1;
+#X connect 5 2 3 2;
+#X connect 6 0 17 0;
+#X connect 7 0 4 0;
+#X connect 7 1 4 1;
+#X connect 7 2 4 2;
+#X connect 8 0 17 0;
+#X connect 9 0 20 0;
+#X connect 9 1 10 1;
+#X connect 10 0 11 0;
+#X connect 11 0 17 0;
+#X connect 12 0 14 0;
+#X connect 13 0 16 0;
+#X connect 14 0 17 0;
+#X connect 15 0 13 0;
+#X connect 15 1 13 1;
+#X connect 16 0 17 0;
+#X connect 18 0 17 0;
+#X connect 19 0 12 0;
+#X connect 19 1 12 1;
+#X connect 20 0 10 0;
+#X restore 233 400 pd MIDI-input;
+#X text 323 399 <= open;
+#X obj 34 176 else/display 7;
+#X text 97 180 <= note message sent to channel 1;
+#X msg 225 449 note 60 127;
+#X floatatom 262 478 5 1 16 0 - - -;
+#X obj 225 529 else/display;
+#X text 297 476 <= set channel;
+#X obj 225 499 else/insert 3;
+#X msg 471 331 bend \$1;
+#N canvas 627 120 491 561 bend 0;
+#X obj 104 144 vsl 22 100 0 16383 0 0 empty empty empty 0 -9 0 10 -228856
+-1 -1 4950 1;
+#X obj 104 86 else/initmess 8192;
+#X obj 187 122 else/mouse;
+#X obj 187 146 sel 0;
+#X obj 187 198 line;
+#X msg 123 111 set \$1;
+#X obj 187 225 change;
+#X msg 187 168 8192 100;
+#X obj 187 277 outlet;
+#X obj 187 249 else/rint;
+#X connect 0 0 4 0;
+#X connect 1 0 0 0;
+#X connect 2 0 3 0;
+#X connect 3 0 7 0;
+#X connect 4 0 5 0;
+#X connect 4 0 6 0;
+#X connect 5 0 0 0;
+#X connect 6 0 9 0;
+#X connect 7 0 4 0;
+#X connect 9 0 8 0;
+#X restore 471 271 pd bend;
+#X floatatom 471 302 5 0 0 0 - - -;
+#X msg 420 427 touch \$1;
+#X obj 420 287 vsl 15 128 0 127 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 520 139 else/pgm.in;
+#X connect 0 0 6 0;
+#X connect 4 0 9 0;
+#X connect 5 0 1 0;
+#X connect 6 0 1 0;
+#X connect 9 0 1 0;
+#X connect 11 0 15 0;
+#X connect 12 0 15 1;
+#X connect 15 0 13 0;
+#X connect 16 0 1 0;
+#X connect 17 0 18 0;
+#X connect 18 0 16 0;
+#X connect 19 0 1 0;
+#X connect 20 0 19 0;
+#X restore 232 109 pd Input;
+#X text 232 378 bank number <bank \, channel (optional)>, f 51;
+#X text 232 364 program change <program \, channel (optional)>, f
+51;
+#X text 232 306 control change <value \, control \, channel (optional)>
+;
+#X text 232 277 note <key \, velocity \, channel (optional)>, f 51
+;
+#X text 232 320 bend <value \, channel (optional)>, f 51;
+#X text 232 335 channel aftertouch <value \, channel (optional)>,
+f 51;
+#X text 232 349 key aftertouch <value \, key \, channel (optional)>
+, f 51;
+#X text 128 277 note <f \, f \, f> -;
+#X text 188 292 list -;
+#X text 232 292 same as "note" message, f 51;
+#X text 182 262 float -;
+#X text 232 262 raw MIDI input, f 51;
+#X obj 232 160 Fluidsynth/fluidsynth~ sf2/Famicom;
+#X connect 24 0 54 0;
+#X connect 41 0 54 0;
+#X connect 54 0 34 0;
+#X connect 54 1 34 1;

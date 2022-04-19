@@ -1379,3 +1379,41 @@ Converts a (list of) freq pitch(es) to names of notes."
                                                       (list->string-fun (list (namestring (get-pref-value :externals :Sonic-visualizer)))) " " 
                                                       (list->string-fun (list (namestring sound))))))
                                               (print "Closing SonicVisualizer"))))
+
+
+;; ============================================= MICROTONAL PLAYER WITH PUREDATA ==========================
+
+(defmethod! puredata-player ((voice voice))
+
+(mp:process-run-function "Open PD"
+                 () 
+                  (lambda ()
+                          (let* () 
+                                (mp:process-run-function "Run PD in Backgroud!"
+                                            () 
+                                              (lambda () (pd~ 
+                                                            (pd-define-patch "Microtonal-player.pd") 
+                                                                :gui nil :offline nil :sound-out (tmpfile "casa.wav"))))
+                                (sleep (+ 1 (om::ms->sec (om::object-dur voice))))
+                                (om::om-print "Closing PD" "OM-CKN")
+                                (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997))))
+
+(let* (
+      (score-lonset (lonset voice))
+      (dx-lonset (om::x-append (car score-lonset) (om::x->dx score-lonset)))
+      (score-data (mat-trans (list (om::lmidic voice) (om::lvel voice) (om::lchan voice) (om::ldur voice)))))
+      (loop for onsets in dx-lonset
+            for notes in score-data 
+            :do (let* (
+                      (the-notes (list notes)))
+                      (sleep (om::ms->sec onsets))
+                      (mapcar (lambda (x) 
+                                      (mapcar 
+                                              (lambda (notes lvel lchan ldur) 
+                                                      (let* (
+                                                              (data2send (om::x-append notes lvel lchan ldur))
+                                                              (format-msg (om::osc-msg "/note" data2send)))
+                                                              (om::osc-send format-msg "127.0.0.1" 1997))) (first x) (second x) (third x) (fourth x))) the-notes)))))
+
+
+
