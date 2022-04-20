@@ -1393,19 +1393,30 @@ Converts a (list of) freq pitch(es) to names of notes."
                                             () 
                                               (lambda () (pd~ 
                                                             (pd-define-patch "Microtonal-player.pd") 
-                                                                :gui nil :offline nil :sound-out (tmpfile "casa.wav"))))
-                                (sleep (+ 4 (om::ms->sec (om::object-dur voice))))
-                                (om::om-print "Closing PD" "OM-CKN")
-                                (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997))))
+                                                                :gui nil :offline nil :sound-out (tmpfile "casa.wav")))))))
 
-(sleep 0.5)
+(setf *pd-is-open* nil)
+
+(om-start-udp-server 3320 "127.0.0.1" (lambda (msg) (let () (if  (equal (car (cdr (osc-decode msg))) 100.0)
+                                                                  (let* () (print "PD ABRIU") (setf *pd-is-open* t) nil)
+                                                                  ))))
+
+
+(loop :with pd-start = nil 
+      :while (null *pd-is-open*)
+      :do (sleep 0.01))
+
+(loop :for udp-server :in *running-udp-servers*
+      :do (print udp-server)
+      :do (if (equal (mp:process-name (third udp-server)) "UDP receive server on \"127.0.0.1\" 3320")
+          (let* () (om::om-stop-udp-server (third udp-server)))))
 
 (let* (
       (score-lonset (lonset voice))
       (dx-lonset (om::x-append (car score-lonset) (om::x->dx score-lonset)))
       (score-data (mat-trans (list (om::lmidic voice) (om::lvel voice) (om::lchan voice) (om::ldur voice)))))
-      (loop for onsets in dx-lonset
-            for notes in score-data 
+      (loop :for onsets :in dx-lonset
+            :for notes :in score-data 
             :do (let* (
                       (the-notes (list notes)))
                       (sleep (om::ms->sec onsets))
@@ -1415,8 +1426,12 @@ Converts a (list of) freq pitch(es) to names of notes."
                                                       (let* (
                                                               (data2send (om::x-append notes lvel lchan ldur))
                                                               (format-msg (om::osc-msg "/note" data2send)))
-                                                              (om::osc-send format-msg "127.0.0.1" 1997))) (first x) (second x) (third x) (fourth x))) the-notes)))))
-
+                                                              (om::osc-send format-msg "127.0.0.1" 1997))) (first x) (second x) (third x) (fourth x))) the-notes)))
+      
+      (sleep (ms->sec (car (last dx-lonset))))
+      (sleep (ms->sec (car (last dx-lonset))))
+      (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997)))
+      
 
 ;; =====================================================================
 ;; Redefinindo o metodo que toca a partitura
@@ -1429,11 +1444,7 @@ Converts a (list of) freq pitch(es) to names of notes."
   
   (om::om-print "Closing PD" "OM-CKN")
   (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997)
-  (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997) 
-  (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997)
-  (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997)
-  (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997)
-  
+   
   (call-next-method))
 
 ;; =====================================================================
@@ -1448,15 +1459,14 @@ Converts a (list of) freq pitch(es) to names of notes."
                (micro-channel-on approx))
       (loop for p in (collec-ports-from-object object) do (micro-bend p))
       ))
-  
   (mp:process-run-function "Open PD"
                  () 
                   (lambda () (puredata-player object)))
   (call-next-method))
 
 
-
 ;;; =======================
+
 (defmethod play/stop-boxes ((boxlist list))
   (let ((play-boxes (remove-if-not 'play-box? boxlist)))
     (if (find-if 'play-state play-boxes)
