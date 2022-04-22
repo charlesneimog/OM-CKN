@@ -964,6 +964,10 @@ Result: (7 9 458)."
 :icon '17359
 :doc "It does the same that sound-fade."
 
+
+#-windows(om-print "This function is not avaible in your plataform!" "OM-Print")
+#-windows(om::abort-eval)
+
 (let* (
   (sox-path (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))))
   (file-out-name (om::string+ "sound-dur-" (write-to-string (om::om-random 0 10000)) ".txt"))
@@ -989,15 +993,11 @@ Result: (7 9 458)."
 :initvals '(nil)
 :indoc '("sounds" "list with fade-in and fade-out") 
 :icon '17359
-:doc "It does the same that sound-fade."
+:doc "It does the same that sound-fade but using sox. IMPORTANT: Diferrent of sound-fade, we use a list to specify the fade-in and fade-out. For example (0.3 0.2) means that you want a fade-in of 300ms and one fade-out of 200ms."
 (sound-fade-sox-fun sounds fade))
 
 ;; ====================================================
 (defmethod! sound-fade-sox ((sounds string) (fade list))
-:initvals '(nil)
-:indoc '("sounds" "list with fade-in and fade-out") 
-:icon '17359
-:doc "It does the same that sound-fade."
 (sound-fade-sox-fun sounds fade))
 
 ;; ====================================================
@@ -1020,38 +1020,33 @@ Result: (7 9 458)."
   (loop-until-probe-file silence)
   (car sound-in-out)))
 
-;; SOX -n "C:\Users\neimog\OneDrive - design.ufjf.br\Documentos\OM - Workspace\out-files\om-ckn\silence.wav" trim 0 10
+;; Documentos\OM_Workspace\in-files\my_sound.wav
 
 ;; ====================================================
 
 (defmethod! sound-cut-sox ((sounds string) (in number) (out number))
-:initvals '(nil)
-:indoc '("float number") 
+:initvals '("Documentos\OM_Workspace\in-files\my_sound.wav" 100 300)
+:indoc '("Sound Pathname" "begin time" "end time")
 :icon '17359
-:doc "It does the same that sound-silence but using sox."
+:doc "It does the same that sound-cut but using sox."
 
 (sound-cut-sox-fun sounds in out))
 
 ;; ====================================================
 
-(defmethod! sound-cut-sox ((sounds string) (in string) (out number))
-:initvals '(nil)
-:indoc '("float number") 
-:icon '17359
-:doc "It does the same that sound-silence but using sox."
+(defmethod! sound-cut-sox ((sounds pathname) (in number) (out number))
 
-(sound-cut-sox-fun sounds in out))
+(sound-cut-sox-fun (namestring sounds) in out))
 
 ;; ====================================================
 (defmethod! sound-denoise-sox ((sound pathname))
-
 
 (sound-denoise-sox (make-value-from-model 'sound sound nil)))
 
 ;; ====================================================
 
 (defmethod! sound-denoise-sox ((sound sound))
-:initvals '(nil)
+:initvals '("a Sound")
 :indoc '("Sound") 
 :icon '17359
 :doc "It will denoise the sound using sox. You need to put two markers in the sound because sox need to do a probile of the noise. So mark the noise part of the sound."
@@ -1082,13 +1077,7 @@ Result: (7 9 458)."
 :icon '17359
 :doc "Like sound-seq-list but multithreading (more fast)."
         (gc-all)
-    (let* (
-    (action1 (sound-seq-list-multi-threading (build-seq-of-sounds sounds list-per-threading))))
-    (om::om-cmd-line (string+ "powershell -command " 
-                              (list->string-fun (list (string+ "del " 
-                                                (list->string-fun (list (namestring (merge-pathnames "om-ckn/*.aif" (outfile ""))))))))))
-            (gc-all)
-        action1))
+    (sound-seq-list-multi-threading (build-seq-of-sounds sounds list-per-threading)))
 
 ;; ==================================================== NOTES AND SCORE ==================
 
@@ -1114,7 +1103,7 @@ Result: (7 9 458)."
 
 (om::defmethod! ckn-voice->text ((voice voice))
 :initvals ' ((nil))       
-:indoc ' ("A player for OM#")
+:indoc ' ("The voice that you want to play!")
 :outdoc ' ("PLAY")
 :icon '17359
 :numouts 1
@@ -1124,8 +1113,6 @@ For the automatic work the folder out-files of OM# must be in the files preferen
 
 (voice->coll voice 1))
 
-; (compile 'voice->coll)
-;(compile 'ckn-voice->text)
 ; ======================
 
 (om::defmethod! osc-play ((voice voice))
@@ -1372,7 +1359,7 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 (mp:process-run-function (string+ "Opening SonicVisualizer!") ;; Se não, a interface do OM trava
                                    () 
-                                          (lambda () 
+                                        (lambda () 
                                               (let* ()
                                                 (om::om-cmd-line 
                                                   (om::string+ 
@@ -1380,107 +1367,3 @@ Converts a (list of) freq pitch(es) to names of notes."
                                                       (list->string-fun (list (namestring sound))))))
                                               (print "Closing SonicVisualizer"))))
 
-
-;; ============================================= MICROTONAL PLAYER WITH PUREDATA ==========================
-
-(defun puredata-player (voice)
-
-(mp:process-run-function "Open PD"
-                 () 
-                  (lambda ()
-                          (let* () 
-                                (mp:process-run-function "Run PD in Backgroud!"
-                                            () 
-                                              (lambda () (pd~ 
-                                                            (pd-define-patch "Microtonal-player.pd") 
-                                                                :gui nil :offline nil :sound-out (tmpfile "casa.wav")))))))
-
-(setf *pd-is-open* nil)
-
-(om-start-udp-server 3320 "127.0.0.1" (lambda (msg) (let () (if  (equal (car (cdr (osc-decode msg))) 100.0)
-                                                                  (let* () (print "PD ABRIU") (setf *pd-is-open* t) nil)
-                                                                  ))))
-
-
-(loop :with pd-start = nil 
-      :while (null *pd-is-open*)
-      :do (sleep 0.01))
-
-(loop :for udp-server :in *running-udp-servers*
-      :do (print udp-server)
-      :do (if (equal (mp:process-name (third udp-server)) "UDP receive server on \"127.0.0.1\" 3320")
-          (let* () (om::om-stop-udp-server (third udp-server)))))
-
-(let* (
-      (score-lonset (lonset voice))
-      (dx-lonset (om::x-append (car score-lonset) (om::x->dx score-lonset)))
-      (score-data (mat-trans (list (om::lmidic voice) (om::lvel voice) (om::lchan voice) (om::ldur voice)))))
-      (loop :for onsets :in dx-lonset
-            :for notes :in score-data 
-            :do (let* (
-                      (the-notes (list notes)))
-                      (sleep (om::ms->sec onsets))
-                      (mapcar (lambda (x) 
-                                      (mapcar 
-                                              (lambda (notes lvel lchan ldur) 
-                                                      (let* (
-                                                              (data2send (om::x-append notes lvel lchan ldur))
-                                                              (format-msg (om::osc-msg "/note" data2send)))
-                                                              (om::osc-send format-msg "127.0.0.1" 1997))) (first x) (second x) (third x) (fourth x))) the-notes)))
-      
-      (sleep (ms->sec (car (last dx-lonset))))
-      (sleep (ms->sec (car (last dx-lonset))))
-      (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997)))
-      
-
-;; =====================================================================
-;; Redefinindo o metodo que toca a partitura
-
-(defmethod player-stop-object ((self scheduler) (object score-element))
-  (send-current-midi-key-offs object)
-  (when (and (equal :auto-bend (get-pref-value :score :microtone-bend))
-             *micro-channel-mode-on*)
-    (loop for p in (collec-ports-from-object object) do (micro-reset p)))
-  
-  (om::om-print "Closing PD" "OM-CKN")
-  (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997)
-   
-  (call-next-method))
-
-;; =====================================================================
-
-(defmethod player-play-object ((self scheduler) (object score-element) (caller ScoreBoxEditCall) &key parent interval)
-  
-  (declare (ignore parent interval))
-
-  (let ((approx (/ 200 (step-from-scale (get-edit-param caller :scale)))))
-    (setf (pitch-approx object) approx)
-    (when (and (equal :auto-bend (get-pref-value :score :microtone-bend))
-               (micro-channel-on approx))
-      (loop for p in (collec-ports-from-object object) do (micro-bend p))
-      ))
-  (mp:process-run-function "Open PD"
-                 () 
-                  (lambda () (puredata-player object)))
-  (call-next-method))
-
-
-;;; =======================
-
-(defmethod play/stop-boxes ((boxlist list))
-  (let ((play-boxes (remove-if-not 'play-box? boxlist)))
-    (if (find-if 'play-state play-boxes)
-        ;;; stop all
-        (mapc #'(lambda (box)
-                  (player-stop-object *general-player* (get-obj-to-play box))
-                  (box-player-stop box)
-                  )
-              play-boxes)
-      ;;; start all
-      (mapc #'(lambda (box)
-                (when (play-obj? (get-obj-to-play box))
-                  (player-play-object *general-player* (get-obj-to-play box) box)
-                  (box-player-start box)
-                  )
-                )
-            play-boxes))))
