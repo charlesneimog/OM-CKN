@@ -16,3 +16,4 @@ rotating_cube.mp4
 *.ofasl
 *.txt
 resources/executables/Spat/*
+resources/Pd-Patches/Microtonal-Playback/.DS_Store

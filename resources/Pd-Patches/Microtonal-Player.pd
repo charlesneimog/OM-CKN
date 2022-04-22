@@ -1,23 +1,23 @@
-#N canvas 202 219 515 437 12;
-#X obj 22 387 dac~, f 37;
+#N canvas 530 212 435 440 12;
+#X obj 21 408 dac~, f 37;
 #X obj 22 125 netreceive -u -b;
 #X obj 22 150 oscparse;
 #X obj 22 20 loadbang;
-#X text 201 224 NOTA \, VEL \, CHANNEL \, DURATION;
-#X text 190 75 This software use the code work of Alexandre Porres!
+#X text 202 198 NOTA \, VEL \, CHANNEL \, DURATION;
+#X text 204 20 This software use the code work of Alexandre Porres!
 , f 29;
 #X msg 22 100 listen 1997 127.0.0.1;
 #X obj 22 175 route list;
-#X obj 22 359 Microtonal-Playback/Microtonal-player;
+#X obj 21 380 Microtonal-Playback/Microtonal-player;
 #X msg 45 52 \; pd dsp 1;
-#X obj 22 226 route note quit-pd;
-#X msg 292 359 \; pd quit;
-#X obj 292 304 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+#X obj 22 199 route note quit-pd, f 24;
+#X msg 126 274 \; pd quit;
+#X obj 127 257 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
-#X obj 83 259 t b b;
-#X obj 90 329 print;
-#X msg 90 306 PD Finalizado com Sucesso!;
-#N canvas 0 50 465 302 Send-to-OM# 1;
+#X obj 127 232 t b b;
+#X obj 191 297 print;
+#X msg 191 274 PD Finalizado com Sucesso!;
+#N canvas 0 50 465 302 Send-to-OM# 0;
 #X obj 14 4 loadbang;
 #X obj 14 36 t b b, f 21;
 #X msg 31 203 disconnect;
@@ -37,6 +37,8 @@
 #X connect 7 0 6 0;
 #X connect 8 0 3 0;
 #X restore 89 20 pd Send-to-OM#;
+#X msg 55 323 6000 80 2 500;
+#X msg 161 323 6020 80 2 500;
 #X connect 1 0 2 0;
 #X connect 2 0 7 0;
 #X connect 3 0 6 0;
@@ -51,3 +53,5 @@
 #X connect 13 0 12 0;
 #X connect 13 1 15 0;
 #X connect 15 0 14 0;
+#X connect 17 0 8 0;
+#X connect 18 0 8 0;

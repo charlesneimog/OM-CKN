@@ -31,6 +31,7 @@
       "Sources/Spat/spat_omsharp"
       
       "Sources/PD/pd"
+      "Sources/PD/pd-player"
       "Sources/PD/pd-special-box"
       )
 

@@ -491,6 +491,11 @@ action1))
 
 ;; ====================================================
 
+(defmethod! orchidea-instruments ((note null) (number-of-the-instrument integer) &optional (velocity integer))
+nil)
+
+;; ====================================================
+
 (defmethod! orchidea-instruments ((note number) (number-of-the-instrument null) &optional (velocity number))
 (sound-silence-sox 1.0 1))
 

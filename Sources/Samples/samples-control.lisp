@@ -1,6 +1,12 @@
 (in-package :om)
 
+(setf *om-ckn-temp-sound-sox* 0)
 
+(defun make-number-for-temp-sound ()
+    (let* (
+        (sound_number (+ *om-ckn-temp-sound-sox* 1)))
+        (setf *om-ckn-temp-sound-sox* sound_number)
+        (format nil "~8,'0D" *om-ckn-temp-sound-sox*)))
 ;  ======================== SOX controls ================================
 
 (defun ckn-transpose-a-sound (instrumentos desvio) 
@@ -400,7 +406,7 @@ If you want to work with python you need:
 
 (let* (
 (action1 (save-temp-sounds sounds))
-(action2 (om::save-sound (first sounds) (merge-pathnames "om-ckn/" (tmpfile (string+ "Sound-001" ".wav")))))
+(action2 (om::save-sound (first sounds) (merge-pathnames "om-ckn/" (tmpfile (string+ (make-number-for-temp-sound) ".wav")))))
 (action3 (x-append action2 (first-n action1 (1- (length sounds)))))
 (action4 (ckn-cmd-line 
           (string+ 
@@ -417,6 +423,7 @@ action5))
 
 ;;; ================================================================================
 
+
 (defun sound-vol-sox-fun (sounds volume)
 
 (let* (
@@ -424,7 +431,7 @@ action5))
   (sound-in-path sounds)
   (sound-in-out 
       (list (namestring (merge-pathnames "om-ckn/" 
-        (tmpfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-" (write-to-string (om-random 1000 9999)) "-vol-correction" ".wav"))))))
+        (tmpfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-" (make-number-for-temp-sound) "-vol-correction" ".wav"))))))
   (action-sound-vol (format nil " -v ~d " volume))
   (line-command 
     (string+ sox-path " " action-sound-vol " " (format nil " -b ~d " (get-pref-value :audio :resolution)) (list->string-fun (list (namestring sound-in-path)))  " " (list->string-fun sound-in-out)))
@@ -441,7 +448,7 @@ action5))
             (sound-in-path (names-to-mix sounds))
             (sound-in-out 
                 (list (namestring (merge-pathnames "om-ckn/" 
-                    (tmpfile (string+ name "-" (write-to-string (om-random 1000 9999)) "-mix-sound" ".wav"))))))
+                    (tmpfile (string+ name "-" (make-number-for-temp-sound) "-mix-sound" ".wav"))))))
             (line-command 
                 (string+ sox-path " " " --combine mix " " " (format nil " -b ~d " (get-pref-value :audio :resolution))  sound-in-path " " (list->string-fun sound-in-out) )))
             (om-cmd-line line-command)
@@ -461,7 +468,6 @@ action5))
         loop-in-parts
         (setf loop-in-parts (prevent-mix-error (loop-in-parts (flat loop-in-parts) (- actual-division 1) (- actual-division 1)) (- actual-division 1))))))
         
-        
 
 
 ;;; ================================================================================
@@ -470,7 +476,7 @@ action5))
        (action1 (prevent-mix-error (loop-in-parts (flat sounds) 20 20) 20))
        (names (arithm-ser 1 (length (flat action1)) 1))
        (after-number (+ number 1))
-       (action2 (mapcar (lambda (x y) (sound-mix-sox (flat x) (string+ (write-to-string (om-random 1000 9999)) (write-to-string y) "-inside"))) action1 names)))
+       (action2 (mapcar (lambda (x y) (sound-mix-sox (flat x) (string+ (make-number-for-temp-sound) (write-to-string y) "-inside"))) action1 names)))
        (if (om::om= (length (flat action2)) 1)
            (car (flat action2))
          (if (om::om< (length (flat action2)) 20)
@@ -486,7 +492,7 @@ action5))
        (action1 (loop-in-parts (flat sounds) 20 20))
        (names (arithm-ser 1 (length (flat action1)) 1))
        (after-number (+ number 1))
-       (action2 (mapcar (lambda (x y) (sound-seq-sox (flat x) (string+ (write-to-string (om-random 1000 9999)) (write-to-string y) "-seq-inside"))) action1 names)))
+       (action2 (mapcar (lambda (x y) (sound-seq-sox (flat x) (string+ (make-number-for-temp-sound) (write-to-string y) "-seq-inside"))) action1 names)))
        (if (om::om= (length (flat action2)) 1)
            (car (flat action2))
          (if (om::om< (length (flat action2)) 20)
@@ -503,7 +509,7 @@ action5))
             (sound-in-path (names-to-mix sounds))
             (sound-in-out 
                 (list (namestring (merge-pathnames "om-ckn/" 
-                    (tmpfile (string+ name (write-to-string (om-random 1000 9999)) "-seq-sound" ".wav"))))))
+                    (tmpfile (string+ name (make-number-for-temp-sound) "-seq-sound" ".wav"))))))
             (line-command 
                 (string+ sox-path " " (format nil " -b ~d " (get-pref-value :audio :resolution)) " --combine sequence " " "  sound-in-path " " (list->string-fun sound-in-out)))
             (the-command (ckn-cmd-line line-command))
@@ -520,7 +526,7 @@ action5))
   (sound-in-path sounds)
   (sound-in-out 
       (list (namestring (merge-pathnames "om-ckn/" 
-        (tmpfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-" (write-to-string (om-random 1000 9999)) "-with-fade" ".wav"))))))
+        (tmpfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-" (make-number-for-temp-sound) "-with-fade" ".wav"))))))
   (action-sound-fade (format nil " fade p ~d ~d" (first fade) (second fade)))
   (line-command 
     (string+ sox-path " " (format nil " -b ~d " (get-pref-value :audio :resolution)) (list->string-fun (list (namestring sound-in-path))) " " (list->string-fun sound-in-out) " " action-sound-fade ))
@@ -537,7 +543,7 @@ action5))
   (sound-in-path sounds)
   (sound-in-out 
       (list (namestring (merge-pathnames "om-ckn/" 
-        (tmpfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-" (write-to-string (om-random 1000 9999)) "-cut" ".wav"))))))
+        (tmpfile (string+ (first (om::string-to-list (get-filename sound-in-path) ".")) "-" (make-number-for-temp-sound) "-cut" ".wav"))))))
   (action-sound-vol (format nil " trim ~d ~d " in out))
   (line-command 
     (string+ sox-path " " (format nil " -b ~d " (get-pref-value :audio :resolution)) (list->string-fun (list (namestring sound-in-path))) " " (list->string-fun sound-in-out) " " action-sound-vol))
