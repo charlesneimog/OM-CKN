@@ -58,7 +58,6 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
 
 (defun ckn-pd~ (sound-in sound-out patch var gui offline verbose)
 
-(om-print sound-in "PD SOUND-IN Pacth")
 ;; Check if outfile have some space;;;
 (let* (
         (pd-outfile (om::string-to-list (namestring sound-out) " "))
@@ -106,11 +105,11 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
     (variaveis (list->string-fun (list (string+ "from_om " outfile infile make_var))))
     (pd-executable (pd patch))
 
-    (verbose (if verbose " " " -noverbose -d 0 "))
+    (pd-verbose (if verbose " " " -noverbose -d 0 "))
     (gui (if gui " " " -nogui"))
     (offline (if offline " -batch " ""))
     (pd-patch (replace-all (namestring (pd-path patch)) "\\" "/")))
-    (oa::om-command-line (om::string+ pd-executable gui offline " -open " pd-patch " -send " variaveis) verbose)
+    (oa::om-command-line (om::string+ pd-executable  " -audiooutdev 0 " gui " " pd-verbose " " offline " -open " pd-patch " -send " variaveis " " ) verbose)
     (if gui (om::om-print "Finish!" "PD") nil)
     (mp:process-run-function "Delete Files"
                  () 
