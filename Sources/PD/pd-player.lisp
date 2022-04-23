@@ -69,7 +69,7 @@
                                                                 :gui nil 
                                                                 :offline nil 
                                                                 :sound-out (tmpfile "casa.wav") 
-                                                                :verbose t))))))
+                                                                :verbose nil))))))
 
             (setf *pd-is-open* nil)
 
@@ -87,33 +87,32 @@
             (loop :for udp-server :in *running-udp-servers*
                   :do (if (equal (mp:process-name (third udp-server)) "UDP receive server on \"127.0.0.1\" 3320")
                   (let* () (om::om-stop-udp-server (third udp-server)))))
-
-;(mp:process-run-function "" () (lambda () (box-player-start caller)))
-
             
-                  (let* (
-                        (score-lonset (lonset voice))
-                        (dx-lonset (om::x-append (car score-lonset) (om::x->dx score-lonset)))
-                        (score-data (mat-trans (list (om::lmidic voice) (om::lvel voice) (om::lchan voice) (om::ldur voice)))))
-                        (setf *PureData-PLAY-STATE* t)
-                        (loop :for onsets :in dx-lonset
-                              :for notes :in score-data 
-                              :while *PureData-PLAY-STATE*
-                              :do (let* (
-                                          (the-notes (list notes)))
-                                          (sleep (om::ms->sec onsets))
-                                          (mapcar (lambda (x) 
-                                                      (mapcar 
-                                                            (lambda (notes lvel lchan ldur) 
-                                                                  (let* (
-                                                                        (data2send (om::x-append notes lvel lchan ldur))
-                                                                        (format-msg (om::osc-msg "/note" data2send)))
-                                                                        (om::osc-send format-msg "127.0.0.1" 1996))) (first x) (second x) (third x) (fourth x))) the-notes)))
+            
+            (let* (
+                  (score-lonset (lonset voice))
+                  (dx-lonset (om::x-append (car score-lonset) (om::x->dx score-lonset)))
+                  (score-data (mat-trans (list (om::lmidic voice) (om::lvel voice) (om::lchan voice) (om::ldur voice)))))
+                  (setf *PureData-PLAY-STATE* t)
+                  (loop :for onsets :in dx-lonset
+                        :for notes :in score-data 
+                        :while *PureData-PLAY-STATE*
+                        :do (let* (
+                                    (the-notes (list notes)))
+                                    (sleep (om::ms->sec onsets))
+                                    (mapcar (lambda (x) 
+                                                (mapcar 
+                                                      (lambda (notes lvel lchan ldur) 
+                                                            (let* (
+                                                                  (data2send (om::x-append notes lvel lchan ldur))
+                                                                  (format-msg (om::osc-msg "/note" data2send)))
+                                                                  (om::osc-send format-msg "127.0.0.1" 1996))) (first x) (second x) (third x) (fourth x))) the-notes)))
                               
-                              (sleep (ms->sec (car (last dx-lonset))))
-                              (sleep (ms->sec (car (last dx-lonset))))
-                              (if *PureData-PLAY-STATE* (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1996))
-                              (if *PureData-PLAY-STATE* (setf *PureData-PLAY-STATE* nil))))))
+                        (sleep (ms->sec (car (last dx-lonset))))
+                        (sleep (ms->sec (car (last dx-lonset))))
+                        (box-player-stop caller) ;; fazer ele se atualizar??????????
+                        (if *PureData-PLAY-STATE* (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1996))
+                        (if *PureData-PLAY-STATE* (setf *PureData-PLAY-STATE* nil))))))
       
 
 ;; =====================================================================
