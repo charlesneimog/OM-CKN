@@ -1,4 +1,4 @@
-#N canvas 737 54 617 769 12;
+#N canvas 547 63 1207 769 12;
 #X obj 20 357 cyclone/scale -100 100 4096 12288;
 #X obj 21 84 * 0.01;
 #X obj 20 214 -;
@@ -39,11 +39,11 @@
 #X obj 20 493 pack f f;
 #X obj 73 465 r channel;
 #X msg 20 530 bend \$1 \$2;
-#X obj 413 353 r from_om;
-#X obj 413 376 route soundfont;
-#X obj 413 458 s soundfont;
-#X msg 413 428 load \$1;
-#X obj 413 402 else/format symbol sf2/%s;
+#X obj 527 28 r from_om;
+#X obj 527 51 route soundfont;
+#X obj 526 140 s soundfont;
+#X obj 527 78 symbol;
+#X msg 526 112 load \$1;
 #X connect 0 0 22 0;
 #X connect 1 0 19 0;
 #X connect 2 0 3 0;
@@ -86,6 +86,6 @@
 #X connect 37 0 36 1;
 #X connect 38 0 21 0;
 #X connect 39 0 40 0;
-#X connect 40 0 43 0;
-#X connect 42 0 41 0;
-#X connect 43 0 42 0;
+#X connect 40 0 42 0;
+#X connect 42 0 43 0;
+#X connect 43 0 41 0;

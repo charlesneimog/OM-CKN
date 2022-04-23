@@ -788,57 +788,7 @@
    (:outputs (:output (:name "value") (:reactive nil)))
    (:value 20)
    (:id 16))
-  (:box
-   (:type :interface)
-   (:reference pd-list-patches)
-   (:group-id nil)
-   (:name "pd-list-patches")
-   (:x 15)
-   (:y 32)
-   (:w 164)
-   (:h 116)
-   (:color nil)
-   (:border nil)
-   (:roundness nil)
-   (:multiple-selection nil)
-   (:cell-height 18)
-   (:cell-font (:font (:face "Segoe UI") (:size 7) (:style :bold)))
-   (:output-mode :value)
-   (:inputs)
-   (:outputs (:output (:name "value") (:reactive nil)))
-   (:value
-    (:object
-     (:class pure-data)
-     (:slots
-      ((:pd "\"C:\\\\Program Files\\\\Pd\\\\bin\\\\pd.exe\"")
-       (:pd-path
-        (:pathname
-         (:directory
-          (:absolute
-           "USERS"
-           "CHARL"
-           "ONEDRIVE_USP.BR"
-           "DOCUMENTS"
-           "OPENMUSIC"
-           "OM-LIBRARIES"
-           "OM-CKN"
-           "resources"
-           "Pd-Patches"))
-         (:device :unspecific)
-         (:host "C")
-         (:name "SOFA-Binaural")
-         (:type "pd")))
-       (:command-line nil)
-       (:pd-outfile nil)))))
-   (:items
-    (:list
-     "SOL-player.pd"
-     "SOFA-Binaural.pd"
-     "Record.pd"
-     "OA.pd"
-     "IR-convolution.pd"))
-   (:selection (:list 1))
-   (:id 17))
+
   (:box
    (:type :function)
    (:reference namestring)

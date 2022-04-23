@@ -35,6 +35,7 @@
 #X obj 418 58 t a a b, f 26;
 #X obj 375 289 else/format open %s;
 #X obj 74 260 else/format open %s;
+#X obj 890 269 print;
 #X connect 0 0 14 0;
 #X connect 0 1 14 1;
 #X connect 1 0 33 0;

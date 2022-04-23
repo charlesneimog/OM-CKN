@@ -4,38 +4,54 @@
 
 (setf *PureData-PLAY-STATE* nil)
 
-      (let* (
-            (thepath (merge-pathnames "resources/Pd-Patches/Microtonal-Playback/sf2/" (mypathname (find-library "OM-CKN"))))
-            (thefilelist (om-directory thepath 
-                                                :type "sf2"
-                                                :directories t 
-                                                :files t 
-                                                :resolve-aliases nil 
-                                                :hidden-files nil))
-
-            (action1 
-                  (loop :for loop-files :in thefilelist 
-                        :collect (if 
-                                          (system::directory-pathname-p loop-files)
-                                          (search-inside-some-folder loop-files extension)
-                                          loop-files))))
-            (setf *all-sf2-fonts-available* (mapcar (lambda (sf2) (get-filename sf2)) (remove nil (flat action1)))))
 
 ;; =============================================================================================================
 
 
-(add-preference-section :externals "PD OSC player" nil '(:PureData-Player :SoundFont)) 
+(add-preference-section :externals "PD OSC player" nil '(:SoundFont-Folder :SoundFont :PureData-Player)) 
 (add-preference :externals :PureData-Player "PureData Player" :bool t "If checked, the PureData player will be used to play the score.")
-(add-preference :externals :SoundFont "SoundFound SF2" *all-sf2-fonts-available* (car *all-sf2-fonts-available*))
 
+(add-preference :externals :SoundFont-Folder "SoundFound Folder" :folder "Choose a SoundFound Folder")
+
+
+;; =============================================================================================================
+
+(let* (
+      (thepath (get-pref-value :externals :SoundFont-Folder))
+      (thefilelist-sf2 (om::om-directory thepath 
+                                    :type "sf2"
+                                    :directories t 
+                                    :files t 
+                                    :resolve-aliases nil 
+                                    :hidden-files nil))
+      
+      (thefilelist-sf3 (om::om-directory thepath 
+                                    :type "sf3"
+                                    :directories t 
+                                    :files t 
+                                    :resolve-aliases nil 
+                                    :hidden-files nil))
+      
+      (thefilelist (append thefilelist-sf2 thefilelist-sf3))
+      
+      (check_files_inside_folder 
+                  (loop :for loop-files :in thefilelist 
+                        :collect (if 
+                                    (system::directory-pathname-p loop-files)
+                                    (search-inside-some-folder loop-files extension)
+                                    loop-files))))
+      (setf *all-available-fonts* (mapcar (lambda (sf2&sf3) (get-filename sf2&sf3)) (remove nil (om::flat check_files_inside_folder)))))
+
+
+(add-preference :externals :SoundFont "SoundFound" *all-available-fonts* (car *all-available-fonts*))
 ;;; ============================================
 
-(defmethod puredata-player ((voice score-editor) caller)
+(defmethod puredata-player ((voice voice) caller)
 
 
 (if *PureData-PLAY-STATE*
       (let* ()
-                  (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997)
+                  (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1996)
                   (setf *PureData-PLAY-STATE* nil))
 
 
@@ -49,11 +65,11 @@
                                             () 
                                               (lambda () (pd~ 
                                                             (pd-define-patch "Microtonal-player.pd") 
-                                                                :var (list (om::x-append 'soundfont (read-from-string (get-pref-value :externals :SoundFont))))
+                                                                :var (list (om::x-append 'soundfont (probe-file (om::string+ (om::string+ (get-pref-value :externals :SoundFont-Folder) (get-pref-value :externals :SoundFont))))))
                                                                 :gui nil 
                                                                 :offline nil 
                                                                 :sound-out (tmpfile "casa.wav") 
-                                                                :verbose nil))))))
+                                                                :verbose t))))))
 
             (setf *pd-is-open* nil)
 
@@ -69,7 +85,6 @@
 
 
             (loop :for udp-server :in *running-udp-servers*
-                  ;:do (print udp-server)
                   :do (if (equal (mp:process-name (third udp-server)) "UDP receive server on \"127.0.0.1\" 3320")
                   (let* () (om::om-stop-udp-server (third udp-server)))))
 
@@ -93,11 +108,11 @@
                                                                   (let* (
                                                                         (data2send (om::x-append notes lvel lchan ldur))
                                                                         (format-msg (om::osc-msg "/note" data2send)))
-                                                                        (om::osc-send format-msg "127.0.0.1" 1997))) (first x) (second x) (third x) (fourth x))) the-notes)))
+                                                                        (om::osc-send format-msg "127.0.0.1" 1996))) (first x) (second x) (third x) (fourth x))) the-notes)))
                               
                               (sleep (ms->sec (car (last dx-lonset))))
                               (sleep (ms->sec (car (last dx-lonset))))
-                              (if *PureData-PLAY-STATE* (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997))
+                              (if *PureData-PLAY-STATE* (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1996))
                               (if *PureData-PLAY-STATE* (setf *PureData-PLAY-STATE* nil))))))
       
 
@@ -113,7 +128,7 @@
   (if (get-pref-value :externals :PureData-Player)
       (let* () 
               (om::om-print "Closing PD" "OM-CKN")
-              (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1997)))
+              (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1996)))
    
   (call-next-method))
 
@@ -123,24 +138,27 @@
   
   (declare (ignore parent interval))
   
-  (mp:process-run-function "Open PD" () (lambda () (puredata-player object caller)))
+      (mp:process-run-function "Open PD" () (lambda () (puredata-player object caller)))
+      (box-player-start object))
 
-  ;(call-next-method)
-  
-  )
+
 
 ;;; =======================
 
 (defmethod play/stop-boxes ((boxlist list))
-  (let ((play-boxes (remove-if-not 'play-box? boxlist)))
-    (if (find-if 'play-state play-boxes)
+  (let* ((play-boxes (remove-if-not 'play-box? boxlist)))
+      
+      (if (find-if 'play-state play-boxes)
+        
         ;;; stop all
         (mapc #'(lambda (box) (player-stop-object *general-player* (get-obj-to-play box)) (box-player-stop box)) play-boxes)
       
         ;;; start all
         (if (get-pref-value :externals :PureData-Player)
             
-            (mapc (lambda (box) (when (play-obj? (get-obj-to-play box)) (PD-player-play-object *general-player* (get-obj-to-play box) box))) play-boxes)
+            (if (member (type-of (car boxlist)) (list 'scoreboxeditcall 'voice 'chord 'chord-seq 'note))
+                  (mapc (lambda (box) (when (play-obj? (get-obj-to-play box)) (PD-player-play-object *general-player* (get-obj-to-play box) box) (box-player-start box))) play-boxes)
+                  (mapc (lambda (box) (when (play-obj? (get-obj-to-play box)) (player-play-object *general-player* (get-obj-to-play box) box) (box-player-start box))) play-boxes))
 
             (mapc 
                   (lambda (box) 
