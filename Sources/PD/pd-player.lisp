@@ -7,7 +7,7 @@
 
 ;; =============================================================================================================
 
-;; add some preferences
+;; add some preferences :SoundFont
 
 (add-preference-section :externals "PD OSC player" nil '(:SoundFont-Folder :SoundFont :PureData-Player)) 
 (add-preference :externals :PureData-Player "PureData Player" :bool t "If checked, the PureData player will be used to play the score.")
@@ -15,7 +15,7 @@
 
 ;; =============================================================================================================
 
-;;; The piece of Code will define the *all-available-soundfonts* to be choosed.
+;;; The piece of Code will define the *all-available-soundfonts* to be choosed in the preference 
 
 (let* (
       (thepath (get-pref-value :externals :SoundFont-Folder))
