@@ -138,10 +138,8 @@
   
   (declare (ignore parent interval))
   
-      (mp:process-run-function "Open PD" () (lambda () (puredata-player object caller)))
-      (box-player-start object))
-
-
+      (mp:process-run-function "Open PD" () (lambda () (puredata-player object caller))))
+      ;(box-player-start object))
 
 ;;; =======================
 
