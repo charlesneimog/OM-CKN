@@ -1370,19 +1370,19 @@ Converts a (list of) freq pitch(es) to names of notes."
 ;; =======================================================================
 ;; Check OM-Sharp version
 
-(let* (
-      (tmpfile (om::tmpfile "om-sharp-version.txt"))
-      (cmd-command
-            #+windows(om::om-cmd-line (format nil "curl https://raw.githubusercontent.com/charlesneimog/OM-CKN/master/resources/om-sharp.version --ssl-no-revoke --output  ~d" (namestring tmpfile)))
-            #+unix(om::om-cmd-line (format nil "curl https://raw.githubusercontent.com/charlesneimog/OM-CKN/master/resources/om-sharp.version -L --output ~d" (namestring tmpfile))))
-      (textfile (uiop:read-file-lines tmpfile)))
-      (if (> (read-from-string (car textfile)) (read-from-string (format nil "~d.~d" CL-USER::*version-major* CL-USER::*version-minor*)))
-          (let* (
-                (update? (om::om-y-or-n-dialog (format nil "OM-SHARP has been UPDATED to version ~d. Want to update now?" (car textfile)))))
-                (if update?
-                    (let* (
-                          (sys:open-url "https://github.com/cac-t-u-s/om-sharp/releases/latest"))))))
-      (alexandria::delete-file tmpfile))
+; (let* (
+;       (tmpfile (om::tmpfile "om-sharp-version.txt"))
+;       (cmd-command
+;             #+windows(om::om-cmd-line (format nil "curl https://raw.githubusercontent.com/charlesneimog/OM-CKN/master/resources/om-sharp.version --ssl-no-revoke --output  ~d" (namestring tmpfile)))
+;             #+unix(om::om-cmd-line (format nil "curl https://raw.githubusercontent.com/charlesneimog/OM-CKN/master/resources/om-sharp.version -L --output ~d" (namestring tmpfile))))
+;       (textfile (uiop:read-file-lines tmpfile)))
+;       (if (> (read-from-string (car textfile)) (read-from-string (format nil "~d.~d" CL-USER::*version-major* CL-USER::*version-minor*)))
+;           (let* (
+;                 (update? (om::om-y-or-n-dialog (format nil "OM-SHARP has been UPDATED to version ~d. Want to update now?" (car textfile)))))
+;                 (if update?
+;                     (let* (
+;                           (sys:open-url "https://github.com/cac-t-u-s/om-sharp/releases/latest"))))))
+;       (alexandria::delete-file tmpfile))
 
 
       
