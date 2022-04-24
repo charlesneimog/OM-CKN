@@ -1389,7 +1389,7 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 ;; ========================================================================
 
-
+(setf *om-sharp-last-update* "(setf *om-sharp-last-update* 1.6)")
 (setf *actual-version-of-om-sharp* 0)
 (setf *process-of-update* (mp:process-run-function "Check Update for OM-Sharp" () (lambda () (check-update))))
 (sleep 2)
