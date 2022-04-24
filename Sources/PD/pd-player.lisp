@@ -177,3 +177,25 @@
 
 ;; ========================================================================
 
+; (with-open-stream (http (comm:open-tcp-stream
+;                          "raw.githubusercontent.com" 443
+;                          :ssl-ctx t))
+;   (format http "GET /charlesneimog/OM-CKN/master/om-sharp-version.lisp HTTP/1.1~%Host: raw.githubusercontent.com~%~%"
+;                (code-char 13) (code-char 10)
+;                (code-char 13) (code-char 10))
+;   (force-output http)
+;   (write-string "Check Update for OM-Sharp...")
+;   (loop :for ch = (read-char-no-hang http nil :eof)
+;         :until ch
+;         :do (write-char #\.)
+;            (sleep 0.25)
+;         :finally (unless (eq ch :eof)
+;                   (unread-char ch http)))
+;   (terpri)
+;   (loop :for line := (read-line http nil nil)
+;         :do (om::om-print line "LINE ::::")
+;         :while line
+;         :do (x-append line nil)
+;         :finally (close http)))
+
+; (print 'ok)
