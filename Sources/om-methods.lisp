@@ -1367,3 +1367,20 @@ Converts a (list of) freq pitch(es) to names of notes."
                                                       (list->string-fun (list (namestring sound))))))
                                               (print "Closing SonicVisualizer"))))
 
+;; =======================================================================
+;; Check OM-Sharp version
+
+(let* (
+      (tmpfile (om::tmpfile "om-sharp-version.txt"))
+      (cmd-command
+            #+windows(om::om-cmd-line (format nil "curl https://raw.githubusercontent.com/charlesneimog/OM-CKN/master/resources/om-sharp.version --ssl-no-revoke --output  ~d" (namestring tmpfile)))
+            #+unix(om::om-cmd-line (format nil "curl https://raw.githubusercontent.com/charlesneimog/OM-CKN/master/resources/om-sharp.version -L --output ~d" (namestring tmpfile))))
+      (textfile (uiop:read-file-lines tmpfile)))
+      (if (> (read-from-string (car textfile)) (read-from-string (format nil "~d.~d" CL-USER::*version-major* CL-USER::*version-minor*)))
+          (let* ()
+  
+                (om::om-print (format nil "OM-Sharp has one Update to version ~d, please check it!" "OM-CKN" (car textfile)) "OM-CKN")
+                (alexandria::delete-file tmpfile))))
+
+
+      
