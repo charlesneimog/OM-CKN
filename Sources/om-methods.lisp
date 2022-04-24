@@ -1389,18 +1389,27 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 ;; ========================================================================
 
-(setf *om-sharp-last-update* "(setf *om-sharp-last-update* 1.6)")
-(setf *actual-version-of-om-sharp* 0)
-(setf *process-of-update* (mp:process-run-function "Check Update for OM-Sharp" () (lambda () (check-update))))
-(sleep 2)
-(mp:process-terminate *process-of-update*)
-(eval (read-from-string *om-sharp-last-update* "OM-Sharp Last Version"))
 
-(if (> *actual-version-of-om-sharp* (read-from-string (format nil "~d.~d" CL-USER::*version-major* CL-USER::*version-minor*)))
-           (let* (
-                 (update? (om::om-y-or-n-dialog (format nil "OM-SHARP has been UPDATED to version ~d. Want to update now?" *actual-version-of-om-sharp*))))
+(mp:process-run-function "OM-CKN :: Checking Update for OM-Sharp" () (lambda ()
+
+        (setf *om-sharp-last-update* "(setf *om-sharp-last-update* 1.6)")
+        (setf *actual-version-of-om-sharp* 0)
+        (setf *process-of-update* (mp:process-run-function "Check Update for OM-Sharp" () (lambda () (check-update))))
+        (sleep 2)
+        (mp:process-terminate *process-of-update*)
+        (eval (read-from-string *om-sharp-last-update* "OM-Sharp Last Version"))
+
+        (if (> *actual-version-of-om-sharp* (read-from-string (format nil "~d.~d" CL-USER::*version-major* CL-USER::*version-minor*)))
+            (let* (
+                 (update? (om::om-y-or-n-dialog (format nil "0M-CKN :: OM-SHARP has been UPDATED to version ~d. Want to update now?" *actual-version-of-om-sharp*))))
                  (if update?
                      (let* ()
-                           (hqn-web:browse "https://github.com/cac-t-u-s/om-sharp/releases/latest")))))
+                           (hqn-web:browse "https://github.com/cac-t-u-s/om-sharp/releases/latest"))))
+                           
+            (om::om-print "OM-SHARP is up to date" "OM-CKN"))))
+                           
+                           
+                           
+                          
 
       
