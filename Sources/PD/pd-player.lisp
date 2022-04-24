@@ -199,3 +199,12 @@
 ;         :finally (close http)))
 
 ; (print 'ok)
+
+;; ========================================================================
+
+(let* (
+      (tmpfile (om::tmpfile "actual-version.txt"))
+      (oa::om-command-line (format nil "curl 
+      
+
+)
