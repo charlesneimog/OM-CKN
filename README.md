@@ -4,7 +4,7 @@ These are some tools used in my compositional process. It is yet under developme
 
 # [Download](https://bit.ly/3eqkPBK)
 
-
+## MacOS
 Install FluidSynth MacOS.
 
 * Run `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"` on Terminal.
