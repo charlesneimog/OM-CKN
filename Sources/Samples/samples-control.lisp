@@ -37,13 +37,13 @@
 (defun ckn-transpose (nome cents)
 
 (let* (
-(action1 (namestring nome)))
+(pathname (namestring nome)))
  (progn
-  (loop with ckn-loop 
+  (loop :with ckn-loop 
         := nil 
-        :while (setf ckn-loop (equal (probe-file (ckn-transpose-a-sound action1 cents)) nil))
-        :do (let* () ckn-loop))
-  (probe-file (ckn-transpose-a-sound action1 cents)))))
+        :while (setf ckn-loop (equal (probe-file (ckn-transpose-a-sound pathname cents)) nil))
+        :do ckn-loop))
+  (probe-file (ckn-transpose-a-sound pathname cents))))
 
 ;====================================================================================
 
@@ -108,7 +108,7 @@
     (action1 
           (mapcar (lambda (x) (string+ "Sound-seq-" x)) (mapcar (lambda (x) (list->string-fun (list x))) (om::arithm-ser 1 (length sounds) 1))))
     (action2 (ckn-make-mail-box action1))
-    (action3 (let* ()
+    (action3 (progn
                     (loop 
                             :for sound-loop :in sounds
                             :for names-loop :in action1
@@ -127,7 +127,7 @@
     (action1 
           (mapcar (lambda (x) (string+ "Sound-mix-" x)) (mapcar (lambda (x) (list->string-fun (list x))) (om::arithm-ser 1 (length sounds) 1))))
     (action2 (ckn-make-mail-box action1))
-    (action3 (let* ()
+    (action3 (progn
                     (loop 
                             :for sound-loop :in sounds
                             :for names-loop :in action1
@@ -348,7 +348,7 @@ action1))
 
 ;; ====================================================== THIS IS A AUTO-PROMOTION ================================= 
 
-(let* () 
+(progn 
       (eval (flat (get-slot-val 
                      (let
                          ((tb
@@ -357,7 +357,7 @@ action1))
                        (setf (reader tb) :lines-cols) tb) "CONTENTS")))
 
     (if *first-time-load*
-        (let* () 
+        (progn 
             (save-as-text '(((defvar *first-time-load* nil))) (merge-pathnames "first-load.txt" (lib-resources-folder (find-library "OM-CKN"))))
             (hqn-web:browse "https://www.charlesneimog.com/")
             (print (format nil "
@@ -584,7 +584,7 @@ action5))
         (text-of-noise (tmpfile (string+ "Noise" ".prof") :subdirs "om-ckn"))
         (first-cmd-line (om-cmd-line (string+ sox-path " " (list->string-fun (list (namestring (car cut-noise)))) " -n noiseprof " (list->string-fun (list (namestring text-of-noise))))))
         (second-cmd-line (om-cmd-line (string+ sox-path " " (format nil " -b ~d " (get-pref-value :audio :resolution)) (list->string-fun (list (namestring (car saved-tmp-sound)))) " " (list->string-fun (list (namestring saved-tmp-sound-formated))) " noisered " (list->string-fun (list (namestring  text-of-noise))) " 0.21 "))))
-        (let* ()
+        (progn
             (ckn-clear-the-file (car saved-tmp-sound))
             (ckn-clear-the-file (car cut-noise))
             (ckn-clear-the-file text-of-noise)

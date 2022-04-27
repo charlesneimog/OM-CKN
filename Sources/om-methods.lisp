@@ -8,7 +8,7 @@
 ;; Preferencias ========================
 
 (if (equal *app-name* "om-sharp")
-  (let* ()
+  (progn
           (add-preference-section :externals "OM-CKN" nil '(:sox-exe :PureData :Pd-Patches :ircam-instruments :OrchideaSOL :plugins :Sonic-visualizer))
           (add-preference :externals :sox-exe "Sox Path" :file (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN"))))
           (add-preference :externals :PureData "Pure Data executable" :file " ")
@@ -997,6 +997,13 @@ Result: (7 9 458)."
 (sound-fade-sox-fun sounds fade))
 
 ;; ====================================================
+
+(defmethod! sound-fade-sox ((sounds sound) (fade list))
+
+(sound-fade-sox (car (list! (if (not (file-pathname sounds)) (save-temp-sounds (list sounds)) (file-pathname sounds)))) fade))
+
+;; ====================================================
+
 (defmethod! sound-fade-sox ((sounds string) (fade list))
 (sound-fade-sox-fun sounds fade))
 
@@ -1130,7 +1137,7 @@ For the automatic work the folder out-files of OM# must be in the files preferen
         (x->dx (x->dx (mapcar (lambda (x) (car x)) ckn-action1))))
   (loop :for tocando :in ckn-action1
         :for x->dx_loop :in x->dx
-        :do (let* () (om::osc-send (om::x-append '/real-time (print (cdr tocando))) "127.0.0.1" 3000)
+        :do (progn (om::osc-send (om::x-append '/real-time (print (cdr tocando))) "127.0.0.1" 3000)
                      (sleep (om::ms->sec x->dx_loop)))
     '("done"))))
 
@@ -1360,7 +1367,7 @@ Converts a (list of) freq pitch(es) to names of notes."
 (mp:process-run-function (string+ "Opening SonicVisualizer!") ;; Se não, a interface do OM trava
                                    () 
                                         (lambda () 
-                                              (let* ()
+                                              (progn
                                                 (om::om-cmd-line 
                                                   (om::string+ 
                                                       (list->string-fun (list (namestring (get-pref-value :externals :Sonic-visualizer)))) " " 
@@ -1369,47 +1376,31 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 ;; =======================================================================
 
-(defun check-update()
+; (defun om-py-check-update (WEB-path_to_file)
 
-      (with-open-stream 
-            (http (comm:open-tcp-stream 
-                    "raw.githubusercontent.com" 443
-                    :ssl-ctx t
-                    :element-type '(unsigned-byte 8)))
-            (write-sequence (format 
-                        http "GET charlesneimog/OM-CKN/master/resources/om-sharp-version.lisp HTTP/1.1~%Host: raw.githubusercontent.com~%~%" 
-                        (code-char 13) (code-char 10)
-                        (code-char 13) (code-char 10)) http)
-      (force-output http)
+;       (with-open-stream 
+;             (http (comm:open-tcp-stream 
+;                     "raw.githubusercontent.com" 443
+;                     :ssl-ctx t
+;                     :element-type '(unsigned-byte 8)))
+;             (write-sequence (format 
+;                         http "GET ~d HTTP/1.1~%Host: raw.githubusercontent.com~%~%" WEB-path_to_file
+;                         (code-char 13) (code-char 10)
+;                         (code-char 13) (code-char 10)) http)
+;       (force-output http)
 
-      (ignore-errors (loop :for line := (read-line http nil)
-                           :while line 
-                           :do (setf *om-sharp-last-update* line)))
-      (close http)))
+;       (ignore-errors (loop :for line := (read-line http nil)
+;                            :while line
+;                            :do (progn 
+;                                     (setf *version* line)
+;                                     (if (search "*om-py-last-update*" line)
+;                                         (close http) 
+;                                       nil)))))
+;       (eval *version*)
+;       *om-py-last-update*
+;       )
 
-;; ========================================================================
-
-
-(mp:process-run-function "OM-CKN :: Checking Update for OM-Sharp" () (lambda ()
-
-        (setf *om-sharp-last-update* "(setf *om-sharp-last-update* 1.6)")
-        (setf *actual-version-of-om-sharp* 0)
-        (setf *process-of-update* (mp:process-run-function "Check Update for OM-Sharp" () (lambda () (check-update))))
-        (sleep 2)
-        (mp:process-terminate *process-of-update*)
-        (eval (read-from-string *om-sharp-last-update* "OM-Sharp Last Version"))
-
-        (if (> *actual-version-of-om-sharp* (read-from-string (format nil "~d.~d" CL-USER::*version-major* CL-USER::*version-minor*)))
-            (let* (
-                 (update? (om::om-y-or-n-dialog (format nil "0M-CKN :: OM-SHARP has been UPDATED to version ~d. Want to update now?" *actual-version-of-om-sharp*))))
-                 (if update?
-                     (let* ()
-                           (hqn-web:browse "https://github.com/cac-t-u-s/om-sharp/releases/latest"))))
-                           
-            (om::om-print "OM-SHARP is up to date" "OM-CKN"))))
-                           
-                           
-                           
+; (om-py-check-update "charlesneimog/OM-py/master/Sources/version.lisp")
                           
 
       

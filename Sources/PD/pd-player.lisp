@@ -51,15 +51,15 @@
 (defmethod puredata-player ((voice voice) caller)
 
 (if *PureData-PLAY-STATE*
-      (let* ()
+      (progn
                   (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1996) ;; kill PD if it is running (Just one process simmultaneously)
                   (setf *PureData-PLAY-STATE* nil))
 
-(let* ()
+(progn
             (mp:process-run-function "Open PD"
                  () 
                   (lambda ()
-                          (let* () 
+                          (progn 
                                 (mp:process-run-function "Run PD in Backgroud!"
                                             () 
                                               (lambda () (pd~ 
@@ -73,7 +73,7 @@
             (setf *pd-is-open* nil)
 
             (om-start-udp-server 3320 "127.0.0.1" (lambda (msg) (let () (if  (equal (car (cdr (osc-decode msg))) 1.0)
-                                                                              (let* () (setf *pd-is-open* t) nil)
+                                                                              (progn (setf *pd-is-open* t) nil)
                                                                               )))) ;;; When PD is open, the loadbang will sent one 1 to this port.
 
             (loop :with pd-start = nil 
@@ -83,7 +83,7 @@
             
             (loop :for udp-server :in *running-udp-servers*
                   :do (if (equal (mp:process-name (third udp-server)) "UDP receive server on \"127.0.0.1\" 3320")
-                  (let* () (om::om-stop-udp-server (third udp-server))))) ;; Remove the UDP server to check is
+                  (progn (om::om-stop-udp-server (third udp-server))))) ;; Remove the UDP server to check is
                                                                           ;; the PD is open!
             
             
@@ -136,7 +136,7 @@
   ;; Finish of OM-Sharp CODE 
   
   (if (get-pref-value :externals :PureData-Player)
-      (let* () 
+      (progn 
               (om::om-print "Closing PD" "OM-CKN")
               (om::osc-send (om::osc-msg "/quit-pd" 0) "127.0.0.1" 1996)))
    
