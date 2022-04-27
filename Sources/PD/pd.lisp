@@ -63,7 +63,7 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
         (pd-outfile (om::string-to-list (namestring sound-out) " "))
         (length-of-path (length pd-outfile)))
     (if (> length-of-path 1)
-        (let* ()
+        (progn
                 (om::om-message-dialog "The outfile pathname have spaces in it, it will not work")
                 (om::abort-eval))
         nil))
@@ -219,7 +219,7 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
 
 (let* (
       (patches-by-thread (ckn-loop-multi-prepare patch-list patches-by-thread))
-      (thread (lambda (x) (loop :for patches :in x :collect (let* () (oa::om-command-line (om::command-line patches)) (pd-outfile patches))))))
+      (thread (lambda (x) (loop :for patches :in x :collect (progn (oa::om-command-line (om::command-line patches)) (pd-outfile patches))))))
   (om::flat (ckn-multi-1-var thread patches-by-thread))))
       
 

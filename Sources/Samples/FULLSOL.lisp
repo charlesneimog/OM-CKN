@@ -55,17 +55,17 @@
             (action6 (ckn-position action4 action5))
             (action7 
                   (if (equal action6 nil)
-                        (let* ()
+                        (progn
                               (om-print "Nao ha nenhuma nota corresponde nos multifonicos disponiveis, escolhendo aleatoriamente" "WARNING!!!")
                               (om::nth-random all-names))
                         (if (om::om< (length action6) 2)
-                              (let* ()  
+                              (progn  
                                     (om-print 
                                           (string+ "O multifonico com mais notas em comum e esse" 
                                                             (first (choose all-names action6)))
                                           "Notice!")
                                     (first (choose all-names action6)))
-                              (let* ()  
+                              (progn  
                                     (om-print "Ha alguns multifonicos com a mesma quantidade de notas em comum, escolhendo aleatoriamente entre eles." "Notice!")
                                     (choose all-names (om::nth-random action6)))))))
                   action7))

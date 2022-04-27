@@ -66,13 +66,13 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
         (all-plugins (x-append (search-plugins "dll") (search-plugins "vst3")))
         (name-of-all-plugins (mapcar (lambda (x) (get-filename x)) all-plugins))
         (position-of-plugin (position plugin-name name-of-all-plugins :from-end nil :test (lambda (x y) (equal x y))))
-        (action1 (probe-file (nth position-of-plugin all-plugins)))
-        (action2 (if (equal nil action1) (let* () (om-print "Plugin not found" "Abort ::") (abort)) action1))
-        (action3 (cdr (om::string-to-list (get-filename action2) "."))))
+        (file-name (probe-file (nth position-of-plugin all-plugins)))
+        (plugin-exits? (if (equal nil file-name) (progn (om::om-print "Plugin not found" "Abort ::") (abort)) file-name))
+        (extension (cdr (om::string-to-list (get-filename plugin-exits?) "."))))
         (if 
-            (equal '("dll") action3)
-            (make-value 'vst2 (list (list :vst2-path action2)))
-            (make-value 'vst3 (list (list :vst3-path action2))))))
+            (equal '("dll") extension)
+            (make-value 'vst2 (list (list :vst2-path plugin-exits?)))
+            (make-value 'vst3 (list (list :vst3-path plugin-exits?))))))
 
 
 ;  ========================
