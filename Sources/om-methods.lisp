@@ -838,6 +838,24 @@ Result: (7 9 458)."
 
 (ckn-copy2outfile (namestring path)))
 
+;; ====================================================
+(defmethod! copy2outfile ((paths list))
+:initvals '(nil)
+:indoc '("one pathname") 
+:icon '17359
+:doc "Copy some file to outfiles."
+
+(let* (
+       (pathnames
+        (loop :for path :in paths
+             :collect 
+             (progn
+               (alexandria::copy-file path (outfile (get-filename path)))
+               (outfile (get-filename path))))))
+       (clear-subdir-temp-files "om-ckn")
+pathnames))
+
+
 ;; ==============================================
 
 (defmethod! remove-nth-element ((lists list) (numbers list))
