@@ -4,12 +4,12 @@
  (:doc "")
  (:info
   (:created "2022/02/27 17:21:50")
-  (:modified "2022/02/28 10:51:52")
+  (:modified "2022/05/01 19:04:39")
   (:by "om-sharp")
-  (:version 1.05))
- (:window (:size (1489 575)) (:position (166 195)))
+  (:version 1.06))
+ (:window (:size (807 570)) (:position (366 53)))
  (:grid nil)
- (:lock t)
+ (:lock nil)
  (:boxes
   (:box
    (:library "OM-CKN")
@@ -17,10 +17,10 @@
    (:reference pd~)
    (:group-id nil)
    (:name "pd~")
-   (:x 84)
+   (:x 124)
    (:y 355)
    (:w 488)
-   (:h 34)
+   (:h 31)
    (:color nil)
    (:border nil)
    (:roundness nil)
@@ -65,10 +65,10 @@
    (:reference outfile)
    (:group-id nil)
    (:name "outfile")
-   (:x 208)
+   (:x 248)
    (:y 308)
    (:w 96)
-   (:h 34)
+   (:h 31)
    (:color nil)
    (:border nil)
    (:roundness nil)
@@ -91,8 +91,8 @@
    (:reference (:symbol "SIMPLE-TEXT-STRING" "LISPWORKS"))
    (:group-id nil)
    (:name "value box")
-   (:x 177)
-   (:y 275)
+   (:x 217)
+   (:y 255)
    (:w 158)
    (:h 34)
    (:color
@@ -107,14 +107,14 @@
    (:reactive nil)
    (:inputs)
    (:outputs (:output (:name "value") (:reactive nil)))
-   (:value "binaural-6.wav")
+   (:value "binaural-7.wav")
    (:id 2))
   (:box
    (:type :value)
    (:reference symbol)
    (:group-id nil)
    (:name "value box")
-   (:x 435)
+   (:x 475)
    (:y 321)
    (:w 43)
    (:h 34)
@@ -137,7 +137,7 @@
    (:reference null)
    (:group-id nil)
    (:name "value box")
-   (:x 368)
+   (:x 408)
    (:y 321)
    (:w 43)
    (:h 34)
@@ -275,7 +275,7 @@
        (:x 119)
        (:y 287)
        (:w 104)
-       (:h 34)
+       (:h 31)
        (:color nil)
        (:border nil)
        (:roundness nil)
@@ -329,7 +329,7 @@
        (:x 383)
        (:y 465)
        (:w 262)
-       (:h 34)
+       (:h 31)
        (:color nil)
        (:border nil)
        (:roundness nil)
@@ -365,7 +365,7 @@
        (:x 497)
        (:y 257)
        (:w 104)
-       (:h 34)
+       (:h 31)
        (:color nil)
        (:border nil)
        (:roundness nil)
@@ -396,7 +396,7 @@
        (:x 615)
        (:y 260)
        (:w 104)
-       (:h 34)
+       (:h 31)
        (:color nil)
        (:border nil)
        (:roundness nil)
@@ -469,16 +469,16 @@
       (:connection (:from (:box 0 :out 0)) (:to (:box 4 :in 1)))
       (:connection (:from (:box 1 :out 0)) (:to (:box 7 :in 1)))
       (:connection (:from (:box 2 :out 0)) (:to (:box 8 :in 1)))
-      (:connection (:from (:box 4 :out 0)) (:to (:box 6 :in 2)))
+      (:connection (:from (:box 4 :out 0)) (:to (:box 6 :in 0)))
       (:connection (:from (:box 5 :out 0)) (:to (:box 4 :in 0)))
       (:connection (:from (:box 6 :out 0)) (:to (:box 3 :in 0)))
       (:connection (:from (:box 7 :out 0)) (:to (:box 6 :in 1)))
-      (:connection (:from (:box 8 :out 0)) (:to (:box 6 :in 0)))
+      (:connection (:from (:box 8 :out 0)) (:to (:box 6 :in 2)))
       (:connection (:from (:box 9 :out 0)) (:to (:box 7 :in 0)))
       (:connection (:from (:box 10 :out 0)) (:to (:box 8 :in 0))))))
    (:group-id nil)
    (:name "vars")
-   (:x 370)
+   (:x 410)
    (:y 245)
    (:w 178)
    (:h 60)
@@ -515,7 +515,7 @@
    (:reference fixnum)
    (:group-id nil)
    (:name "value box")
-   (:x 433)
+   (:x 473)
    (:y 168)
    (:w 51)
    (:h 34)
@@ -538,7 +538,7 @@
    (:reference fixnum)
    (:group-id nil)
    (:name "value box")
-   (:x 493)
+   (:x 533)
    (:y 200)
    (:w 43)
    (:h 34)
@@ -558,10 +558,10 @@
    (:id 7))
   (:box
    (:type :value)
-   (:reference null)
+   (:reference symbol)
    (:group-id nil)
    (:name "value box")
-   (:x 502)
+   (:x 542)
    (:y 320)
    (:w 43)
    (:h 34)
@@ -577,14 +577,14 @@
    (:reactive nil)
    (:inputs)
    (:outputs (:output (:name "value") (:reactive nil)))
-   (:value nil)
+   (:value t)
    (:id 8))
   (:box
    (:type :object)
    (:reference sound)
    (:group-id nil)
    (:name nil)
-   (:x 136)
+   (:x 176)
    (:y 404)
    (:w 374)
    (:h 65)
@@ -613,8 +613,8 @@
      (:class sound)
      (:slots
       ((:onset 0)
-       (:duration 6379.6826)
-       (:n-samples 281344)
+       (:duration 0.0)
+       (:n-samples 0)
        (:n-channels 2)
        (:sample-rate 44100)
        (:smpl-type :float)
@@ -625,10 +625,21 @@
        (:access-from-file nil)
        (:file-pathname
         (:pathname
-         (:directory (:relative :back :back :back :back "out-files"))
+         (:directory
+          (:relative
+           :back
+           :back
+           :back
+           :back
+           :back
+           :back
+           :back
+           "Documents"
+           "OM#"
+           "out-files"))
          (:device nil)
          (:host "C")
-         (:name "binaural-6")
+         (:name "binaural-7")
          (:type "wav")))))))
    (:id 9))
   (:box
@@ -636,7 +647,7 @@
    (:reference pathname)
    (:group-id nil)
    (:name "value box")
-   (:x 245)
+   (:x 222)
    (:y 44)
    (:w 500)
    (:h 64)
@@ -657,7 +668,7 @@
      (:directory
       (:absolute
        "Users"
-       "charl"
+       "Neimog"
        "OneDrive_usp.br"
        "Documents"
        "PureData"
@@ -669,7 +680,7 @@
      (:type "sofa")))
    (:id 10))
   (:comment
-   (:x 486)
+   (:x 526)
    (:y 171)
    (:w 74)
    (:h 23)
@@ -682,7 +693,7 @@
    (:text "Azimuth")
    (:id 11))
   (:comment
-   (:x 537)
+   (:x 577)
    (:y 204)
    (:w 74)
    (:h 23)
@@ -716,10 +727,10 @@
    (:reference orchidea-instruments)
    (:group-id nil)
    (:name "orchidea-instruments")
-   (:x 112)
-   (:y 209)
+   (:x 126)
+   (:y 171)
    (:w 203)
-   (:h 34)
+   (:h 31)
    (:color nil)
    (:border nil)
    (:roundness nil)
@@ -747,8 +758,8 @@
    (:reference fixnum)
    (:group-id nil)
    (:name "value box")
-   (:x 137)
-   (:y 174)
+   (:x 111)
+   (:y 136)
    (:w 51)
    (:h 34)
    (:color
@@ -770,8 +781,8 @@
    (:reference fixnum)
    (:group-id nil)
    (:name "value box")
-   (:x 237)
-   (:y 174)
+   (:x 211)
+   (:y 136)
    (:w 34)
    (:h 34)
    (:color
@@ -788,16 +799,68 @@
    (:outputs (:output (:name "value") (:reactive nil)))
    (:value 20)
    (:id 16))
-
   (:box
-   (:type :function)
-   (:reference namestring)
+   (:type :interface)
+   (:reference pd-list-patches)
    (:group-id nil)
-   (:name "namestring")
-   (:x 710)
-   (:y 144)
-   (:w 120)
-   (:h 34)
+   (:name "pd-list-patches")
+   (:x 5)
+   (:y 309)
+   (:w 180)
+   (:h 30)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:font (:font (:face "Segoe UI") (:size 8) (:style :bold)))
+   (:output-mode :value)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value
+    (:object
+     (:class pure-data)
+     (:slots
+      ((:pd "\"C:\\\\Program Files\\\\Pd\\\\bin\\\\pd.exe\"")
+       (:pd-path
+        (:pathname
+         (:directory
+          (:absolute
+           "USERS"
+           "Neimog"
+           "ONEDRIVE_USP.BR"
+           "DOCUMENTS"
+           "OPENMUSIC"
+           "OM-LIBRARIES"
+           "OM-CKN"
+           "resources"
+           "Pd-Patches"))
+         (:device :unspecific)
+         (:host "C")
+         (:name "SOFA-Binaural")
+         (:type "pd")))
+       (:command-line nil)
+       (:pd-outfile nil)))))
+   (:items
+    (:list
+     "SOL-player.pd"
+     "SOFA-Binaural.pd"
+     "Record.pd"
+     "OA.pd"
+     "Microtonal-Player.pd"
+     "IR-convolution.pd"
+     "IR-convolution-v2.pd"
+     "data-stream.pd"))
+   (:selection 1)
+   (:id 17))
+  (:box
+   (:library "OM-CKN")
+   (:type :function)
+   (:reference pd-open-patches)
+   (:group-id nil)
+   (:name "pd-open-patches")
+   (:x 60)
+   (:y 515)
+   (:w 145)
+   (:h 31)
    (:color nil)
    (:border nil)
    (:roundness nil)
@@ -810,42 +873,11 @@
    (:inputs
     (:input
      (:type :standard)
-     (:name "P")
+     (:name "PATCH")
      (:value nil)
      (:reactive nil)))
    (:outputs (:output (:name "out") (:reactive nil)))
-   (:id 18))
-  (:box
-   (:type :function)
-   (:reference string-to-list)
-   (:group-id nil)
-   (:name "string-to-list")
-   (:x 763)
-   (:y 221)
-   (:w 153)
-   (:h 34)
-   (:color nil)
-   (:border nil)
-   (:roundness nil)
-   (:text-font nil)
-   (:align nil)
-   (:icon :left)
-   (:lock nil)
-   (:lambda nil)
-   (:reactive nil)
-   (:inputs
-    (:input
-     (:type :standard)
-     (:name "STRING")
-     (:value 1)
-     (:reactive nil))
-    (:input
-     (:type :optional)
-     (:name "separator")
-     (:value " ")
-     (:reactive nil)))
-   (:outputs (:output (:name "out") (:reactive nil)))
-   (:id 19)))
+   (:id 18)))
  (:connections
   (:connection (:from (:box 0 :out 0)) (:to (:box 9 :in 0)))
   (:connection (:from (:box 1 :out 0)) (:to (:box 0 :in 2)))
@@ -863,12 +895,8 @@
    (:from (:box 10 :out 0))
    (:to (:box 5 :in 0))
    (:attributes (:color nil :style nil :modif (0 -2/7))))
-  (:connection (:from (:box 10 :out 0)) (:to (:box 18 :in 0)))
   (:connection (:from (:box 14 :out 0)) (:to (:box 0 :in 1)))
   (:connection (:from (:box 15 :out 0)) (:to (:box 14 :in 0)))
   (:connection (:from (:box 16 :out 0)) (:to (:box 14 :in 1)))
-  (:connection
-   (:from (:box 17 :out 0))
-   (:to (:box 0 :in 0))
-   (:attributes (:color nil :style nil :modif (0 9/31))))
-  (:connection (:from (:box 18 :out 0)) (:to (:box 19 :in 0)))))
+  (:connection (:from (:box 17 :out 0)) (:to (:box 0 :in 0)))
+  (:connection (:from (:box 17 :out 0)) (:to (:box 18 :in 0)))))

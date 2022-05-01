@@ -73,27 +73,27 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
 
 (let* (
 
-    
     (check-if-some-var-have-spaces (loop :for all-var :in var 
                                          :for var-index :from 1 :to (length var)
                                          :collect (if (or (equal (type-of (car (cdr all-var))) 'pathname) (equal (type-of (car (cdr all-var))) 'string))
-                                                        (let* (
-                                                                (path (probe-file (car (cdr all-var))))
-                                                                (length-of-path (length (om::string-to-list (namestring path) " "))))
-                                                                (if (> length-of-path 1)
-                                                                    (let* (
-                                                                        (message (om::om-print (format nil "The pathname in the ~d spaces in it, coping to temp-files." (car all-var)) "OM-CKN"))
-                                                                        (copy-to-tmp-files (om::tmpfile (om::string+ (write-to-string var-index) "." (car (last (om::string-to-list (namestring path) ".")))))))
-                                                                        (system::copy-file path copy-to-tmp-files)
-                                                                        (om::x-append (car all-var) copy-to-tmp-files))
-                                                                    (om::x-append (car all-var) path)))
+                                                    (let* (
+                                                        (path (probe-file (car (cdr all-var))))
+                                                        (length-of-path (length (om::string-to-list (namestring path) " "))))
+                                                        (if (> length-of-path 1)
+                                                            (let* (
+                                                                (message (om::om-print (format nil "The pathname in the ~d spaces in it, coping to temp-files." (car all-var)) "OM-CKN"))
+                                                                (copy-to-tmp-files (om::tmpfile (om::string+ (write-to-string var-index) "." (car (last (om::string-to-list (namestring path) ".")))))))
+                                                                (system::copy-file path copy-to-tmp-files)
+                                                                (om::x-append (car all-var) copy-to-tmp-files))
+                                                                (om::x-append (car all-var) path)))
                                                     all-var)))
-    (outfile (om::string+ "outfile " (replace-all (namestring sound-out) "\\" "/") ", "))
+    ;(verbose (print check-if-some-var-have-spaces))
+    (outfile (replace-all (namestring sound-out) "\\" "/"))
     (tmp-infile-name (if sound-in (om::tmpfile (om::string+ (write-to-string (om::om-random 10000 99999)) "." (car (last (om::string-to-list (namestring sound-in) ".")))))))
     (int-copy-to-tmpfile (if sound-in (om::om-copy-file sound-in tmp-infile-name)))
-    (infile (if sound-in (om::string+ "infile " (replace-all (namestring int-copy-to-tmpfile) "\\" "/") ", ")))
+    (fixed_infile (if sound-in (om::string+ " -send " (list->string-fun (list (om::string+ "infile " (replace-all (namestring int-copy-to-tmpfile) "\\" "/") ", "))))))
+    (fixed_outfile (if sound-out (om::string+ " -send " (list->string-fun (list (om::string+ "outfile " (replace-all (namestring outfile) "\\" "/") ", "))))))
     (make_var 
-        (concatstring 
             (loop :for all_variables :in check-if-some-var-have-spaces :collect 
                 (om::string+ 
                     (write-to-string (car all_variables)) " " 
@@ -101,16 +101,16 @@ is replaced with replacement. From http://cl-cookbook.sourceforge.net/strings.ht
                                                             (equal (type-of x) 'pathname)
                                                             (om::string+ (replace-all (namestring x) "\\" "/") " ")
                                                             (om::string+ (write-to-string x) " ")))
-                                            (cdr all_variables))) ", "))))
-    (variaveis (list->string-fun (list (string+ "from_om " outfile infile make_var))))
+                                            (cdr all_variables))) " ")))
+    (variaveis (concatstring (loop :for var :in make_var :collect (om::string+ " -send " (list->string-fun (list var))))))
     (pd-executable (pd patch))
-
     (pd-verbose (if verbose " " " -noverbose -d 0 "))
     (gui (if gui " " " -nogui"))
     (offline (if offline " -batch " ""))
-    (pd-patch (replace-all (namestring (pd-path patch)) "\\" "/")))
-    (oa::om-command-line (om::string+ pd-executable  " -audiooutdev 0 " gui " " pd-verbose " " offline " -open " pd-patch " -send " variaveis " " ) verbose)
-    (if gui (om::om-print "Finish!" "PD") nil)
+    (pd-patch (replace-all (namestring (pd-path patch)) "\\" "/"))
+    (command-line (om::string+ pd-executable  " -audiooutdev 0 " gui " " pd-verbose " " offline " -open " pd-patch variaveis fixed_infile fixed_outfile " " )))
+    (oa::om-command-line command-line verbose)
+    (if gui (om::om-print "Finish!" "PD"))
     (mp:process-run-function "Delete Files"
                  () 
                   (lambda () (if sound-in (system::delete-file tmp-infile-name))))
