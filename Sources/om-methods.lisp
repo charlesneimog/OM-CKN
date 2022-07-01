@@ -9,11 +9,11 @@
 
 (if (equal *app-name* "om-sharp")
   (progn
-          (add-preference-section :externals "OM-CKN" nil '(:sox-exe :PureData :Pd-Patches :ircam-instruments :OrchideaSOL :plugins :Sonic-visualizer))
+          (add-preference-section :externals "OM-CKN" nil '(:sox-exe :ircam-instruments :OrchideaSOL :plugins :Sonic-visualizer))
           (add-preference :externals :sox-exe "Sox Path" :file (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN"))))
-          (add-preference :externals :PureData "Pure Data executable" :file " ")
+          ; (add-preference :externals :PureData "Pure Data executable" :file " ")
           (add-preference :externals :Sonic-visualizer "Sonic-Visualizer executable" :file " ")
-          (add-preference :externals :Pd-Patches "Pure Data Patches" :folder (merge-pathnames "Pd-Patches/" (lib-resources-folder (find-library "OM-CKN"))))
+          ;(add-preference :externals :Pd-Patches "Pure Data Patches" :folder (merge-pathnames "Pd-Patches/" (lib-resources-folder (find-library "OM-CKN"))))
           (add-preference :externals :ircam-instruments "Ircam Instruments Path" :folder "Your Ircam Instruments Folder")
           (add-preference :externals :OrchideaSOL "SOL Samples Library" :folder "SOL folder")
           (add-preference :externals :plugins "Plugins VST2 and VST3" :folder "Your VST2 and VST3 Plugins Folder")))
@@ -1103,6 +1103,24 @@ pathnames))
 :doc "Like sound-seq-list but multithreading (more fast)."
         (gc-all)
     (sound-seq-list-multi-threading (build-seq-of-sounds sounds list-per-threading)))
+
+;; ====================================================
+
+(defmethod! sound-mk-senoide-sox ((freq number) (dur number))
+:initvals '(nil)
+:indoc '("a list of sounds." "Among of sounds per threading.")
+:icon '17359
+:doc "Like sound-seq-list but multithreading (more fast)."
+
+
+(let* (
+       (sine-outfile (namestring (om::tmpfile  (om::string+ (make-number-for-temp-sound) ".wav"))))
+       (command (om::string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe)))) " -n -r 44100 " (list->string-fun (list  sine-outfile)) " synth " (write-to-string dur) " sine " (write-to-string freq                                                                                                                                                                    ))))
+       (om::om-cmd-line command)
+       (probe-file sine-outfile)))
+      
+
+
 
 ;; ==================================================== NOTES AND SCORE ==================
 

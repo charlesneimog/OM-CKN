@@ -783,7 +783,7 @@ list
 (let* (
       (filename (namestring x))
       (file (om::string-to-list filename ".")))
-  (car (last file))))  
+  (om::string+ "." (car (last file)))))  
 
 ; ================================
 
@@ -793,7 +793,7 @@ list
 (let* (
       (filename (namestring x))
       (file (om::string-to-list filename ".")))
-  (reverse (cdr (reverse file)))))
+  (car (reverse (cdr (reverse file))))))
 
 
 

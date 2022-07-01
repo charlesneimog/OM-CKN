@@ -105,7 +105,6 @@ Returns the selected item, or the selected index depending on how this is set in
 (defmethod draw-interface-component ((self PD-Patches) x y w h)
 
 (om-draw-rounded-rect x y 22 h :round (box-draw-roundness self) :color (om-def-color :black) :fill t)
-;(om-draw-string 1 (+ (round (h self) 1) (round (h self) 1)) "pd")
 
 (let* ((font (or (font self) (om-def-font :font1b)))
           (text-h (cadr (multiple-value-list (om-string-size "A" font))))

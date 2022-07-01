@@ -6,27 +6,21 @@
 #X obj 20 361 route path;
 #X obj 173 363 route vel;
 #X obj 20 8 loadbang;
-#X obj 127 11 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
-#000000;
+#X obj 127 11 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
 #X obj 327 363 route nota;
 #X obj 20 667 dac~, f 28;
 #X obj 20 270 t a b;
 #X obj 20 419 else/format next %s %f %f, f 31;
 #X obj 359 159 soundfiler;
-#X floatatom 359 203 7 0 0 0 - - - 0;
+#X floatatom 359 203 7 0 0 0 - - -;
 #X obj 359 112 else/format read -resize %s ir1;
 #N canvas 0 23 497 404 table 0;
 #N canvas 0 23 450 278 (subpatch) 0;
 #X array ir1 215976 float 2;
 #X coords 0 1 215976 -1 200 140 1 0 0;
 #X restore 25 42 graph;
-#X restore 440 205 pd table;
-#X obj 566 337 loadbang;
-#X msg 730 375 \; pd dsp 1;
-#X msg 566 463 set 1 1 ir1 \, set 1 2 ir1;
-#X obj 566 403 bng 30 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
-#000000 #000000;
-#X obj 19 552 piro/multiconvolve~ 2 2 zero;
+#X restore 436 201 pd table;
 #N canvas 329 161 625 417 vu 0;
 #X obj 161 111 abs~;
 #X obj 161 213 snapshot~;
@@ -37,10 +31,10 @@
 #X obj 59 361 outlet;
 #X obj 161 361 outlet;
 #X obj 239 89 expr 1000 / $f1;
-#X floatatom 239 117 5 0 0 0 - - - 0;
-#X obj 161 146 slop~ 0 0 0 0 1e+09;
+#X floatatom 239 117 5 0 0 0 - - -;
+#X obj 161 146 slop~ 0 0 0 0 1e+009;
 #X obj 239 18 inlet;
-#X floatatom 239 57 5 0 0 0 - - - 0;
+#X floatatom 239 57 5 0 0 0 - - -;
 #X text 282 118 hz;
 #X obj 59 171 t f b;
 #X obj 59 129 env~ 1024;
@@ -60,9 +54,9 @@
 #X connect 14 1 1 0;
 #X connect 15 0 14 0;
 #X restore 627 554 pd vu;
-#X msg 359 56 C:/Users/charl/OneDrive_usp.br/Documents/Plugins/Convolution-Reverb/02_Ambience_and_Small_Rooms/BM7_Studio_A.aif
-;
 #X obj 20 475 clone Children_SOL-player 32;
+#X msg 359 56 C:/Users/Neimog/OneDrive_usp.br/Documents/Music_Files/Convolution-Reverb/02_Ambience_and_Small_Rooms/BM7_Studio_A.aif
+;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
@@ -70,22 +64,15 @@
 #X connect 4 0 11 0;
 #X connect 5 0 11 1;
 #X connect 6 0 0 0;
-#X connect 6 0 22 0;
+#X connect 6 0 18 0;
 #X connect 7 0 0 0;
 #X connect 8 0 11 2;
 #X connect 10 0 4 0;
 #X connect 10 0 5 0;
 #X connect 10 0 8 0;
-#X connect 11 0 23 0;
+#X connect 11 0 17 0;
 #X connect 12 0 13 0;
 #X connect 14 0 12 0;
-#X connect 16 0 17 0;
-#X connect 16 0 19 0;
-#X connect 18 0 20 0;
-#X connect 19 0 18 0;
-#X connect 20 0 9 0;
-#X connect 20 1 9 1;
-#X connect 20 1 21 0;
-#X connect 22 0 14 0;
-#X connect 23 0 20 0;
-#X connect 23 0 20 1;
+#X connect 17 0 9 0;
+#X connect 17 0 9 1;
+#X connect 18 0 14 0;
