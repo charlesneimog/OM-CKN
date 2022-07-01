@@ -1,0 +1,3622 @@
+
+(:patch
+ (:name "IE-plugin-suite-BINAURAL-BPF")
+ (:doc "")
+ (:info
+  (:created "2022/05/02 8:27:50")
+  (:modified "2022/05/02 14:18:32")
+  (:by "om-sharp")
+  (:version 1.06))
+ (:window (:size (1721 959)) (:position (28 72)))
+ (:grid nil)
+ (:lock t)
+ (:boxes
+  (:box
+   (:library "OM-CKN")
+   (:type :function)
+   (:reference pd~)
+   (:group-id nil)
+   (:name "pd~")
+   (:x 151)
+   (:y 294)
+   (:w 500)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "PATCH")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :key)
+     (:name "sound-in")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :key)
+     (:name "sound-out")
+     (:value nil)
+     (:reactive nil))
+    (:input (:type :key) (:name "var") (:value nil) (:reactive nil))
+    (:input (:type :key) (:name "gui") (:value nil) (:reactive nil))
+    (:input
+     (:type :key)
+     (:name "offline")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :key)
+     (:name "verbose")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 0))
+  (:box
+   (:type :function)
+   (:reference tmpfile)
+   (:group-id nil)
+   (:name "tmpfile")
+   (:x 290)
+   (:y 71)
+   (:w 88)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "PATH")
+     (:value "")
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 1))
+  (:box
+   (:type :value)
+   (:reference (:symbol "SIMPLE-TEXT-STRING" "LISPWORKS"))
+   (:group-id nil)
+   (:name "value box")
+   (:x 286)
+   (:y 36)
+   (:w 97)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value "test3.wav")
+   (:id 2))
+  (:box
+   (:type :value)
+   (:reference symbol)
+   (:group-id nil)
+   (:name "value box")
+   (:x 513)
+   (:y 260)
+   (:w 39)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value t)
+   (:id 3))
+  (:box
+   (:type :value)
+   (:reference null)
+   (:group-id nil)
+   (:name "value box")
+   (:x 445)
+   (:y 259)
+   (:w 39)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value nil)
+   (:id 4))
+  (:box
+   (:type :object)
+   (:reference sound)
+   (:group-id nil)
+   (:name nil)
+   (:x 244)
+   (:y 342)
+   (:w 303)
+   (:h 78)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :mini-view)
+   (:showname t)
+   (:show-markers t)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value :choose-file)
+     (:reactive nil)))
+   (:outputs (:output (:name "SELF") (:reactive nil)))
+   (:window (:size (1570 448)) (:position (32 32)))
+   (:edition-params)
+   (:value
+    (:object
+     (:class sound)
+     (:slots
+      ((:onset 0)
+       (:duration 8713.288)
+       (:n-samples 384256)
+       (:n-channels 4)
+       (:sample-rate 44100)
+       (:smpl-type :float)
+       (:sample-size 16)))
+     (:add-slots
+      ((:markers nil)
+       (:gain 1.0)
+       (:access-from-file nil)
+       (:file-pathname
+        (:pathname
+         (:directory
+          (:relative
+           :back
+           :back
+           :back
+           :back
+           :back
+           :back
+           :back
+           "Documents"
+           "OM#"
+           "temp-files"))
+         (:device nil)
+         (:host "C")
+         (:name "test3")
+         (:type "wav")))))))
+   (:id 5))
+  (:box
+   (:type :value)
+   (:reference symbol)
+   (:group-id nil)
+   (:name "value box")
+   (:x 582)
+   (:y 256)
+   (:w 39)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value t)
+   (:id 6))
+  (:box
+   (:library "OM-CKN")
+   (:type :function)
+   (:reference pd-open-patches)
+   (:group-id nil)
+   (:name "pd-open-patches")
+   (:x 37)
+   (:y 328)
+   (:w 145)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "PATCH")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 7))
+  (:box
+   (:library "OM-CKN")
+   (:type :function)
+   (:reference complex-senoide)
+   (:group-id nil)
+   (:name "complex-senoide")
+   (:x 1092)
+   (:y 40)
+   (:w 210)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda :lambda)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "FREQ")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "SEC")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "SAMPLES-RATE")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 8))
+  (:box
+   (:type :value)
+   (:reference single-float)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1173)
+   (:y 5)
+   (:w 61)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 0.001)
+   (:id 9))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1237)
+   (:y 5)
+   (:w 54)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 44100)
+   (:id 10))
+  (:box
+   (:type :function)
+   (:reference mapcar)
+   (:group-id nil)
+   (:name "mapcar")
+   (:x 1351)
+   (:y 85)
+   (:w 81)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "FUNCTION")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "LIST")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 11))
+  (:box
+   (:type :value)
+   (:reference cons)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1346)
+   (:y 27)
+   (:w 125)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value (:list 1811 38 39))
+   (:id 12))
+  (:box
+   (:type :function)
+   (:reference reduce)
+   (:group-id nil)
+   (:name "reduce")
+   (:x 1265)
+   (:y 143)
+   (:w 81)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "FUNCTION")
+     (:value +)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "SEQUENCE")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 13))
+  (:box
+   (:type :function)
+   (:reference om+)
+   (:group-id nil)
+   (:name "om+")
+   (:x 1255)
+   (:y 102)
+   (:w 59)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda :lambda)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "ARG1")
+     (:value 0)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "ARG2")
+     (:value 0)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 14))
+  (:box
+   (:library "OM-CKN")
+   (:type :function)
+   (:reference split-complex-numbers)
+   (:group-id nil)
+   (:name "split-complex-numbers")
+   (:x 1207)
+   (:y 181)
+   (:w 188)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "COMPLEX-NUMBER")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs
+    (:output (:name "out0") (:reactive nil))
+    (:output (:name "out1") (:reactive nil)))
+   (:id 15))
+  (:box
+   (:type :function)
+   (:reference om-sample)
+   (:group-id nil)
+   (:name "om-sample")
+   (:x 1231)
+   (:y 253)
+   (:w 102)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "NBS-SR")
+     (:value 10)
+     (:reactive nil)))
+   (:outputs
+    (:output (:name "out0") (:reactive nil))
+    (:output (:name "out1") (:reactive nil))
+    (:output (:name "out2") (:reactive nil)))
+   (:id 16))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1273)
+   (:y 214)
+   (:w 47)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 300)
+   (:id 17))
+  (:box
+   (:type :function)
+   (:reference om-sample)
+   (:group-id nil)
+   (:name "om-sample")
+   (:x 1344)
+   (:y 253)
+   (:w 102)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "NBS-SR")
+     (:value 10)
+     (:reactive nil)))
+   (:outputs
+    (:output (:name "out0") (:reactive nil))
+    (:output (:name "out1") (:reactive nil))
+    (:output (:name "out2") (:reactive nil)))
+   (:id 18))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1386)
+   (:y 214)
+   (:w 47)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 300)
+   (:id 19))
+  (:box
+   (:type :object)
+   (:reference 3dc)
+   (:group-id nil)
+   (:name nil)
+   (:x 1158)
+   (:y 386)
+   (:w 417)
+   (:h 91)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :mini-view)
+   (:showname t)
+   (:show-markers t)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "X-POINTS")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "Y-POINTS")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "Z-POINTS")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :key)
+     (:name "decimals")
+     (:value 2)
+     (:reactive nil)))
+   (:outputs
+    (:output (:name "SELF") (:reactive nil))
+    (:output (:name "X-POINTS") (:reactive nil))
+    (:output (:name "Y-POINTS") (:reactive nil))
+    (:output (:name "Z-POINTS") (:reactive nil))
+    (:output (:name "decimals") (:reactive nil)))
+   (:window (:size (1365 878)) (:position (96 96)))
+   (:edition-params
+    (:show-background t)
+    (:line-width 3)
+    (:show-axes t)
+    (:color-style :length)
+    (:draw-style :lines))
+   (:value
+    (:object
+     (:class 3dc)
+     (:slots
+      ((:times
+        (:list
+         0.0
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         nil
+         10000.0))
+       (:onset 0)
+       (:duration 10000.0)
+       (:interpol (:number-or-nil (:number 50) (:t-or-nil nil)))
+       (:action nil)
+       (:color (:color 0.0S0 0.0S0 0.0S0 1.0))
+       (:decimals 10)
+       (:x-points
+        (:list
+         0.25110853
+         0.21421194
+         0.17731536
+         0.14041877
+         0.10352218
+         0.066625595
+         0.029729009
+         -0.0070530777
+         -0.0414868
+         -0.07592064
+         -0.110354416
+         -0.1447882
+         -0.17922205
+         -0.21365577
+         -0.2476474
+         -0.27732706
+         -0.30700672
+         -0.33668643
+         -0.36636603
+         -0.3960458
+         -0.42572552
+         -0.45446825
+         -0.47743338
+         -0.50039864
+         -0.52336377
+         -0.5463289
+         -0.5692941
+         -0.5922593
+         -0.6136975
+         -0.6284553
+         -0.6432131
+         -0.6579709
+         -0.67272866
+         -0.6874864
+         -0.70224417
+         -0.7148789
+         -0.72050775
+         -0.72613657
+         -0.7317654
+         -0.7373941
+         -0.74302304
+         -0.74865175
+         -0.7516532
+         -0.747867
+         -0.74408067
+         -0.7402946
+         -0.7365084
+         -0.7327223
+         -0.7289361
+         -0.7222048
+         -0.70937306
+         -0.6965412
+         -0.6837095
+         -0.6708777
+         -0.658046
+         -0.6452142
+         -0.62938834
+         -0.60851014
+         -0.5876319
+         -0.56675375
+         -0.54587543
+         -0.52499724
+         -0.5041189
+         -0.48052526
+         -0.45315984
+         -0.42579436
+         -0.3984291
+         -0.3710637
+         -0.34369844
+         -0.316333
+         -0.28688574
+         -0.25504392
+         -0.22320235
+         -0.19136054
+         -0.15951878
+         -0.12767715
+         -0.09583533
+         -0.06289178
+         -0.028896153
+         0.0050992966
+         0.039094925
+         0.073090434
+         0.107085824
+         0.14108145
+         0.1748991
+         0.20857609
+         0.24225283
+         0.27592993
+         0.3096069
+         0.34328365
+         0.37696064
+         0.40896332
+         0.43987155
+         0.47077966
+         0.5016879
+         0.532596
+         0.56350434
+         0.5944127
+         0.6220479
+         0.64793
+         0.67381204
+         0.69969416
+         0.7255763
+         0.7514583
+         0.7773404
+         0.79838527
+         0.8173338
+         0.8362824
+         0.85523105
+         0.8741795
+         0.893128
+         0.9120766
+         0.92480535
+         0.9353957
+         0.94598616
+         0.95657665
+         0.9671672
+         0.9777576
+         0.9883478
+         0.991663
+         0.99305255
+         0.99444217
+         0.9958316
+         0.99722106
+         0.99861074
+         1.0
+         0.99351717
+         0.9855036
+         0.9774903
+         0.9694767
+         0.9614632
+         0.95344955
+         0.9454362
+         0.92951286
+         0.9125491
+         0.8955852
+         0.87862117
+         0.8616572
+         0.8446932
+         0.82772935
+         0.8034402
+         0.77860117
+         0.7537627
+         0.72892404
+         0.70408547
+         0.67924655
+         0.654408
+         0.6234641
+         0.59237445
+         0.56128514
+         0.53019596
+         0.49910668
+         0.4680171
+         0.43683025
+         0.4015497
+         0.36626852
+         0.33098793
+         0.29570723
+         0.26042676
+         0.22514558
+         0.1897366
+         0.15261567
+         0.115494244
+         0.07837343
+         0.041252494
+         0.0041315556
+         -0.03298974
+         -0.07003629
+         -0.10651803
+         -0.14300013
+         -0.1794818
+         -0.21596354
+         -0.25244516
+         -0.28892732
+         -0.32490855
+         -0.35831642
+         -0.39172465
+         -0.4251325
+         -0.45854035
+         -0.49194813
+         -0.5253564
+         -0.55765594
+         -0.5857688
+         -0.6138816
+         -0.64199484
+         -0.67010767
+         -0.69822044
+         -0.7263337
+         -0.752618
+         -0.77358336
+         -0.7945488
+         -0.81551445
+         -0.8364798
+         -0.8574451
+         -0.8784109
+         -0.8968056
+         -0.9092687
+         -0.9217317
+         -0.9341949
+         -0.9466578
+         -0.959121
+         -0.9715841
+         -0.9808149
+         -0.98401237
+         -0.98720986
+         -0.99040747
+         -0.9936049
+         -0.99680257
+         -1.0
+         -0.9994876
+         -0.99330163
+         -0.98711545
+         -0.98092914
+         -0.97474307
+         -0.96855695
+         -0.96237076
+         -0.9522746
+         -0.9372399
+         -0.9222051
+         -0.9071701
+         -0.8921352
+         -0.87710047
+         -0.8620657
+         -0.8432711
+         -0.82053817
+         -0.7978058
+         -0.7750729
+         -0.75234056
+         -0.7296076
+         -0.7068747
+         -0.68092716
+         -0.65218324
+         -0.6234393
+         -0.59469617
+         -0.5659522
+         -0.5372083
+         -0.5084652
+         -0.47745028
+         -0.44480148
+         -0.4121517
+         -0.37950194
+         -0.34685308
+         -0.31420332
+         -0.28155357
+         -0.24794452
+         -0.21376568
+         -0.17958671
+         -0.14540875
+         -0.111229904
+         -0.077050984
+         -0.042873085
+         -0.009337842
+         0.023885727
+         0.057110433
+         0.09033477
+         0.123558514
+         0.15678299
+         0.19000745
+         0.220801
+         0.25065458
+         0.28050828
+         0.31036115
+         0.34021485
+         0.3700676
+         0.3999213
+         0.4255134
+         0.44981352
+         0.4741143
+         0.498415
+         0.5227152
+         0.547016
+         0.57131684
+         0.58963597
+         0.6065885
+         0.62354124
+         0.6404934
+         0.65744615
+         0.6743982
+         0.69135094
+         0.70087636
+         0.7091973
+         0.71751845
+         0.7258395
+         0.7341604
+         0.7424816
+         0.75080264
+         0.75067604
+         0.74968315
+         0.74869025
+         0.74769724
+         0.74670434
+         0.7457113
+         0.74471856
+         0.7348124
+         0.7244717
+         0.71413076
+         0.70378995
+         0.6934494
+         0.68310857
+         0.6727679))
+       (:y-points
+        (:list
+         1.0
+         0.9950762
+         0.9901522
+         0.9852287
+         0.9803048
+         0.9753809
+         0.9704571
+         0.96509135
+         0.95066226
+         0.93623317
+         0.92180437
+         0.90737534
+         0.89294625
+         0.8785173
+         0.86329735
+         0.84036685
+         0.8174366
+         0.79450596
+         0.77157546
+         0.7486447
+         0.7257141
+         0.7018199
+         0.67198265
+         0.6421455
+         0.612308
+         0.5824708
+         0.5526335
+         0.5227964
+         0.49206015
+         0.45739114
+         0.4227221
+         0.38805318
+         0.35338438
+         0.31871533
+         0.2840463
+         0.24881433
+         0.21172464
+         0.17463446
+         0.13754452
+         0.10045481
+         0.06336486
+         0.02627492
+         -0.010770977
+         -0.04770291
+         -0.08463508
+         -0.12156706
+         -0.15849912
+         -0.19543118
+         -0.23236317
+         -0.26840794
+         -0.30261505
+         -0.33682215
+         -0.37102926
+         -0.4052366
+         -0.4394437
+         -0.47365078
+         -0.50595963
+         -0.53506494
+         -0.5641705
+         -0.5932759
+         -0.62238145
+         -0.65148676
+         -0.68059224
+         -0.70671607
+         -0.7286988
+         -0.75068164
+         -0.77266425
+         -0.7946471
+         -0.8166298
+         -0.83861256
+         -0.8565733
+         -0.86990887
+         -0.88324446
+         -0.89658
+         -0.9099156
+         -0.9232512
+         -0.93658674
+         -0.9450266
+         -0.9487931
+         -0.9525596
+         -0.9563262
+         -0.96009267
+         -0.96385926
+         -0.96762574
+         -0.965909
+         -0.95985145
+         -0.9537938
+         -0.94773627
+         -0.9416787
+         -0.93562115
+         -0.9295635
+         -0.9178255
+         -0.90237326
+         -0.8869212
+         -0.87146897
+         -0.8560169
+         -0.84056467
+         -0.82511247
+         -0.8042488
+         -0.78048605
+         -0.7567235
+         -0.7329608
+         -0.70919824
+         -0.68543554
+         -0.661673
+         -0.63327265
+         -0.60286284
+         -0.57245315
+         -0.5420433
+         -0.51163376
+         -0.4812238
+         -0.45081422
+         -0.41703993
+         -0.38210982
+         -0.3471797
+         -0.31224954
+         -0.27731895
+         -0.24238885
+         -0.20745862
+         -0.17088527
+         -0.13387639
+         -0.09686798
+         -0.05985957
+         -0.022850693
+         0.014157653
+         0.051166058
+         0.08774829
+         0.124248266
+         0.16074753
+         0.19724703
+         0.23374689
+         0.2702464
+         0.30674565
+         0.34053957
+         0.3739779
+         0.40741563
+         0.44085372
+         0.474292
+         0.50772977
+         0.54116786
+         0.56958104
+         0.59761775
+         0.6256542
+         0.6536907
+         0.68172706
+         0.70976377
+         0.73780025
+         0.75864184
+         0.7793125
+         0.7999828
+         0.8206531
+         0.84132326
+         0.86199397
+         0.88245917
+         0.8943109
+         0.9061629
+         0.91801477
+         0.92986656
+         0.9417182
+         0.9535702
+         0.96474797
+         0.9669424
+         0.96913684
+         0.97133095
+         0.9735253
+         0.97571946
+         0.97791386
+         0.9789655
+         0.97133464
+         0.9637041
+         0.95607335
+         0.9484428
+         0.940812
+         0.9331812
+         0.9240351
+         0.90709556
+         0.89015586
+         0.8732161
+         0.85627664
+         0.8393371
+         0.8223975
+         0.8037528
+         0.7786679
+         0.7535831
+         0.72849775
+         0.7034129
+         0.6783278
+         0.6532427
+         0.62651635
+         0.5950161
+         0.56351567
+         0.5320147
+         0.5005145
+         0.46901417
+         0.4375132
+         0.40473115
+         0.36899126
+         0.33325124
+         0.29751086
+         0.26177084
+         0.22603095
+         0.19029045
+         0.1539334
+         0.11642456
+         0.078915715
+         0.041406393
+         0.0038973093
+         -0.033611477
+         -0.07112032
+         -0.108303964
+         -0.14498884
+         -0.1816737
+         -0.21835912
+         -0.25504398
+         -0.2917288
+         -0.32841378
+         -0.36361486
+         -0.39694083
+         -0.43026674
+         -0.463593
+         -0.49691898
+         -0.5302449
+         -0.56357086
+         -0.594133
+         -0.6217997
+         -0.64946574
+         -0.67713237
+         -0.7047983
+         -0.732465
+         -0.76013166
+         -0.7837508
+         -0.8038517
+         -0.82395256
+         -0.8440529
+         -0.8641537
+         -0.88425464
+         -0.90435493
+         -0.91925544
+         -0.93041164
+         -0.9415681
+         -0.95272446
+         -0.96388066
+         -0.97503716
+         -0.9861936
+         -0.99125934
+         -0.9927161
+         -0.99417294
+         -0.99562967
+         -0.9970865
+         -0.99854327
+         -1.0
+         -0.9948615
+         -0.9865393
+         -0.97821695
+         -0.9698946
+         -0.9615725
+         -0.9532502
+         -0.9449279
+         -0.9299895
+         -0.91249
+         -0.8949902
+         -0.8774911
+         -0.85999144
+         -0.8424923
+         -0.8249927
+         -0.80140275
+         -0.7759681
+         -0.7505326
+         -0.7250973
+         -0.6996626
+         -0.67422724
+         -0.6487919
+         -0.6183586
+         -0.58678216
+         -0.5552057
+         -0.52363
+         -0.49205357
+         -0.4604779
+         -0.42890137
+         -0.39395314
+         -0.35845894
+         -0.32296383
+         -0.28746867
+         -0.25197464
+         -0.21647954
+         -0.18098438
+         -0.1442002
+         -0.1072827
+         -0.070366144
+         -0.033448637
+         0.003468752
+         0.040385366
+         0.07730281
+         0.11310161
+         0.14884484
+         0.18458903
+         0.2203332
+         0.25607646
+         0.29182065
+         0.32756388))
+       (:z-points
+        (:list
+         0.66378195
+         0.64590997
+         0.6280381
+         0.61016614
+         0.5922943
+         0.5744223
+         0.55655045
+         0.5386512
+         0.5201927
+         0.501734
+         0.48327547
+         0.4648169
+         0.44635838
+         0.4278998
+         0.40950736
+         0.39175996
+         0.3740126
+         0.35626525
+         0.33851787
+         0.32077047
+         0.3030231
+         0.28554913
+         0.269761
+         0.25397295
+         0.23818481
+         0.22239675
+         0.20660869
+         0.19082055
+         0.17560369
+         0.16288613
+         0.15016857
+         0.137451
+         0.12473349
+         0.11201593
+         0.099298366
+         0.08750356
+         0.07875384
+         0.07000405
+         0.061254338
+         0.05250461
+         0.043754883
+         0.03500516
+         0.027535955
+         0.023374828
+         0.019213697
+         0.015052568
+         0.010891438
+         0.0067303088
+         0.0025691793
+         0.0
+         7.283822E-4
+         0.0014567644
+         0.0021851466
+         0.0029135289
+         0.0036419109
+         0.004370293
+         0.0069033033
+         0.012481456
+         0.018059638
+         0.023637819
+         0.029216
+         0.03479418
+         0.040372365
+         0.04782259
+         0.05787298
+         0.067923315
+         0.07797359
+         0.08802398
+         0.09807426
+         0.10812464
+         0.11993439
+         0.13376765
+         0.14760085
+         0.1614341
+         0.17526737
+         0.1891005
+         0.20293376
+         0.2182147
+         0.2348778
+         0.25154075
+         0.2682038
+         0.28486687
+         0.30152985
+         0.31819293
+         0.33579323
+         0.35413584
+         0.37247828
+         0.3908208
+         0.40916342
+         0.42750585
+         0.44584844
+         0.46444002
+         0.48319453
+         0.50194896
+         0.52070356
+         0.539458
+         0.5582125
+         0.57696707
+         0.59514565
+         0.6130157
+         0.63088567
+         0.6487558
+         0.66662574
+         0.68449587
+         0.7023658
+         0.718757
+         0.7345073
+         0.75025744
+         0.7660078
+         0.781758
+         0.79750824
+         0.81325847
+         0.8266217
+         0.83916414
+         0.85170657
+         0.8642491
+         0.8767917
+         0.88933415
+         0.90187675
+         0.9111988
+         0.91966874
+         0.92813844
+         0.93660826
+         0.9450782
+         0.95354796
+         0.9620177
+         0.96659065
+         0.9704062
+         0.9742215
+         0.97803677
+         0.98185224
+         0.98566747
+         0.9894829
+         0.988957
+         0.9878598
+         0.9867625
+         0.9856656
+         0.9845684
+         0.9834712
+         0.9823741
+         0.9767851
+         0.9708592
+         0.9649332
+         0.9590072
+         0.95308137
+         0.9471555
+         0.9412296
+         0.93099684
+         0.9206616
+         0.91032637
+         0.8999913
+         0.8896561
+         0.87932086
+         0.86889995
+         0.8548817
+         0.84086335
+         0.8268451
+         0.8128269
+         0.79880876
+         0.78479034
+         0.7705837
+         0.7538647
+         0.73714555
+         0.7204266
+         0.70370764
+         0.6869887
+         0.67026955
+         0.6533726
+         0.63512284
+         0.61687297
+         0.59862334
+         0.5803735
+         0.5621239
+         0.5438739
+         0.5255828
+         0.50707865
+         0.4885742
+         0.47007
+         0.45156583
+         0.43306157
+         0.41455716
+         0.39627048
+         0.37880537
+         0.36134028
+         0.343875
+         0.32640994
+         0.30894485
+         0.29147956
+         0.27459273
+         0.25938788
+         0.2441831
+         0.22897806
+         0.21377319
+         0.19856839
+         0.18336335
+         0.16916338
+         0.15728206
+         0.14540079
+         0.13351935
+         0.12163809
+         0.109756775
+         0.09787534
+         0.08744364
+         0.07971754
+         0.07199149
+         0.064265326
+         0.05653928
+         0.04881323
+         0.04108713
+         0.03521813
+         0.032189332
+         0.029160593
+         0.02613179
+         0.023102992
+         0.020074249
+         0.01704545
+         0.016187152
+         0.018070415
+         0.019953648
+         0.02183694
+         0.023720174
+         0.025603464
+         0.027486697
+         0.03170669
+         0.03837456
+         0.0450422
+         0.05171007
+         0.05837776
+         0.06504563
+         0.07171345
+         0.08069377
+         0.09168525
+         0.10267673
+         0.11366792
+         0.12465939
+         0.13565088
+         0.14664208
+         0.15970415
+         0.17425663
+         0.18880952
+         0.20336233
+         0.2179148
+         0.23246768
+         0.24702057
+         0.2631747
+         0.28027844
+         0.29738218
+         0.31448543
+         0.33158916
+         0.34869295
+         0.3657962
+         0.38381884
+         0.4022845
+         0.4207507
+         0.43921688
+         0.45768258
+         0.47614884
+         0.494615
+         0.5131376
+         0.53168267
+         0.5502279
+         0.5687725
+         0.5873176
+         0.6058623
+         0.6244074
+         0.64202357
+         0.6593577
+         0.6766924
+         0.69402707
+         0.7113612
+         0.7286958
+         0.74603045
+         0.7613983
+         0.77631706
+         0.7912359
+         0.80615426
+         0.821073
+         0.8359914
+         0.8509101
+         0.86285735
+         0.8743224
+         0.88578797
+         0.8972533
+         0.9087183
+         0.9201837
+         0.93164915
+         0.93925876
+         0.94647325
+         0.9536877
+         0.9609023
+         0.96811677
+         0.97533125
+         0.98254574
+         0.9852287
+         0.9876906
+         0.9901525
+         0.9926144
+         0.9950764
+         0.9975383
+         1.0))))
+     (:add-slots ((:name "nil")))))
+   (:id 20))
+  (:box
+   (:type :function)
+   (:reference reverse)
+   (:group-id nil)
+   (:name "reverse")
+   (:x 1540)
+   (:y 120)
+   (:w 88)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SEQUENCE")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 21))
+  (:box
+   (:type :function)
+   (:reference om-sample)
+   (:group-id nil)
+   (:name "om-sample")
+   (:x 1466)
+   (:y 252)
+   (:w 102)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "NBS-SR")
+     (:value 10)
+     (:reactive nil)))
+   (:outputs
+    (:output (:name "out0") (:reactive nil))
+    (:output (:name "out1") (:reactive nil))
+    (:output (:name "out2") (:reactive nil)))
+   (:id 22))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1508)
+   (:y 213)
+   (:w 47)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 300)
+   (:id 23))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1492)
+   (:y 351)
+   (:w 39)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 10)
+   (:id 24))
+  (:box
+   (:library "OM-CKN")
+   (:type :function)
+   (:reference sound-dur-sox)
+   (:group-id nil)
+   (:name "sound-dur-sox")
+   (:x 1073)
+   (:y 181)
+   (:w 131)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SOUNDS")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 25))
+  (:box
+   (:type :function)
+   (:reference sec->ms)
+   (:group-id nil)
+   (:name "sec->ms")
+   (:x 1095)
+   (:y 219)
+   (:w 88)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input (:type :standard) (:name "N") (:value 0) (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 26))
+  (:box
+   (:type :function)
+   (:reference arithm-ser)
+   (:group-id nil)
+   (:name "arithm-ser")
+   (:x 934)
+   (:y 440)
+   (:w 157)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "BEGIN")
+     (:value 0)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "END")
+     (:value 10)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "STEP")
+     (:value 1)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 27))
+  (:box
+   (:type :function)
+   (:reference length)
+   (:group-id nil)
+   (:name "length")
+   (:x 1169)
+   (:y 500)
+   (:w 81)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SEQUENCE")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 28))
+  (:box
+   (:type :function)
+   (:reference om/)
+   (:group-id nil)
+   (:name "om/")
+   (:x 945)
+   (:y 293)
+   (:w 59)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "ARG1")
+     (:value 1)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "ARG2")
+     (:value 1)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 29))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 946)
+   (:y 413)
+   (:w 32)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 0)
+   (:id 30))
+  (:box
+   (:type :function)
+   (:reference float)
+   (:group-id nil)
+   (:name "float")
+   (:x 938)
+   (:y 330)
+   (:w 74)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "N")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 31))
+  (:box
+   (:type :abstraction)
+   (:reference
+    (:textfun
+     (:name "make-coll")
+     (:doc "")
+     (:info
+      (:created nil)
+      (:modified nil)
+      (:by *app-name*)
+      (:version 0))
+     (:window (:size (938 475)) (:position (32 32)))
+     (:text
+      (:list
+       ";;; Edit a valid LAMBDA EXPRESSION"
+       ";;; e.g. (lambda (arg1 arg2 ...) ( ... ))"
+       "(lambda (time data)"
+       ""
+       "(loop :for atom_time :in time"
+       "      :for atom_data :in data"
+       "      :collect (x-append atom_time \",\" atom_data \";\")))"
+       ""))))
+   (:group-id nil)
+   (:name "make-coll")
+   (:x 956)
+   (:y 569)
+   (:w 200)
+   (:h 60)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :hidden)
+   (:pre-delay 0)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "TIME")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "DATA")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 32))
+  (:box
+   (:type :function)
+   (:reference list)
+   (:group-id nil)
+   (:name "list")
+   (:x 1377)
+   (:y 585)
+   (:w 229)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :optional)
+     (:name "args")
+     (:value 1)
+     (:reactive nil))
+    (:input
+     (:type :optional)
+     (:name "args")
+     (:value 1)
+     (:reactive nil))
+    (:input
+     (:type :optional)
+     (:name "args")
+     (:value 1)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 33))
+  (:box
+   (:type :function)
+   (:reference mat-trans)
+   (:group-id nil)
+   (:name "mat-trans")
+   (:x 1436)
+   (:y 622)
+   (:w 102)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "MATRIX")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 34))
+  (:box
+   (:type :object)
+   (:reference textbuffer)
+   (:group-id nil)
+   (:name nil)
+   (:x 815)
+   (:y 637)
+   (:w 335)
+   (:h 57)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :mini-view)
+   (:showname nil)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "CONTENTS")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs
+    (:output (:name "SELF") (:reactive nil))
+    (:output (:name "CONTENTS") (:reactive nil)))
+   (:window (:size (1739 828)) (:position (64 64)))
+   (:edition-params)
+   (:value
+    (:object
+     (:class textbuffer)
+     (:slots
+      ((:contents
+        (:list
+         "0 , 0.62555427 1.0 0.66378195 ;"
+         "22 , 0.607106 0.9975381 0.64590997 ;"
+         "45 , 0.5886577 0.99507607 0.6280381 ;"
+         "67 , 0.5702094 0.9926144 0.61016614 ;"
+         "89 , 0.5517611 0.99015236 0.5922943 ;"
+         "112 , 0.5333128 0.98769045 0.5744223 ;"
+         "134 , 0.5148645 0.98522854 0.55655045 ;"
+         "157 , 0.49647346 0.9825457 0.5386512 ;"
+         "179 , 0.4792566 0.9753311 0.5201927 ;"
+         "201 , 0.46203968 0.9681166 0.501734 ;"
+         "224 , 0.4448228 0.9609022 0.48327547 ;"
+         "246 , 0.4276059 0.95368767 0.4648169 ;"
+         "268 , 0.41038898 0.9464731 0.44635838 ;"
+         "291 , 0.39317212 0.9392587 0.4278998 ;"
+         "313 , 0.3761763 0.9316487 0.40950736 ;"
+         "336 , 0.36133647 0.9201834 0.39175996 ;"
+         "358 , 0.34649664 0.9087183 0.3740126 ;"
+         "380 , 0.33165678 0.897253 0.35626525 ;"
+         "403 , 0.316817 0.8857877 0.33851787 ;"
+         "425 , 0.3019771 0.87432236 0.32077047 ;"
+         "447 , 0.28713724 0.86285705 0.3030231 ;"
+         "470 , 0.27276587 0.85090995 0.28554913 ;"
+         "492 , 0.2612833 0.8359913 0.269761 ;"
+         "515 , 0.24980068 0.82107276 0.25397295 ;"
+         "537 , 0.23831812 0.806154 0.23818481 ;"
+         "559 , 0.22683555 0.7912354 0.22239675 ;"
+         "582 , 0.21535295 0.77631677 0.20660869 ;"
+         "604 , 0.20387036 0.7613982 0.19082055 ;"
+         "626 , 0.19315124 0.7460301 0.17560369 ;"
+         "649 , 0.18577236 0.7286956 0.16288613 ;"
+         "671 , 0.17839346 0.71136106 0.15016857 ;"
+         "694 , 0.17101455 0.6940266 0.137451 ;"
+         "716 , 0.16363567 0.6766922 0.12473349 ;"
+         "738 , 0.1562568 0.65935767 0.11201593 ;"
+         "761 , 0.14887792 0.64202315 0.099298366 ;"
+         "783 , 0.14256054 0.6244072 0.08750356 ;"
+         "805 , 0.13974613 0.6058623 0.07875384 ;"
+         "828 , 0.13693172 0.5873172 0.07000405 ;"
+         "850 , 0.1341173 0.56877226 0.061254338 ;"
+         "873 , 0.13130296 0.5502274 0.05250461 ;"
+         "895 , 0.12848848 0.53168244 0.043754883 ;"
+         "917 , 0.12567413 0.51313746 0.03500516 ;"
+         "940 , 0.1241734 0.4946145 0.027535955 ;"
+         "962 , 0.1260665 0.47614855 0.023374828 ;"
+         "984 , 0.12795967 0.45768246 0.019213697 ;"
+         "1007 , 0.12985271 0.43921646 0.015052568 ;"
+         "1029 , 0.13174579 0.42075044 0.010891438 ;"
+         "1052 , 0.13363886 0.4022844 0.0067303088 ;"
+         "1074 , 0.13553196 0.38381842 0.0025691793 ;"
+         "1096 , 0.1388976 0.36579603 0.0 ;"
+         "1119 , 0.14531347 0.34869248 7.283822E-4 ;"
+         "1141 , 0.1517294 0.33158892 0.0014567644 ;"
+         "1163 , 0.15814525 0.31448537 0.0021851466 ;"
+         "1186 , 0.16456115 0.2973817 0.0029135289 ;"
+         "1208 , 0.170977 0.28027815 0.0036419109 ;"
+         "1231 , 0.1773929 0.2631746 0.004370293 ;"
+         "1253 , 0.18530584 0.24702019 0.0069033033 ;"
+         "1275 , 0.19574493 0.23246753 0.012481456 ;"
+         "1298 , 0.20618406 0.21791476 0.018059638 ;"
+         "1320 , 0.21662313 0.20336205 0.023637819 ;"
+         "1342 , 0.22706229 0.18880928 0.029216 ;"
+         "1365 , 0.23750139 0.17425663 0.03479418 ;"
+         "1387 , 0.24794054 0.15970388 0.040372365 ;"
+         "1410 , 0.25973737 0.14664197 0.04782259 ;"
+         "1432 , 0.2734201 0.1356506 0.05787298 ;"
+         "1454 , 0.28710282 0.12465918 0.067923315 ;"
+         "1477 , 0.30078545 0.113667876 0.07797359 ;"
+         "1499 , 0.31446815 0.10267645 0.08802398 ;"
+         "1521 , 0.32815078 0.09168509 0.09807426 ;"
+         "1544 , 0.3418335 0.08069372 0.10812464 ;"
+         "1566 , 0.35655713 0.07171336 0.11993439 ;"
+         "1589 , 0.37247804 0.065045566 0.13376765 ;"
+         "1611 , 0.38839883 0.058377773 0.14760085 ;"
+         "1633 , 0.40431973 0.05171001 0.1614341 ;"
+         "1656 , 0.4202406 0.045042187 0.17526737 ;"
+         "1678 , 0.43616143 0.038374395 0.1891005 ;"
+         "1700 , 0.45208234 0.03170663 0.20293376 ;"
+         "1723 , 0.4685541 0.027486712 0.2182147 ;"
+         "1745 , 0.48555192 0.025603444 0.2348778 ;"
+         "1767 , 0.50254965 0.023720205 0.25154075 ;"
+         "1790 , 0.51954747 0.021836907 0.2682038 ;"
+         "1812 , 0.5365452 0.019953669 0.28486687 ;"
+         "1835 , 0.5535429 0.01807037 0.30152985 ;"
+         "1857 , 0.5705407 0.016187132 0.31819293 ;"
+         "1879 , 0.58744956 0.017045498 0.33579323 ;"
+         "1902 , 0.60428805 0.020074279 0.35413584 ;"
+         "1924 , 0.6211264 0.023103089 0.37247828 ;"
+         "1946 , 0.63796497 0.026131869 0.3908208 ;"
+         "1969 , 0.65480346 0.029160649 0.40916342 ;"
+         "1991 , 0.6716418 0.03218943 0.42750585 ;"
+         "2014 , 0.6884803 0.03521824 0.44584844 ;"
+         "2036 , 0.70448167 0.04108724 0.46444002 ;"
+         "2058 , 0.7199358 0.048813373 0.48319453 ;"
+         "2081 , 0.7353898 0.056539387 0.50194896 ;"
+         "2103 , 0.75084395 0.06426552 0.52070356 ;"
+         "2125 , 0.766298 0.07199156 0.539458 ;"
+         "2148 , 0.78175217 0.079717666 0.5582125 ;"
+         "2170 , 0.79720635 0.08744377 0.57696707 ;"
+         "2193 , 0.81102396 0.097875595 0.59514565 ;"
+         "2215 , 0.823965 0.10975698 0.6130157 ;"
+         "2237 , 0.836906 0.12163824 0.63088567 ;"
+         "2260 , 0.8498471 0.13351959 0.6487558 ;"
+         "2282 , 0.86278815 0.14540088 0.66662574 ;"
+         "2304 , 0.87572915 0.15728224 0.68449587 ;"
+         "2327 , 0.8886702 0.1691635 0.7023658 ;"
+         "2349 , 0.89919264 0.18336368 0.718757 ;"
+         "2372 , 0.9086669 0.19856858 0.7345073 ;"
+         "2394 , 0.9181412 0.21377343 0.75025744 ;"
+         "2416 , 0.9276155 0.22897834 0.7660078 ;"
+         "2439 , 0.93708975 0.24418313 0.781758 ;"
+         "2461 , 0.94656396 0.2593881 0.79750824 ;"
+         "2483 , 0.9560383 0.27459288 0.81325847 ;"
+         "2506 , 0.9624027 0.29148003 0.8266217 ;"
+         "2528 , 0.96769786 0.3089451 0.83916414 ;"
+         "2551 , 0.9729931 0.32641014 0.85170657 ;"
+         "2573 , 0.9782883 0.34387523 0.8642491 ;"
+         "2595 , 0.98358357 0.36134052 0.8767917 ;"
+         "2618 , 0.9888788 0.37880558 0.88933415 ;"
+         "2640 , 0.9941739 0.3962707 0.90187675 ;"
+         "2662 , 0.9958315 0.41455737 0.9111988 ;"
+         "2685 , 0.99652625 0.4330618 0.91966874 ;"
+         "2707 , 0.9972211 0.451566 0.92813844 ;"
+         "2730 , 0.9979158 0.4700702 0.93660826 ;"
+         "2752 , 0.9986105 0.48857465 0.9450782 ;"
+         "2774 , 0.99930537 0.5070788 0.95354796 ;"
+         "2797 , 1.0 0.525583 0.9620177 ;"
+         "2819 , 0.9967586 0.54387415 0.96659065 ;"
+         "2841 , 0.99275184 0.56212414 0.9704062 ;"
+         "2864 , 0.98874516 0.58037377 0.9742215 ;"
+         "2886 , 0.98473835 0.5986235 0.97803677 ;"
+         "2909 , 0.9807316 0.61687345 0.98185224 ;"
+         "2931 , 0.97672475 0.6351232 0.98566747 ;"
+         "2953 , 0.9727181 0.6533728 0.9894829 ;"
+         "2976 , 0.9647564 0.6702698 0.988957 ;"
+         "2998 , 0.9562745 0.68698895 0.9878598 ;"
+         "3020 , 0.9477926 0.7037078 0.9867625 ;"
+         "3043 , 0.93931056 0.72042686 0.9856656 ;"
+         "3065 , 0.9308286 0.737146 0.9845684 ;"
+         "3088 , 0.9223466 0.7538649 0.9834712 ;"
+         "3110 , 0.9138647 0.7705839 0.9823741 ;"
+         "3132 , 0.9017201 0.7847905 0.9767851 ;"
+         "3155 , 0.8893006 0.7988089 0.9708592 ;"
+         "3177 , 0.87688137 0.8128271 0.9649332 ;"
+         "3199 , 0.864462 0.82684535 0.9590072 ;"
+         "3222 , 0.85204274 0.8408635 0.95308137 ;"
+         "3244 , 0.8396233 0.8548819 0.9471555 ;"
+         "3267 , 0.827204 0.8689001 0.9412296 ;"
+         "3289 , 0.81173206 0.8793209 0.93099684 ;"
+         "3311 , 0.7961872 0.88965625 0.9206616 ;"
+         "3334 , 0.78064257 0.8999914 0.91032637 ;"
+         "3356 , 0.765098 0.91032655 0.8999913 ;"
+         "3378 , 0.7495533 0.9206616 0.8896561 ;"
+         "3401 , 0.73400856 0.930997 0.87932086 ;"
+         "3423 , 0.71841515 0.9412296 0.86889995 ;"
+         "3445 , 0.70077485 0.9471555 0.8548817 ;"
+         "3468 , 0.68313426 0.9530815 0.84086335 ;"
+         "3490 , 0.66549397 0.9590074 0.8268451 ;"
+         "3513 , 0.6478536 0.9649333 0.8128269 ;"
+         "3535 , 0.6302134 0.9708591 0.79880876 ;"
+         "3557 , 0.6125728 0.97678507 0.78479034 ;"
+         "3580 , 0.5948683 0.98237396 0.7705837 ;"
+         "3602 , 0.57630784 0.9834712 0.7538647 ;"
+         "3624 , 0.5577471 0.9845684 0.73714555 ;"
+         "3647 , 0.5391867 0.98566545 0.7204266 ;"
+         "3669 , 0.52062625 0.98676265 0.70370764 ;"
+         "3692 , 0.5020658 0.9878597 0.6869887 ;"
+         "3714 , 0.48350513 0.9889569 0.67026955 ;"
+         "3736 , 0.46498185 0.98948277 0.6533726 ;"
+         "3759 , 0.44674099 0.98566735 0.63512284 ;"
+         "3781 , 0.42849994 0.98185206 0.61687297 ;"
+         "3803 , 0.4102591 0.97803665 0.59862334 ;"
+         "3826 , 0.39201823 0.9742214 0.5803735 ;"
+         "3848 , 0.37377742 0.970406 0.5621239 ;"
+         "3871 , 0.35553634 0.96659065 0.5438739 ;"
+         "3893 , 0.33754572 0.96201754 0.5255828 ;"
+         "3915 , 0.3208418 0.9535478 0.50707865 ;"
+         "3938 , 0.30413768 0.9450779 0.4885742 ;"
+         "3960 , 0.28743374 0.9366081 0.47007 ;"
+         "3982 , 0.27072984 0.9281383 0.45156583 ;"
+         "4005 , 0.25402594 0.91966856 0.43306157 ;"
+         "4027 , 0.2373218 0.91119874 0.41455716 ;"
+         "4050 , 0.22117204 0.9018764 0.39627048 ;"
+         "4072 , 0.20711559 0.88933397 0.37880537 ;"
+         "4094 , 0.1930592 0.87679154 0.36134028 ;"
+         "4117 , 0.17900259 0.8642489 0.343875 ;"
+         "4139 , 0.16494617 0.85170645 0.32640994 ;"
+         "4161 , 0.15088979 0.8391639 0.30894485 ;"
+         "4184 , 0.13683316 0.82662136 0.29147956 ;"
+         "4206 , 0.12369099 0.8132582 0.27459273 ;"
+         "4229 , 0.11320832 0.79750807 0.25938788 ;"
+         "4251 , 0.102725595 0.78175784 0.2441831 ;"
+         "4273 , 0.09224278 0.76600737 0.22897806 ;"
+         "4296 , 0.08176011 0.75025726 0.21377319 ;"
+         "4318 , 0.07127744 0.7345071 0.19856839 ;"
+         "4340 , 0.060794562 0.7187566 0.18336335 ;"
+         "4363 , 0.051597208 0.7023656 0.16916338 ;"
+         "4385 , 0.04536566 0.6844956 0.15728206 ;"
+         "4408 , 0.039134145 0.6666256 0.14540079 ;"
+         "4430 , 0.03290254 0.64875544 0.13351935 ;"
+         "4452 , 0.026671112 0.6308854 0.12163809 ;"
+         "4475 , 0.020439506 0.6130155 0.109756775 ;"
+         "4497 , 0.014207959 0.5951452 0.09787534 ;"
+         "4519 , 0.009592563 0.5769667 0.08744364 ;"
+         "4542 , 0.007993817 0.5582123 0.07971754 ;"
+         "4564 , 0.0063950718 0.53945786 0.07199149 ;"
+         "4587 , 0.0047962666 0.5207032 0.064265326 ;"
+         "4609 , 0.0031975508 0.50194866 0.05653928 ;"
+         "4631 , 0.0015987158 0.48319426 0.04881323 ;"
+         "4654 , 0.0 0.46443984 0.04108713 ;"
+         "4676 , 2.5621057E-4 0.44584802 0.03521813 ;"
+         "4698 , 0.003349185 0.42750558 0.032189332 ;"
+         "4721 , 0.0064422786 0.40916315 0.029160593 ;"
+         "4743 , 0.009535432 0.39082044 0.02613179 ;"
+         "4766 , 0.012628466 0.372478 0.023102992 ;"
+         "4788 , 0.01572153 0.3541356 0.020074249 ;"
+         "4810 , 0.018814624 0.3357931 0.01704545 ;"
+         "4833 , 0.02386269 0.31819257 0.016187152 ;"
+         "4855 , 0.031380058 0.3015296 0.018070415 ;"
+         "4877 , 0.038897455 0.28486663 0.019953648 ;"
+         "4900 , 0.04641494 0.2682035 0.02183694 ;"
+         "4922 , 0.0539324 0.2515405 0.023720174 ;"
+         "4945 , 0.061449767 0.23487756 0.025603464 ;"
+         "4967 , 0.06896716 0.21821457 0.027486697 ;"
+         "4989 , 0.07836446 0.20293349 0.03170669 ;"
+         "5012 , 0.08973092 0.18910015 0.03837456 ;"
+         "5034 , 0.10109711 0.17526713 0.0450422 ;"
+         "5056 , 0.11246356 0.16143382 0.05171007 ;"
+         "5079 , 0.12382972 0.14760086 0.05837776 ;"
+         "5101 , 0.13519621 0.13376749 0.06504563 ;"
+         "5123 , 0.14656264 0.11993417 0.07171345 ;"
+         "5146 , 0.15953642 0.108124614 0.08069377 ;"
+         "5168 , 0.17390839 0.09807414 0.09168525 ;"
+         "5191 , 0.18828035 0.08802372 0.10267673 ;"
+         "5213 , 0.20265192 0.077973545 0.11366792 ;"
+         "5235 , 0.21702391 0.06792316 0.12465939 ;"
+         "5258 , 0.23139584 0.057872683 0.13565088 ;"
+         "5280 , 0.24576742 0.047822535 0.14664208 ;"
+         "5302 , 0.26127487 0.040372283 0.15970415 ;"
+         "5325 , 0.27759928 0.03479418 0.17425663 ;"
+         "5347 , 0.29392415 0.029215962 0.18880952 ;"
+         "5370 , 0.31024903 0.023637772 0.20336233 ;"
+         "5392 , 0.32657346 0.01805967 0.2179148 ;"
+         "5414 , 0.34289834 0.012481421 0.23246768 ;"
+         "5437 , 0.35922322 0.0069032014 0.24702057 ;"
+         "5459 , 0.37602773 0.0043703318 0.2631747 ;"
+         "5481 , 0.39311716 0.003641963 0.28027844 ;"
+         "5504 , 0.41020665 0.0029135347 0.29738218 ;"
+         "5526 , 0.42729563 0.0021851659 0.31448543 ;"
+         "5549 , 0.44438505 0.0014567375 0.33158916 ;"
+         "5571 , 0.4614745 7.2836876E-4 0.34869295 ;"
+         "5593 , 0.47856346 0.0 0.3657962 ;"
+         "5616 , 0.49533108 0.0025692582 0.38381884 ;"
+         "5638 , 0.51194287 0.006730348 0.4022845 ;"
+         "5660 , 0.5285552 0.010891527 0.4207507 ;"
+         "5683 , 0.5451674 0.015052706 0.43921688 ;"
+         "5705 , 0.56177927 0.019213736 0.45768258 ;"
+         "5728 , 0.5783915 0.023374886 0.47614884 ;"
+         "5750 , 0.5950037 0.027536065 0.494615 ;"
+         "5772 , 0.6104005 0.03500524 0.5131376 ;"
+         "5795 , 0.6253273 0.043754995 0.53168267 ;"
+         "5817 , 0.64025414 0.052504897 0.5502279 ;"
+         "5839 , 0.6551806 0.06125444 0.5687725 ;"
+         "5862 , 0.6701074 0.070004285 0.5873176 ;"
+         "5884 , 0.6850338 0.07875386 0.6058623 ;"
+         "5907 , 0.69996065 0.08750364 0.6244074 ;"
+         "5929 , 0.7127567 0.099298626 0.64202357 ;"
+         "5951 , 0.72490675 0.11201596 0.6593577 ;"
+         "5974 , 0.73705715 0.12473369 0.6766924 ;"
+         "5996 , 0.7492075 0.13745135 0.69402707 ;"
+         "6018 , 0.7613576 0.15016869 0.7113612 ;"
+         "6041 , 0.773508 0.16288638 0.7286958 ;"
+         "6063 , 0.7856584 0.17560405 0.74603045 ;"
+         "6086 , 0.794818 0.1908207 0.7613983 ;"
+         "6108 , 0.80329425 0.20660892 0.77631706 ;"
+         "6130 , 0.8117706 0.22239715 0.7912359 ;"
+         "6153 , 0.8202467 0.23818499 0.80615426 ;"
+         "6175 , 0.8287231 0.25397322 0.821073 ;"
+         "6197 , 0.8371991 0.26976106 0.8359914 ;"
+         "6220 , 0.84567547 0.2855493 0.8509101 ;"
+         "6242 , 0.8504382 0.30302343 0.86285735 ;"
+         "6265 , 0.85459865 0.32077053 0.8743224 ;"
+         "6287 , 0.8587592 0.33851808 0.88578797 ;"
+         "6309 , 0.86291975 0.35626566 0.8972533 ;"
+         "6332 , 0.8670802 0.37401268 0.9087183 ;"
+         "6354 , 0.8712408 0.39176023 0.9201837 ;"
+         "6376 , 0.8754013 0.4095078 0.93164915 ;"
+         "6399 , 0.875338 0.4278999 0.93925876 ;"
+         "6421 , 0.8748416 0.44635865 0.94647325 ;"
+         "6444 , 0.8743451 0.46481693 0.9536877 ;"
+         "6466 , 0.8738486 0.48327568 0.9609023 ;"
+         "6488 , 0.87335217 0.5017344 0.96811677 ;"
+         "6511 , 0.87285567 0.5201927 0.97533125 ;"
+         "6533 , 0.8723593 0.5386514 0.98254574 ;"
+         "6555 , 0.8674062 0.5565508 0.9852287 ;"
+         "6578 , 0.86223585 0.5744224 0.9876906 ;"
+         "6600 , 0.8570654 0.5922945 0.9901525 ;"
+         "6623 , 0.851895 0.6101666 0.9926144 ;"
+         "6645 , 0.8467247 0.6280382 0.9950764 ;"
+         "6667 , 0.8415543 0.6459103 0.9975383 ;"
+         "6690 , 0.83638394 0.66378195 1.0 ;"))))
+     (:add-slots ((:input-mode :lines-cols)))))
+   (:id 35))
+  (:box
+   (:type :function)
+   (:reference om-round)
+   (:group-id nil)
+   (:name "om-round")
+   (:x 960)
+   (:y 516)
+   (:w 95)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input (:type :standard) (:name "N") (:value 1) (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 36))
+  (:box
+   (:type :function)
+   (:reference save-as-text)
+   (:group-id nil)
+   (:name "save-as-text")
+   (:x 847)
+   (:y 778)
+   (:w 210)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :optional)
+     (:name "path")
+     (:value "data")
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 37))
+  (:box
+   (:type :function)
+   (:reference tmpfile)
+   (:group-id nil)
+   (:name "tmpfile")
+   (:x 951)
+   (:y 744)
+   (:w 88)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "PATH")
+     (:value "")
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 38))
+  (:box
+   (:type :value)
+   (:reference (:symbol "SIMPLE-TEXT-STRING" "LISPWORKS"))
+   (:group-id nil)
+   (:name "value box")
+   (:x 925)
+   (:y 707)
+   (:w 140)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value "coordinates.txt")
+   (:id 39))
+  (:box
+   (:type :interface)
+   (:reference pd-list-patches)
+   (:group-id nil)
+   (:name "pd-list-patches")
+   (:x 39)
+   (:y 21)
+   (:w 180)
+   (:h 30)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:font (:font (:face "Segoe UI") (:size 8) (:style :bold)))
+   (:output-mode :value)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value
+    (:object
+     (:class pure-data)
+     (:slots
+      ((:pd "\"C:\\\\Program Files\\\\Pd\\\\bin\\\\pd.exe\"")
+       (:pd-path
+        (:pathname
+         (:directory
+          (:absolute
+           "USERS"
+           "Neimog"
+           "ONEDRIVE_USP.BR"
+           "DOCUMENTS"
+           "OPENMUSIC"
+           "OM-LIBRARIES"
+           "OM-CKN"
+           "resources"
+           "Pd-Patches"))
+         (:device :unspecific)
+         (:host "C")
+         (:name "VST-COLL")
+         (:type "pd")))
+       (:command-line nil)
+       (:pd-outfile nil)))))
+   (:items
+    (:list
+     "VST.pd"
+     "VST-COLL.pd"
+     "SOL-player.pd"
+     "SOFA-Binaural.pd"
+     "Record.pd"
+     "OA.pd"
+     "Microtonal-Player.pd"
+     "IR-convolution.pd"
+     "IR-convolution-v2.pd"
+     "data-stream.pd"))
+   (:selection 1)
+   (:id 40))
+  (:box
+   (:type :function)
+   (:reference x-append)
+   (:group-id nil)
+   (:name "x-append")
+   (:x 771)
+   (:y 835)
+   (:w 95)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "L1?")
+     (:value nil)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "L2?")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 41))
+  (:box
+   (:type :value)
+   (:reference symbol)
+   (:group-id nil)
+   (:name "value box")
+   (:x 754)
+   (:y 777)
+   (:w 82)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value coll_file)
+   (:id 42))
+  (:box
+   (:type :function)
+   (:reference list)
+   (:group-id nil)
+   (:name "list")
+   (:x 362)
+   (:y 249)
+   (:w 67)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :optional)
+     (:name "args")
+     (:value 1)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 43))
+  (:box
+   (:type :function)
+   (:reference om-scale)
+   (:group-id nil)
+   (:name "om-scale")
+   (:x 1195)
+   (:y 330)
+   (:w 114)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value 1)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "MINOUT")
+     (:value 0)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "MAXOUT")
+     (:value 1)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 44))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1231)
+   (:y 295)
+   (:w 32)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value -1)
+   (:id 45))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1262)
+   (:y 295)
+   (:w 32)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 1)
+   (:id 46))
+  (:box
+   (:type :function)
+   (:reference om-scale)
+   (:group-id nil)
+   (:name "om-scale")
+   (:x 1318)
+   (:y 328)
+   (:w 114)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value 1)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "MINOUT")
+     (:value 0)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "MAXOUT")
+     (:value 1)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 47))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1354)
+   (:y 293)
+   (:w 32)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value -1)
+   (:id 48))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1385)
+   (:y 293)
+   (:w 32)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 1)
+   (:id 49))
+  (:box
+   (:type :function)
+   (:reference om-scale)
+   (:group-id nil)
+   (:name "om-scale")
+   (:x 1443)
+   (:y 326)
+   (:w 114)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value 1)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "MINOUT")
+     (:value 0)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "MAXOUT")
+     (:value 1)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 50))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1479)
+   (:y 291)
+   (:w 32)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 0)
+   (:id 51))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1510)
+   (:y 291)
+   (:w 32)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 1)
+   (:id 52))
+  (:box
+   (:type :function)
+   (:reference om-scale)
+   (:group-id nil)
+   (:name "om-scale")
+   (:x 1262)
+   (:y 505)
+   (:w 114)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value 1)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "MINOUT")
+     (:value 0)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "MAXOUT")
+     (:value 1)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 53))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1298)
+   (:y 470)
+   (:w 32)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 0)
+   (:id 54))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1329)
+   (:y 470)
+   (:w 32)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 1)
+   (:id 55))
+  (:box
+   (:type :function)
+   (:reference om-scale)
+   (:group-id nil)
+   (:name "om-scale")
+   (:x 1380)
+   (:y 528)
+   (:w 114)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value 1)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "MINOUT")
+     (:value 0)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "MAXOUT")
+     (:value 1)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 56))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1416)
+   (:y 493)
+   (:w 32)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 0)
+   (:id 57))
+  (:box
+   (:type :value)
+   (:reference fixnum)
+   (:group-id nil)
+   (:name "value box")
+   (:x 1447)
+   (:y 493)
+   (:w 32)
+   (:h 31)
+   (:color
+    (:color-or-nil
+     (:color (:color 1.0S0 1.0S0 1.0S0 1.0))
+     (:t-or-nil t)))
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:lock nil)
+   (:reactive nil)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value 1)
+   (:id 58))
+  (:box
+   (:type :object)
+   (:reference sound)
+   (:group-id nil)
+   (:name nil)
+   (:x 447)
+   (:y 76)
+   (:w 296)
+   (:h 55)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align :center)
+   (:display :mini-view)
+   (:showname t)
+   (:show-markers t)
+   (:lock :locked)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SELF")
+     (:value :choose-file)
+     (:reactive nil))
+    (:input
+     (:type :key)
+     (:name "file-pathname")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs
+    (:output (:name "SELF") (:reactive nil))
+    (:output (:name "file-pathname") (:reactive nil)))
+   (:window (:size nil) (:position nil))
+   (:edition-params)
+   (:value
+    (:object
+     (:class sound)
+     (:slots
+      ((:onset 0)
+       (:duration 6712.018)
+       (:n-samples 296000)
+       (:n-channels 2)
+       (:sample-rate 44100)
+       (:smpl-type :float)
+       (:sample-size 16)))
+     (:add-slots
+      ((:markers nil)
+       (:gain 1.0)
+       (:access-from-file nil)
+       (:file-pathname
+        (:pathname
+         (:directory
+          (:relative
+           :back
+           :back
+           :back
+           :back
+           :back
+           "Composition"
+           "Ideias Roubadas III"))
+         (:device nil)
+         (:host "C")
+         (:name "Xenakis-Sound-1")
+         (:type "wav")))))))
+   (:id 59))
+  (:box
+   (:library "OM-CKN")
+   (:type :function)
+   (:reference orchidea-instruments)
+   (:group-id nil)
+   (:name "orchidea-instruments")
+   (:x 433)
+   (:y 15)
+   (:w 181)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "NOTE")
+     (:value 6000)
+     (:reactive nil))
+    (:input
+     (:type :standard)
+     (:name "NUMBER-OF-THE-INSTRUMENT")
+     (:value 20)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 60))
+  (:box
+   (:type :function)
+   (:reference sound-to-mono)
+   (:group-id nil)
+   (:name "sound-to-mono")
+   (:x 455)
+   (:y 133)
+   (:w 131)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "S")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 61))
+  (:box
+   (:type :function)
+   (:reference save-temp-sounds)
+   (:group-id nil)
+   (:name "save-temp-sounds")
+   (:x 445)
+   (:y 166)
+   (:w 152)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "SOUNDS")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 62))
+  (:box
+   (:type :function)
+   (:reference car)
+   (:group-id nil)
+   (:name "car")
+   (:x 805)
+   (:y 195)
+   (:w 59)
+   (:h 31)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:text-font nil)
+   (:align nil)
+   (:icon :left)
+   (:lock nil)
+   (:lambda nil)
+   (:reactive nil)
+   (:inputs
+    (:input
+     (:type :standard)
+     (:name "X")
+     (:value nil)
+     (:reactive nil)))
+   (:outputs (:output (:name "out") (:reactive nil)))
+   (:id 63))
+  (:box
+   (:type :interface)
+   (:reference pd-list-patches)
+   (:group-id nil)
+   (:name "pd-list-patches")
+   (:x 19)
+   (:y 205)
+   (:w 248)
+   (:h 30)
+   (:color nil)
+   (:border nil)
+   (:roundness nil)
+   (:font (:font (:face "Segoe UI") (:size 8) (:style :bold)))
+   (:output-mode :value)
+   (:inputs)
+   (:outputs (:output (:name "value") (:reactive nil)))
+   (:value
+    (:object
+     (:class pure-data)
+     (:slots
+      ((:pd "\"C:\\\\Program Files\\\\Pd\\\\bin\\\\pd.exe\"")
+       (:pd-path
+        (:pathname
+         (:directory
+          (:absolute
+           "USERS"
+           "Neimog"
+           "ONEDRIVE_USP.BR"
+           "DOCUMENTS"
+           "OPENMUSIC"
+           "OM-LIBRARIES"
+           "OM-CKN"
+           "resources"
+           "Pd-Patches"))
+         (:device :unspecific)
+         (:host "C")
+         (:name "VST-QUADRIFONICO-COLL")
+         (:type "pd")))
+       (:command-line nil)
+       (:pd-outfile nil)))))
+   (:items
+    (:list
+     "VST.pd"
+     "VST-QUADRIFONICO-COLL.pd"
+     "VST-COLL.pd"
+     "SOL-player.pd"
+     "SOFA-Binaural.pd"
+     "Record.pd"
+     "OA.pd"
+     "Microtonal-Player.pd"
+     "IR-convolution.pd"
+     "IR-convolution-v2.pd"
+     "data-stream.pd"))
+   (:selection 1)
+   (:id 64)))
+ (:connections
+  (:connection (:from (:box 0 :out 0)) (:to (:box 5 :in 0)))
+  (:connection
+   (:from (:box 1 :out 0))
+   (:to (:box 0 :in 2))
+   (:attributes (:color nil :style nil :modif (0 -22/91))))
+  (:connection (:from (:box 2 :out 0)) (:to (:box 1 :in 0)))
+  (:connection (:from (:box 3 :out 0)) (:to (:box 0 :in 5)))
+  (:connection (:from (:box 4 :out 0)) (:to (:box 0 :in 4)))
+  (:connection (:from (:box 6 :out 0)) (:to (:box 0 :in 6)))
+  (:connection (:from (:box 8 :out 0)) (:to (:box 11 :in 0)))
+  (:connection (:from (:box 9 :out 0)) (:to (:box 8 :in 1)))
+  (:connection (:from (:box 10 :out 0)) (:to (:box 8 :in 2)))
+  (:connection (:from (:box 11 :out 0)) (:to (:box 13 :in 1)))
+  (:connection (:from (:box 12 :out 0)) (:to (:box 11 :in 1)))
+  (:connection (:from (:box 13 :out 0)) (:to (:box 15 :in 0)))
+  (:connection (:from (:box 14 :out 0)) (:to (:box 13 :in 0)))
+  (:connection
+   (:from (:box 15 :out 0))
+   (:to (:box 16 :in 0))
+   (:attributes (:color nil :style nil :modif (0 -17/60))))
+  (:connection (:from (:box 15 :out 1)) (:to (:box 18 :in 0)))
+  (:connection (:from (:box 15 :out 1)) (:to (:box 21 :in 0)))
+  (:connection
+   (:from (:box 16 :out 2))
+   (:to (:box 44 :in 0))
+   (:attributes (:color nil :style nil :modif (0 -1/4))))
+  (:connection (:from (:box 17 :out 0)) (:to (:box 16 :in 1)))
+  (:connection
+   (:from (:box 18 :out 2))
+   (:to (:box 47 :in 0))
+   (:attributes (:color nil :style nil :modif (0 -15/56))))
+  (:connection (:from (:box 19 :out 0)) (:to (:box 18 :in 1)))
+  (:connection (:from (:box 20 :out 1)) (:to (:box 28 :in 0)))
+  (:connection (:from (:box 20 :out 1)) (:to (:box 53 :in 0)))
+  (:connection (:from (:box 20 :out 2)) (:to (:box 56 :in 0)))
+  (:connection
+   (:from (:box 20 :out 3))
+   (:to (:box 33 :in 2))
+   (:attributes (:color nil :style nil :modif (0 -43/118))))
+  (:connection (:from (:box 21 :out 0)) (:to (:box 22 :in 0)))
+  (:connection
+   (:from (:box 22 :out 2))
+   (:to (:box 50 :in 0))
+   (:attributes (:color nil :style nil :modif (0 -20/53))))
+  (:connection (:from (:box 23 :out 0)) (:to (:box 22 :in 1)))
+  (:connection (:from (:box 24 :out 0)) (:to (:box 20 :in 4)))
+  (:connection (:from (:box 25 :out 0)) (:to (:box 26 :in 0)))
+  (:connection
+   (:from (:box 26 :out 0))
+   (:to (:box 27 :in 1))
+   (:attributes (:color nil :style nil :modif (0 3/20))))
+  (:connection (:from (:box 26 :out 0)) (:to (:box 29 :in 0)))
+  (:connection (:from (:box 27 :out 0)) (:to (:box 36 :in 0)))
+  (:connection
+   (:from (:box 28 :out 0))
+   (:to (:box 29 :in 1))
+   (:attributes (:color nil :style nil :modif (-525/7918 0))))
+  (:connection (:from (:box 29 :out 0)) (:to (:box 31 :in 0)))
+  (:connection (:from (:box 30 :out 0)) (:to (:box 27 :in 0)))
+  (:connection (:from (:box 31 :out 0)) (:to (:box 27 :in 2)))
+  (:connection (:from (:box 32 :out 0)) (:to (:box 35 :in 1)))
+  (:connection (:from (:box 33 :out 0)) (:to (:box 34 :in 0)))
+  (:connection (:from (:box 34 :out 0)) (:to (:box 32 :in 1)))
+  (:connection (:from (:box 35 :out 0)) (:to (:box 37 :in 0)))
+  (:connection (:from (:box 36 :out 0)) (:to (:box 32 :in 0)))
+  (:connection (:from (:box 37 :out 0)) (:to (:box 41 :in 1)))
+  (:connection
+   (:from (:box 38 :out 0))
+   (:to (:box 37 :in 1))
+   (:attributes (:color nil :style nil :modif (-619/18495 0))))
+  (:connection (:from (:box 39 :out 0)) (:to (:box 38 :in 0)))
+  (:connection
+   (:from (:box 41 :out 0))
+   (:to (:box 43 :in 0))
+   (:attributes (:color nil :style nil :modif (-4/17 0))))
+  (:connection (:from (:box 42 :out 0)) (:to (:box 41 :in 0)))
+  (:connection (:from (:box 43 :out 0)) (:to (:box 0 :in 3)))
+  (:connection (:from (:box 44 :out 0)) (:to (:box 20 :in 1)))
+  (:connection (:from (:box 45 :out 0)) (:to (:box 44 :in 1)))
+  (:connection (:from (:box 46 :out 0)) (:to (:box 44 :in 2)))
+  (:connection (:from (:box 47 :out 0)) (:to (:box 20 :in 2)))
+  (:connection (:from (:box 48 :out 0)) (:to (:box 47 :in 1)))
+  (:connection (:from (:box 49 :out 0)) (:to (:box 47 :in 2)))
+  (:connection (:from (:box 50 :out 0)) (:to (:box 20 :in 3)))
+  (:connection (:from (:box 51 :out 0)) (:to (:box 50 :in 1)))
+  (:connection (:from (:box 52 :out 0)) (:to (:box 50 :in 2)))
+  (:connection (:from (:box 53 :out 0)) (:to (:box 33 :in 0)))
+  (:connection (:from (:box 54 :out 0)) (:to (:box 53 :in 1)))
+  (:connection (:from (:box 55 :out 0)) (:to (:box 53 :in 2)))
+  (:connection (:from (:box 56 :out 0)) (:to (:box 33 :in 1)))
+  (:connection (:from (:box 57 :out 0)) (:to (:box 56 :in 1)))
+  (:connection (:from (:box 58 :out 0)) (:to (:box 56 :in 2)))
+  (:connection (:from (:box 59 :out 0)) (:to (:box 61 :in 0)))
+  (:connection (:from (:box 61 :out 0)) (:to (:box 62 :in 0)))
+  (:connection (:from (:box 62 :out 0)) (:to (:box 63 :in 0)))
+  (:connection (:from (:box 63 :out 0)) (:to (:box 0 :in 1)))
+  (:connection (:from (:box 63 :out 0)) (:to (:box 25 :in 0)))
+  (:connection (:from (:box 64 :out 0)) (:to (:box 0 :in 0)))
+  (:connection (:from (:box 64 :out 0)) (:to (:box 7 :in 0)))))

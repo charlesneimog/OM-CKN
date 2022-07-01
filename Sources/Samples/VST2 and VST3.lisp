@@ -44,15 +44,15 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
 
 ; ===========================
 
-(defmethod! plugins-define-fxp ((fxp-presets string))
-:initvals '(nil)
-:indoc '("Define the fxp-presets to use in your sound.") 
-:icon '17359
-:doc "It defines the fxp-presets to use in your sound with the object ckn-VST2. You need be careful because the binaries that I am using not accept very long paths. Then prefer smaller paths."
+; (defmethod! plugins-define-fxp ((fxp-presets string))
+; :initvals '(nil)
+; :indoc '("Define the fxp-presets to use in your sound.") 
+; :icon '17359
+; :doc "It defines the fxp-presets to use in your sound with the object ckn-VST2. You need be careful because the binaries that I am using not accept very long paths. Then prefer smaller paths."
 
-(let* (
-(action1 (probe-file (merge-pathnames fxp-presets (namestring (get-pref-value :externals :fxp-presets))))))
-(if (equal nil action1) (let* ((action1 (om-print "fxp-presets not found" "Abort"))) (abort)) (namestring action1))))
+; (let* (
+; (action1 (probe-file (merge-pathnames fxp-presets (namestring (get-pref-value :externals :fxp-presets))))))
+; (if (equal nil action1) (let* ((action1 (om-print "fxp-presets not found" "Abort"))) (abort)) (namestring action1))))
 
 ;  ========================
 
@@ -323,6 +323,7 @@ setattr(" "plugin, " "all_parameters"
                     "
 import soundfile as sf
 from pedalboard import load_plugin
+from om_py import to_om
 
 plugin = load_plugin(r'~d')
 all_parameters = list(plugin.parameters.keys())
@@ -330,10 +331,12 @@ all_parameters = list(plugin.parameters.keys())
 audio, sample_rate = sf.read(r'~d')
 final_audio = plugin.process(audio, sample_rate)
 sf.write(r'~d', final_audio, sample_rate)
-"                               
-                                    (namestring (vst3-path plugin-path)) action1 sound (namestring (outfile sound-out)))))
 
+"                               
+                                    (namestring (vst3-path plugin-path)) action1 sound (namestring sound-out))))
+        
         (om-py::run-py (om::make-value '|om-python|::python (list (list :code python-code))))
+        ;(print "Ola como vai")
         (loop-until-probe-file sound-out)
         (outfile sound-out)))
 
@@ -502,14 +505,14 @@ to_om(r'~d')
 
 ;; ======================================
 
-(defmethod! list-fxp-presets (&key (type nil) (unix nil) (directories nil) (files t) (resolve-aliases nil) (hidden-files nil) (path nil))
-:icon '17359
-:doc "
-From OM-Sox
-Returns a list of file pathnames of the fxp Presets. Connect it to a LIST-SELECTION object."
+; (defmethod! list-fxp-presets (&key (type nil) (unix nil) (directories nil) (files t) (resolve-aliases nil) (hidden-files nil) (path nil))
+; :icon '17359
+; :doc "
+; From OM-Sox
+; Returns a list of file pathnames of the fxp Presets. Connect it to a LIST-SELECTION object."
 
-            (let* ((thepath (get-pref-value :externals :fxp-presets))
-                  (thefilelist (om-directory thepath 
-                                             :type "fxp" :directories directories :files files 
-                                             :resolve-aliases resolve-aliases :hidden-files hidden-files)))
-            (mapcar (lambda (x) (get-filename x)) thefilelist)))
+;             (let* ((thepath (get-pref-value :externals :fxp-presets))
+;                   (thefilelist (om-directory thepath 
+;                                              :type "fxp" :directories directories :files files 
+;                                              :resolve-aliases resolve-aliases :hidden-files hidden-files)))
+;             (mapcar (lambda (x) (get-filename x)) thefilelist)))

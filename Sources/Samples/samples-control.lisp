@@ -7,6 +7,14 @@
         (sound_number (+ *om-ckn-temp-sound-sox* 1)))
         (setf *om-ckn-temp-sound-sox* sound_number)
         (format nil "~8,'0D" *om-ckn-temp-sound-sox*)))
+
+
+(defun reset-om-ckn-temp-sound-sox ()
+(setf *om-ckn-temp-sound-sox* 0)
+t)
+
+
+
 ;  ======================== SOX controls ================================
 
 (defun ckn-transpose-a-sound (instrumentos desvio) 
@@ -14,7 +22,7 @@
 (let* (
 (action1 (string-to-list (get-filename instrumentos) "-"))
 (action2 (1- (length (om::list! action1))))
-(action3 (loop :for x :in action1 :collect (string+ x "-")))
+(action3 (loop :for x :in action1 :collect (om::string+ x "-")))
 (action4 (ckn-string-name (list! (first-n action3 action2))))
 (action5 (string+ action4 (format nil "~d-cents" desvio) ".wav"))
 (action6 (tmpfile action5 :subdirs "om-ckn"))
@@ -360,20 +368,7 @@ action1))
         (progn 
             (save-as-text '(((defvar *first-time-load* nil))) (merge-pathnames "first-load.txt" (lib-resources-folder (find-library "OM-CKN"))))
             (hqn-web:browse "https://www.charlesneimog.com/")
-            (print (format nil "
-If you want to work with python you need:
-      1. Download python 3.9.
-      2. Put this code in your terminal: 
-            pip install matplotlib 
-            pip install numpy 
-            pip install mplot3d
-            pip install mpl_toolkits
-            pip install pedalboard
-            pip install dawdreamer
-            pip install soundfile
-            pip install sounddevice
-      And vo ala. 
-")))))
+           )))
 
 ;;; ================================================================================
 

@@ -30,7 +30,7 @@
 #X obj 406 181 bng 20 250 50 0 empty empty empty 17 7 0 10 -262144
 -1 -1;
 #X obj 406 209 cyclone/counter 1 16;
-#X obj 37 600 r soundfont;
+#X obj 38 575 r soundfont;
 #X obj 20 493 pack f f;
 #X obj 73 465 r channel;
 #X msg 20 530 bend \$1 \$2;
@@ -40,6 +40,7 @@
 #X obj 527 78 symbol;
 #X msg 526 112 load \$1;
 #X obj 419 595 Children_note-off;
+#X obj 38 611 else/format load %s;
 #X connect 0 0 18 0;
 #X connect 1 0 16 0;
 #X connect 2 0 3 0;
@@ -72,7 +73,7 @@
 #X connect 26 1 24 0;
 #X connect 28 0 29 0;
 #X connect 29 0 27 0;
-#X connect 30 0 17 0;
+#X connect 30 0 40 0;
 #X connect 31 0 33 0;
 #X connect 32 0 31 1;
 #X connect 33 0 17 0;
@@ -81,3 +82,4 @@
 #X connect 37 0 38 0;
 #X connect 38 0 36 0;
 #X connect 39 0 17 0;
+#X connect 40 0 17 0;
