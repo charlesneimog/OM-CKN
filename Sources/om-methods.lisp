@@ -10,10 +10,21 @@
 (if (equal *app-name* "om-sharp")
   (progn
           (add-preference-section :externals "OM-CKN" nil '(:sox-exe :ircam-instruments :OrchideaSOL :plugins :Sonic-visualizer))
-          (add-preference :externals :sox-exe "Sox Path" :file (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN"))))
-          ; (add-preference :externals :PureData "Pure Data executable" :file " ")
+          
+        ; Sox ==============================
+          #+Windows(add-preference :externals :sox-exe "Sox Path" :file (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN"))))
+          #+mac(add-preference :externals :sox-exe "Sox Path" :file (merge-pathnames "executables/SOX/mac/sox" (lib-resources-folder (find-library "OM-CKN"))))
+          
+          #+Linux(add-preference :externals :sox-exe "Sox Path" :string "sox ")
+          #+Linux(print "=========================")
+          #+Linux(print "=========================")
+          #+Linux(om-print "Run 'sudo apt-get install sox' to install sox")
+          #+Linux(print "=========================")
+          #+Linux(print "=========================")
+
+        ; Sox ==============================
+
           (add-preference :externals :Sonic-visualizer "Sonic-Visualizer executable" :file " ")
-          ;(add-preference :externals :Pd-Patches "Pure Data Patches" :folder (merge-pathnames "Pd-Patches/" (lib-resources-folder (find-library "OM-CKN"))))
           (add-preference :externals :ircam-instruments "Ircam Instruments Path" :folder "Your Ircam Instruments Folder")
           (add-preference :externals :OrchideaSOL "SOL Samples Library" :folder "SOL folder")
           (add-preference :externals :plugins "Plugins VST2 and VST3" :folder "Your VST2 and VST3 Plugins Folder")))
