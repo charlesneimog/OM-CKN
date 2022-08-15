@@ -10,8 +10,7 @@
 (if (equal *app-name* "om-sharp")
   (progn
           (add-preference-section :externals "OM-CKN" nil '(:sox-exe :ircam-instruments :OrchideaSOL :plugins :Sonic-visualizer))
-          
-        ; Sox ==============================
+          ; Sox ==============================
           #+Windows(add-preference :externals :sox-exe "Sox Path" :file (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN"))))
           #+mac(add-preference :externals :sox-exe "Sox Path" :file (merge-pathnames "executables/SOX/mac/sox" (lib-resources-folder (find-library "OM-CKN"))))
           
@@ -22,8 +21,9 @@
           #+Linux(print "=========================")
           #+Linux(print "=========================")
 
-        ; Sox ==============================
-
+        ; Sox =============================
+          
+          (add-preference :externals :sox-exe "Sox Path" :file (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN"))))
           (add-preference :externals :Sonic-visualizer "Sonic-Visualizer executable" :file " ")
           (add-preference :externals :ircam-instruments "Ircam Instruments Path" :folder "Your Ircam Instruments Folder")
           (add-preference :externals :OrchideaSOL "SOL Samples Library" :folder "SOL folder")
@@ -150,8 +150,8 @@ For this work you need:
       (black-backgroud (if blackbackgroud  "plt" "#plt")) 
       (x_if (if (not x) (om::arithm-ser 1 (length y) 1) x))
       (y_if (if (not y) (om::arithm-ser 1 (length x) 1) y))
-      (X-PYTHON (lisp-list_2_python-list x_if))
-      (Y-PYTHON (lisp-list_2_python-list y_if)))
+      (X-PYTHON (om-py::lisp-list_2_python-list x_if))
+      (Y-PYTHON (om-py::lisp-list_2_python-list y_if)))
 (mp:process-run-function (string+ "Save-PYTHON-" (write-to-string (om::om-random 1 1000)))
       () 
                   (lambda (x-axis y-axis) (if
@@ -274,11 +274,11 @@ For this work you need:
 :indoc '("List of complex numbers")
 :icon '17359
 :numouts 2
-:outdoc '("Imag part" "Real Part")
+:outdoc '("Real part" "Imag Part")
 :doc "It does one senoide in the complex plan."
 (values 
- (mapcar (lambda (x) (imagpart x)) complex-number)
- (mapcar (lambda (x) (realpart x)) complex-number)))
+ (mapcar (lambda (x) (realpart x)) complex-number)
+ (mapcar (lambda (x) (imagpart x)) complex-number)))
 
 
 ;==================================================
@@ -306,6 +306,17 @@ For this work you need:
   (create-pure-tone freq sampling)))
 
 ;==================================================
+
+(defmethod! fft->amplitude ((fft number))
+:initvals '(nil)
+:indoc '("Sound class") 
+:icon '17359
+:doc "It reads a wave file."
+
+(car (fft->amplitude (list fft))))
+
+
+;=============================
 
 (defmethod! fft->amplitude ((fft array))
 :initvals '(nil)
