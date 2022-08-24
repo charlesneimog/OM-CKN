@@ -182,6 +182,8 @@ Note: see Equation (111a) of the SAPA book"
 ;;;  of *sapa-cached-pre-fft-arrays*.  The intent here is to speed things up
 ;;;  and reduce garbage collection (at the expense of extra storage), but the
 ;;;  timing speed up in MCL is only about 10% using the cache.
+
+
 (defun sapa-fft!
        (complex-vector
         &key
