@@ -562,12 +562,13 @@ list
                  () 
                   (lambda (x w z) (mp:mailbox-send w 
                       (let* (
-                              (fft (half-fun (sapa-fft! x)))
-                              (polar-amp-correction (loop :for bin :across fft :collect (om/ bin fft-size)))
+                              (fft (sapa-fft! x))
+                              (half-fun (half-fun fft))
+                              (polar-amp-correction (loop :for bin :across half-fun :collect (om/ bin fft-size)))
                               (amp (fft->amplitude polar-amp-correction))
                               (phrase (fft->phrase polar-amp-correction)))                                                              
                               (make-instance 'ckn-fft-instance 
-                                 :ckn-complex-numbers (make-instance 'fft-complex-numbers :complex-numbers polar-amp-correction)
+                                 :ckn-complex-numbers (make-instance 'fft-complex-numbers :complex-numbers fft)
                                  :fft-window (* 2 (length amp))
                                  :fft-chunks z
                                  :ckn-hop-size hop-size

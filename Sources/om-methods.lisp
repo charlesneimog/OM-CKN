@@ -60,12 +60,42 @@
 ((complex-numbers :initform '#(-6.1035157E-5 0.0) :initarg :complex-numbers :accessor complex-numbers))
 (:icon 17359))
 
+
 ; ================================================== Bytes-Class =====================
 
 (defclass! sound-bytes ()
 ((bytes :initform nil :initarg :bytes :accessor bytes))
 (:icon 17359))
-                              
+
+; ===============
+(defmethod! fft-sapa ((sound-bytes list) (fft-window number))
+(sapa-fft! (list-to-array (first-n sound-bytes fft-window) 1)))
+; ===============
+(defmethod! fft-sapa ((sound-bytes sound-bytes) (fft-window number))
+(sapa-fft! (list-to-array (first-n (bytes sound-bytes) fft-window) 1)))
+
+; ===============
+(defmethod! fft-sapa ((sound sound) (fft-window number))
+(sapa-fft! (list-to-array (first-n (bytes (sound->bytes sound)) fft-window) 1)))
+
+(defun ifft_sum(array hop-size &optional result)
+
+  "This sum sample by sample the ifft of the array"
+  (let* (
+        (array1 (array-to-list (car array)))
+        (array2 (car (cdr array)))
+        (array2 (array-to-list (if (null array2) (make-array (length array1) :initial-element 0) array2)))
+        ; if array1 is (1 2 3 4), array2 is (5 6 7 8), and fft-window is 2, then the result is (1 2 8 10 7 8)
+        (array3 (first-n array1 hop-size))
+        (array4 (append (om::om+ (last-n array1 hop-size) (first-n array2 hop-size))))
+        (array5 (last-n array2 hop-size))
+        (array6 (append array3 array4 array5)))
+      (if (null (cdr array))
+        (append result array6)
+        (ifft_sum (cdr array) hop-size (append result array6)))))
+
+
+
 
 ; ============ Facilitar minha vida!!! =================
 
@@ -269,6 +299,12 @@ For this work you need:
 
 ;==================================================
 
+(defmethod! split-complex-numbers ((complex-number array))
+
+
+(split-complex-numbers (array-to-list complex-number)))
+
+
 (defmethod! split-complex-numbers ((complex-number list))
 :initvals '(nil)
 :indoc '("List of complex numbers")
@@ -359,7 +395,7 @@ For this work you need:
 ;==================================== ARRAY UTILITIES =======
 
 (defmethod! list-to-array ((array-my list) (dimensions integer))
-:initvals '((nil) (nil))
+:initvals '((nil) 1)
 :indoc '("Sound class" "bla bla")
 :icon '17359
 :doc "It reads a wave file."
