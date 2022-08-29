@@ -58,7 +58,7 @@
             (:package (:name "FFT e Partial Tracking") 
                         (:classes ckn-fft-instance)             
                         (:functions ckn-fft fft->amplitude fft->phrase fft->sin-model fft->chord-seq fft->dB))
-            (:package (:name "Math and Music") (:functions complex-senoide))
+            (:package (:name "Math and Music") (:functions split-complex-numbers complex-senoide ))
             (:package (:name "Instruments") (:functions ckn-instruments FULL-SOL-instruments orchidea-instruments o-check-samples-in-voice OrchideaSOL-folder))
             (:package (:name "Multithreading") (:functions ckn-make-mail-box ckn-mailbox-name ckn-mailbox-peek ckn-multi-1-var loop-until-finish-process))
             (:package (:name "Utilities")

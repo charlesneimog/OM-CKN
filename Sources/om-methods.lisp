@@ -78,22 +78,25 @@
 (defmethod! fft-sapa ((sound sound) (fft-window number))
 (sapa-fft! (list-to-array (first-n (bytes (sound->bytes sound)) fft-window) 1)))
 
-(defun ifft_sum(array hop-size &optional result)
+
+; =======================================================================
+
+(defun ifft-sum(array hop-size &optional result)
 
   "This sum sample by sample the ifft of the array"
   (let* (
         (array1 (array-to-list (car array)))
-        (array2 (car (cdr array)))
+        (array2 (car (cdr array))) ; remove two calcules
         (array2 (array-to-list (if (null array2) (make-array (length array1) :initial-element 0) array2)))
-        ; if array1 is (1 2 3 4), array2 is (5 6 7 8), and fft-window is 2, then the result is (1 2 8 10 7 8)
-        (array3 (first-n array1 hop-size))
-        (array4 (append (om::om+ (last-n array1 hop-size) (first-n array2 hop-size))))
-        (array5 (last-n array2 hop-size))
-        (array6 (append array3 array4 array5)))
+        (array3 (make-list (length array1) :initial-element 0))
+        (wave (loop :for i :from 0 :to (1- (length array1))
+                      :collect  (if (< i hop-size) 
+                                (setf (nth i array3) (+ (nth i array2) (nth i array1))) 
+                                (setf (nth i array3) (nth i array1))))))
+        (print (length wave))
       (if (null (cdr array))
-        (append result array6)
-        (ifft_sum (cdr array) hop-size (append result array6)))))
-
+        (append result wave)
+        (ifft-sum (cdr array) hop-size (append result wave)))))
 
 
 
@@ -403,6 +406,9 @@ For this work you need:
 (list-to-array-fun array-my dimensions))
 
 ;=====================================
+(defmethod! array-to-list ((my-array array))
+; this is a hack and must be fixed!
+my-array) 
 
 (defmethod! array-to-list ((my-array array))
 :initvals '(nil)
@@ -443,7 +449,7 @@ For this work you need:
 :doc "It create a sound from list of bytes (0 until 1)."
 
 (if (equal *app-name* "om-sharp")
-    (bytes->sound-fun self quantos-canais qual-canal)))
+    (bytes->sound-fun (om::om-round self 30) quantos-canais qual-canal)))
 
 ;=====================================
 
@@ -479,9 +485,16 @@ For this work you need:
 ;==================================================
 
 (defmethod! half ((fft-array array))
-:doc "E necessaria somente metade do resultado do FFT."
+:icon '17359
+:doc "If a list have 4096 number in it, it return the first 2048 (length of list / 2)."
 
 (half-fun fft-array))
+
+; =================================================
+
+(defmethod! half ((fft-array list))
+
+(array-to-list (half-fun (list-to-array fft-array 1))))
 
 ; =================================================
 
