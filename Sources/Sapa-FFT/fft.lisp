@@ -278,8 +278,7 @@ Note: see Equation (111a) of the SAPA book
           (conjugate (aref complex-vector i))))
   (sapa-fft! complex-vector :N N)
   (dotimes (i N complex-vector)
-    (setf (aref complex-vector i)
-          (/ (conjugate (aref complex-vector i)) N))))
+    (setf (aref complex-vector i) (/ (conjugate (aref complex-vector i)) N))))
 
 ;-------------------------------------------------------------------------------
 (defun sapa-dft-chirp!

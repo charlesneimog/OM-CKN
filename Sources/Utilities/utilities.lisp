@@ -173,10 +173,10 @@ list
 (defun fft->amplitude-fun (fft)
  (let* (   
        (fft-list (array-to-list-fun fft))
-       (i-n (mapcar (lambda (x) (imagpart x)) fft-list)) ;; FILTRA A PARTE IMAGIN√ÅRIA DO FFT
+       (i-n (mapcar (lambda (x) (imagpart x)) fft-list)) ;; FILTRA A PARTE imaginaria DO FFT
        (r-n (mapcar (lambda (y) (realpart y)) fft-list))) ;; FILTRA A PARTE REAL DO FFT
        
-   (mapcar (lambda (x y) (sqrt (om::om+ (om::om^ x 2) (om::om^ y 2)))) i-n r-n)))
+   (mapcar (lambda (x y) (sqrt (om::om+ (om::om^ x 2) (om::om^ y 2)))) i-n r-n))) ; aplica a equaÁ„o da figura amplitude = raiz quadrada de a ao quadrado mais b ao quadrado.
 
 ;======================================
 
