@@ -176,7 +176,7 @@ list
        (i-n (mapcar (lambda (x) (imagpart x)) fft-list)) ;; FILTRA A PARTE imaginaria DO FFT
        (r-n (mapcar (lambda (y) (realpart y)) fft-list))) ;; FILTRA A PARTE REAL DO FFT
        
-   (mapcar (lambda (x y) (sqrt (om::om+ (om::om^ x 2) (om::om^ y 2)))) i-n r-n))) ; aplica a equação da figura amplitude = raiz quadrada de a ao quadrado mais b ao quadrado.
+   (mapcar (lambda (x y) (sqrt (om::om+ (om::om^ x 2) (om::om^ y 2)))) i-n r-n))) ; aplica a equaï¿½ï¿½o da figura amplitude = raiz quadrada de a ao quadrado mais b ao quadrado.
 
 ;======================================
 
@@ -567,7 +567,7 @@ list
                               (polar-amp-correction (loop :for bin :across half-fun :collect (om/ bin fft-size)))
                               (amp (fft->amplitude polar-amp-correction))
                               (phrase (fft->phrase polar-amp-correction)))                                                              
-                              (make-instance 'ckn-fft-instance 
+                              (make-instance 'fft-instance 
                                  :ckn-complex-numbers (make-instance 'fft-complex-numbers :complex-numbers fft)
                                  :fft-window (* 2 (length amp))
                                  :fft-chunks z
@@ -678,10 +678,10 @@ list
 
 ;=====================================================================
 
-(defun fft->Sin-model-fun (ckn-fft-instance filtro)
+(defun fft->Sin-model-fun (fft-instance filtro)
 
 (loop 
-        :for x :in ckn-fft-instance 
+        :for x :in fft-instance 
         :collect 
             (let* (
                   (FFT-SIZE (FFT-WINDOW x))
@@ -695,8 +695,8 @@ list
 
                   (SPEAR-CORRECTION 
                         (om::mat-trans (spear-approach MAG->DB filtro FFT-SIZE PHRASE (sound-sample-rate x)))))
-                                                                        ;; COLOCAR SAMPLE-RATE NA CKN-FFT-INSTANCE
-(make-instance 'ckn-fft-instance 
+                                                                        ;; COLOCAR SAMPLE-RATE NA fft-instance
+(make-instance 'fft-instance 
                 :fft-window FFT-SIZE
                 :ckn-complex-numbers nil
                 :ckn-hop-size (ckn-hop-size x)
