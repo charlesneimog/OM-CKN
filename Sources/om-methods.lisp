@@ -40,7 +40,7 @@
 
 ; ================================================== FFT-Class =====================
 
-(defclass! ckn-fft-instance ()
+(defclass! fft-instance ()
 ( 
   (ckn-complex-numbers :initform '#(-6.1035157E-5 0.0) :initarg :ckn-complex-numbers :accessor ckn-complex-numbers)
   (sound-sample-rate :initform nil :initarg :sound-sample-rate :accessor sound-sample-rate)
@@ -225,7 +225,7 @@ For this work you need:
 
 ;==================================================
 
-(defmethod! ckn-fft ((sound sound) (fft-size number) (hop-size number) (window-type number))
+(defmethod! sapa-fft ((sound sound) (fft-size number) (hop-size number) (window-type number))
 :initvals '(nil 2048 512 nil)
 :indoc '("Sound class" "FFT-size" "Hop-size" "Windows-type") 
 :menuins '((3 (("hann" 1) ("blackman" 2) ("barlett" 3) ("hamming" 4) ("rectangular" 5) ("nenhuma" 6))))
@@ -254,7 +254,7 @@ For this work you need:
 
 ;==================================================
 
-(defmethod! ckn-fft ((sound sound) (fft-size number) (hop-size number) (window-type null))
+(defmethod! sapa-fft ((sound sound) (fft-size number) (hop-size number) (window-type null))
 :initvals '(nil 2048 512 nil)
 :indoc '("Sound class" "FFT-size" "Hop-size" "Windows-type") 
 :menuins '((3 (("hann" 1) ("blackman" 2) ("barlett" 3) ("hamming" 4) ("rectangular" 5) ("nenhuma" 6))))
@@ -283,6 +283,13 @@ For this work you need:
             (4 :hamming)
             (5 :rectangular)
             (6 nil)))))
+
+; ===================================================
+(defmethod! get-complex-numbers ((sapa-fft list))
+:initvals '(nil)
+:indoc '("Sapa-FFT class")
+:icon '17359
+:doc "It returns the complex numbers of the list of Sapa-FFT class."
 
 
 
@@ -579,11 +586,11 @@ action3-2)))))
 
 ;; ===================================
 
-(defmethod! sdif->ckn-fft-instance ((sdif-file sdiffile))
+(defmethod! sdif->fft-instance ((sdif-file sdiffile))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File.")
 :icon '17359
-:doc "This will translate each frame of the SDIF file for the ckn-fft-instance class."
+:doc "This will translate each frame of the SDIF file for the fft-instance class."
 
 (let* (
     (action1 (sdif->list-fun sdif-file))
@@ -593,7 +600,7 @@ action3-2)))))
     (loop :for looptempo :in tempo 
           :for looppartialtracking :in partialtracking
                         :collect
-                    (make-value 'ckn-fft-instance 
+                    (make-value 'fft-instance 
                                 (list 
                                     (list :ckn-tempo looptempo)
                                     (list :ckn-hop-size ckn-tempo)
@@ -604,13 +611,13 @@ action3-2)))))
 
 ;; ===================================
 
-(defmethod! sdif->ckn-fft-instance ((sdif-file pathname))
+(defmethod! sdif->fft-instance ((sdif-file pathname))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File.")
 :icon '17359
-:doc "This will translate each frame of the SDIF file for the ckn-fft-instance class."
+:doc "This will translate each frame of the SDIF file for the fft-instance class."
 
-(sdif->ckn-fft-instance (make-value-from-model 'sdiffile sdif-file nil)))
+(sdif->fft-instance (make-value-from-model 'sdiffile sdif-file nil)))
 
 ;; ====================================================
 
@@ -1312,7 +1319,7 @@ Converts a (list of) seconds to milisseconds.
 
 ;; ==================================================== FFT APPROACH LIKE SPEAR =====================================
 
-(defmethod! fft->chord-seq  ((ckn-fft-instance list) (down number) (up number) &optional (min-vel 10))
+(defmethod! fft->chord-seq  ((fft-instance list) (down number) (up number) &optional (min-vel 10))
 :initvals '(nil 3600 8400)
 :indoc '("pitch or pitch list (midicents)" "frequency (Hz)")
 :icon '17359
@@ -1323,7 +1330,7 @@ Converts a (list of) freq pitch(es) to names of notes."
 (let* (
     (fft->chords 
      (loop :for x 
-           :in ckn-fft-instance 
+           :in fft-instance 
            :collect (let* (
                         (amplitudes (amplitudes x))
                         (frequencias (frequencias x))
@@ -1356,7 +1363,7 @@ Converts a (list of) freq pitch(es) to names of notes."
   (make-chord-seq 
              (make-instance 'chord-seq 
                  :lmidic make-chords 
-                 :lonset (list 0 (om::om-round (sec->ms (samples->sec (ckn-hop-size (first ckn-fft-instance)) (sound-sample-rate (first ckn-fft-instance))))))))
+                 :lonset (list 0 (om::om-round (sec->ms (samples->sec (ckn-hop-size (first fft-instance)) (sound-sample-rate (first fft-instance))))))))
   (vel (flat (mapcar (lambda (x) (lvel x)) fft->chords))))
   (print (format nil "minimun velocity ~d" (om::list-min vel)))
   (print (format nil "maximum velocity ~d" (om::list-max vel)))
@@ -1366,8 +1373,8 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 (defmethod! fft->sin-model ((ckn-instances list) (db-filter number))
 :initvals ' ((nil) -60)       
-:indoc ' ("A list of ckn-fft-instance class." "Threshold in dB.")
-:outdoc ' ("list of ckn-fft-instance with the approach of Spear software.")
+:indoc ' ("A list of fft-instance class." "Threshold in dB.")
+:outdoc ' ("list of fft-instance with the approach of Spear software.")
 :icon '17359
 :doc ""
 
@@ -1377,8 +1384,8 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 (defmethod! o-voice2samples ((voice voice) &optional (pan nil) (temp-files t))
 :initvals ' ((nil) '-60)       
-:indoc ' ("A list of ckn-fft-instance class." "Threshold in dB.")
-:outdoc ' ("list of ckn-fft-instance with the approach of Spear software.")
+:indoc ' ("A list of fft-instance class." "Threshold in dB.")
+:outdoc ' ("list of fft-instance with the approach of Spear software.")
 :icon '17360
 :doc ""
 

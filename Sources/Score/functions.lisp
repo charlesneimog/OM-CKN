@@ -62,7 +62,8 @@
                     ((equal symbol "mf") 84)
                     ((equal symbol "f") 99)
                     ((equal symbol "ff") 112)
-                    ((equal symbol "fff") 126))))
+                    ((equal symbol "fff") 126)
+                    (t 60))))
                     
 
 ;; =============================================================================
@@ -100,7 +101,13 @@
               ((equal key '("Ac. Guitar" "bartók" "normal")) 177)
               ((equal key '("Ac. Guitar" "ord." "normal")) 175)
               ((equal key '("Ac. Guitar" "ord." "diamond")) 174)
-              ((equal (first key) "Sounds") (mapcar (eval 'f-ckn-sounds) (list (second key)))))))
+              ((equal (first key) "Sounds") (mapcar (eval 'f-ckn-sounds) (list (second key))))
+              (t 1)
+              
+
+
+
+)))
      (print (x-append instrument_channel "|" key))
 
 
