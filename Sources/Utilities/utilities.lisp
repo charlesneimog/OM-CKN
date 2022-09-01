@@ -1184,7 +1184,11 @@ list
 
 (defun ckn-gc-all (x)
 
-(nth 1 (om::multiple-value-list (om::seq (om::gc-all) x))))
+(progn 
+  (om::gc-all)
+x))
+
+;
 
 
 ;; ===================================== Information =========================== 
