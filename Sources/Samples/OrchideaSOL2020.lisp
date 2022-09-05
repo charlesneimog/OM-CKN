@@ -65,6 +65,7 @@
         (all-the-files (ckn-in-files (namestring instrument-pathname) type))
         (all-the-notes (n->mc (mapcar (lambda (x) (choose (string-to-list (get-filename x) "-") where-is-the-nome)) all-the-files) 4))
         (position-of-the-note (ckn-position all-the-notes note)))
+        ;(print all-the-notes)
         (choose all-the-files position-of-the-note)))
 
 ;; ==================================================== 

@@ -100,6 +100,7 @@
     ("noteheadParenthesisRight" #xE0F6)
     ("noteheadCircleSlash" #xE0F7)
     ("noteheadHeavyX" #xE0F8)
+    ("noteheadSlashVerticalEnds" #xE100)
     ("noteheadHeavyXHat" #xE0F9)
     ("noteheadWholeFilled" #xE0FA)
     ("noteheadHalfFilled" #xE0FB)

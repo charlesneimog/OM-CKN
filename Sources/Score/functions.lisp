@@ -21,8 +21,14 @@
 
 (defun ckn-smulf-to-char (x)
   (cond 
-	((equal x "normal")   nil)
-  ((equal x "x") 57513)
+	;((equal x "normal") nil)
+        ((equal x "x") 57513)
+        ((equal x "cross") 57519)
+        ((equal x "circle-x") 57520)
+        ((equal x "triangle") 57534)
+        ((equal x "inverted triangle") 57543)
+        ((equal x "slash") 57600)
+        ((equal x "la") 57529)
 	((equal x "arrow down")   57588)
 	((equal x "arrow up")   57584)
 	((equal x "back slashed")   57551)
