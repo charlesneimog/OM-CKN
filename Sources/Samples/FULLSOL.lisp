@@ -3,7 +3,7 @@
 ;; ==================================================== Preferencias ==================================
 
 (if (equal *app-name* "om-sharp")
-    (defvar *ircam-PATH* (get-pref-value :externals :ircam-instruments))
+    (defvar *IRCAM-PATH* (get-pref-value :externals :ircam-instruments))
     nil)
 
 ;; ===================================
@@ -43,7 +43,6 @@
 (defun ckn-multiphonics-notes (all-names notes)
       (let* (
             (action1 (mapcar (lambda (x) (ircam-n->mc x)) all-names))
-            (verbose (print "action2"))
             (action2 (mapcar (lambda (x) 
                               (loop :for loop-action2 :in action1 
                                     :collect (find-num loop-action2 x))) 
@@ -80,20 +79,25 @@
 :doc "It create the patch of a sound."
 
 (let* (
-(midis-no-om6 (make-instance 'chord-seq :lmidic (chords voice)))
-(notas (approx-m (flat (lmidic midis-no-om6)) 2))
-(canais (flat (lchan midis-no-om6)))
-(vel (flat (lvel midis-no-om6)))
+      (midis-no-om6 (make-instance 'chord-seq :lmidic (chords voice)))
+      (notas (approx-m (flat (lmidic midis-no-om6)) 2))
+      (canais (flat (lchan midis-no-om6)))
+      (vel (flat (lvel midis-no-om6)))
+      (test-samples
+            (loop :with not-found := nil
+                  :for loop-notas :in notas
+                  :for loop-canais :in canais
+                  :for loop-vel :in vel
+                  :do (setf not-found (flat (append not-found (list (FULL-SOL-instruments loop-notas loop-canais loop-vel)))))
+                  :collect (if (equal nil (FULL-SOL-instruments loop-notas loop-canais loop-vel))
+                              ; if true it is an error! Stop the loop   
+                              (progn
+                                    (print (format nil "There is no sample for the note ~a in the channel ~a with velocity ~a" loop-notas loop-canais loop-vel))
+                                    (om::abort-eval))))))
+                        
 
-(test 
- (loop :for loop-notas :in notas
-       :for loop-canais :in canais
-       :for loop-vel :in vel
-       :collect 
-      (equal nil (print (FULL-SOL-instruments loop-notas loop-canais loop-vel))))))
-
-(if (print (equal nil (remove nil test))) "Todas as alturas possuem samples correspondentes" 
-(format nil "A nota ~d nao possuem sample correspondente! :( " (1+ (position t test))))))
+      (if (print (equal nil (remove nil test-samples))) "Todas as alturas possuem samples correspondentes" 
+      (format nil "A nota ~d nao possuem sample correspondente! :( " (1+ (position t test-samples))))))
 
 ;; ====================================================
 (defun 2-samples-without-notes (path velocity) 
@@ -176,6 +180,10 @@ nil)
        (if (not action1) nil action1)))
                  
 
+;; ==================================================== 
+;; ==================================================== 
+;; ==================================================== 
+
 (defmethod! FULL-SOL-instruments ((note integer) (number-of-the-instrument integer) &optional (velocity 60))
 :initvals '(6000 20 60)
 :indoc '("Sound class" "Number of the instrument (technique)") 
@@ -253,7 +261,7 @@ _______________________________________________________________________
                   (37 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "02 Oboe/double-trill-minor-second-up/" 'wav) velocity))
                   (38 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "02 Oboe/flatterzunge/" 'wav) velocity))
                   (39 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "02 Oboe/harmonic-fingering/" 'wav) velocity))
-                  (40 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "02 Oboe/key-click/" 'wav) velocity))
+                  (40 (ckn-dinamics  (ckn-find-the-samples 4 note *IRCAM-PATH* "02 Oboe/key-click/" 'wav) velocity))
                   (41 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "02 Oboe/kiss/" 'wav) velocity))
                   (42 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "02 Oboe/lip-glissando/" 'wav) velocity))
                   (43 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "02 Oboe/multiphonics/" 'wav) velocity))
@@ -529,11 +537,11 @@ _______________________________________________________________________
                   (293 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/near-the-board-with-nail/" 'wav) velocity))
                   (294 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/near-the-pegs/" 'wav) velocity))
                   (295 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/ordinario/" 'wav) velocity))
-                  (296 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/pizzicato-bartok/" 'wav) velocity))
+                  (296 (ckn-dinamics  (ckn-find-the-samples 4 note *IRCAM-PATH* "12 Harp/pizzicato-bartok/" 'wav) velocity))
                   (297 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/scratch-with-nail/" 'wav) velocity))
                   (298 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/tap-on-body/" 'wav) velocity))
                   (299 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/tap-with-stick/" 'wav) velocity))
-                  (300 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/tremolo-with-fingertips/" 'wav) velocity))
+                  (300 (ckn-dinamics  (ckn-find-the-samples 4 note *IRCAM-PATH* "12 Harp/tremolo-with-fingertips/" 'wav) velocity))
                   (301 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/xylophonic/" 'wav) velocity))
 
             ;;; 13 Violin
@@ -563,7 +571,7 @@ _______________________________________________________________________
                   (325 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "13 Violin/ordinario-to-sul-ponticello/" 'wav) velocity))
                   (326 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "13 Violin/ordinario-to-sul-tasto/" 'wav) velocity))
                   (327 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "13 Violin/ordinario-to-tremolo/" 'wav) velocity))
-                  (328 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "13 Violin/pizzicato-bartok/" 'wav) velocity))
+                  (328 (ckn-dinamics  (ckn-find-the-samples 4 note *IRCAM-PATH* "13 Violin/pizzicato-bartok/" 'wav) velocity))
                   (329 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "13 Violin/pizzicato-l-vib/" 'wav) velocity))
                   (330 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "13 Violin/pizzicato-secco/" 'wav) velocity))
                   (331 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "13 Violin/sforzato/" 'wav) velocity))
@@ -658,12 +666,12 @@ _______________________________________________________________________
                   (416 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "15 Cello/ordinario-to-sul-ponticello/" 'wav) velocity))
                   (417 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "15 Cello/ordinario-to-sul-tasto/" 'wav) velocity))
                   (418 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "15 Cello/ordinario-to-tremolo/" 'wav) velocity))
-                  (419 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "15 Cello/pizzicato-bartok/" 'wav) velocity))
-                  (420 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "15 Cello/pizzicato-l-vib/" 'wav) velocity))
+                  (419 (ckn-dinamics  (ckn-find-the-samples 4 note *IRCAM-PATH* "15 Cello/pizzicato-bartok/" 'wav) velocity))
+                  (420 (ckn-dinamics  (ckn-find-the-samples 6 note *IRCAM-PATH* "15 Cello/pizzicato-l-vib/" 'wav) velocity)) ;; NOT WORK
                   (421 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "15 Cello/pizzicato-secco/" 'wav) velocity))
                   (422 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "15 Cello/sforzato/" 'wav) velocity))
                   (423 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "15 Cello/staccato/" 'wav) velocity))
-                  (424 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "15 Cello/sul-ponticello/" 'wav) velocity))
+                  (424 (ckn-dinamics  (ckn-find-the-samples 4 note *IRCAM-PATH* "15 Cello/sul-ponticello/" 'wav) velocity))
                   (425 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "15 Cello/sul-ponticello-to-ordinario/" 'wav) velocity))
                   (426 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "15 Cello/sul-ponticello-to-sul-tasto/" 'wav) velocity))
                   (427 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "15 Cello/sul-ponticello-tremolo/" 'wav) velocity))
@@ -703,7 +711,7 @@ _______________________________________________________________________
                   (459 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "16 Contrabass/ordinario-to-sul-tasto/" 'wav) velocity))
                   (460 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "16 Contrabass/ordinario-to-tremolo/" 'wav) velocity))
                   (461 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "16 Contrabass/pizzicato-bartok/" 'wav) velocity))
-                  (462 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "16 Contrabass/pizzicato-l-vib/" 'wav) velocity))
+                  (462 (ckn-dinamics  (ckn-find-the-samples 4 note *IRCAM-PATH* "16 Contrabass/pizzicato-l-vib/" 'wav) velocity))
                   (463 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "16 Contrabass/pizzicato-secco/" 'wav) velocity))
                   (464 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "16 Contrabass/sforzato/" 'wav) velocity))
                   (465 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "16 Contrabass/staccato/" 'wav) velocity))

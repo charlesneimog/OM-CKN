@@ -291,7 +291,7 @@ For this work you need:
 :icon '17359
 :doc "It returns the complex numbers of the list of Sapa-FFT class."
 
-
+(mapcar (lambda (fft) (complex-numbers (ckn-complex-numbers fft))) sapa-fft))
 
 ;==================================================
 
@@ -957,13 +957,13 @@ pathnames))
 :icon '17359
 :doc "Imported from OM6. It can take."
 
-(om-print "Aguarde!" "Verbose")
+;(om-print "Aguarde!" "Verbose")
 
 ;; (clear-subdir-temp-files "om-ckn")
 
 (if (equal (check-samples-in-voice voice) "Todas as alturas possuem samples correspondentes")
 
-(if (om-print (equal *app-name* "om-sharp") "app-name")
+(if (equal *app-name* "om-sharp")
     (voice->samples-sound-fun voice pan temp-files)
     (voice->samples-sound-om6-fun voice pan temp-files))
 
