@@ -885,10 +885,16 @@ list
 ;==========================
 
 (defun loop-until-finish-process (mailbox)
-      (loop :with mailbox-empty = nil :while 
-            (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mailbox)))
-            :do (let* ()
-            mailbox-empty)))
+      (loop :with mailbox-empty = nil 
+            :do 
+                (if (not (equal mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mailbox)))) 
+                    (let* (
+                        (number_of_thread (abs (- (length mailbox) (length (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mailbox)))))))
+                        (if (not (equal 0 number_of_thread))
+                            ;; print "Thread ~d Finalized!%" + new line 
+                            (format t "Thread ~d Finalized!~%" number_of_thread))))
+            :while (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mailbox))) 
+            :finally (return mailbox-empty)))
 
 
 ;================================== Antescofo =================
