@@ -27,13 +27,10 @@
 
       "Sources/Samples/OrchideaSOL2020"
       "Sources/Python/py"
+      "Sources/Python/vamp"
       "Sources/loristrck/loristrck"
       "Sources/Neimog-FFT/fft"
       
-      
-      ;; "Sources/PD/pd"
-      ;; "Sources/PD/pd-player"
-      ;; "Sources/PD/pd-special-box"
       )
 
 (:symbols 
