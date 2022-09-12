@@ -141,7 +141,7 @@ For this work you need:
 
 
 
-(defmethod! bpf-python ((X list) (Y list) &optional (thickness 1) (color 'black))
+(defmethod! bpf-python ((x list) (y list) &optional (thickness 1) (color "black"))
 :initvals '(nil nil 0.2 black)
 :indoc ' ("X points" "Y points" "Thickness" "The color (for example black)")
 :icon 'py-f
@@ -154,8 +154,8 @@ For this work you need:
 (let* (
       (x_if (if (not x) (om::arithm-ser 1 (length y) 1) x))
       (y_if (if (not y) (om::arithm-ser 1 (length x) 1) y))
-      (X-PYTHON (om-py::lisp-list_2_python-list (om::om-round x_if 10)))
-      (Y-PYTHON (om-py::lisp-list_2_python-list (om::om-round y_if 10))))
+      (X-PYTHON (om::om-round x_if 10))
+      (Y-PYTHON (om::om-round y_if 10)))
 (mp:process-run-function (string+ "BPF-PYTHON-" (write-to-string (om::om-random 1 1000)))
       () 
                   (lambda (x-axis y-axis) (if
@@ -167,7 +167,7 @@ For this work you need:
 
 ; ==================================================================================
 
-(defmethod! save-bpf-python ((X list) (Y list) &optional (thickness 0.4) (outfile nil) (color 'black) (blackbackgroud nil) (dpi 300))
+(defmethod! save-bpf-python ((X list) (Y list) &optional (thickness 0.4) (outfile nil) (color "black") (blackbackgroud nil) (dpi 300))
 :initvals ' (NIL)
 :indoc ' ("Build a BPF in Python and save it.")
 :icon 'py-f
@@ -179,22 +179,20 @@ For this work you need:
   3. Install the matplotlib.pyplot with 'pip install matplotlib.pyplot'."
 
 (let* (
-      (outfile_in_python (list->string-fun (list (namestring outfile))))
-      (black-backgroud (if blackbackgroud  "plt" "#plt")) 
+      (black-backgroud blackbackgroud) 
+      (outfile_in_python (if outfile outfile (om::tmpfile (string+ (write-to-string (om::om-random 1 1000)) ".png"))))
       (x_if (if (not x) (om::arithm-ser 1 (length y) 1) x))
-      (y_if (if (not y) (om::arithm-ser 1 (length x) 1) y))
-      (X-PYTHON (om-py::lisp-list_2_python-list x_if))
-      (Y-PYTHON (om-py::lisp-list_2_python-list y_if)))
+      (y_if (if (not y) (om::arithm-ser 1 (length x) 1) y)))
 (mp:process-run-function (string+ "Save-PYTHON-" (write-to-string (om::om-random 1 1000)))
       () 
                   (lambda (x-axis y-axis) (if
                                               (equal *app-name* "om-sharp")
                                                      (save-bpf-python-fun x-axis y-axis thickness color outfile_in_python black-backgroud dpi)))
-                  X-PYTHON Y-PYTHON)))
+                  x_if y_if)))
 
 ; ==================================================================================
 
-(defmethod! 3dc-python ((X list) (Y list) (Z list) &optional (thickness 1) (color 'black))
+(defmethod! 3dc-python ((X list) (Y list) (Z list) &optional (thickness 1) (color "black"))
 :initvals ' (NIL)
 :indoc ' ("Build a 3DC in Python and save it.")
 :icon 'py-f
@@ -206,9 +204,9 @@ For this work you need:
   3. Install the matplotlib.pyplot with 'pip install matplotlib.pyplot'."
 
 (let* (
-      (X-PYTHON (om-py::lisp-list_2_python-list X))
-      (Y-PYTHON (om-py::lisp-list_2_python-list Y))
-      (Z-PYTHON (om-py::lisp-list_2_python-list Z)))
+      (X-PYTHON X)
+      (Y-PYTHON Y)
+      (Z-PYTHON Z))
 (mp:process-run-function (string+ "3DC-PYTHON" (write-to-string (om::om-random 1 1000)))
                  () 
                   (lambda (x-axis w-axis z-axis) (3dc-python-fun x-axis w-axis z-axis thickness color)) X-PYTHON Y-PYTHON Z-PYTHON)))
