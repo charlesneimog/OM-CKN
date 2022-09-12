@@ -308,11 +308,9 @@ For this work you need:
 ;==================================================
 
 (defmethod! split-complex-numbers ((complex-number array))
-
-
 (split-complex-numbers (array-to-list complex-number)))
 
-
+;==================================================
 (defmethod! split-complex-numbers ((complex-number list))
 :initvals '(nil)
 :indoc '("List of complex numbers")
@@ -1036,9 +1034,13 @@ pathnames))
 :icon '17359
 :doc "It does the same that sound-mix and sound-mix-list."
 
-(if (< (length (om::list! sounds)) 23)
-    (sound-mix-sox-fun sounds name)
-    (sound-mix-sox-responsive sounds (string+ name "responsive") 00001)))
+
+(if (equal (length (om::list! sounds)) 1) 
+    (car sounds)
+
+    (if (< (length (om::list! sounds)) 23)
+        (sound-mix-sox-fun sounds name)
+        (sound-mix-sox-responsive sounds (string+ name "responsive") 00001))))
 
 ;; ====================================================
 (defmethod! sound-seq-sox ((sounds list) (name string))
@@ -1046,6 +1048,7 @@ pathnames))
 :indoc '("list of pathnames of sounds") 
 :icon '17359
 :doc "It does the same that sound-seq and sound-seq-list."
+
 
 (if (< (length sounds) 21)
     (sound-seq-sox-fun sounds name)
