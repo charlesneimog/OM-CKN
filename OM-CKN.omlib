@@ -42,7 +42,7 @@
                         (:packages 
                               (:package (:name "Visual Functions") (:functions bpf-python 3dc-python))
                               (:package (:name "Loristrck - Partial Tracking") (:functions loristrck-analysis loristrck-synth))
-                              (:package (:name "Vamp Plugins") (:functions vamp-list-plugins vamp-process vamp-filter-by-prefix))
+                              (:package (:name "Vamp Plugins") (:functions vamp-list-plugins vamp-process vamp-filter-by-prefix vamp-parameters vamp-get-values-vector))
                               (:package (:name "VST2 and VST3") (:functions plugins-list plugins-define plugins-parameter-index plugins-valid-parameters plugins-multi-processes plugins-process))))
             (:package (:name "Score") (:functions musicxml2om))
             (:package (:name "FFT") (:functions neimog-fft neimog-ifft neimog-rifft))
