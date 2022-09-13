@@ -42,7 +42,7 @@
                         (:packages 
                               (:package (:name "Visual Functions") (:functions bpf-python 3dc-python))
                               (:package (:name "Loristrck - Partial Tracking") (:functions loristrck-analysis loristrck-synth))
-                              (:package (:name "Vamp Plugins") (:functions vamp-list-plugins vamp-process vamp-filter-by-prefix vamp-parameters vamp-get-values-vector))
+                              (:package (:name "Vamp Plugins") (:functions vamp-list-plugins vamp-process vamp-filter-by-prefix vamp-parameters vamp-get-values))
                               (:package (:name "VST2 and VST3") (:functions plugins-list plugins-define plugins-parameter-index plugins-valid-parameters plugins-multi-processes plugins-process))))
             (:package (:name "Score") (:functions musicxml2om))
             (:package (:name "FFT") (:functions neimog-fft neimog-ifft neimog-rifft))
@@ -54,11 +54,11 @@
                         (:functions sapa-fft fft->amplitude fft->phrase fft->sin-model fft->chord-seq fft->dB))
             (:package (:name "Math and Music") (:functions split-complex-numbers complex-senoide ))
             (:package (:name "Instruments") (:functions ckn-instruments FULL-SOL-instruments orchidea-instruments o-check-samples-in-voice OrchideaSOL-folder))
-            (:package (:name "Multithreading") (:functions ckn-make-mail-box ckn-mailbox-name ckn-mailbox-peek ckn-multi-1-var loop-until-finish-process))
+            (:package (:name "Multithreading") (:functions ckn-multithreading-prepare ckn-multi-1-var))
             (:package (:name "Utilities")
                   (:packages
                         (:package (:name "List and arrays") (:functions list-to-array array-to-list by-N half))
-                        (:package (:name "Files Control") (:functions copy2outfile clear-subdir-temp-files ckn-rename-file ckn-copy2folder ckn-clear-the-file get-filename get-file-extension loop-until-probe-file make-number-for-temp-sound ckn-list->string))
+                        (:package (:name "Files Control") (:functions copy2outfile clear-subdir-temp-files ckn-clear-the-file get-filename get-file-extension loop-until-probe-file make-number-for-temp-sound ckn-list->string))
                         (:package (:name "Make me live easy") (:functions nth-repeated-random))
                         (:package (:name "Work with object voice") (:functions ckn-add-extras ckn-voice ckn-voice->text osc-play))
                         (:package (:name "Geral") (:functions  choose-to-rest ckn-position remove-nth-element f->n ms->samples)))))))

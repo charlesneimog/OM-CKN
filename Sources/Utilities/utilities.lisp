@@ -844,24 +844,6 @@ list
       (clear-subdir-temp-files "om-ckn")
       (outfile (get-filename x))))
 
-
-;; ================================
-
-(defun ckn-copy2folder (x y)
-(let* (
-      (action1 (string+ "copy " (list->string-fun (list x)) " " (list->string-fun (list (namestring y))))))
-      (ckn-cmd-line action1)
-      (clear-subdir-temp-files "om-ckn")
-      (merge-pathnames y (get-filename x))))
-
-;; ================================
-
-(defun ckn-rename-file (x)
-(let* (
-      (action1 (string+ "copy " (list->string-fun (list x)) " " (list->string-fun (list (namestring (outfile "")))))))
-      (ckn-cmd-line action1)
-      (outfile (get-filename x))))
-
 ;; ================================
 
 (defun ckn-list-to-string (lst)
@@ -1192,10 +1174,7 @@ list
 
 (progn 
   (om::gc-all)
-x))
-
-;
-
+  x))
 
 ;; ===================================== Information =========================== 
 

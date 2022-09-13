@@ -1403,27 +1403,17 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 ;; Multithreading ====================================================
 
-(defmethod! ckn-loop-multi-prepare ((list list) (how_many_threading list))
+
+(defmethod! ckn-multithreading-prepare ((data list) (how_many_threading number))
 :initvals ' (nil nil)       
 :indoc ' ("one list" "how much threading for time.")
 :outdoc ' ("result")
 :icon 'multithreading 
 :doc "It does multithreading loops, do not use it if you REALLY do not need :) ."
 
-
-(loop-in-parts list how_many_threading how_many_threading))
-
-;; =============================================
-
-(defmethod! ckn-loop-multi-prepare ((list list) (how_many_threading number))
-:initvals ' (nil nil)       
-:indoc ' ("one list" "how much threading for time.")
-:outdoc ' ("result")
-:icon 'multithreading 
-:doc "It does multithreading loops, do not use it if you REALLY do not need :) ."
-
-
-(loop-in-parts list how_many_threading how_many_threading))
+(let* (
+      (amount-of-threading (1+ (round (/ (length data) how_many_threading)))))
+      (loop-in-parts data amount-of-threading amount-of-threading)))
 
 ;; ====================================================
 
