@@ -30,3 +30,12 @@
       "Done!"
       )
 
+;; ============
+(defun show-image-python (image-path)
+(let* (
+      (PythonScript (om-py::find-library-PyScripts "OM-CKN" "show_image.py")))
+      (om-py::run-py-script PythonScript (list "image_path") (list image-path) :thread t)
+      ; if necessary, you can do some processing of the output here, in this case we just return it
+      "Done!"
+      ))
+
