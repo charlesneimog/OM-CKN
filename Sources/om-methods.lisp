@@ -61,11 +61,19 @@
 (:icon 17359))
 
 
-; ================================================== Bytes-Class =====================
+; =================================================================================
 
 (defclass! sound-bytes ()
 ((bytes :initform nil :initarg :bytes :accessor bytes))
 (:icon 17359))
+
+; ============================== Threads ID =======================================
+
+; Always with four digits
+
+(defparameter *ckn-thread-id* 0)
+
+; ================================
 
 ; ===============
 (defmethod! fft-sapa ((sound-bytes list) (fft-window number))
@@ -1425,22 +1433,25 @@ Converts a (list of) freq pitch(es) to names of notes."
 :icon 'multithreading 
 :doc "It does multithreading loops, do not use it if you REALLY do not need :) ."
 
+(setf *ckn-thread-id* (+ *ckn-thread-id* 1))
 (let* (
+      (thread-id *ckn-thread-id*)
       (list-of-something (if (equal loop-inside 0) list (mapcar (lambda (x) (list x)) list)))
-      (action1 (ckn-mailbox-name list-of-something))
-      (action2 (ckn-make-mail-box action1)))
+      (mailbox-names (ckn-mailbox-name list-of-something))
+      (mailbox-class (ckn-make-mail-box mailbox-names)))
 (loop 
     :for list-of-something-loop :in list-of-something 
-    :for create-mailbox :in action2
-    :for names-process :in action1
+    :for create-mailbox :in mailbox-class
+    :for names-process :in mailbox-names
     :for index :from 1 :to (length list) 
-    :do (om::om-print (format nil "Thread ~d of ~d" index (length list)) "OM-CKN")  
+    :do (om::om-print (format nil "Thread ~d of ~d" index (length list)) (format nil "Process ~4,'0d" thread-id))
     :do 
         (mp:process-run-function names-process
                  () 
                   (lambda (x y) (mp:mailbox-send x (mapcar ckn-lambda (om::list! y)))) create-mailbox (list list-of-something-loop)))
-(loop-until-finish-process action2)
-(ckn-mailbox-peek action2)))
+
+(loop-until-finish-process mailbox-class :process-id thread-id)
+(ckn-mailbox-peek mailbox-class)))
 
 
 ;; ==================================================

@@ -781,10 +781,7 @@ list
 (defun get-file-extension (x)
 "I forgot the name of the function that I stolen somewhere."
 
-(let* (
-      (filename (namestring x))
-      (file (om::string-to-list filename ".")))
-  (om::string+ "." (car (last file)))))  
+  (om::string+ "." (pathname-type x)))
 
 ; ================================
 
@@ -835,6 +832,24 @@ list
                  () 
                  (lambda (x) (alexandria::delete-file thefile)) thefile))
  
+;; ============ 
+
+
+(defmethod! ckn-clear-files ((folder pathname) (extention string))
+:initvals ' (nil nil)       
+:indoc ' ("Folder where you want to clear files" "list or string of type files.")
+:doc "It does multithreading loops, do not use it if you REALLY do not need :) ."
+      "Clear all files in a folder with a given extention."
+      (let* ((files (directory folder)))
+      (loop for file in files do
+            (when (string= (pathname-type file) extention)
+                  (delete-file file))))
+"ok")
+;; ===============================
+
+(defmethod! ckn-clear-files ((folder pathname) (extension list))
+      (mapcar (lambda (ext) (ckn-clear-files folder ext)) extension)
+      "ok")
 
 ;; ================================
 
@@ -855,6 +870,20 @@ list
 (ensure-directories-exist (outfile " " :subdirs "\om-ckn"))
 (ensure-directories-exist (tmpfile " " :subdirs "\om-ckn"))
 
+; Get time of processing in seconds
+(defun init-time (x)
+  (progn 
+      (setf *ckn-eval-time* (get-internal-real-time))
+      x))
+;; ================================
+(defun end-time (x)
+  (progn 
+      (setf *ckn-eval-time* (- (get-internal-real-time) *ckn-eval-time*))
+      ; new line in format
+      (print (format nil "Time of processing: ~A seconds.~%" (float (/ *ckn-eval-time* internal-time-units-per-second))))
+      x))
+
+
 ;================================== WAIT PROCESS =================
 
 (defun loop-until-probe-file (my-file)
@@ -866,7 +895,7 @@ list
 
 ;==========================
 
-(defun loop-until-finish-process (mailbox)
+(defun loop-until-finish-process (mailbox &key (process-id 0))
       (loop :with mailbox-empty = nil 
             :do 
                 (if (not (equal mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mailbox)))) 
@@ -874,7 +903,8 @@ list
                         (number_of_thread (abs (- (length mailbox) (length (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mailbox)))))))
                         (if (not (equal 0 number_of_thread))
                             ;; print "Thread ~d Finalized!%" + new line 
-                            (format t "Thread ~d Finalized!~%" number_of_thread))))
+                            (format t "Process ~4,'0d :: Thread ~d Finalized!~%" process-id number_of_thread))))
+                            ;(format t "Thread ~d Finalized!~%" number_of_thread))))
             :while (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mailbox))) 
             :finally (return mailbox-empty)))
 
