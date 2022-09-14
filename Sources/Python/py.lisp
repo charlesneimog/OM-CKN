@@ -13,8 +13,7 @@
 
 ;; ============
 (defun save-bpf-python-fun (x-axis y-axis thickness color outfile_in_python black-backgroud dpi)
-
-
+      "Build a BPF using Python."
 (let* (
       (PythonScript (om-py::find-library-PyScripts "OM-CKN" "save_bpf.py")))
       (print (om-py::run-py-script PythonScript (list "x_axis" "y_axis" "thickness" "color" "outfile" "blackback" "dpi") (list x-axis y-axis thickness color outfile_in_python black-backgroud dpi)))
@@ -23,6 +22,7 @@
 
 ;; ============
 (defun 3dc-python-fun (X Y Z thickness color)
+      "Build a 3DC using Python."
 (let* (
       (PythonScript (om-py::find-library-PyScripts "OM-CKN" "3dc.py")))
       (om-py::run-py-script PythonScript (list "xline" "yline" "zline" "thickness" "color") (list X Y Z thickness color)))
@@ -32,6 +32,7 @@
 
 ;; ============
 (defun show-image-python (image-path)
+      "Show an image using Python."
 (let* (
       (PythonScript (om-py::find-library-PyScripts "OM-CKN" "show_image.py")))
       (om-py::run-py-script PythonScript (list "image_path") (list image-path) :thread t)
