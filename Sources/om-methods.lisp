@@ -123,7 +123,7 @@
 (defmethod! complex-numbers-parts ((list list))
 :initvals ' (NIL)
 :indoc ' ("list of complex-numbers")
-:icon '17359
+:icon 'omckn-sound
 :numouts 2
 :outdoc '("imagpart" "realpart")
 :doc ""
@@ -224,7 +224,7 @@ For this work you need:
 (defmethod! BORDEAUX-fft ((sound-array array))
 :initvals '(nil)
 :indoc '("Sound class") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It reads a wave file."
 
 (time (fft-fun sound-array)))
@@ -235,7 +235,7 @@ For this work you need:
 :initvals '(nil 2048 512 nil)
 :indoc '("Sound class" "FFT-size" "Hop-size" "Windows-type") 
 :menuins '((3 (("hann" 1) ("blackman" 2) ("barlett" 3) ("hamming" 4) ("rectangular" 5) ("nenhuma" 6))))
-:icon '17359
+:icon 'omckn-sound
 :doc "It does the FFT in a sound."
 
 (if (compiled-function-p #'sapa-fft!) nil (compile 'sapa-fft!))
@@ -264,7 +264,7 @@ For this work you need:
 :initvals '(nil 2048 512 nil)
 :indoc '("Sound class" "FFT-size" "Hop-size" "Windows-type") 
 :menuins '((3 (("hann" 1) ("blackman" 2) ("barlett" 3) ("hamming" 4) ("rectangular" 5) ("nenhuma" 6))))
-:icon '17359
+:icon 'omckn-sound
 :doc "It does the FFT in a sound."
 
 (if (compiled-function-p #'sapa-fft!) nil (compile 'sapa-fft!))
@@ -294,7 +294,7 @@ For this work you need:
 (defmethod! get-complex-numbers ((sapa-fft list))
 :initvals '(nil)
 :indoc '("Sapa-FFT class")
-:icon '17359
+:icon 'omckn-sound
 :doc "It returns the complex numbers of the list of Sapa-FFT class."
 
 (mapcar (lambda (fft) (complex-numbers (ckn-complex-numbers fft))) sapa-fft))
@@ -304,7 +304,7 @@ For this work you need:
 (defmethod! complex-senoide-h ((freq number) (sec number) (samples-rate number))
 :initvals '(nil)
 :indoc '("Frequency in Hz" "Durations in sec." "Sample-rate")
-:icon '17359
+:icon 'omckn-sound
 :doc "It does one senoide in the complex plan."
 
 (let* (
@@ -322,7 +322,7 @@ For this work you need:
 (defmethod! split-complex-numbers ((complex-number list))
 :initvals '(nil)
 :indoc '("List of complex numbers")
-:icon '17359
+:icon 'omckn-sound
 :numouts 2
 :outdoc '("Real part" "Imag Part")
 :doc "It does one senoide in the complex plan."
@@ -336,7 +336,7 @@ For this work you need:
 (defmethod! partial-tracking ((ffts list) (db-limiter number) (cents_limiter number))
 :initvals '(nil)
 :indoc '("List of ckn-fft")
-:icon '17359
+:icon 'omckn-sound
 :doc "It does the partial-tracking of some FFT."
 
 (fft->sdif ffts cents_limiter db-limiter))
@@ -346,7 +346,7 @@ For this work you need:
 (defmethod! complex-senoide ((freq number) (sec number) (samples-rate number))
 :initvals '(nil)
 :indoc '("Frequency in Hz" "Durations in sec." "Sample-rate")
-:icon '17359
+:icon 'omckn-sound
 :doc "It does one senoide in the complex plan."
 
 (let* (
@@ -360,7 +360,7 @@ For this work you need:
 (defmethod! fft->amplitude ((fft number))
 :initvals '(nil)
 :indoc '("Sound class") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It reads a wave file."
 
 (car (fft->amplitude (list fft))))
@@ -371,7 +371,7 @@ For this work you need:
 (defmethod! fft->amplitude ((fft array))
 :initvals '(nil)
 :indoc '("Sound class") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It reads a wave file."
 
 (fft->amplitude-fun fft))
@@ -381,7 +381,7 @@ For this work you need:
 (defmethod! fft->amplitude ((fft list))
 :initvals '(nil)
 :indoc '("Sound class") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It reads a wave file."
 
 (fft->amplitude (list-to-array fft 1)))
@@ -391,7 +391,7 @@ For this work you need:
 (defmethod! fft->phrase ((fft array))
 :initvals '(nil)
 :indoc '("Sound class") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It reads a wave file."
 
 (fft->phrase-fun fft))
@@ -401,7 +401,7 @@ For this work you need:
 (defmethod! fft->phrase ((fft list))
 :initvals '(nil)
 :indoc '("Sound class") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It reads a wave file."
 
 (fft->phrase (list-to-array fft 1)))
@@ -411,7 +411,7 @@ For this work you need:
 (defmethod! list-to-array ((array-my list) (dimensions integer))
 :initvals '((nil) 1)
 :indoc '("Sound class" "bla bla")
-:icon '17359
+:icon 'omckn-sound
 :doc "It reads a wave file."
 
 (list-to-array-fun array-my dimensions))
@@ -424,7 +424,7 @@ my-array)
 (defmethod! array-to-list ((my-array array))
 :initvals '(nil)
 :indoc '("Sound class")
-:icon '17359 
+:icon 'omckn-sound 
 :doc "It reads a wave file."
 
 (array-to-list-fun my-array))
@@ -434,7 +434,7 @@ my-array)
 (defmethod! by-N ((my-list list) (division-number number) (my-function function))
 :initvals '(nil)
 :indoc '("Sound class")
-:icon '17359 
+:icon 'omckn-sound 
 :doc "It reads a wave file."
 
 (by-N-fun my-list division-number my-function))
@@ -444,7 +444,7 @@ my-array)
 (defmethod! sound->bytes ((self sound))
 :initvals '(nil)
 :indoc '("Sound class")
-:icon '17359
+:icon 'omckn-sound
 :doc "It reads a wave file."
 
 (if (equal *app-name* "om-sharp")
@@ -456,7 +456,7 @@ my-array)
 (defmethod! bytes->sound ((self list) &optional (quantos-canais 1) (qual-canal 1))
 :initvals '(nil 1 1)
 :indoc '("bytes 0 until 1 list" "number of channels" "where write?")
-:icon '17359
+:icon 'omckn-sound
 :doc "It create a sound from list of bytes (0 until 1)."
 
 (if (equal *app-name* "om-sharp")
@@ -469,7 +469,7 @@ my-array)
 :indoc ' ("Sdif-File.")
 :numouts 2
 :outdoc ' ("phrase" "amplitude")
-:icon '17359
+:icon 'omckn-sound
 :doc "Do the same thing that the cartopol of Max/MSP."
 
 (values 
@@ -484,7 +484,7 @@ my-array)
 :indoc ' ("FFT bin number" "Sample-rate" "Fft-size")
 :numouts 1
 :outdoc ' ("Frequency")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 
 (bin->freq-fun fft-bin sample-rate fft-size))
@@ -496,7 +496,7 @@ my-array)
 ;==================================================
 
 (defmethod! half ((fft-array array))
-:icon '17359
+:icon 'omckn-sound
 :doc "If a list have 4096 number in it, it return the first 2048 (length of list / 2)."
 
 (half-fun fft-array))
@@ -513,7 +513,7 @@ my-array)
 (defmethod! fft->dB ((amplitudes list))
 :initvals '(nil)
 :indoc '("Sound class") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It reads a wave file."
 
 (let* (
@@ -527,55 +527,72 @@ my-array)
 (defmethod! sdif->list ((sdif-file sdiffile))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File.")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
-
-(sdif->list-fun sdif-file))
+(let* (
+    (info (sdifinfo sdif-file nil))
+    (action1 (second (multiple-value-list (om::getsdifdata sdif-file 0 (second (car info)) (third (car info)) '(0 1 2) nil nil nil nil))))
+    (action2 (getsdifframes sdif-file)))
+    (loop 
+          :for cknloop 
+          :in (arithm-ser 1 (length action2) 1) 
+          :collect       
+              (x-append (get-slot-val (make-value-from-model 'sdifframe (posn-match action2 (1-  cknloop)) nil) "FTIME") 
+                        (let* (
+                              (action3-1 (posn-match (om::get-slot-val (make-value-from-model 
+                                                                      'sdifmatrix (first (om::get-slot-val 
+                                                                      (om::make-value-from-model 'sdifframe (posn-match action2 (1- cknloop)) nil)
+                                                                      "LMATRIX")) nil) "DATA") '(0 1 2 3)))
+                              (action3-2 (mat-trans (list 
+                                                        (om::om-round (first action3-1))
+                                                        (om::om-round (second action3-1) 2)
+                                                        (third action3-1)
+                                                        (fourth action3-1)))))
+action3-2)))))
 
 ;; =============================================
 
 (defmethod! sdif->list ((sdif-file pathname))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File.")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 
 (sdif->list (make-value-from-model 'sdiffile sdif-file nil)))
 
 ;; =============================================
-
-(defun sdif->list-fun (sdif-file) 
+(defmethod! ckn-list->sdif ((list-sdif list) (out-file pathname))
+:initvals ' (NIL)
+:indoc ' ("Sdif-File.")
+:icon 'omckn-sound
+:doc "Convert List of (onset (all the indexs) (all the frequences) (all the amplitudes) (all the phases)) to SDIF file."
 
 (let* (
-    (info (sdifinfo sdif-file nil))
-    (action1 (second (multiple-value-list 
-                (om::getsdifdata sdif-file 0 (second (car info)) (third (car info)) '(0 1 2) nil nil nil nil))))
-    (action2 (getsdifframes sdif-file)))
+  (data (mapcar (lambda (x) (cdr x)) list-sdif))
+  (sdif-time (mapcar (lambda (x) (om::om-round (car x) 4)) list-sdif))
+  (mk-frame 
+    (loop 
+          
+          :for sdif-frame :in data
+          :for time :in sdif-time
+          :collect (let* (
+                          (matrix (om::make-value 'sdifmatrix (list (list :matrixtype "RBEP") (list :data (mat-trans sdif-frame))))))
+                     (om::make-value 'sdifframe (list (list :frametype "RBEP") (list :ftime time) (list :streamid 0) (list :lmatrix matrix))))))                          
+  (action6 (list (om::make-value 'sdiftype (list (list :struct 'm) (list :signature "1TRC")))))
+  (action7 (om::write-sdif-file mk-frame :outpath out-file :types action6)))
+  (om::make-value-from-model 'sdiffile action7 nil)))
 
-        (loop 
-            :for cknloop 
-            :in (arithm-ser 1 (length action2) 1) 
-                  :collect       
-    
-        (x-append 
-              (get-slot-val (make-value-from-model 'sdifframe (posn-match action2 (1-  cknloop)) nil) "FTIME")
-              (let* (
+(compile 'ckn-list->sdif)
 
-(action3-1 
-        (posn-match 
-                    (om::get-slot-val (make-value-from-model 'sdifmatrix 
-                                          (first (om::get-slot-val 
-                              (om::make-value-from-model 'sdifframe (posn-match action2 (1- cknloop)) nil)
-                                            "LMATRIX")) nil) "DATA") '(0 1 2 3)))
-(action3-2 (mat-trans (list (om::om-round (first action3-1)) (om::om-round (second action3-1) 2) (third action3-1) (fourth action3-1)))))
-action3-2)))))
+
+
 
 ;; ====================================================
 
 (defmethod! sdif-envelope ((sdif-file sdiffile))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File.")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 
 (let* (
@@ -593,7 +610,7 @@ action3-2)))))
 (defmethod! sdif->fft-instance ((sdif-file sdiffile))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File.")
-:icon '17359
+:icon 'omckn-sound
 :doc "This will translate each frame of the SDIF file for the fft-instance class."
 
 (let* (
@@ -618,7 +635,7 @@ action3-2)))))
 (defmethod! sdif->fft-instance ((sdif-file pathname))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File.")
-:icon '17359
+:icon 'omckn-sound
 :doc "This will translate each frame of the SDIF file for the fft-instance class."
 
 (sdif->fft-instance (make-value-from-model 'sdiffile sdif-file nil)))
@@ -628,7 +645,7 @@ action3-2)))))
 (defmethod! save-spear-sdif ((sdif-frames list) (name string))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File." "Name")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 
 (write-sdif-file sdif-frames :outpath
@@ -643,7 +660,7 @@ action3-2)))))
 (defmethod! save-spear-sdif ((sdif-frames ckn-sdif) (name string))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File." "Name")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 (save-spear-sdif (ckn-matrix sdif-frames) name))
 
@@ -652,7 +669,7 @@ action3-2)))))
 (defmethod! fft->sdif ((sdif-frames list) (freq-threshold number) (db-threshold number))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File.")
-:icon '17359
+:icon 'omckn-sound  
 :doc ""
 (fft->sdif-fun sdif-frames freq-threshold db-threshold))
 
@@ -661,7 +678,7 @@ action3-2)))))
 (defmethod! sound-seq-list ((sound list) &optional (fade-bewteen-sound 0.001))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File.")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 
 (om-print "Aguarde alguns segundos!" "Verbose")
@@ -680,7 +697,7 @@ action3-2)))))
 (defmethod! sound-mix-list ((sound list))
 :initvals ' (NIL)
 :indoc ' ("Sdif-File.")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 
 (build-sound-mix-fun sound))
@@ -692,7 +709,7 @@ action3-2)))))
 (defmethod! sound-transpose-sox ((sound sound) (cents number))
 :initvals ' (NIL)
 :indoc ' ("Pathname of a sound-file" "Tranposition in cents")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 
 (if (equal 0 cents) sound (ckn-transpose-a-sound (namestring (file-pathname sound)) cents)))
@@ -703,7 +720,7 @@ action3-2)))))
 (defmethod! sound-transpose-sox ((sound null) (cents number))
 :initvals ' (NIL)
 :indoc ' ("Pathname of a sound-file" "Tranposition in cents")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 
 (sound-silence-sox 1.0 1))
@@ -713,7 +730,7 @@ action3-2)))))
 (defmethod! sound-transpose-sox ((sound string) (cents number))
 :initvals ' (NIL)
 :indoc ' ("Pathname of a sound-file" "Tranposition in cents")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 
 (if (equal 0 cents) sound (ckn-transpose-a-sound sound cents)))
@@ -724,7 +741,7 @@ action3-2)))))
 (defmethod! sound-transpose-sox ((sound string) (cents null))
 :initvals ' (NIL)
 :indoc ' ("Pathname of a sound-file" "Tranposition in cents")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 
 sound)
@@ -734,7 +751,7 @@ sound)
 (defmethod! sound-transpose-sox ((sound pathname) (cents number))
 :initvals ' (NIL)
 :indoc ' ("Pathname of a sound-file" "Tranposition in cents")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 
 (if (equal 0 cents) (namestring sound) (ckn-transpose-a-sound (namestring sound) cents)))
@@ -744,7 +761,7 @@ sound)
 (defmethod! sound-mono-to-stereo-sox ((sound sound))
 :initvals ' ("NIL")
 :indoc ' ("One mono sound")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 (sound-mono-to-stereo-sox-fun (namestring (file-pathname sound))))
 
@@ -754,7 +771,7 @@ sound)
 (defmethod! sound-mono-to-stereo-sox ((sound list))
 :initvals ' ("NIL")
 :indoc ' ("One mono sound")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 (loop :for x :in sound :collect (sound-mono-to-stereo-sox x)))
 
@@ -763,7 +780,7 @@ sound)
 (defmethod! sound-mono-to-stereo-sox ((sound string))
 :initvals ' ("NIL")
 :indoc ' ("One mono sound")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 (sound-mono-to-stereo-sox-fun sound))
 
@@ -772,7 +789,7 @@ sound)
 (defmethod! sound-mono-to-stereo-sox ((sound pathname))
 :initvals ' ("NIL")
 :indoc ' ("One mono sound")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 (sound-mono-to-stereo-sox-fun (namestring sound)))
 
@@ -781,7 +798,7 @@ sound)
 (om::defmethod! choose ((notelist list) (chord-n list))
 :initvals ' ((1 2 3 4 5 6 7 8 9 10) 2)
 :indoc ' ("List or list of lists of anything" "What element(s) do you want?") 
-:icon '17359
+:icon 'omckn-sound
 :doc "This object choose an element in a list; or a list in a list of lists. If you put more that one element in the second inlet this object will choose all the elements that you put in second inlet.
 Inlet1: (7 8 9 10 458)
 Inlet2: (1 3 5)
@@ -794,7 +811,7 @@ Result: (7 9 458)."
 (om::defmethod! choose ((notelist list) (chord-n number))
 :initvals ' ((1 2 3 4 5 6 7 8 9 10) 2)
 :indoc ' ("List or list of lists of anything" "What element(s) do you want?") 
-:icon '17359
+:icon 'omckn-sound
 :doc "This object choose an element in a list; or a list in a list of lists. If you put more that one element in the second inlet this object will choose all the elements that you put in second inlet.
 Inlet1: (7 8 9 10 458)
 Inlet2: (1 3 5)
@@ -807,7 +824,7 @@ Result: (7 9 458)."
 (defmethod! choose-to-rest ((voice voice) &optional (number-2 1))
 :initvals '(nil nil)
 :indoc '("Sound class" "Number of the instrument (technique)") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It create the patch of a sound."
 
 (let* (
@@ -825,7 +842,7 @@ Result: (7 9 458)."
 (defmethod! ckn-position ((list list) (my-number number))
 :initvals '(nil nil)
 :indoc '("Sound class" "Number of the instrument (technique)") 
-:icon '17359
+:icon 'omckn-sound
 :doc "Check the ALL the position of one number in one list."
 
 (let* (
@@ -841,7 +858,7 @@ Result: (7 9 458)."
 (defmethod! ckn-position ((list list) (my-number list))
 :initvals '(nil nil)
 :indoc '("Sound class" "Number of the instrument (technique)") 
-:icon '17359
+:icon 'omckn-sound
 :doc "Check the ALL the position of one number in one list."
 
 (let* (
@@ -856,7 +873,7 @@ Result: (7 9 458)."
 (defmethod! choose-to-rest ((list list) &optional (number-2 1))
 :initvals '(nil nil)
 :indoc '("Sound class" "Number of the instrument (technique)") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It create the patch of a sound."
 
 (let* (
@@ -876,7 +893,7 @@ Result: (7 9 458)."
 (defmethod! ckn-list->string ((list list))
 :initvals '(nil nil)
 :indoc '("A list of names?") 
-:icon '17359
+:icon 'omckn-sound
 :doc "Transform a list in one string."
 
 (list->string-fun list))
@@ -886,7 +903,7 @@ Result: (7 9 458)."
 (defmethod! ckn-temp-sounds ((sounds sound) &optional (string string))
 :initvals '(nil)
 :indoc '("one string") 
-:icon '17359
+:icon 'omckn-sound
 :doc "Copy some file to outfiles."
 
 (car (save-temp-sounds (list! sounds) string)))
@@ -895,7 +912,7 @@ Result: (7 9 458)."
 (defmethod! ckn-temp-sounds ((sounds list) &optional (string string))
 :initvals '(nil)
 :indoc '("one string") 
-:icon '17359
+:icon 'omckn-sound
 :doc "Copy some file to outfiles."
 
 (save-temp-sounds sounds string))
@@ -905,7 +922,7 @@ Result: (7 9 458)."
 (defmethod! copy2outfile ((path string))
 :initvals '(nil)
 :indoc '("one string") 
-:icon '17359
+:icon 'omckn-sound
 :doc "Copy some file to outfiles."
 
 (ckn-copy2outfile path))
@@ -915,7 +932,7 @@ Result: (7 9 458)."
 (defmethod! copy2outfile ((path pathname))
 :initvals '(nil)
 :indoc '("one pathname") 
-:icon '17359
+:icon 'omckn-sound
 :doc "Copy some file to outfiles."
 
 (ckn-copy2outfile (namestring path)))
@@ -924,7 +941,7 @@ Result: (7 9 458)."
 (defmethod! copy2outfile ((paths list))
 :initvals '(nil)
 :indoc '("one pathname") 
-:icon '17359
+:icon 'omckn-sound
 :doc "Copy some file to outfiles."
 
 (let* (
@@ -943,7 +960,7 @@ pathnames))
 (defmethod! remove-nth-element ((lists list) (numbers list))
 :initvals '(nil nil)
 :indoc '("A list of names?") 
-:icon '17359
+:icon 'omckn-sound
 :doc "Transform a list in one string."
 
 (let* (
@@ -958,7 +975,7 @@ pathnames))
 (defmethod! voice->samples ((voice voice) &optional (pan nil) (temp-files t))
 :initvals '(nil nil t)
 :indoc '("a voice" "panoramic information - see the object sound-stereo-pan" "Clear temp files") 
-:icon '17359
+:icon 'omckn-sound
 :doc "Imported from OM6. It can take."
 
 ;(om-print "Aguarde!" "Verbose")
@@ -979,7 +996,7 @@ pathnames))
 (defmethod! voice->samples-ITD ((voice voice) &optional (pan nil) (temp-files t))
 :initvals '(nil nil t)
 :indoc '("a voice" "panoramic information - see the object sound-stereo-pan" "Clear temp files") 
-:icon '17359
+:icon 'omckn-sound
 :doc "Imported from OM6. It can take."
 
 (om-print "Aguarde!" "Verbose")
@@ -1000,7 +1017,7 @@ pathnames))
 (defmethod! sound-vol-sox ((sounds sound) (volume number))
 :initvals '(nil)
 :indoc '("sound" "volume in this format 0.9 that means 90% of the original sound.") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It does the same that sound-vol, but it uses the SoX."
 
 (sound-vol-sox-fun (file-pathname sounds) volume))
@@ -1010,7 +1027,7 @@ pathnames))
 (defmethod! sound-vol-sox ((sounds pathname) (volume number))
 :initvals '(nil)
 :indoc '("sound" "volume in this format 0.9 that means 90% of the original sound.") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It does the same that sound-vol, but it uses the SoX."
 
 (sound-vol-sox-fun sounds volume))
@@ -1020,7 +1037,7 @@ pathnames))
 (defmethod! sound-vol-sox ((sounds string) (volume number))
 :initvals '(nil)
 :indoc '("sound" "volume in this format 0.9 that means 90% of the original sound.") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It does the same that sound-vol, but it uses the SoX."
 
 (sound-vol-sox-fun sounds volume))
@@ -1030,7 +1047,7 @@ pathnames))
 (defmethod! sound-vol-sox ((sounds string) (volume null))
 :initvals '(nil)
 :indoc '("sound" "volume in this format 0.9 that means 90% of the original sound.") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It does the same that sound-vol, but it uses the SoX."
 
 (sound-vol-sox-fun sounds (if (equal nil volume) 1 1)))
@@ -1039,7 +1056,7 @@ pathnames))
 (defmethod! sound-mix-sox ((sounds list) (name string))
 :initvals '("sound-mix.wav")
 :indoc '("sounds") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It does the same that sound-mix and sound-mix-list."
 
 
@@ -1054,7 +1071,7 @@ pathnames))
 (defmethod! sound-seq-sox ((sounds list) (name string))
 :initvals '(nil "sox-seq.wav")
 :indoc '("list of pathnames of sounds") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It does the same that sound-seq and sound-seq-list."
 
 
@@ -1066,7 +1083,7 @@ pathnames))
 (defmethod! sound-dur-sox ((sounds string))
 :initvals '(nil)
 :indoc '("sounds" "list with fade-in and fade-out") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It does the same that sound-fade."
 
 
@@ -1088,7 +1105,7 @@ pathnames))
 (defmethod! sound-dur-sox ((sounds pathname))
 :initvals '(nil)
 :indoc '("sounds" "list with fade-in and fade-out") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It does the same that sound-fade."
 
 (sound-dur-sox (namestring sounds)))
@@ -1097,7 +1114,7 @@ pathnames))
 (defmethod! sound-fade-sox ((sounds pathname) (fade list))
 :initvals '(nil)
 :indoc '("sounds" "list with fade-in and fade-out") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It does the same that sound-fade but using sox. IMPORTANT: Diferrent of sound-fade, we use a list to specify the fade-in and fade-out. For example (0.3 0.2) means that you want a fade-in of 300ms and one fade-out of 200ms."
 (sound-fade-sox-fun sounds fade))
 
@@ -1116,7 +1133,7 @@ pathnames))
 (defmethod! sound-silence-sox ((sounds number) &optional (channels 1))
 :initvals '(nil)
 :indoc '("float number") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It does the same that sound-silence but using sox."
 
 (let* (
@@ -1139,7 +1156,7 @@ pathnames))
 (defmethod! sound-cut-sox ((sounds string) (in number) (out number))
 :initvals '("Documentos\OM_Workspace\in-files\my_sound.wav" 100 300)
 :indoc '("Sound Pathname" "begin time" "end time")
-:icon '17359
+:icon 'omckn-sound
 :doc "It does the same that sound-cut but using sox."
 
 (sound-cut-sox-fun sounds in out))
@@ -1160,7 +1177,7 @@ pathnames))
 (defmethod! sound-denoise-sox ((sound sound))
 :initvals '("a Sound")
 :indoc '("Sound") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It will denoise the sound using sox. You need to put two markers in the sound because sox need to do a probile of the noise. So mark the noise part of the sound."
 
 (sound-denoise-sox-fun sound))
@@ -1172,7 +1189,7 @@ pathnames))
 :initvals ' ((nil) -60)       
 :indoc ' ("A sound.")
 :outdoc ' ("The new sound")
-:icon '17359
+:icon 'omckn-sound
 :doc "It will cut one sound using the TWO FIRST markers."
 
 (let* (
@@ -1186,7 +1203,7 @@ pathnames))
 (defmethod! sound-seq-multi ((sounds list) &optional (list-per-threading 30))
 :initvals '(nil)
 :indoc '("a list of sounds." "Among of sounds per threading.")
-:icon '17359
+:icon 'omckn-sound
 :doc "Like sound-seq-list but multithreading (more fast)."
         (gc-all)
     (sound-seq-list-multi-threading (build-seq-of-sounds sounds list-per-threading)))
@@ -1196,7 +1213,7 @@ pathnames))
 (defmethod! sound-mk-senoide-sox ((freq number) (dur number))
 :initvals '(nil)
 :indoc '("a list of sounds." "Among of sounds per threading.")
-:icon '17359
+:icon 'omckn-sound
 :doc "Like sound-seq-list but multithreading (more fast)."
 
 
@@ -1214,7 +1231,7 @@ pathnames))
 (defmethod! ckn-add-extras ((voice voice))
 :initvals '(nil)
 :indoc '("Add some notehead in OM-Score") 
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 
 (ckn-add-extras voice))
@@ -1224,7 +1241,7 @@ pathnames))
 (defmethod! ckn-voice ((tree list) (chords list) (lvel list) (lchan list) (tempo number))
 :initvals '(nil)
 :indoc '("voice without drawing?") 
-:icon '17359
+:icon 'omckn-sound
 :doc "Build a voice."
 
 (make-instance 'voice :tree tree :lmidic chords :lvel lvel :lchan lchan :tempo tempo))
@@ -1235,7 +1252,7 @@ pathnames))
 :initvals ' ((nil))       
 :indoc ' ("The voice that you want to play!")
 :outdoc ' ("PLAY")
-:icon '17359
+:icon 'omckn-sound
 :numouts 1
 :doc "It is a player for OM#. You can download the Max/MSP patch in:  <https://bit.ly/32K0och>.
 
@@ -1249,7 +1266,7 @@ For the automatic work the folder out-files of OM# must be in the files preferen
 :initvals ' ((nil))       
 :indoc ' ("A player for OM#")
 :outdoc ' ("PLAY")
-:icon '17359
+:icon 'omckn-sound
 :numouts 1
 :doc "It is a player for OM#. You can download the Max/MSP patch in:  <https://bit.ly/32K0och>.
 
@@ -1270,7 +1287,7 @@ For the automatic work the folder out-files of OM# must be in the files preferen
 :initvals ' ((nil))       
 :indoc ' ("A player for OM#")
 :outdoc ' ("PLAY")
-:icon '17359
+:icon 'omckn-sound
 :numouts 1
 :doc "It is a player for OM#. You can download the Max/MSP patch in:  <https://bit.ly/32K0och>.
 
@@ -1291,7 +1308,7 @@ For the automatic work the folder out-files of OM# must be in the files preferen
 :initvals ' ((nil))       
 :indoc ' ("A player for OM#")
 :outdoc ' ("PLAY")
-:icon '17359
+:icon 'omckn-sound
 :numouts 1
 :doc "It is a player for OM#. You can download the Max/MSP patch in:  <https://bit.ly/32K0och>.
 
@@ -1331,7 +1348,7 @@ Converts a (list of) seconds to milisseconds.
 (defmethod! fft->chord-seq  ((fft-instance list) (down number) (up number) &optional (min-vel 10))
 :initvals '(nil 3600 8400)
 :indoc '("pitch or pitch list (midicents)" "frequency (Hz)")
-:icon '17359
+:icon 'omckn-sound
 :doc "
 Converts a (list of) freq pitch(es) to names of notes."
 
@@ -1384,7 +1401,7 @@ Converts a (list of) freq pitch(es) to names of notes."
 :initvals ' ((nil) -60)       
 :indoc ' ("A list of fft-instance class." "Threshold in dB.")
 :outdoc ' ("list of fft-instance with the approach of Spear software.")
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 
 (fft->sin-model-fun ckn-instances db-filter))
@@ -1490,33 +1507,23 @@ Converts a (list of) freq pitch(es) to names of notes."
                                                       (list->string-fun (list (namestring sound))))))
                                               (print "Closing SonicVisualizer"))))
 
-;; =======================================================================
+;; =============================================
+(defmethod! inkscape ((svg string))
 
-; (defun om-py-check-update (WEB-path_to_file)
+(inkscape (probe-file svg)))
 
-;       (with-open-stream 
-;             (http (comm:open-tcp-stream 
-;                     "raw.githubusercontent.com" 443
-;                     :ssl-ctx t
-;                     :element-type '(unsigned-byte 8)))
-;             (write-sequence (format 
-;                         http "GET ~d HTTP/1.1~%Host: raw.githubusercontent.com~%~%" WEB-path_to_file
-;                         (code-char 13) (code-char 10)
-;                         (code-char 13) (code-char 10)) http)
-;       (force-output http)
 
-;       (ignore-errors (loop :for line := (read-line http nil)
-;                            :while line
-;                            :do (progn 
-;                                     (setf *version* line)
-;                                     (if (search "*om-py-last-update*" line)
-;                                         (close http) 
-;                                       nil)))))
-;       (eval *version*)
-;       *om-py-last-update*
-;       )
+(defmethod! inkscape ((svg pathname))
+:doc "Open svg files with Inkscape."
 
-; (om-py-check-update "charlesneimog/OM-py/master/Sources/version.lisp")
-                          
+(mp:process-run-function (string+ "Opening Inkscape!") ;; Se não, a interface do OM trava
+                                   () 
+                                        (lambda () 
+                                              (progn
+                                                (om::om-cmd-line 
+                                                  (om::string+ 
+                                                      (list->string-fun (list (namestring "C:/Program Files/Inkscape/bin/inkscape.com"))) " " 
+                                                      (list->string-fun (list (namestring svg))))))
+                                              (print "Closing Inkscape"))))
 
       

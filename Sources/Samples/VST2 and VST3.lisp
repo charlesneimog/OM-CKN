@@ -24,7 +24,7 @@
 ;; ======================================
 
 (defmethod! plugins-list ((modo number))
-:icon '17359
+:icon 'omckn-sound
 :menuins '((0 (("vst2" 1) ("vst3" 2) ("vts2 and vst3" 3))))
 :doc "
 From OM-Sox
@@ -47,7 +47,7 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
 ; (defmethod! plugins-define-fxp ((fxp-presets string))
 ; :initvals '(nil)
 ; :indoc '("Define the fxp-presets to use in your sound.") 
-; :icon '17359
+; :icon 'omckn-sound
 ; :doc "It defines the fxp-presets to use in your sound with the object ckn-VST2. You need be careful because the binaries that I am using not accept very long paths. Then prefer smaller paths."
 
 ; (let* (
@@ -59,7 +59,7 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
 (defmethod! plugins-define ((plugin-name string))
 :initvals '("My awesome plugin.vst3")
 :indoc '("Define the plugin-name to use in your sound, it need to be vst2 or vst3.") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It defines the plugin-name to use in your sound with the object ckn-VST2."
 
 (let* ( 
@@ -80,7 +80,7 @@ Returns a list of file pathnames of the dll plugins. Connect it to a LIST-SELECT
 (defmethod! plugins-parameter-index ((plugin-path vst2))
 :initvals '(nil)
 :indoc '("With this object you can see the index parameters of some VST2 plugin.") 
-:icon '17359
+:icon 'omckn-sound
 :doc "With this object you can see the index parameters of some VST2 plugin."
 
 (let* (
@@ -110,7 +110,7 @@ for x in range(len(all)):
 (defmethod! plugins-parameter-index ((plugin-path vst3))
 :initvals '(nil)
 :indoc '("With this object you can see the index parameters of some VST2 plugin.") 
-:icon '17359
+:icon 'omckn-sound
 :doc "With this object you can see the index parameters of some VST2 plugin."
 
 (let* (
@@ -134,7 +134,7 @@ for (x,y) in zip(Todos_parametros, list_of_numbers):
 (defmethod! plugins-valid-parameters ((plugin-path vst3) (parameter-index integer))
 :initvals '(nil)
 :indoc '("With this object you can see the index parameters of some VST2 plugin.") 
-:icon '17359
+:icon 'omckn-sound
 :doc "With this object you can see the index parameters of some VST2 plugin."
 
 (let* (
@@ -175,7 +175,7 @@ else:
 (defmethod! plugins-valid-parameters ((plugin-path vst3) (parameter-index list))
 :initvals '(nil)
 :indoc '("With this object you can see the index parameters of some VST2 plugin.") 
-:icon '17359
+:icon 'omckn-sound
 :doc "With this object you can see the index parameters of some VST2 plugin."
 
 
@@ -219,7 +219,7 @@ for parameter in (~d):
 (defmethod! plugins-process ((sound pathname) (sound-out pathname) (plugin-path vst2) (parameter_index list) &optional (verbose nil)) 
 :initvals '(nil)
 :indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
-:icon '17359
+:icon 'omckn-sound
 :doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
 
 
@@ -287,7 +287,7 @@ wavfile.write('my_song2.wav', SAMPLE_RATE, audio.transpose())
 (defmethod! plugins-process ((sound string) (sound-out pathname) (plugin-path vst2) (parameter_index list) &optional (verbose nil)) 
 :initvals '(nil)
 :indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
-:icon '17359
+:icon 'omckn-sound
 :doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
 (plugins-process (make-value-from-model 'sound sound nil) (namestring sound-out) plugin-path parameter_index verbose))
 
@@ -295,7 +295,7 @@ wavfile.write('my_song2.wav', SAMPLE_RATE, audio.transpose())
 (defmethod! plugins-process ((sound sound) (sound-out pathname) (plugin-path vst2) (parameter_index list) &optional (verbose nil)) 
 :initvals '(nil)
 :indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
-:icon '17359
+:icon 'omckn-sound
 :doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
 (plugins-process sound (namestring sound-out) plugin-path parameter_index verbose))
 
@@ -306,7 +306,7 @@ wavfile.write('my_song2.wav', SAMPLE_RATE, audio.transpose())
 (defmethod! plugins-process ((sound string) (sound-out string) (plugin-path VST3) (parameter_index list) &optional (verbose nil)) 
 :initvals '(nil)
 :indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
-:icon '17359
+:icon 'omckn-sound
 :doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
 
 (let* (
@@ -344,7 +344,7 @@ sf.write(r'~d', final_audio, sample_rate)
 (defmethod! plugins-process ((sound pathname) (sound-out pathname) (plugin-path VST3) (parameter_index  list) &optional (verbose nil)) 
 :initvals '(nil)
 :indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
-:icon '17359
+:icon 'omckn-sound
 :doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
 
 
@@ -356,7 +356,7 @@ sf.write(r'~d', final_audio, sample_rate)
 (defmethod! plugins-multi-processes ((sound string) (sound-out string) (plugin-path VST3) (parameter_index list) &optional (verbose nil)) 
 :initvals '(nil)
 :indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
-:icon '17359
+:icon 'omckn-sound
 :doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
 
 (let* (
@@ -388,7 +388,7 @@ if os.path.exists(r'~d'):
 (defmethod! plugins-multi-processes ((sound pathname) (sound-out pathname) (plugin-path VST3) (parameter_index list) &optional (verbose nil)) 
 :initvals '(nil)
 :indoc '("With this object you can see the index parameters of some VST2 or VST3 plugin.") 
-:icon '17359
+:icon 'omckn-sound
 :doc "With this object you can see the index parameters of some VST2 or VST3 plugin."
 
 
@@ -399,7 +399,7 @@ if os.path.exists(r'~d'):
 (defmethod! plugins-process-code ((code vst3-main-code))
 :initvals '(nil)
 :indoc '("Process vst3 plugin code in Python") 
-:icon '17359
+:icon 'omckn-sound
 :doc ""
 (om-print "================================")
 (om-print "This can take some time" "OM-CKN ::")
@@ -439,7 +439,7 @@ print(f'O tempo gasto foi de {time_elapsed} segundos')
 (defmethod! voice->audio ((voice voice) (plugin_path vst2))
 :initvals '(nil)
 :indoc '("Process one voice to audio.") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It will generete one audio using voices and vst2-plugins."
 
 (let* (
@@ -506,7 +506,7 @@ to_om(r'~d')
 ;; ======================================
 
 ; (defmethod! list-fxp-presets (&key (type nil) (unix nil) (directories nil) (files t) (resolve-aliases nil) (hidden-files nil) (path nil))
-; :icon '17359
+; :icon 'omckn-sound
 ; :doc "
 ; From OM-Sox
 ; Returns a list of file pathnames of the fxp Presets. Connect it to a LIST-SELECTION object."

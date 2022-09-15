@@ -4,7 +4,7 @@
 
 (defmethod! neimog-fft ((samples list))
 :indoc '("It calculates the FFT using a list of numbers.")
-:icon '17359
+:icon 'omckn-sound
 :outdoc '("A list of complex-numbers")
 :doc "This is a simple implementation of the FFT using Lisp. This is the exact copy of the patch"
 
@@ -31,7 +31,7 @@
 
 (defmethod! neimog-ifft ((samples list))
 :indoc ' ("It calculates the IFFT using a list of complex numbers.")
-:icon '17359
+:icon 'omckn-sound
 :outdoc '("A list of complex-numbers")
 :doc "This is a simple implementation of the IFFT using Lisp."
 (if (> (list-depth samples) 1)
@@ -47,7 +47,7 @@
 ; ===========================================
 (defmethod! neimog-rifft ((samples list))
 :indoc ' ("It calculates the real part of IFFT using a list of complex numbers.")
-:icon '17359
+:icon 'omckn-sound
 :outdoc '("A list of complex-numbers")
 :doc "It returns just the real part of the IFFT using the IFFT function."
 (if (> (list-depth samples) 1)

@@ -11,7 +11,7 @@
 (defmethod! ircam-samples-folder ((x string))
 :initvals '(nil)
 :indoc '("Name of the composer" "Name of the piece") 
-:icon '17359
+:icon 'omckn-sound
 :doc "This object define the name of the composer and the name of the piece."
 
       (defparameter *IRCAM-PATH* (namestring x))
@@ -75,7 +75,7 @@
 (defmethod! check-samples-in-voice ((voice voice))
 :initvals '(nil)
 :indoc '("Sound class") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It create the patch of a sound."
 
 (let* (
@@ -136,7 +136,7 @@
 (defmethod! ckn-instruments ((note integer) (number-of-the-instrument pathname) &optional (velocity 60))
 :initvals '(6000 20 60)
 :indoc '("Sound class" "Number of the instrument (technique)") 
-:icon '17359
+:icon 'omckn-sound
 
 (probe-file number-of-the-instrument))
 
@@ -145,7 +145,7 @@
 (defmethod! ckn-instruments ((note integer) (number-of-the-instrument list) &optional (velocity 60))
 :initvals '(6000 20 60)
 :indoc '("Sound class" "Number of the instrument (technique)") 
-:icon '17359
+:icon 'omckn-sound
 
 (probe-file (car number-of-the-instrument)))
 
@@ -154,7 +154,7 @@
 (defmethod! ckn-instruments ((note integer) (number-of-the-instrument null) &optional (velocity 60))
 :initvals '(6000 20 60)
 :indoc '("Sound class" "Number of the instrument (technique)") 
-:icon '17359
+:icon 'omckn-sound
 
 nil)
 
@@ -164,7 +164,7 @@ nil)
 (defmethod! ckn-instruments ((note integer) (number-of-the-instrument integer) &optional (velocity 60))
 :initvals '(6000 20 60)
 :indoc '("Sound class" "Number of the instrument (technique)") 
-:icon '17359
+:icon 'omckn-sound
 
 (if (> number-of-the-instrument 1000)
       (FULL-SOL-instruments note (- number-of-the-instrument 1000) velocity)
@@ -187,7 +187,7 @@ nil)
 (defmethod! FULL-SOL-instruments ((note integer) (number-of-the-instrument integer) &optional (velocity 60))
 :initvals '(6000 20 60)
 :indoc '("Sound class" "Number of the instrument (technique)") 
-:icon '17359
+:icon 'omckn-sound
 :doc "It create the patch of a sound.
 
 ============================  FLUTE ============================
