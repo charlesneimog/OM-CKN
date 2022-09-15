@@ -5,7 +5,7 @@
 (defmethod! loristrck-analysis ((sound pathname) (outfile string) &key (r 60) (w -1) (ht 0) (hop-o 0) (amp -90) (fd -1) (sl -1) (rbw 2000) (sdif-type 'rbep) (minbps 2) (minamp -90) (fade-time 0))
 :initvals '(NIL "analysis.sdif" 60 -1 0 0 -90 -1 -1 2000 'rbep 2 -90 0)
 :indoc ' ("Sound" "Sdif out-file" "frequency resolution" "winsize" "hoptime" "hopoverlap" "ampfloor" "freqdrift" "sidelobe" "residuebw" "croptime" "sdiftype" "minimum amplitude" "fade time")
-:icon '17359
+:icon 'omckn-sound
 :outdoc '("Sdiffile.")
 :doc "
 RESOLUTION: Only one partial will be found within this distance. Usual values range from 30 Hz to 200 Hz. As a rule of thumb, when tracking a monophonic source, resolution ~= min(f0) * 0.9. So if the source is a male voice dropping down to 70 Hz, resolution=60 Hz. The resolution determines the size of the fft.  
@@ -39,7 +39,7 @@ FADETIME: fade time used when a partial does not end with a 0 amp breakpoint.
 
 "
 
-(print (format nil "
+(format t "
 
 RESOLUTION: ~d Hz
 WINSIZE: ~d
@@ -55,7 +55,7 @@ MINAMP: ~d
 FADETIME: ~d
 
  " 
-r w ht hop-o amp fd sl rbw sdif-type minbps minamp fade-time))
+r w ht hop-o amp fd sl rbw sdif-type minbps minamp fade-time)
 
 (let* (
     (py-script (list->string-fun (list (namestring (merge-pathnames "sources/loristrck/partialtracking.py" (mypathname (find-library "OM-CKN")))))))
@@ -89,10 +89,8 @@ r w ht hop-o amp fd sl rbw sdif-type minbps minamp fade-time))
 ; =========================================
 (defmethod! loristrck-analysis ((sound sound) (outfile pathname) &key (r 60) (w -1) (ht 0) (hop-o 0) (amp -90) (fd -1) (sl -1) (rbw 2000) (sdif-type 'rbep) (minbps 2) (minamp -90) (fade-time 0))
 
-
 (loristrck-analysis (car (list! (if (not (file-pathname sound)) (save-temp-sounds (list sound)) (file-pathname sound))))
                     (namestring outfile) :r r :w w :ht ht :hop-o hop-o :amp amp :fd fd :sl sl :rbw rbw :sdif-type sdif-type :minbps minbps :minamp minamp :fade-time fade-time))
-
 
 
 ;; ====
@@ -104,10 +102,10 @@ r w ht hop-o amp fd sl rbw sdif-type minbps minamp fade-time))
 
 ;; ======================== synth sdif ===========================
 
-(defmethod! loristrck-synth ((sdif sdiffile) (outfile string) &key (speed 1) (transposition_cents 0))
+(defmethod! loristrck-synth ((sdif sdiffile) (outfile pathname) &key (speed 1) (transposition_cents 0))
 :initvals ' (NIL "ckn-sdif.wav" 1 0)
 :indoc ' ("Sdiffile" "outfile, string with .wav" "speed of the reproduction" "transposition in cents")
-:icon '17359
+:icon 'omckn-sound
 :outdoc '("sdif")
 :doc "
 SDIFFILE: The sdif file to be synthesized
@@ -131,7 +129,7 @@ QUALITY: Oscillator quality when playing a .mtx file.
 (let* (
     (py-script (list->string-fun (list (namestring (merge-pathnames "sources/loristrck/loristrck_synth.py" (mypathname (find-library "OM-CKN")))))))
     (sdif-file (list->string-fun (list (namestring (file-pathname sdif)))))
-    (sound-out (string+ " --out " (list->string-fun (list (namestring (outfile outfile))))))
+    (sound-out (string+ " --out " (list->string-fun (list (namestring outfile)))))
     (sound-speed (format nil " --speed ~d " speed))
     (transposition (format nil " --transposition ~d " (/ transposition_cents 100)))
     (cmd    
@@ -140,33 +138,15 @@ QUALITY: Oscillator quality when playing a .mtx file.
             #+macosx(om::string+ om-py::*activate-virtual-enviroment* " && python " py-script " " sdif-file " " sound-out " " sound-speed transposition)
                                 ))
     (om-cmd-line cmd)
-    (loop-until-probe-file (outfile outfile))
-    (outfile outfile)))
+    (loop-until-probe-file outfile)
+    outfile))
 
 ;; ======================== synth sdif ===========================
 
 (defmethod! loristrck-synth ((sdif pathname) (outfile string) &key (speed 1) (transposition_cents 0))
-:initvals ' (NIL "ckn-sdif.wav" 1 0 "gaussian")
-:indoc ' ("Sdiffile" "outfile, string with .wav" "speed of the reproduction" "transposition in cents" "noise")
-:icon '17359
-:outdoc '("sdif")
-:doc "
-SDIFFILE: The sdif file to be synthesized
+(loristrck-synth (make-value-from-model 'sdiffile sdif nil) (probe-file (outfile outfile)) :speed speed :transposition_cents transposition_cents))
 
-OUT: Save the samples. A .wav of .aif name to synthesize to that file (saved in outfiles).
+;; ======================== 
 
-SPEED: Playback speed. Pitch is not modified.
-
-TRANSPOSITION: Transposition in cents (independent from playback speed).
-
-NOISE: {uniform,gaussian} Noise type used for the residual part when synthesizing a .mtx file. The original implementation uses gaussian noise
-
-QUALITY: Oscillator quality when playing a .mtx file. 
-                    0: fast  
-                    1: fast + freq. interpolation
-                    2: linear interpolation
-                    3: linear interpolation + freq. interpolation
-
-"
-
+(defmethod! loristrck-synth ((sdif pathname) (outfile pathname) &key (speed 1) (transposition_cents 0))
 (loristrck-synth (make-value-from-model 'sdiffile sdif nil) outfile :speed speed :transposition_cents transposition_cents))
