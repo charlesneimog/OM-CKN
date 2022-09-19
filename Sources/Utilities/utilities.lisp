@@ -872,11 +872,13 @@ list
 
 ; Get time of processing in seconds
 (defun init-time (x)
+"It mess the Time spend with some path. It should be used with end-time object."
   (progn 
       (setf *ckn-eval-time* (get-internal-real-time))
       x))
 ;; ================================
 (defun end-time (x)
+"It mess the time spend with path process. It should be used with init-time object."
   (progn 
       (setf *ckn-eval-time* (- (get-internal-real-time) *ckn-eval-time*))
       ; new line in format

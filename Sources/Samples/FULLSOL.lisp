@@ -158,7 +158,6 @@
 
 nil)
 
-
 ;; ==================================================== 
 
 (defmethod! ckn-instruments ((note integer) (number-of-the-instrument integer) &optional (velocity 60))
@@ -517,8 +516,7 @@ _______________________________________________________________________
                   (275 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "11 Guitar/tap-on-body/" 'wav) velocity))
                   (276 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "11 Guitar/tap-with-stick/" 'wav) velocity))
 
-            ;;; 12 Harp 
-                  (277 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/bisbigliando/" 'wav) velocity))
+            ;;; 12 Harp                   (277 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/bisbigliando/" 'wav) velocity))
                   (278 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/bisbigliando-with-stick/" 'wav) velocity))
                   (279 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/buzzing-pedal/" 'wav) velocity))
                   (280 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/cluster/" 'wav) velocity))
@@ -531,7 +529,7 @@ _______________________________________________________________________
                   (287 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/glissando-with-nail/" 'wav) velocity))
                   (288 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/glissando-with-pedal/" 'wav) velocity))
                   (289 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/glissando-with-stick/" 'wav) velocity))
-                  (290 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/harmonic-fingering/" 'wav) velocity))
+                  (290 (ckn-dinamics  (ckn-find-the-samples 4 note *IRCAM-PATH* "12 Harp/harmonic-fingering/" 'wav) velocity))
                   (291 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/harmonic-in-wood/" 'wav) velocity))
                   (292 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/near-the-board/" 'wav) velocity))
                   (293 (ckn-dinamics  (ckn-find-the-samples 3 note *IRCAM-PATH* "12 Harp/near-the-board-with-nail/" 'wav) velocity))
