@@ -578,7 +578,7 @@ action3-2)))))
           :collect (let* (
                           (matrix (om::make-value 'sdifmatrix (list (list :matrixtype "RBEP") (list :data (mat-trans sdif-frame))))))
                      (om::make-value 'sdifframe (list (list :frametype "RBEP") (list :ftime time) (list :streamid 0) (list :lmatrix matrix))))))                          
-  (action6 (list (om::make-value 'sdiftype (list (list :struct 'm) (list :signature "1TRC")))))
+  (action6 (list (om::make-value 'sdiftype (list (list :struct 'm) (list :signature "RBEP")))))
   (action7 (om::write-sdif-file mk-frame :outpath out-file :types action6)))
   (om::make-value-from-model 'sdiffile action7 nil)))
 
@@ -1514,6 +1514,7 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 
 (defmethod! inkscape ((svg pathname))
+:icon 'inkscape
 :doc "Open svg files with Inkscape."
 
 (mp:process-run-function (string+ "Opening Inkscape!") ;; Se não, a interface do OM trava
