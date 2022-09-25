@@ -31,12 +31,18 @@
       )
 
 ;; ============
-(defun show-image-python (image-path)
-      "Show an image using Python."
+(defmethod! show-image-python ((image-path string))
+:icon 'py-f
+:doc "This will show some image using Python."
 (let* (
       (PythonScript (om-py::find-library-PyScripts "OM-CKN" "show_image.py")))
       (om-py::run-py-script PythonScript (list "image_path") (list image-path) :thread t)
       ; if necessary, you can do some processing of the output here, in this case we just return it
       "Done!"
       ))
+
+(defmethod! show-image-python ((image-path pathname))
+(show-image-python (namestring image-path)))
+
+
 
