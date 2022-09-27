@@ -795,7 +795,7 @@ sound)
 
 ;; ===============
 
-(om::defmethod! choose ((notelist list) (chord-n list))
+(om::defmethod! choose ((list list) (nthlist list))
 :initvals ' ((1 2 3 4 5 6 7 8 9 10) 2)
 :indoc ' ("List or list of lists of anything" "What element(s) do you want?") 
 :icon 'omckn-sound
@@ -804,7 +804,8 @@ Inlet1: (7 8 9 10 458)
 Inlet2: (1 3 5)
 Result: (7 9 458)."
 
-(if (equal nil chord-n) nil (posn-match notelist (om::om- chord-n 1))))
+(loop :for n :in nthlist
+      :collect (nth n list))) 
 
 ;; ====================================================
 
