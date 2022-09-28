@@ -51,7 +51,7 @@
             (:package (:name "Sound LISP Functions") (:functions sound->bytes sound-seq-list sound-seq-multi sound-mix-list sound-markers-cut sound-mix-list))
             (:package (:name "FFT e Partial Tracking") 
                         (:classes fft-instance)             
-                        (:functions sapa-fft fft->amplitude fft->phrase fft->sin-model fft->chord-seq fft->dB))
+                        (:functions sapa-stft fft->amplitude fft->phrase fft->sin-model fft->chord-seq fft->dB))
             (:package (:name "Math and Music") (:functions split-complex-numbers complex-senoide ))
             (:package (:name "Instruments") (:functions ckn-instruments FULL-SOL-instruments orchidea-instruments o-check-samples-in-voice OrchideaSOL-folder))
             (:package (:name "Multithreading") (:functions ckn-multithreading-prepare ckn-multi-1-var))
