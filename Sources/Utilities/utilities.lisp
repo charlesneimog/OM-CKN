@@ -161,7 +161,7 @@ list
 
 ;=====================================
 
-(defun fft->phrase-fun (fft)
+(defun fft->phase-fun (fft)
     (let* (   
         (fft-list (array-to-list-fun fft))
         (i-n (mapcar (lambda (x) (imagpart x)) fft-list))
@@ -318,8 +318,8 @@ list
             (all-frequencias (mapcar (lambda (x) (frequencias x)) list-fft-instance))
 ;;          (all-frequencias (mc->f (f->mc (mapcar (lambda (x) (frequencias x)) list-fft-instance)))) 
             (all-amplitudes (mapcar (lambda (x) (amplitudes x)) list-fft-instance))
-            (all-phrase (mapcar (lambda (x) (phrase x)) list-fft-instance))
-            (all-peaks (mapcar (lambda (a b c) (list a b c)) all-frequencias all-amplitudes all-phrase)))
+            (all-phase (mapcar (lambda (x) (fft-phase x)) list-fft-instance))
+            (all-peaks (mapcar (lambda (a b c) (list a b c)) all-frequencias all-amplitudes all-phase)))
             (mapcar (lambda (x) (om::mat-trans x)) all-peaks)))
 
 (compile 'prepare-fft2sdif)
@@ -415,7 +415,7 @@ list
 (defun fft->sdif-fun (fft-instances-list freq-threshold db)
 (let* (
       (sin-model (fft->sin-model fft-instances-list db))
-      (tempo (ms->sec (mapcar (lambda (x) (ckn-tempo x)) sin-model)))
+      (tempo (ms->sec (mapcar (lambda (x) (onset x)) sin-model)))
       (all-freqs (sort-list (remove-dup (om::om-round (remove nil (flat (fft-freqs sin-model)))) 'eq 1)))
       (freqs2sdif (prepare-fft2sdif sin-model))
       (partial-tracking (mapcar (lambda (x) (remove nil x)) (mat-trans (partial-tracking-fun freqs2sdif all-freqs freq-threshold 0))))
@@ -562,21 +562,22 @@ list
                  () 
                   (lambda (x w z) (mp:mailbox-send w 
                       (let* (
-                              (fft (sapa-fft! x))
-                              (half-fun (half-fun fft))
-                              (polar-amp-correction (loop :for bin :across half-fun :collect (om/ bin fft-size)))
-                              (amp (fft->amplitude polar-amp-correction))
-                              (phrase (fft->phrase polar-amp-correction)))                                                              
+                              (fft (sapa-fft! x)))
+                              ;(half-fun (half-fun fft))
+                              ;(polar-amp-correction (loop :for bin :across half-fun :collect (om/ bin fft-size)))
+                              ;(amp (fft->amplitude polar-amp-correction))
+                              ;(phase (fft->phase polar-amp-correction)))                                                              
                               (make-instance 'fft-instance 
-                                 :ckn-complex-numbers (make-instance 'fft-complex-numbers :complex-numbers fft)
-                                 :fft-window (* 2 (length amp))
+                                 :complex-numbers (make-instance 'complex-instance :numbers fft)
+                                 :fft-size (length fft)
                                  :fft-chunks z
-                                 :ckn-hop-size hop-size
+                                 :hop-size hop-size
                                  :sound-sample-rate sample-rate
-                                 :ckn-tempo (om::sec->ms (om::samples->sec (om::om* hop-size (1- z)) 44100))
-                                 :amplitudes amp
-                                 :phrase phrase
-                                 :frequencias nil))))
+                                 :onset (om::sec->ms (om::samples->sec (om::om* hop-size (1- z)) 44100))
+                                 ;:amplitudes amp
+                                 ;:phase phase
+                                 ;:frequencias nil
+                                    ))))
                    ckn-fft-chunks create-mailbox chunks-number))
 (loop-until-finish-process mail-box)
 (mapcar (lambda (x) (mp:mailbox-peek x)) mail-box)))
@@ -684,33 +685,33 @@ list
         :for x :in fft-instance 
         :collect 
             (let* (
-                  (FFT-SIZE (FFT-WINDOW x))
-                  (TEMPO (ckn-tempo x))
+                  (FFT-SIZE (fft-size x))
+                  (TEMPO (onset x))
                   (AMPLITUDES (amplitudes x))
-                  (PHRASE (phrase x))
+                  (fft-phase (fft-phase x))
                   (MAG->DB 
                         (let* (
                                 (action2 (mapcar (lambda (x) (if (plusp x) (log x 10) -150.0)) AMPLITUDES)))
                           (om::om* 20 action2)))
 
                   (SPEAR-CORRECTION 
-                        (om::mat-trans (spear-approach MAG->DB filtro FFT-SIZE PHRASE (sound-sample-rate x)))))
+                        (om::mat-trans (spear-approach MAG->DB filtro FFT-SIZE fft-phase (sound-sample-rate x)))))
                                                                         ;; COLOCAR SAMPLE-RATE NA fft-instance
 (make-instance 'fft-instance 
-                :fft-window FFT-SIZE
-                :ckn-complex-numbers nil
-                :ckn-hop-size (ckn-hop-size x)
+                :fft-size FFT-SIZE
+                :complex-numbers nil
+                :hop-size (hop-size x)
                 :fft-chunks nil
                 :sound-sample-rate (sound-sample-rate x)
-                :phrase (third SPEAR-CORRECTION)
-                :ckn-tempo TEMPO 
+                :fft-phase (third SPEAR-CORRECTION)
+                :onset TEMPO 
                 :frequencias (first SPEAR-CORRECTION)
                 :amplitudes (second SPEAR-CORRECTION)))))
 
 
 ;;; ============== isso é o principal ================== ESBOCO
 
-(defun spear-approach (deb filtro fft-size phrase sample-rate)
+(defun spear-approach (deb filtro fft-size fft-phase sample-rate)
   
 (let* (
   (action1 
@@ -722,7 +723,7 @@ list
                                       ;; Isso é um ótimo exemplo de erro comum, o código 
                                       ;; (om:arithm-ser 0 (1- (length deb)) 1) pode transformar o resultado final das 
                                       ;; frequencias em certa de 2 ou três Hertz.
-            :for phrase-loop :in phrase
+            :for phase-loop :in fft-phase
             :while (om::om< 3 (length loop-amplitudes))
           :collect 
               (if  (let* (
@@ -762,7 +763,7 @@ list
                                                     (b (second amplitudes-de-Local-Maxima))
                                                     (c (third amplitudes-de-Local-Maxima)))
                                                 (- b (* 1/4 (- a c) BIN-CORRECTION))))))
-                    (list bin-para-frequencia (om::db->lin correcao_de_amplitude) phrase-loop))))))
+                    (list bin-para-frequencia (om::db->lin correcao_de_amplitude) phase-loop))))))
 
     (remove nil action1)))
 
@@ -1255,7 +1256,7 @@ list
 (compile 'real-samplify)
 (compile 'energy)
 (compile 'fft->amplitude-fun)
-(compile 'fft->phrase-fun)
+(compile 'fft->phase-fun)
 (compile 'by-N-fun)
 (compile 'array-to-list-fun)
 (compile 'list-to-array-fun)

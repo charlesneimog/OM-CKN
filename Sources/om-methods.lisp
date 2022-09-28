@@ -42,22 +42,25 @@
 
 (defclass! fft-instance ()
 ( 
-  (ckn-complex-numbers :initform '#(-6.1035157E-5 0.0) :initarg :ckn-complex-numbers :accessor ckn-complex-numbers)
+  (complex-numbers :initform nil :initarg :complex-numbers :accessor complex-numbers)
   (sound-sample-rate :initform nil :initarg :sound-sample-rate :accessor sound-sample-rate)
-  (fft-window :initform nil :initarg :fft-window :accessor fft-window)
-  (ckn-hop-size :initform nil :initarg :ckn-hop-size :accessor ckn-hop-size)
+  (fft-size :initform nil :initarg :fft-size :accessor fft-size)
+  (hop-size :initform nil :initarg :hop-size :accessor hop-size)
   (fft-chunks :initform nil :initarg :fft-chunks :accessor fft-chunks)
-  (ckn-tempo :initform nil :initarg :ckn-tempo :accessor ckn-tempo)
+  (onset :initform nil :initarg :onset :accessor onset)
   (frequencias :initform nil :initarg :frequencias :accessor frequencias)
   (amplitudes :initform nil :initarg :amplitudes :accessor amplitudes)
-  (phrase :initform nil :initarg :phrase :accessor phrase)
+  (fft-phase :initform nil :initarg :fft-phase :accessor fft-phase)
                                     )
-  (:icon 17359))
+  )
+
+
+
 
 ;==================================================================================
 
-(defclass! fft-complex-numbers ()
-((complex-numbers :initform '#(-6.1035157E-5 0.0) :initarg :complex-numbers :accessor complex-numbers))
+(defclass! complex-instance ()
+((numbers :initform '#(-6.1035157E-5 0.0) :initarg :numbers :accessor numbers))
 (:icon 17359))
 
 
@@ -76,15 +79,15 @@
 ; ================================
 
 ; ===============
-(defmethod! fft-sapa ((sound-bytes list) (fft-window number))
-(sapa-fft! (list-to-array (first-n sound-bytes fft-window) 1)))
+(defmethod! fft-sapa ((sound-bytes list) (fft-size number))
+(sapa-fft! (list-to-array (first-n sound-bytes fft-size) 1)))
 ; ===============
-(defmethod! fft-sapa ((sound-bytes sound-bytes) (fft-window number))
-(sapa-fft! (list-to-array (first-n (bytes sound-bytes) fft-window) 1)))
+(defmethod! fft-sapa ((sound-bytes sound-bytes) (fft-size number))
+(sapa-fft! (list-to-array (first-n (bytes sound-bytes) fft-size) 1)))
 
 ; ===============
-(defmethod! fft-sapa ((sound sound) (fft-window number))
-(sapa-fft! (list-to-array (first-n (bytes (sound->bytes sound)) fft-window) 1)))
+(defmethod! fft-sapa ((sound sound) (fft-size number))
+(sapa-fft! (list-to-array (first-n (bytes (sound->bytes sound)) fft-size) 1)))
 
 
 ; =======================================================================
@@ -231,7 +234,7 @@ For this work you need:
 
 ;==================================================
 
-(defmethod! sapa-fft ((sound sound) (fft-size number) (hop-size number) (window-type number))
+(defmethod! sapa-stft ((sound sound) (fft-size number) (hop-size number) (window-type number))
 :initvals '(nil 2048 512 nil)
 :indoc '("Sound class" "FFT-size" "Hop-size" "Windows-type") 
 :menuins '((3 (("hann" 1) ("blackman" 2) ("barlett" 3) ("hamming" 4) ("rectangular" 5) ("nenhuma" 6))))
@@ -260,7 +263,7 @@ For this work you need:
 
 ;==================================================
 
-(defmethod! sapa-fft ((sound sound) (fft-size number) (hop-size number) (window-type null))
+(defmethod! sapa-stft ((sound sound) (fft-size number) (hop-size number) (window-type null))
 :initvals '(nil 2048 512 nil)
 :indoc '("Sound class" "FFT-size" "Hop-size" "Windows-type") 
 :menuins '((3 (("hann" 1) ("blackman" 2) ("barlett" 3) ("hamming" 4) ("rectangular" 5) ("nenhuma" 6))))
@@ -290,14 +293,64 @@ For this work you need:
             (5 :rectangular)
             (6 nil)))))
 
-; ===================================================
+; ============= FFT METHODS =================
+
+; COMPLEX NUMBERS
 (defmethod! get-complex-numbers ((sapa-fft list))
 :initvals '(nil)
 :indoc '("Sapa-FFT class")
 :icon 'omckn-sound
 :doc "It returns the complex numbers of the list of Sapa-FFT class."
 
-(mapcar (lambda (fft) (complex-numbers (ckn-complex-numbers fft))) sapa-fft))
+(mapcar (lambda (fft) (numbers (complex-numbers fft))) sapa-fft))
+
+; ==================
+(defmethod! get-complex-numbers ((sapa-fft fft-instance))
+(car (get-complex-numbers (list sapa-fft))))
+
+
+; MAGNITUDE ====================
+(defmethod! get-amplitude ((sapa-fft fft-instance))
+:initvals '(nil)
+:indoc '("Sapa-FFT class")
+:icon 'omckn-sound
+:doc "It returns the magnitude of the list of Sapa-FFT class."
+(fft->amplitude (get-complex-numbers sapa-fft)))
+
+; ==================
+(defmethod! get-amplitude ((sapa-fft list))
+(mapcar #'get-amplitude sapa-fft))
+
+; fft-phase ====================
+(defmethod! get-phase ((sapa-fft fft-instance))
+:initvals '(nil)
+:indoc '("Sapa-FFT class")
+:icon 'omckn-sound
+:doc "It returns the phase of the list of Sapa-FFT class."
+(fft->phase (get-complex-numbers sapa-fft)))
+
+; ==================
+(defmethod! get-phase ((sapa-fft list))
+(mapcar #'get-phase sapa-fft))
+
+; ==================
+(defmethod! get-frequency ((sapa-fft fft-instance))
+:initvals '(nil)
+:indoc '("Sapa-FFT class")
+:icon 'omckn-sound
+:doc "It returns the frequency of the list of Sapa-FFT class."
+(let* (
+      (fft-size (fft-size sapa-fft))
+      (sample-rate (sample-rate sapa-fft)))
+      (loop :for i :from 0 :below fft-size :collect (/ (* i sample-rate) fft-size))))
+
+; ==================
+(defmethod! get-frequency ((sapa-fft list))
+(mapcar #'get-frequency sapa-fft))
+
+
+
+
 
 ;==================================================
 
@@ -388,23 +441,23 @@ For this work you need:
 
 ;=============================
 
-(defmethod! fft->phrase ((fft array))
+(defmethod! fft->phase ((fft array))
 :initvals '(nil)
 :indoc '("Sound class") 
 :icon 'omckn-sound
 :doc "It reads a wave file."
 
-(fft->phrase-fun fft))
+(fft->phase-fun fft))
 
 ;=============================
 
-(defmethod! fft->phrase ((fft list))
+(defmethod! fft->phase ((fft list))
 :initvals '(nil)
 :indoc '("Sound class") 
 :icon 'omckn-sound
 :doc "It reads a wave file."
 
-(fft->phrase (list-to-array fft 1)))
+(fft->phase (list-to-array fft 1)))
 
 ;==================================== ARRAY UTILITIES =======
 
@@ -468,12 +521,12 @@ my-array)
 :initvals ' (NIL)
 :indoc ' ("Sdif-File.")
 :numouts 2
-:outdoc ' ("phrase" "amplitude")
+:outdoc ' ("phase" "amplitude")
 :icon 'omckn-sound
 :doc "Do the same thing that the cartopol of Max/MSP."
 
 (values 
-  (mapcar (lambda (x) (fft->phrase x)) fft)
+  (mapcar (lambda (x) (fft->phase x)) fft)
   (mapcar (lambda (y) (fft->amplitude y)) fft)))
 
 
@@ -617,17 +670,16 @@ action3-2)))))
     (action1 (sdif->list-fun sdif-file))
     (partialtracking (mapcar (lambda (x) (cdr x)) action1))
     (tempo (sec->ms (mapcar (lambda (x) (car x)) action1)))
-    (ckn-tempo (ms->samples (car (flat tempo)) 44100)))
+    (onset (ms->samples (car (flat tempo)) 44100)))
     (loop :for looptempo :in tempo 
           :for looppartialtracking :in partialtracking
                         :collect
                     (make-value 'fft-instance 
                                 (list 
-                                    (list :ckn-tempo looptempo)
-                                    (list :ckn-hop-size ckn-tempo)
+                                    (list :onset looptempo)
                                     (list :frequencias (mapcar (lambda (x) (second x)) looppartialtracking))
                                     (list :amplitudes (mapcar (lambda (x) (third x)) looppartialtracking))
-                                    (list :phrase (mapcar (lambda (x) (fourth x)) looppartialtracking))
+                                    (list :fft-phase (mapcar (lambda (x) (fourth x)) looppartialtracking))
                                     (list :sound-sample-rate 44100))))))
 
 ;; ===================================
@@ -1390,7 +1442,7 @@ Converts a (list of) freq pitch(es) to names of notes."
   (make-chord-seq 
              (make-instance 'chord-seq 
                  :lmidic make-chords 
-                 :lonset (list 0 (om::om-round (sec->ms (samples->sec (ckn-hop-size (first fft-instance)) (sound-sample-rate (first fft-instance))))))))
+                 :lonset (list 0 (om::om-round (sec->ms (samples->sec (hop-size (first fft-instance)) (sound-sample-rate (first fft-instance))))))))
   (vel (flat (mapcar (lambda (x) (lvel x)) fft->chords))))
   (print (format nil "minimun velocity ~d" (om::list-min vel)))
   (print (format nil "maximum velocity ~d" (om::list-max vel)))
