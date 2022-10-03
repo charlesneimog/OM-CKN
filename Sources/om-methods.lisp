@@ -67,7 +67,8 @@
 ; =================================================================================
 
 (defclass! sound-bytes ()
-((bytes :initform nil :initarg :bytes :accessor bytes))
+((bytes :initform nil :initarg :bytes :accessor bytes)
+ (onset :initform nil :initarg :onset :accessor onset))
 (:icon 17359))
 
 ; ============================== Threads ID =======================================
@@ -341,8 +342,8 @@ For this work you need:
 :doc "It returns the frequency of the list of Sapa-FFT class."
 (let* (
       (fft-size (fft-size sapa-fft))
-      (sample-rate (sample-rate sapa-fft)))
-      (loop :for i :from 0 :below fft-size :collect (/ (* i sample-rate) fft-size))))
+      (sample-rate (sound-sample-rate sapa-fft)))
+      (loop :for i :from 0 :below (/ fft-size 2) :collect (float (/ (* i sample-rate) fft-size)))))
 
 ; ==================
 (defmethod! get-frequency ((sapa-fft list))
@@ -514,6 +515,17 @@ my-array)
 
 (if (equal *app-name* "om-sharp")
     (bytes->sound-fun (om::om-round self 30) quantos-canais qual-canal)))
+
+
+
+
+(defmethod! bytes->sound ((self sound-bytes) &optional (quantos-canais 1) (qual-canal 1))
+(bytes->sound (bytes self) quantos-canais qual-canal))
+
+
+
+
+
 
 ;=====================================
 
