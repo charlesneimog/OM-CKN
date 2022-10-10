@@ -570,7 +570,8 @@ my-array)
 
 (defmethod! half ((fft-array list))
 
-(array-to-list (half-fun (list-to-array fft-array 1))))
+(loop :for n :below (om::round (/ (length fft-array) 2))
+      :collect (nth n fft-array)))
 
 ; =================================================
 
