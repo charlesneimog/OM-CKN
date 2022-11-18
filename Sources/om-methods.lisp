@@ -1508,6 +1508,23 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 ;; ====================================================
 
+
+(defun ckn-loop-multi-prepare (mailbox &key (process-id 0))
+      (loop :with mailbox-empty = nil 
+            :do 
+                (if (not (equal mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mailbox)))) 
+                    (let* (
+                        (number_of_thread (abs (- (length mailbox) (length (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mailbox)))))))
+                        (if (not (equal 0 number_of_thread))
+                            ;; print "Thread ~d Finalized!%" + new line 
+                            (format t "Process ~4,'0d :: Thread ~d Finalized!~%" process-id number_of_thread))))
+                            ;(format t "Thread ~d Finalized!~%" number_of_thread))))
+            :while (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mailbox))) 
+            :finally (return mailbox-empty)))
+
+
+;; ======================================================
+
 (defmethod! ckn-multi-1-var ((ckn-lambda function) (list list) &optional (loop-inside 0))
 :initvals ' (nil nil)       
 :indoc ' ("one function" "one list" "loop inside function?")
