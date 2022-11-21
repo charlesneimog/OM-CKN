@@ -29,13 +29,12 @@ t)
 (probe (probe-file action6))
 (action7 (namestring action6)))
 (if (not probe)
-    (ckn-cmd-line (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))
-          " "
-          (list->string-fun (list instrumentos))
-          " "
-          (list->string-fun (list action7))
-          (format nil " pitch ~d" desvio)))
+    #+Windows(ckn-cmd-line  (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe)))) " " (list->string-fun (list instrumentos)) " " (list->string-fun (list action7)) (format nil " pitch ~d" desvio)))
+    #+Linux(ckn-cmd-line  (string+ (get-pref-value :externals :sox-exe) " " instrumentos " " action7 (format nil " pitch ~d" desvio)))
+    
     action6)
+
+
 (loop-until-probe-file action6)))
 
 ;; Fazer um código mais bonito
