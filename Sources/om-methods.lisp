@@ -17,13 +17,13 @@
           #+Linux(add-preference :externals :sox-exe "Sox Path" :string "sox ")
           #+Linux(print "=========================")
           #+Linux(print "=========================")
-          #+Linux(om-print "Run 'sudo apt-get install sox' to install sox")
+          #+Linux(om-print "Run 'sudo apt-get install sox' or 'sudo dnf install sox' to install sox")
           #+Linux(print "=========================")
           #+Linux(print "=========================")
 
         ; Sox =============================
           
-          (add-preference :externals :sox-exe "Sox Path" :file (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN"))))
+          #-Linux(add-preference :externals :sox-exe "Sox Path" :file (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN"))))
           (add-preference :externals :Sonic-visualizer "Sonic-Visualizer executable" :file " ")
           (add-preference :externals :ircam-instruments "Ircam Instruments Path" :folder "Your Ircam Instruments Folder")
           (add-preference :externals :OrchideaSOL "SOL Samples Library" :folder "SOL folder")
@@ -53,8 +53,6 @@
   (fft-phase :initform nil :initarg :fft-phase :accessor fft-phase)
                                     )
   )
-
-
 
 
 ;==================================================================================
@@ -152,7 +150,7 @@ For this work you need:
  "xkcd:black"  "xkcd:white"  "xkcd:dull red"  "xkcd:dried blood"  "xkcd:dark red"  "xkcd:red"  "xkcd:deep red"  "xkcd:mahogany"  "xkcd:pastel red"  "xkcd:reddish"  "xkcd:grapefruit"  "xkcd:deep brown"  "xkcd:dark coral"  "xkcd:pale red"  "xkcd:coral"  "xkcd:dark salmon"  "xkcd:brownish pink"  "xkcd:very dark brown"  "xkcd:indian red"  "xkcd:salmon"  "xkcd:pinkish grey"  "xkcd:reddy brown"  "xkcd:reddish grey"  "xkcd:brick red"  "xkcd:tomato"  "xkcd:peachy pink"  "xkcd:orangey red"  "xkcd:brick"  "xkcd:very light pink"  "xkcd:brownish red"  "xkcd:orange red"  "xkcd:blush"  "xkcd:vermillion"  "xkcd:orange pink"  "xkcd:tomato red"  "xkcd:burnt red"  "xkcd:reddish orange"  "xkcd:orangish red"  "xkcd:red brown"  "xkcd:light salmon"  "xkcd:melon"  "xkcd:rusty red"  "xkcd:rust red"  "xkcd:pinkish orange"  "xkcd:pinkish brown"  "xkcd:orangered"  "xkcd:red orange"  "xkcd:pale salmon"  "xkcd:clay"  "xkcd:dark peach"  "xkcd:brown red"  "xkcd:terracotta"  "xkcd:terracota"  "xkcd:reddish brown"  "xkcd:blood orange"  "xkcd:pinkish tan"  "xkcd:terra cotta"  "xkcd:auburn"  "xkcd:adobe"  "xkcd:orangish"  "xkcd:warm grey"  "xkcd:brownish"  "xkcd:rust"  "xkcd:russet"  "xkcd:chestnut"  "xkcd:rust brown"  "xkcd:deep orange"  "xkcd:brick orange"  "xkcd:bright orange"  "xkcd:burnt umber"  "xkcd:orangeish"  "xkcd:chocolate brown"  "xkcd:earth"  "xkcd:burnt sienna"  "xkcd:peach"  "xkcd:dusty orange"  "xkcd:sienna"  "xkcd:dark orange"  "xkcd:burnt orange"  "xkcd:pastel orange"  "xkcd:rusty orange"  "xkcd:rust orange"  "xkcd:cocoa"  "xkcd:copper"  "xkcd:faded orange"  "xkcd:burnt siena"  "xkcd:cinnamon"  "xkcd:mushroom"  "xkcd:chocolate"  "xkcd:clay brown"  "xkcd:orange"  "xkcd:apricot"  "xkcd:sepia"  "xkcd:dull orange"  "xkcd:pale orange"  "xkcd:pumpkin orange"  "xkcd:mocha"  "xkcd:milk chocolate"  "xkcd:light peach"  "xkcd:brownish orange"  "xkcd:warm brown"  "xkcd:dark brown"  "xkcd:pale brown"  "xkcd:browny orange"  "xkcd:orangish brown"  "xkcd:orange brown"  "xkcd:tan brown"  "xkcd:pumpkin"  "xkcd:light brown"  "xkcd:puce"  "xkcd:dark taupe"  "xkcd:leather"  "xkcd:orangey brown"  "xkcd:raw umber"  "xkcd:light orange"  "xkcd:brown"  "xkcd:umber"  "xkcd:brown orange"  "xkcd:tangerine"  "xkcd:dirty orange"  "xkcd:medium brown"  "xkcd:mango"  "xkcd:butterscotch"  "xkcd:dull brown"  "xkcd:coffee"  "xkcd:taupe"  "xkcd:dirt"  "xkcd:dirt brown"  "xkcd:dark tan"  "xkcd:caramel"  "xkcd:brownish grey"  "xkcd:fawn"  "xkcd:greyish brown"  "xkcd:dust"  "xkcd:toupe"  "xkcd:raw sienna"  "xkcd:very light brown"  "xkcd:camel"  "xkcd:sand brown"  "xkcd:yellowish orange"  "xkcd:grey brown"  "xkcd:dark beige"  "xkcd:orange yellow"  "xkcd:squash"  "xkcd:mud brown"  "xkcd:sandstone"  "xkcd:macaroni and cheese"  "xkcd:pale peach"  "xkcd:dark sand"  "xkcd:golden brown"  "xkcd:tan"  "xkcd:saffron"  "xkcd:putty"  "xkcd:amber"  "xkcd:poo brown"  "xkcd:sandy brown"  "xkcd:yellow orange"  "xkcd:shit brown"  "xkcd:orangey yellow"  "xkcd:desert"  "xkcd:bronze"  "xkcd:mustard brown"  "xkcd:poop brown"  "xkcd:poop"  "xkcd:golden rod"  "xkcd:ochre"  "xkcd:shit"  "xkcd:muddy brown"  "xkcd:sunflower"  "xkcd:marigold"  "xkcd:brown grey"  "xkcd:golden yellow"  "xkcd:wheat"  "xkcd:mud"  "xkcd:yellow ochre"  "xkcd:goldenrod"  "xkcd:light mustard"  "xkcd:maize"  "xkcd:golden"  "xkcd:sand"  "xkcd:ocre"  "xkcd:yellowy brown"  "xkcd:yellowish brown"  "xkcd:pale gold"  "xkcd:stone"  "xkcd:greyish"  "xkcd:burnt yellow"  "xkcd:light gold"  "xkcd:puke brown"  "xkcd:hazel"  "xkcd:ocher"  "xkcd:dark gold"  "xkcd:poo"  "xkcd:bland"  "xkcd:sandy"  "xkcd:yellow tan"  "xkcd:yellow brown"  "xkcd:dark mustard"  "xkcd:gold"  "xkcd:beige"  "xkcd:baby shit brown"  "xkcd:sand yellow"  "xkcd:diarrhea"  "xkcd:dark khaki"  "xkcd:olive brown"  "xkcd:light tan"  "xkcd:baby poo"  "xkcd:baby poop"  "xkcd:brown yellow"  "xkcd:dark yellow"  "xkcd:sunflower yellow"  "xkcd:sun yellow"  "xkcd:mustard"  "xkcd:pale"  "xkcd:brownish yellow"  "xkcd:dandelion"  "xkcd:dull yellow"  "xkcd:dark cream"  "xkcd:sandy yellow"  "xkcd:mustard yellow"  "xkcd:muddy yellow"  "xkcd:cement"  "xkcd:ugly brown"  "xkcd:greenish brown"  "xkcd:greeny brown"  "xkcd:buff"  "xkcd:yellowish"  "xkcd:green brown"  "xkcd:ugly yellow"  "xkcd:olive yellow"  "xkcd:khaki"  "xkcd:egg shell"  "xkcd:straw"  "xkcd:brown green"  "xkcd:manilla"  "xkcd:dirty yellow"  "xkcd:piss yellow"  "xkcd:vomit yellow"  "xkcd:browny green"  "xkcd:sunny yellow"  "xkcd:parchment"  "xkcd:puke yellow"  "xkcd:custard"  "xkcd:butter yellow"  "xkcd:light beige"  "xkcd:sunshine yellow"  "xkcd:bright yellow"  "xkcd:light yellow"  "xkcd:pastel yellow"  "xkcd:canary yellow"  "xkcd:off white"  "xkcd:eggshell"  "xkcd:ivory"  "xkcd:cream"  "xkcd:creme"  "xkcd:pale yellow"  "xkcd:yellowish tan"  "xkcd:butter"  "xkcd:banana"  "xkcd:yellow"  "xkcd:puke"  "xkcd:faded yellow"  "xkcd:lemon yellow"  "xkcd:off yellow"  "xkcd:lemon"  "xkcd:canary"  "xkcd:vomit"  "xkcd:drab"  "xkcd:ecru"  "xkcd:banana yellow"  "xkcd:brownish green"  "xkcd:pea soup"  "xkcd:mud green"  "xkcd:baby poop green"  "xkcd:olive"  "xkcd:mustard green"  "xkcd:baby puke green"  "xkcd:bile"  "xkcd:shit green"  "xkcd:snot"  "xkcd:greenish beige"  "xkcd:olive drab"  "xkcd:poop green"  "xkcd:sickly yellow"  "xkcd:dark olive"  "xkcd:baby shit green"  "xkcd:puke green"  "xkcd:pea soup green"  "xkcd:green/yellow"  "xkcd:swamp green"  "xkcd:murky green"  "xkcd:barf green"  "xkcd:light khaki"  "xkcd:vomit green"  "xkcd:olive green"  "xkcd:bright olive"  "xkcd:booger green"  "xkcd:pea"  "xkcd:gross green"  "xkcd:greenish tan"  "xkcd:snot green"  "xkcd:pea green"  "xkcd:neon yellow"  "xkcd:greenish yellow"  "xkcd:ugly green"  "xkcd:sick green"  "xkcd:sickly green"  "xkcd:lime yellow"  "xkcd:dark yellow green"  "xkcd:greeny yellow"  "xkcd:booger"  "xkcd:light olive"  "xkcd:icky green"  "xkcd:yellowish green"  "xkcd:muddy green"  "xkcd:dark olive green"  "xkcd:chartreuse"  "xkcd:camo"  "xkcd:yellowy green"  "xkcd:green yellow"  "xkcd:avocado green"  "xkcd:pale olive"  "xkcd:army green"  "xkcd:slime green"  "xkcd:khaki green"  "xkcd:avocado"  "xkcd:yellowgreen"  "xkcd:light olive green"  "xkcd:tan green"  "xkcd:yellow/green"  "xkcd:dark lime"  "xkcd:camouflage green"  "xkcd:yellow green"  "xkcd:dirty green"  "xkcd:pear"  "xkcd:lemon lime"  "xkcd:camo green"  "xkcd:lemon green"  "xkcd:dark lime green"  "xkcd:electric lime"  "xkcd:swamp"  "xkcd:military green"  "xkcd:pale olive green"  "xkcd:bright yellow green"  "xkcd:light yellow green"  "xkcd:sap green"  "xkcd:mossy green"  "xkcd:light moss green"  "xkcd:navy green"  "xkcd:lime"  "xkcd:acid green"  "xkcd:pale lime"  "xkcd:light lime green"  "xkcd:moss green"  "xkcd:leaf green"  "xkcd:light pea green"  "xkcd:lime green"  "xkcd:bright lime"  "xkcd:kiwi"  "xkcd:leaf"  "xkcd:kermit green"  "xkcd:drab green"  "xkcd:pale lime green"  "xkcd:light yellowish green"  "xkcd:apple green"  "xkcd:pistachio"  "xkcd:kiwi green"  "xkcd:moss"  "xkcd:light lime"  "xkcd:frog green"  "xkcd:key lime"  "xkcd:lawn green"  "xkcd:nasty green"  "xkcd:celery"  "xkcd:dark grass green"  "xkcd:spring green"  "xkcd:grassy green"  "xkcd:asparagus"  "xkcd:bright lime green"  "xkcd:grass"  "xkcd:light grass green"  "xkcd:turtle green"  "xkcd:grass green"  "xkcd:flat green"  "xkcd:apple"  "xkcd:light grey green"  "xkcd:lichen"  "xkcd:sage"  "xkcd:green apple"  "xkcd:medium grey"  "xkcd:light grey"  "xkcd:tea green"  "xkcd:toxic green"  "xkcd:light light green"  "xkcd:very light green"  "xkcd:off green"  "xkcd:very pale green"  "xkcd:washed out green"  "xkcd:greenish grey"  "xkcd:sage green"  "xkcd:dull green"  "xkcd:grey/green"  "xkcd:light sage"  "xkcd:pale green"  "xkcd:grey"  "xkcd:pale light green"  "xkcd:forrest green"  "xkcd:green grey"  "xkcd:fern green"  "xkcd:light green"  "xkcd:fern"  "xkcd:pastel green"  "xkcd:fresh green"  "xkcd:poison green"  "xkcd:leafy green"  "xkcd:tree green"  "xkcd:muted green"  "xkcd:light pastel green"  "xkcd:vivid green"  "xkcd:grey green"  "xkcd:greyish green"  "xkcd:lighter green"  "xkcd:faded green"  "xkcd:easter green"  "xkcd:greeny grey"  "xkcd:celadon"  "xkcd:mid green"  "xkcd:highlighter green"  "xkcd:electric green"  "xkcd:very dark green"  "xkcd:dark sage"  "xkcd:radioactive green"  "xkcd:dark green"  "xkcd:dusty green"  "xkcd:hunter green"  "xkcd:fluro green"  "xkcd:true green"  "xkcd:forest"  "xkcd:racing green"  "xkcd:vibrant green"  "xkcd:lightish green"  "xkcd:neon green"  "xkcd:fluorescent green"  "xkcd:dark pastel green"  "xkcd:bottle green"  "xkcd:hot green"  "xkcd:bright green"  "xkcd:boring green"  "xkcd:darkgreen"  "xkcd:green"  "xkcd:light neon green"  "xkcd:lightgreen"  "xkcd:light bright green"  "xkcd:light forest green"  "xkcd:light mint"  "xkcd:soft green"  "xkcd:dark forest green"  "xkcd:forest green"  "xkcd:british racing green"  "xkcd:medium green"  "xkcd:light mint green"  "xkcd:mint green"  "xkcd:deep green"  "xkcd:baby green"  "xkcd:light seafoam green"  "xkcd:darkish green"  "xkcd:mint"  "xkcd:pine"  "xkcd:bright light green"  "xkcd:emerald green"  "xkcd:slate green"  "xkcd:hospital green"  "xkcd:algae"  "xkcd:foam green"  "xkcd:light sea green"  "xkcd:kelly green"  "xkcd:irish green"))
 
 
-
+; ==================================================================================
 (defmethod! bpf-python ((x list) (y list) &optional (thickness 1) (color "black"))
 :initvals '(nil nil 0.2 black)
 :indoc ' ("X points" "Y points" "Thickness" "The color (for example black)")
@@ -1203,17 +1201,19 @@ pathnames))
 :doc "It does the same that sound-silence but using sox."
 
 (let* (
-  (sox-path (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))))
+  #+Windows(sox-path (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe))))))
+  #-Windows(sox-path (get-pref-value :externals :sox-exe))
   (silence (tmpfile (string+ "silence-" (format nil "~d" sounds)   ".wav") :subdirs "om-ckn"))
-  (sound-in-out (list (namestring silence)))
-  (line-command 
-    (string+ sox-path " " "-n " (format nil " -c ~d " channels) " -r 44100 " " " (list->string-fun sound-in-out) " trim 0 " (format nil "~d" (abs sounds)))))
+  (sound-in-out (namestring silence))
+  #+Windows(line-command (string+ sox-path " " "-n " (format nil " -c ~d " channels) " -r 44100 " " " (list->string-fun (list sound-in-out)) " trim 0 " (format nil "~d" (abs sounds))))
+  #-Windows(line-command (string+ sox-path " -n " (format nil " -c ~d " channels) " -r 44100 " sound-in-out " trim 0 " (format nil "~d" (abs sounds)))))
   
-(if (not (probe-file silence))
-    (ckn-cmd-line line-command)
-    silence)
+  (if (not (probe-file silence))
+        (ckn-cmd-line line-command)
+        silence)
+  
   (loop-until-probe-file silence)
-  (car sound-in-out)))
+  (car (om::list! sound-in-out))))
 
 ;; Documentos\OM_Workspace\in-files\my_sound.wav
 
@@ -1289,9 +1289,6 @@ pathnames))
        (om::om-cmd-line command)
        (probe-file sine-outfile)))
       
-
-
-
 ;; ==================================================== NOTES AND SCORE ==================
 
 (defmethod! ckn-add-extras ((voice voice))
