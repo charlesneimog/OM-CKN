@@ -772,10 +772,16 @@ list
 (defun get-filename (x)
 "I forgot the name of the function that I stolen somewhere."
 
-(let* (
-      (filename (namestring x))
-      (file (om::string-to-list filename "\\")))
-  (car (last file))))   
+(if (equal (software-type) "Windows")
+      (let* (
+            (filename (namestring x))
+            (file (om::string-to-list filename "\\")))
+            (car (last file)))
+
+      (let* (
+            (filename (namestring x))
+            (file (om::string-to-list filename "/")))
+            (car (last file)))))   
 
 
 
