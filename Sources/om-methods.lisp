@@ -1604,7 +1604,7 @@ Converts a (list of) freq pitch(es) to names of notes."
                                                   
                                                   (om::string+ 
                                                       #+Windows (list->string-fun (list (namestring "C:/Program Files/Inkscape/bin/inkscape.com")))
-                                                      #-Windows "Inkscape"
+                                                      #-Windows "inkscape"
                                                       " " 
                                                       #+Windows(list->string-fun (list (namestring svg)))
                                                       #-Windows(namestring svg)
