@@ -913,7 +913,6 @@ Result: (7 9 458)."
         :for i :from 1
         :when (= my-number x) :collect i))
 
-
 ;; ====================================================
 
 (defmethod! choose-to-rest ((list list) &optional (number-2 1))
