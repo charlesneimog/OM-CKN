@@ -868,7 +868,7 @@ Inlet2: (1 3 5)
 Result: (7 9 458)."
 
 (loop :for n :in nthlist
-      :collect (nth n list))) 
+      :collect (nth (1- n) list))) 
 
 ;; ====================================================
 
@@ -909,28 +909,10 @@ Result: (7 9 458)."
 :icon 'omckn-sound
 :doc "Check the ALL the position of one number in one list."
 
-(let* (
-(ckn-action1  (loop :for ckn-loop :in list 
-                    :for my-position :in (om::arithm-ser 1 (length list) 1)
-                    :collect 
-                          (if (equal ckn-loop my-number) my-position nil))))
-(remove nil ckn-action1)))
+(loop   :for x :in list 
+        :for i :from 1
+        :when (= my-number x) :collect i))
 
-
-;; ====================================================
-
-(defmethod! ckn-position ((list list) (my-number list))
-:initvals '(nil nil)
-:indoc '("Sound class" "Number of the instrument (technique)") 
-:icon 'omckn-sound
-:doc "Check the ALL the position of one number in one list."
-
-(let* (
-(ckn-action1  (loop :for ckn-loop :in list 
-                    :for my-position :in (om::arithm-ser 1 (length list) 1)
-                    :collect 
-                          (if (equal ckn-loop my-number) my-position nil))))
-(remove nil ckn-action1)))
 
 ;; ====================================================
 

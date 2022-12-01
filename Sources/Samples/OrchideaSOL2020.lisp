@@ -59,13 +59,12 @@
 
 ;; ==================================================== 
 
-(defun ckn-find-the-samples (where-is-the-nome note OrchideaSOL path-of-the-instrument type)
+(defun ckn-find-the-samples (where-is-the-name note OrchideaSOL path-of-the-instrument type)
   (let* (
         (instrument-pathname (merge-pathnames path-of-the-instrument OrchideaSOL))
         (all-the-files (ckn-in-files (namestring instrument-pathname) type))
-        (all-the-notes (n->mc (mapcar (lambda (x) (choose (string-to-list (get-filename x) "-") where-is-the-nome)) all-the-files) 4))
+        (all-the-notes (n->mc (mapcar (lambda (x) (choose (string-to-list (get-filename x) "-") where-is-the-name)) all-the-files) 4))
         (position-of-the-note (ckn-position all-the-notes note)))
-        ;(print all-the-notes)
         (choose all-the-files position-of-the-note)))
 
 ;; ==================================================== 

@@ -137,7 +137,7 @@
 :initvals '(6000 20 60)
 :indoc '("Sound class" "Number of the instrument (technique)") 
 :icon 'omckn-sound
-
+; This is a hack for a piece. It is not a good idea to use it in other pieces.
 (probe-file number-of-the-instrument))
 
 ;; ==================================================== 
