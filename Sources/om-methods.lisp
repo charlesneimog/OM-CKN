@@ -1589,10 +1589,9 @@ Converts a (list of) freq pitch(es) to names of notes."
 
 ;; =============================================
 (defmethod! inkscape ((svg string))
-
 (inkscape (probe-file svg)))
 
-
+;; =============================================
 (defmethod! inkscape ((svg pathname))
 :icon 'inkscape
 :doc "Open svg files with Inkscape."
@@ -1602,8 +1601,11 @@ Converts a (list of) freq pitch(es) to names of notes."
                                         (lambda () 
                                               (progn
                                                 (om::om-cmd-line 
+                                                  
                                                   (om::string+ 
-                                                      (list->string-fun (list (namestring "C:/Program Files/Inkscape/bin/inkscape.com"))) " " 
+                                                      #+Windows (list->string-fun (list (namestring "C:/Program Files/Inkscape/bin/inkscape.com")))
+                                                      #-Windows "Inkscape"
+                                                      " " 
                                                       (list->string-fun (list (namestring svg))))))
                                               (print "Closing Inkscape"))))
 
