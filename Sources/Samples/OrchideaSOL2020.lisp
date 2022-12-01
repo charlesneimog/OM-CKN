@@ -71,11 +71,23 @@
 
 (defun ckn-dinamics (list-of-samples velocity)
 
-(if (not list-of-samples)
-    nil
-    (if (equal (length list-of-samples) 3)
-        (if (> velocity 87) (car (last list-of-samples)) (if (>= velocity 56) (second list-of-samples) (first list-of-samples)))
-        (first list-of-samples))))
+(let*   (
+        (list-of-separated-names (mapcar (lambda (x) (string-to-list (get-filename x) "-")) list-of-samples))
+        (ordered-dynamics   (loop   :for separated-names :in list-of-separated-names 
+                                    :collect 
+                                        (cond 
+                                            ((find "pp" separated-names :test 'equal) 0)
+                                            ((find "p"  separated-names :test 'equal) 1)
+                                            ((find "mp" separated-names :test 'equal) 2)
+                                            ((find "mf" separated-names :test 'equal) 3)
+                                            ((find "f" separated-names  :test 'equal) 4)
+                                            ((find "ff" separated-names :test 'equal) 5))))
+        (ordered-samples (mapcar (lambda (x) (first x)) (sort-list (mat-trans (list list-of-samples ordered-dynamics)) :test '< :key 'second))))
+        (if (not ordered-samples)
+            nil
+            (if (equal (length ordered-samples) 3)
+                (if (> velocity 87) (car (last ordered-samples)) (if (>= velocity 56) (second ordered-samples) (first ordered-samples)))
+                (first ordered-samples)))))
 
 ;; ==================================================== 
 
