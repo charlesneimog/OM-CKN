@@ -58,7 +58,7 @@ FADETIME: ~d
 r w ht hop-o amp fd sl rbw sdif-type minbps minamp fade-time)
 
 (let* (
-    (py-script (list->string-fun (list (namestring (merge-pathnames "sources/loristrck/partialtracking.py" (mypathname (find-library "OM-CKN")))))))
+    (py-script (list->string-fun (list (namestring (merge-pathnames "Sources/loristrck/partialtracking.py" (mypathname (find-library "OM-CKN")))))))
     (sndfile (list->string-fun (list (namestring sound))))
     (sdif-out (string+ " --outfile " (list->string-fun (list (namestring (outfile outfile))))))
     (resolution (format nil " -r ~d " r))
@@ -76,7 +76,7 @@ r w ht hop-o amp fd sl rbw sdif-type minbps minamp fade-time)
     (fadetime (format nil " --fadetime ~d " fade-time))
     
     (cmd    
-            #+windows(om::string+ (list->string-fun (list (namestring (merge-pathnames "sources/loristrck/Win-Bin/loristrck_analyze.exe" (mypathname (find-library "OM-CKN")))))) " " sndfile " " sdif-out resolution winsize h-time hop-overlap ampfloor freqdrift sidelobe residuebw croptime sdiftype minbps minamp fadetime)
+            #+windows(om::string+ (list->string-fun (list (namestring (merge-pathnames "Sources/loristrck/Win-Bin/loristrck_analyze.exe" (mypathname (find-library "OM-CKN")))))) " " sndfile " " sdif-out resolution winsize h-time hop-overlap ampfloor freqdrift sidelobe residuebw croptime sdiftype minbps minamp fadetime)
             #+linux(string+ om-py::*activate-virtual-enviroment* " && python " py-script " " sndfile " " sdif-out resolution winsize h-time hop-overlap ampfloor freqdrift sidelobe residuebw croptime sdiftype minbps minamp fadetime)
             #+macosx(string+ om-py::*activate-virtual-enviroment* " && python " py-script " " sndfile " " sdif-out resolution winsize h-time hop-overlap ampfloor freqdrift sidelobe residuebw croptime sdiftype minbps minamp fadetime)
                                 ))
@@ -127,13 +127,13 @@ QUALITY: Oscillator quality when playing a .mtx file.
 "
 
 (let* (
-    (py-script (list->string-fun (list (namestring (merge-pathnames "sources/loristrck/loristrck_synth.py" (mypathname (find-library "OM-CKN")))))))
+    (py-script (list->string-fun (list (namestring (merge-pathnames "Sources/loristrck/loristrck_synth.py" (mypathname (find-library "OM-CKN")))))))
     (sdif-file (list->string-fun (list (namestring (file-pathname sdif)))))
     (sound-out (string+ " --out " (list->string-fun (list (namestring outfile)))))
     (sound-speed (format nil " --speed ~d " speed))
     (transposition (format nil " --transposition ~d " (/ transposition_cents 100)))
     (cmd    
-            #+windows(om::string+ (list->string-fun (list (namestring (merge-pathnames "sources/loristrck/Win-Bin/loristrck_synth.exe" (mypathname (find-library "OM-CKN")))))) " " sdif-file " " sound-out " " sound-speed transposition)
+            #+windows(om::string+ (list->string-fun (list (namestring (merge-pathnames "Sources/loristrck/Win-Bin/loristrck_synth.exe" (mypathname (find-library "OM-CKN")))))) " " sdif-file " " sound-out " " sound-speed transposition)
             #+linux(om::string+ om-py::*activate-virtual-enviroment* " && python " py-script " " sdif-file " " sound-out " " sound-speed transposition)
             #+macosx(om::string+ om-py::*activate-virtual-enviroment* " && python " py-script " " sdif-file " " sound-out " " sound-speed transposition)
                                 ))
