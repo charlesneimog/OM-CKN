@@ -223,6 +223,9 @@ For this work you need:
                                     
 ;==================================================
 
+
+;==================================================
+
 (defmethod! BORDEAUX-fft ((sound-array array))
 :initvals '(nil)
 :indoc '("Sound class") 
