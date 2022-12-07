@@ -41,6 +41,7 @@
       "Done!"
       ))
 
+;; ============
 (defmethod! show-image-python ((image-path pathname))
 (show-image-python (namestring image-path)))
 

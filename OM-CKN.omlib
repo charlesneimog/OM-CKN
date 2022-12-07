@@ -9,6 +9,8 @@
 
 (:source-files
       "Sources/Sapa-FFT/fft"
+      "Sources/Klingbeil/partial-tracking"
+
       "Sources/quicklisp-packages/package" 
       "Sources/quicklisp-packages/iterate"
       "Sources/Cloud/FFT-window"
