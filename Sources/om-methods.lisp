@@ -24,7 +24,9 @@
         ; Sox =============================
           
           #-Linux(add-preference :externals :sox-exe "Sox Path" :file (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN"))))
-          (add-preference :externals :Sonic-visualizer "Sonic-Visualizer executable" :file " ")
+          #-Linux(add-preference :externals :Sonic-visualizer "Sonic-Visualizer executable" :file " ")
+          #+Linux(add-preference :externals :Sonic-visualizer "Sonic-Visualizer executable" :string "sonic-visualizer ")
+          
           (add-preference :externals :ircam-instruments "Ircam Instruments Path" :folder "Your Ircam Instruments Folder")
           (add-preference :externals :OrchideaSOL "SOL Samples Library" :folder "SOL folder")
           (add-preference :externals :plugins "Plugins VST2 and VST3" :folder "Your VST2 and VST3 Plugins Folder")))

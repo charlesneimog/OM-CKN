@@ -11,37 +11,61 @@
 
 ; ===============
 
-(defun Klingbeil-partial-tracking (all-frames &optional (partial-tracking nil))
-    (let  (
-        (freq_threshold 10)
-        (frame-track nil)
-        (frameK_prev    (first all-frames))
-        (frameK      (second all-frames))
-        (frameK_next    (third all-frames))
-        (track  (loop   :for prevpeak :in frameK_prev
-                        :do (loop  :for curpeak :in frameK
-                                    :do 
-                                        (let*   (
-                                                (distance (- (p-freq prevpeak) (p-freq curpeak))))
-                                                (if (< distance freq_threshold)
-                                                    (let*   (
-                                                            (existing_distante  (if (not    (null (p-backmatch curpeak)))
-                                                                                            (- (p-freq (p-backmatch curpeak)) (p-freq curpeak))
-                                                                                            freq_threshold)))
-                                                            (if (< distance existing_distante)
-                                                                (progn
-                                                                    ;; curpeak.Backmatch.Forwardmatch = null
-                                                                    ;; curpeak.Backmatch ← prevpeak
-                                                                    ;; prevpeak.Forwardmatch ← curpeak
-                                                                    (setf (p-forwardmatch (p-backmatch curpeak)) nil)
-                                                                    (setf (p-backmatch curpeak) prevpeak)
-                                                                    (setf (p-forwardmatch prevpeak) curpeak))))))
-                                :collect curpeak)
-                        :collect prevpeak)))
-        (print "Ok")
-        (if (null frameK_next)
-            (append partial-tracking (list track))
-            (Klingbeil-partial-tracking (cdr all-frames) (append partial-tracking (list track))))))
+;; for frame in range(len(local_maxima)):       
+;;             if local_maxima[frame + 1] == []:
+;;                 break
+;;             else:
+;;                 for prevpeak in local_maxima[frame]:
+;;                     for curpeak in local_maxima[frame+1]:
+;;                         distante = abs(prevpeak.freq - curpeak.freq)
+;;                         
+;;                         if distante < self.treshold_distance:
+;;                             
+
+
+
+
+;;                              if curpeak.Backwardmatch != None:
+;;                                 existing_distance = curpeak.Backwardmatch.freq - curpeak.freq
+;;                             else:
+;;                                 existing_distance = self.treshold_distance 
+                                
+;;                             if distante < existing_distance:
+;;                                 if curpeak.Backwardmatch != None:
+;;                                     curpeak.Backwardmatch.Forwardmatch = None
+;;                                 curpeak.Backwardmatch = prevpeak # This is the new match
+;;                                 prevpeak.Forwardmatch = curpeak # This is the new match
+                
+;;         return local_maxima
+
+
+
+(defun Klingbeil-partial-tracking (all-frames &key (treshold_distance 30))
+    (loop :for i :from 0 :to (length all-frames) :by 1 :do
+        (let (
+            (frame (nth i all-frames))
+            (next-frame (nth (1+ i) all-frames)))
+            (loop :for prevpeak :in frame :do
+                    (loop :for curpeak :in next-frame :do
+                        (let (
+                            (distante (abs (- (p-freq prevpeak) (p-freq curpeak)))))
+                            (if (< distante treshold_distance)
+                                (let (
+                                    (existing-distance (if (p-backmatch curpeak)
+                                                        (- (p-freq (p-backmatch curpeak)) (p-freq curpeak))
+                                                        treshold_distance)))
+                                    (if (< distante existing-distance)
+                                        (progn
+                                            (if (p-backmatch curpeak)
+                                                (setf (p-forwardmatch (p-backmatch curpeak)) nil))
+                                            (setf (p-backmatch curpeak) prevpeak)
+                                            (setf (p-forwardmatch prevpeak) curpeak)))))))))
+    :finally (return all-frames)))
+                                
+
+                            
+                                                            
+            
 
         
                                  
