@@ -10,28 +10,45 @@
     (p-backmatch :initarg :p-backmatch :initform nil :accessor p-backmatch))) ; Save a class peak of the previous frame
 
 ; ===============
+(defun klingbeil-eq-2.21 (a b c)
+    (* 1/2 (/ (- a c) (+ (- a (* 2 b)) c))))
 
-;; (defun Klingbeil-partial-tracking (all-frames &key (treshold_distance 30))
-;;     (loop :for i :from 0 :to (length all-frames) :by 1 :do
-;;         (let (
-;;             (frame (nth i all-frames))
-;;             (next-frame (nth (1+ i) all-frames)))
-;;             (loop :for prevpeak :in frame :do
-;;                     (loop :for curpeak :in next-frame :do
-;;                         (let (
-;;                             (distante (abs (- (p-freq prevpeak) (p-freq curpeak)))))
-;;                             (if (< distante treshold_distance)
-;;                                 (let (
-;;                                     (existing-distance (if (p-backmatch curpeak)
-;;                                                         (abs (- (p-freq (p-backmatch curpeak)) (p-freq curpeak)))
-;;                                                         treshold_distance)))
-;;                                     (if (< distante existing-distance)
-;;                                         (progn
-;;                                             (if (p-backmatch curpeak)
-;;                                                 (setf (p-forwardmatch (p-backmatch curpeak)) nil))
-;;                                             (setf (p-backmatch curpeak) prevpeak)
-;;                                             (setf (p-forwardmatch prevpeak) curpeak)))))))))
-;;     :finally (return all-frames)))
+; ===============
+
+(defun stft->frames-list (fft-instances)
+    (let    (
+            (all_peaks nil)
+            (stft-root (/ (sound-sample-rate fft-instances) (fft-size fft-instances)))
+            (amplitudes-normalization (om::om/ (get-amplitude fft-instances) (fft-size fft-instances)))
+            (phases (get-phase fft-instances)))
+    (print (length amplitudes-normalization))
+    (loop   :for bins-amp :on amplitudes-normalization
+            :for bins-phases :on phases
+            :while (> (length bins-amp) 3)
+            ;; :with all_peaks := (list)
+            :for i :from 0 :to (length amplitudes-normalization) :by 1
+            :do (let*    (
+                        (amplitude-bin-1 (first bins-amp))
+                        (amplitude-bin-2 (second bins-amp))
+                        (amplitude-bin-3 (third bins-amp)))
+                        (if (and (< amplitude-bin-1 amplitude-bin-2) (> amplitude-bin-2 amplitude-bin-3))
+                            (let*   (
+                                    (parabola-freq-formula (klingbeil-eq-2.21 amplitude-bin-1 amplitude-bin-2 amplitude-bin-3))
+                                    (freq (+ (* stft-root (+ i parabola-freq-formula))))
+                                    (peak (make-instance 'peak :p-freq freq :p-amp amplitude-bin-2 :p-phase (nth (1+ i bins-phases)))))
+                                    (setf all_peaks (append all_peaks (list peak))))))
+                                    
+            :finally (return (remove nil (list all_peaks))))))
+
+                            
+
+        
+
+
+
+
+
+
                                 
 ; ===============
 
