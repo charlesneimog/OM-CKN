@@ -8,30 +8,55 @@
  ;;; SOURCE FILES TO LOAD
 
 (:source-files
-      "Sources/Sapa-FFT/fft"
-      "Sources/Klingbeil/partial-tracking"
-
+      
+      ;; OM-CKN Packages
       "Sources/quicklisp-packages/package" 
       "Sources/quicklisp-packages/iterate"
-      "Sources/Cloud/FFT-window"
+      
+      ;; Methods
       "Sources/om-methods" 
+
+      ;; Python
+      "Sources/Python/py"
+
+      ;; FFT
+      "Sources/Sapa-FFT/fft"
+      "Sources/Cloud/FFT-window"
+
+
+      
       "Sources/Utilities/utilities"
       "Sources/Samples/FULLSOL"
-      "Sources/Sapa-FFT/utilities" 
-      "Sources/Samples/samples-control"
+      ;; Audio
       "Sources/Samples/VST2 and VST3"
-      "Sources/Utilities/sinusoidal-modeling"
-      "Sources/Utilities/stolen-functions"
 
+      
+
+      ;; Functions 
+      "Sources/Sapa-FFT/utilities" 
+      "Sources/Utilities/stolen-functions"
+      
+      
+      
+      ;; Analisys
+      "Sources/Python/vamp"
+
+      ;; Partial Tracking
+      "Sources/Klingbeil/partial-tracking"
+      "Sources/loristrck/loristrck"
+      
+      ;; Score
       "Sources/Score/score"
       "Sources/Score/functions"
       "Sources/Score/om2music21"
 
+      ;; Samples
       "Sources/Samples/OrchideaSOL2020"
-      "Sources/Python/py"
-      "Sources/Python/vamp"
-      "Sources/loristrck/loristrck"
-      "Sources/Neimog-FFT/fft"
+      "Sources/Samples/samples-control"
+      
+      
+      
+      
       
       )
 

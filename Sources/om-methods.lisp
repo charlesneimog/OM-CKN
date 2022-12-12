@@ -2,13 +2,13 @@
 (in-package :om)
 
 
-(require-library "om-py")
-(load-om-library "om-py")
-
 ;; Preferencias ========================
 
 (if (equal *app-name* "om-sharp")
   (progn
+          (require-library "om-py")
+          (load-om-library "om-py")
+          
           (add-preference-section :externals "OM-CKN" nil '(:sox-exe :ircam-instruments :OrchideaSOL :plugins :Sonic-visualizer))
           ; Sox ==============================
           #+Windows(add-preference :externals :sox-exe "Sox Path" :file (merge-pathnames "executables/SOX/windows/sox.exe" (lib-resources-folder (find-library "OM-CKN"))))
@@ -319,7 +319,7 @@ For this work you need:
 :indoc '("Sapa-FFT class")
 :icon 'omckn-sound
 :doc "It returns the magnitude of the list of Sapa-FFT class."
-(fft->amplitude (get-complex-numbers sapa-fft)))
+(fft->amplitude (half (get-complex-numbers sapa-fft))))
 
 ; ==================
 (defmethod! get-amplitude ((sapa-fft list))
@@ -331,7 +331,7 @@ For this work you need:
 :indoc '("Sapa-FFT class")
 :icon 'omckn-sound
 :doc "It returns the phase of the list of Sapa-FFT class."
-(fft->phase (get-complex-numbers sapa-fft)))
+(fft->phase (half (get-complex-numbers sapa-fft))))
 
 ; ==================
 (defmethod! get-phase ((sapa-fft list))

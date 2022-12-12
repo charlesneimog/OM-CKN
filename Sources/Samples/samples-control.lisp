@@ -365,7 +365,8 @@ action1))
 
 ;; ====================================================== THIS IS A AUTO-PROMOTION ================================= 
 
-(progn 
+(if (equal *app-name* "om-sharp")
+    (progn 
       (eval (flat (get-slot-val 
                      (let
                          ((tb
@@ -377,7 +378,7 @@ action1))
         (progn 
             (save-as-text '(((defvar *first-time-load* nil))) (merge-pathnames "first-load.txt" (lib-resources-folder (find-library "OM-CKN"))))
             (hqn-web:browse "https://www.charlesneimog.com/")
-           )))
+           ))))
 
 ;;; ================================================================================
 
