@@ -13,50 +13,43 @@
 (defun klingbeil-eq-2.21 (a b c)
     (* 1/2 (/ (- a c) (+ (- a (* 2 b)) c))))
 
+(compile 'klingbeil-eq-2.21)
 ; ===============
 
-(defun stft->frames-list (fft-instances)
-    (let    (
-            (all_peaks nil)
+(defun stft->frames-list (fft-instances db-treshold)
+    (let*   (
+            ;; create a variable to store all peaks (Not possible to know the size of the list)
+            (all-peaks nil)
             (stft-root (/ (sound-sample-rate fft-instances) (fft-size fft-instances)))
             (amplitudes-normalization (om::om/ (get-amplitude fft-instances) (fft-size fft-instances)))
-            (phases (get-phase fft-instances)))
-    (print (length amplitudes-normalization))
-    (loop   :for bins-amp :on amplitudes-normalization
-            :for bins-phases :on phases
-            :while (> (length bins-amp) 3)
-            ;; :with all_peaks := (list)
-            :for i :from 0 :to (length amplitudes-normalization) :by 1
+            (phases (make-list (/ (length amplitudes-normalization) 2) :initial-element 0)))
+    ;; (print (length amplitudes-normalization))
+    (loop   :for index :from 0 :to (length amplitudes-normalization) :by 1
+            :while (nth (+ index 2) amplitudes-normalization)
             :do (let*    (
-                        (amplitude-bin-1 (first bins-amp))
-                        (amplitude-bin-2 (second bins-amp))
-                        (amplitude-bin-3 (third bins-amp)))
-                        (if (and (< amplitude-bin-1 amplitude-bin-2) (> amplitude-bin-2 amplitude-bin-3))
+                        (amplitude-bin-1 (nth index amplitudes-normalization))
+                        (amplitude-bin-2 (nth (1+ index) amplitudes-normalization))
+                        (amplitude-bin-3 (nth (+ index 2) amplitudes-normalization)))
+                        (if (and (< amplitude-bin-1 amplitude-bin-2) (> amplitude-bin-2 amplitude-bin-3) (> (om::lin->db amplitude-bin-2) db-treshold))
                             (let*   (
                                     (parabola-freq-formula (klingbeil-eq-2.21 amplitude-bin-1 amplitude-bin-2 amplitude-bin-3))
-                                    (freq (+ (* stft-root (+ i parabola-freq-formula))))
-                                    (peak (make-instance 'peak :p-freq freq :p-amp amplitude-bin-2 :p-phase (nth (1+ i bins-phases)))))
-                                    (setf all_peaks (append all_peaks (list peak))))))
-                                    
-            :finally (return (remove nil (list all_peaks))))))
+                                    (freq (+ (* stft-root (+ (1+ index) parabola-freq-formula))))
+                                    (peak (make-instance 'peak :p-freq (coerce freq 'double-float) :p-amp (coerce amplitude-bin-2 'double-float) :p-phase (coerce (nth index phases) 'double-float))))
+                                    (setf all-peaks (append all-peaks (list peak))))))
 
-                            
+            ;; finally remove nils
+            :finally (return (remove nil all-peaks)))))
 
-        
-
-
-
-
-
-
-                                
+(compile 'stft->frames-list)                                           
 ; ===============
 
-(defmethod! klingbeil-partial-tracking ((all-frames list) &key (treshold_distance 30))
+(defmethod! klingbeil-partial-tracking ((fft-instances list) &key (db-treshold -60) (treshold_distance 30))
 (let* (
+    (all-frames (mapcar #'(lambda (x) (stft->frames-list x db-treshold)) fft-instances))
+    (hop-size-tempo (coerce (samples->sec (hop-size (car fft-instances)) (sound-sample-rate (car fft-instances))) 'double-float))
     (stft-frames (copy-list all-frames))
-    (index 0)
-    (the_time 0)
+    (index (coerce 0 'double-float))
+    (the_time (coerce 0 'double-float))
     (partial-tracking 
         (loop :for i :from 0 :to (length stft-frames) :by 1 :do
                 (let 
@@ -87,34 +80,22 @@
         :finally (return stft-frames)))
     (sdif-frames 
         (loop :for frame :in partial-tracking 
-            :do (setf the_time (+ the_time 12))
+            :do (incf the_time hop-size-tempo)
             :collect (let* (
                             (index (mapcar #'p-index frame))
                             (frequencies (mapcar #'p-freq frame))
                             (amplitudes (mapcar #'p-amp frame))
                             (phases (mapcar #'p-phase frame))
                             (data (list index frequencies amplitudes phases))
-                            (frame-matrix (make-instance 'sdifmatrix :matrixtype "1TRC" :data data)))
-                            (make-instance 'sdifframe :ftime (ms->sec the_time) :frametype "1TRC" :lmatrix frame-matrix)))))
+                            (frame-matrix (make-instance 'sdifmatrix :matrixtype "RBEB" :data data)))
+                            (make-instance 'sdifframe :ftime the_time :frametype "RBEB" :lmatrix frame-matrix))
+            )))
+    
+    
     sdif-frames))
-    
-    
-    
-    
-    
-    ;; (sdif-frames 
-    ;;     (loop :for frame :in partial-tracking 
-    ;;         :collect (let* (
-    ;;                         (index (mapcar #'p-index frame))
-    ;;                         (frequencies (mapcar #'p-freq frame))
-    ;;                         (amplitudes (mapcar #'p-amp frame))
-    ;;                         (phases (mapcar #'p-phase frame))
-    ;;                         (data (list index frequencies amplitudes phases))
-    ;;                         (frame-matrix (make-instance 'sdifmatrix :matrixtype "1TRC" :data data)))
-    ;;                         (make-instance 'sdifframe :frametype "1TRC" :lmatrix frame-matrix)))))
     ;; (write-sdif-file sdif-frames :types (list (make-instance 'sdiftype :struct 'm :signature "1TRC" :description nil)))))
 
-
+(compile 'klingbeil-partial-tracking)
                     
 
 

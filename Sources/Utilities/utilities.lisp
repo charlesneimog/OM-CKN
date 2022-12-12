@@ -561,22 +561,17 @@ list
         (mp:process-run-function names-process
                  () 
                   (lambda (x w z) (mp:mailbox-send w 
-                      (let* (
-                              (fft (sapa-fft! x)))
-                              ;(half-fun (half-fun fft))
-                              ;(polar-amp-correction (loop :for bin :across half-fun :collect (om/ bin fft-size)))
-                              ;(amp (fft->amplitude polar-amp-correction))
-                              ;(phase (fft->phase polar-amp-correction)))                                                              
+                      (let*   (
+                              (fft (sapa-fft! x))
+                              (fft-size (length fft)))
+                              ; (fft-normalization fft fft-size)))
                               (make-instance 'fft-instance 
                                  :complex-numbers (make-instance 'complex-instance :numbers fft)
-                                 :fft-size (length fft)
+                                 :fft-size fft-size
                                  :fft-chunks z
                                  :hop-size hop-size
                                  :sound-sample-rate sample-rate
-                                 :onset (om::sec->ms (om::samples->sec (om::om* hop-size (1- z)) 44100))
-                                 ;:amplitudes amp
-                                 ;:phase phase
-                                 ;:frequencias nil
+                                 :onset (om::sec->ms (om::samples->sec (om::om* hop-size (1- z)) sample-rate))
                                     ))))
                    ckn-fft-chunks create-mailbox chunks-number))
 (loop-until-finish-process mail-box)
