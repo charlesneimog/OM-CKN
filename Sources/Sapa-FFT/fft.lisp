@@ -76,6 +76,61 @@ Note: see Equation (110a) of the SAPA book"
       (setf (aref x i) (* sampling-time (aref x i)))))
   x)
 
+
+
+(defun dft-chirp!
+       (complex-vector
+        &key
+        (N (length complex-vector)))
+  "given:
+   [1] complex-vector (required)
+       <=> a vector of real or complex-valued numbers
+   [2] N (keyword; length of complex-vector)
+       ==> number of points (must be a power of 2)
+computes the discrete Fourier transform of complex-vector
+using a chirp transform algorithm and
+returns:
+   [1] complex-vector, with contents replaced by
+       the discrete Fourier transform of the input, namely,
+                N-1
+       X(n) =   SUM x(t) exp(-i 2 pi n t/N)
+                t=0
+---
+Note: see Equation (110a) of the SAPA book
+      with the sampling time set to unity and
+      also Section 3.10 for a discussion on
+      the chirp transform algorithm"
+  (let* ((N-pot (next-power-of-2 (1- (* 2 N))))
+         (chirp-data (make-array N-pot :initial-element 0.0))
+         (chirp-factors (make-array N-pot :initial-element 0.0))
+         (N-1 (1- N))
+         (pi-over-N (/ pi N))
+         (j 1)
+         (N-pot-1-j (1- N-pot)))
+    ;;; copy data into chirp-data, where it will get multiplied
+    ;;; by the approriate chirp factors ...
+    (copy-vector complex-vector chirp-data :end N)
+    (setf (svref chirp-factors 0) 1.0
+          (aref complex-vector 0) 1.0)
+    ;;; note that, at the end of this dotimes form, complex-vector
+    ;;; contains the complex conjugate of the chirp factors
+    (dotimes (k N-1)
+      (multf (svref chirp-data j)
+             (setf (aref complex-vector j)
+                   (conjugate
+                    (setf (svref chirp-factors j)
+                          (setf (svref chirp-factors N-pot-1-j)
+                                (exp (complex 0.0 (* pi-over-N j j))))))))
+      (incf j)
+      (decf N-pot-1-j))
+    (fft! chirp-data)
+    (fft! chirp-factors)
+    (dotimes (i N-pot)
+      (multf (svref chirp-data i) (svref chirp-factors i)))
+    (inverse-fft! chirp-data)
+    (dotimes (i N complex-vector)
+      (multf (aref complex-vector i) (svref chirp-data i)))))
+
 ;-------------------------------------------------------------------------------
 (defun sapa-inverse-dft!
        (X
