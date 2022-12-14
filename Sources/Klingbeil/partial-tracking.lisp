@@ -49,7 +49,7 @@
     (hop-size-tempo (coerce (samples->sec (hop-size (car fft-instances)) (sound-sample-rate (car fft-instances))) 'double-float))
     (stft-frames (copy-list all-frames))
     (index (coerce 0 'double-float))
-    (the_time (coerce 0 'double-float))
+    (the_time (coerce 0.0001 'double-float))
     (partial-tracking 
         (loop :for i :from 0 :to (length stft-frames) :by 1 :do
                 (let 
@@ -80,16 +80,20 @@
         :finally (return stft-frames)))
     (sdif-frames 
         (loop :for frame :in partial-tracking 
-            :do (incf the_time hop-size-tempo)
+            
             :collect (let* (
                             (index (mapcar #'p-index frame))
                             (frequencies (mapcar #'p-freq frame))
                             (amplitudes (mapcar #'p-amp frame))
                             (phases (mapcar #'p-phase frame))
                             (data (list index frequencies amplitudes phases))
-                            (frame-matrix (make-instance 'sdifmatrix :matrixtype "RBEB" :data data)))
-                            (make-instance 'sdifframe :ftime the_time :frametype "RBEB" :lmatrix frame-matrix))
-            )))
+                            (silence (list (list (coerce 0 'double-float)) (list (coerce 0 'double-float)) (list (coerce 0 'double-float)) (list (coerce 0 'double-float)))))
+                            (if (not (null (remove nil data)))
+                                (make-instance 'sdifframe :ftime the_time :frametype "RBEP" :lmatrix (list (make-instance 'sdifmatrix :matrixtype "RBEP" :data data)))
+                                (make-instance 'sdifframe :ftime the_time :frametype "RBEP" :lmatrix (list (make-instance 'sdifmatrix :matrixtype "RBEP" :data silence)))))
+            :do (incf the_time hop-size-tempo))))
+                            
+                                
     
     
     sdif-frames))

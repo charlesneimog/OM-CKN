@@ -22,7 +22,7 @@
             "Sources/Sapa-FFT/utilities" 
             "Sources/Samples/samples-control"
             ;"Sources/Samples/VST2 and VST3"
-            "Sources/Utilities/sinusoidal-modeling"
+            ;"Sources/Utilities/sinusoidal-modeling"
             "Sources/Utilities/stolen-functions"
 
             "Sources/Score/score"

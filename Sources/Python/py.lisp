@@ -31,7 +31,7 @@
       )
 
 ;; ============
-(defmethod! show-image-python ((image-path string))
+(defmethod! py-show-image ((image-path string))
 :icon 'py-f
 :doc "This will show some image using Python."
 (let* (
@@ -42,8 +42,8 @@
       ))
 
 ;; ============
-(defmethod! show-image-python ((image-path pathname))
-(show-image-python (namestring image-path)))
+(defmethod! py-show-image ((image-path pathname))
+(py-show-image  (namestring image-path)))
 
 
 
