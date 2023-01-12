@@ -1327,8 +1327,7 @@ For the automatic work the folder out-files of OM# must be in the files preferen
   (loop :for tocando :in ckn-action1
         :for x->dx_loop :in x->dx
         :do (progn (om::osc-send (om::x-append '/real-time (print (cdr tocando))) "127.0.0.1" 3000)
-                     (sleep (om::ms->sec x->dx_loop)))
-    '("done"))))
+                     (sleep (om::ms->sec x->dx_loop))))))
 
 ; ===========================================================================
 
@@ -1500,7 +1499,8 @@ Converts a (list of) freq pitch(es) to names of notes."
                         (number_of_thread (abs (- (length mailbox) (length (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mailbox)))))))
                         (if (not (equal 0 number_of_thread))
                             ;; print "Thread ~d Finalized!%" + new line 
-                            (format t "Process ~4,'0d :: Thread ~d Finalized!~%" process-id number_of_thread))))
+                            ;;(format t "Process ~4,'0d :: Thread ~d Finalized!~%" process-id number_of_thread)
+                            )))
                             ;(format t "Thread ~d Finalized!~%" number_of_thread))))
             :while (setf mailbox-empty (remove nil (mapcar (lambda (x) (mp:mailbox-empty-p x)) mailbox))) 
             :finally (return mailbox-empty)))
