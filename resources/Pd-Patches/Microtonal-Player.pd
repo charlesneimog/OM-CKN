@@ -5,7 +5,7 @@
 #X obj 22 20 loadbang;
 #X text 110 222 NOTA \, VEL \, CHANNEL \, DURATION;
 #X msg 159 100 \; pd dsp 1, f 19;
-#X obj 22 267 Microtonal-Playback/Children_Microtonal-player;
+#X obj 22 269 Microtonal-Playback/Children_Microtonal-player;
 #X msg 22 82 listen 3000;
 #X obj 22 107 netreceive -u -b;
 #X obj 22 173 route list;
@@ -22,11 +22,17 @@
 #N canvas 733 172 450 300 (subpatch) 1;
 #X obj 410 135 openpanel;
 #X msg 410 166 open \$1;
-#X obj 410 199 s soundfont-loader;
+#X obj 410 223 s soundfont-loader;
 #X obj 402 52 inlet;
+#N canvas 0 50 450 250 (subpatch) 0;
+#X text 0 0 plugdatainfo <?xml version="1.0" encoding="UTF-8"?> <plugdatainfo/>;
+#X coords 0 1 100 -1 1 1 1;
+#X restore 0 0 graph;
+#X msg 513 166 panic, f 7;
 #X connect 0 0 1 0;
 #X connect 1 0 2 0;
 #X connect 3 0 0 0;
+#X connect 5 0 2 0;
 #X restore 351 77 pd;
 #X obj 22 336 giga.rev~;
 #X obj 97 336 giga.rev~;
