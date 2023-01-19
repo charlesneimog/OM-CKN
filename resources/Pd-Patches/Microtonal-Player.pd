@@ -13,7 +13,7 @@
 #X obj 22 223 route note;
 #X obj 351 7 bng 61 250 50 0 empty empty empty 17 7 0 10 #b41717 #a05a5a #a61c1c;
 #N canvas 0 50 450 250 (subpatch) 0;
-#X text 0 0 plugdatainfo <?xml version="1.0" encoding="UTF-8"?> <plugdatainfo><InfoObj ID="16.M....T....P.....B....." Updated="0" Segmented="1" Path="32......D..........J....Lv+++uB....C7+++2A...."/><InfoObj ID="16.C....D................" Updated="0" Segmented="1" Path="32......D..........Y....nG...PF....5A...DC...."/><InfoObj ID="16.P....HA.........A....." Updated="0" Segmented="1" Path="32......D..........qB....p++++p....f5+++iK...."/><InfoObj ID="16.O....HA.........A....." Updated="0" Segmented="1" Path="32......D..........lB...Tk+++uo....U4+++iK...."/><InfoObj ID="16.P....P..........B....." Updated="0" Segmented="1" Path="32......D..........L....ry+++OC....67+++SB...."/><InfoObj ID="16.K.....A...P.....A....." Updated="0" Segmented="1" Path="32......D..........H....j7+++OB....I++++GA...."/><InfoObj ID="16.O....P..........A....." Updated="0" Segmented="1" Path="32......D..........S.........vD.........PB...."/><InfoObj ID="16.K....7..........A....." Updated="0" Segmented="1" Path="32......D..........O.........vC.........zA...."/><InfoObj ID="16.d...............A....." Updated="0" Segmented="1" Path="32......D..........J....jH...fB....IB...HA...."/></plugdatainfo>;
+#X text 0 0 plugdatainfo <?xml version="1.0" encoding="UTF-8"?> <plugdatainfo><InfoObj ID="16.M....T....P.....B....." Updated="0" Segmented="1" Path="32......D..........J....Lv+++uB....C7+++2A...."/><InfoObj ID="16.C....D................" Updated="0" Segmented="1" Path="32......D..........Y....nG...PF....5A...DC...."/><InfoObj ID="16.P....HA.........A....." Updated="0" Segmented="1" Path="32......D..........qB....p++++p....f5+++iK...."/><InfoObj ID="16.O....HA.........A....." Updated="0" Segmented="1" Path="32......D..........lB...Tk+++uo....U4+++iK...."/><InfoObj ID="16.P....P..........B....." Updated="0" Segmented="1" Path="32......D..........L....ry+++OC....67+++SB...."/><InfoObj ID="16.K.....A...P.....A....." Updated="0" Segmented="1" Path="32......D..........H....j7+++OB....I++++GA...."/><InfoObj ID="16.O....P..........A....." Updated="0" Segmented="1" Path="32......D..........S.........vD.........PB...."/><InfoObj ID="16.K....7..........A....." Updated="0" Segmented="1" Path="32......D..........O.........vC.........zA...."/><InfoObj ID="16.d...............A....." Updated="0" Segmented="1" Path="32......D..........J....jH...fB....IB...HA...."/><InfoObj ID="16.g....j..........B....." Updated="0" Segmented="1" Path="32......D..........n....XE....J....VA...3D...."/></plugdatainfo>;
 #X coords 0 1 100 -1 1 1 1;
 #X restore 0 0 graph;
 #X obj 22 502 dac~, f 14;
@@ -111,13 +111,13 @@
 #X text 529 231 - canyon;
 #X obj 159 169 bng 46 250 50 0 empty empty empty 17 7 0 10 #ffffff #000000 #5a5a5a;
 #X text 426 6 <= Choose your soundfont, f 22;
-#X obj 258 34 bng 25 250 50 0 empty empty empty 17 7 0 10 #ffffff #000000 #5a5a5a;
+#X obj 358 250 bng 25 250 50 0 empty empty empty 17 7 0 10 #ffffff #000000 #5a5a5a;
 #X obj 108 322 counter;
 #X obj 108 293 metro 1;
 #X obj 108 250 tgl 25 0 empty empty empty 17 7 0 10 #ffffff #000000 #5a5a5a 0 1;
 #X obj 174 259 loadbang;
-#X obj 333 345 bng 25 250 50 0 empty empty empty 17 7 0 10 #ffffff #000000 #5a5a5a;
-#X obj 305 308 sel 1000;
+#X obj 331 397 bng 25 250 50 0 empty empty empty 17 7 0 10 #ffffff #000000 #5a5a5a;
+#X obj 331 345 sel 1000;
 #X obj 184 363 nbx 4 18 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 10 #ffffff #5a5a5a #5a5a5a 0 256;
 #X connect 0 0 7 0;
 #X connect 0 0 31 0;
