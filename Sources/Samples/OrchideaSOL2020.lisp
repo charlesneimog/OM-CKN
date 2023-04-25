@@ -73,6 +73,8 @@
 
 (let*   (
         (list-of-separated-names (mapcar (lambda (x) (string-to-list (get-filename x) "-")) list-of-samples))
+        (list-of-separated-names (mapcar (lambda (y) (mapcar (lambda (x) (car (string-to-list (get-filename x) "."))) y)) list-of-separated-names))
+        ;(print (print list-of-separated-names))
         (ordered-dynamics   (loop   :for separated-names :in list-of-separated-names 
                                     :collect 
                                         (cond 
@@ -82,6 +84,7 @@
                                             ((find "mf" separated-names :test 'equal) 3)
                                             ((find "f" separated-names  :test 'equal) 4)
                                             ((find "ff" separated-names :test 'equal) 5))))
+        (print (print ordered-dynamics))
         (ordered-samples (mapcar (lambda (x) (first x)) (sort-list (mat-trans (list list-of-samples ordered-dynamics)) :test '< :key 'second))))
         (if (not ordered-samples)
             nil

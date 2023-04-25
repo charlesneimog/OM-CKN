@@ -30,7 +30,7 @@ t)
 (action7 (namestring action6)))
 (if (not probe)
     #+Windows(ckn-cmd-line  (string+ (list->string-fun (list (namestring (get-pref-value :externals :sox-exe)))) " " (list->string-fun (list instrumentos)) " " (list->string-fun (list action7)) (format nil " pitch ~d" desvio)))
-    #+Linux(ckn-cmd-line  (string+ (get-pref-value :externals :sox-exe) " " instrumentos " " action7 (format nil " pitch ~d" desvio)))
+    #+Linux(ckn-cmd-line  (print (string+ (get-pref-value :externals :sox-exe) " '" instrumentos "' " action7 (format nil " pitch ~d" desvio))))
     
     action6)
 
@@ -162,34 +162,34 @@ t)
                     (box-choose2 (choose (lchan voice1) ckn-LOOP1))
                     (box-choose3 (choose (lvel voice1) ckn-LOOP1))
                     (box-first1 (first box-choose3))
-                    
                     (box-choose4 (if (equal nil (choose pan ckn-LOOP1)) '(-50 50)  (choose pan ckn-LOOP1))))
 
 
-(print (format nil "INDEX | ~d de ~d | :::: voice->samples-sound-fun: ~d " index (length (choose-to-rest voice1)) (FULL-SOL-instruments (first (approx-m box-choose1 2)) (first box-choose2) box-first1)))
-(print (format nil "DADOS DO SAMPLE: ~d ~d ~d" box-choose1 box-choose2 box-choose3))
-(if (plusp ckn-LOOP2) nil (print (format nil "SILENCIO!")))
+                 ; (print (format nil "INDEX | ~d de ~d | :::: voice->samples-sound-fun: ~d " index (length (choose-to-rest voice1)) (FULL-SOL-instruments (first (approx-m box-choose1 2)) (first box-choose2) box-first1)))
+                  ;(print (format nil "DADOS DO SAMPLE: ~d ~d ~d" box-choose1 box-choose2 box-choose3))
+                  (if (plusp ckn-LOOP2) nil (print (format nil "SILENCIO!")))
 
-(if (plusp ckn-LOOP2) ;;silencio ou nao 
-    
-;; SE FOR NOTA 
-    (print (om::sound-fade 
-        (om::sound-stereo-pan (sound-mono-to-stereo
+                  (if (plusp ckn-LOOP2) ;;silencio ou nao 
+                      
+                      ;; SE FOR NOTA 
+                      (print (om::sound-fade 
+                              (om::sound-stereo-pan (sound-mono-to-stereo
                                 (if (om< (length box-choose1) 2) ;; MONOFONICO OU POLIFONICO
-            ;;;;; MONOFONICO
-            (sound-vol 
-                (sound-cut 
-                    (samples-menores (om-abs (ms->sec ckn-LOOP2)) (make-value-from-model 'sound 
-                                (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2))) 
-                                    (FULL-SOL-instruments
-                                        (first (approx-m box-choose1 2))
-                                        (first box-choose2)
-                                        box-first1)
-                                    (sound-transpose-sox 
-                                        (FULL-SOL-instruments
-                                            (first (approx-m box-choose1 2))
-                                            (first box-choose2)
-                                            box-first1)
+                                    ;;;;; MONOFONICO
+                                    (sound-vol 
+                                     (sound-cut 
+                                      (samples-menores (om-abs (ms->sec ckn-LOOP2)) 
+                                                       (make-value-from-model 'sound 
+                                                               (if (equal (list 0) (om- box-choose1 (approx-m box-choose1 2))) 
+                                                                 (FULL-SOL-instruments
+                                                                    (first (approx-m box-choose1 2))
+                                                                    (first box-choose2)
+                                                                    box-first1)
+                                                                 (sound-transpose-sox 
+                                                                  (FULL-SOL-instruments
+                                                                   (first (approx-m box-choose1 2))
+                                                                   (first box-choose2)
+                                                                   box-first1)
                                     (first (om- box-choose1 (approx-m box-choose1 2))))) nil)) 0.0 (om-abs (ms->sec ckn-LOOP2)))
                 (om-scale box-first1 0.001 0.999 1 110))  ;;;;; FIMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM
 
@@ -201,6 +201,7 @@ t)
                         (second box-choose4)) 0.01 0.01))
 ;;silencio 
             (print (sound-fade (sound-silence (om-abs (ms->sec ckn-LOOP2)) 2) 0.01 0.01)))))))
+(print "ok")
 ;(if temp-files (clear-subdir-temp-files "om-ckn")) ;;; ================= Apagar temp files
 action1))
 
