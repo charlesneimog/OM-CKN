@@ -124,6 +124,7 @@
                             (extensions (mapcar (lambda (x) (cdr x)) (mapcar (lambda (y) (string-to-list y ".")) file-names))))
                        (remove nil  
                                (loop :for loop-ext :in extensions
+                                     :do (print "Ok")
                                      :for loop-names :in file-names
                                      :collect (if (or (equal '("aif") loop-ext) (equal '("wav") loop-ext) (equal '("aiff") loop-ext))
                                                   loop-names
